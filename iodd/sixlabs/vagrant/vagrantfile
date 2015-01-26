@@ -32,5 +32,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     owner: "www-data", group: "www-data",
     :mount_options => ["dmode=777", "fmode=755"]
 
-  config.vm.provision "shell", path: "sixlabs/vagrant/provision/bootstrap.sh"
+  config.vm.provision "shell", path: "iodd/sixlabs/vagrant/provision/bootstrap.sh"
 end

@@ -3,7 +3,7 @@
 databaseName="ddp"
 sqlSyncPasword="<sync-password>"
 
-provisionWorkingDir="/vagrant/sixlabs/vagrant/provision"
+provisionWorkingDir="/vagrant/iodd/sixlabs/vagrant/provision"
 provisionTemplateDir="$provisionWorkingDir/templates"
 provisionTools="$provisionWorkingDir/tools"
 ioddPath="/vagrant/iodd/"
