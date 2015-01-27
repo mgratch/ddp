@@ -1,1 +1,3 @@
 !vagrantfile
+!wp-config.php
+!.htaccess
