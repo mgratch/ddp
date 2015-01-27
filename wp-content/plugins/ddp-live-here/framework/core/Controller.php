@@ -2,7 +2,7 @@
 
 namespace sixlabs\sl_framework;
 
-class Controller
+class Controller extends SL_Framework
 {
 
   public function __construct()

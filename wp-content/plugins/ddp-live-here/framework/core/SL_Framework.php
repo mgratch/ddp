@@ -4,9 +4,13 @@ namespace sixlabs\sl_framework;
 
 class SL_Framework
 {
-  public function __construct()
+
+  protected $config;
+
+  public function __construct($config = array())
   {
     $this->loader();
+    $this->config = array('config');
   }
 
   public function loader()
