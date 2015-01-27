@@ -12,10 +12,10 @@ $config = array(
   'tables' => 'createTables'
 );
 
-require_once __DIR__ . '/framework/core/SL_Autoloader.php';
+require_once __DIR__ . '/framework/core/Autoloader.php';
 
 new sixlabs\sl_framework\SL_Framework();
 
-$db = sixlabs\sl_framework\Database;
+$db = new sixlabs\sl_framework\Database;
 
 $db->create('sql');

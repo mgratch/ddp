@@ -1,4 +1,6 @@
 <?php
+
+namespace sixlabs\sl_framework;
 /**
  * An example of a general-purpose implementation that includes the optional
  * functionality of allowing multiple base directories for a single namespace
@@ -43,7 +45,7 @@
  *      <?php
  *      new \Foo\Bar\Qux\QuuxTest;
  */
-class SLAutoloader
+class Autoloader
 {
     /**
      * An associative array where the key is a namespace prefix and the value
@@ -194,4 +196,4 @@ class SLAutoloader
     }
 }
 
-new SLAutoloader;
+new Autoloader;
