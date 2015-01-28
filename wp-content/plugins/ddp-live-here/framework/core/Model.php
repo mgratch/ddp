@@ -1,6 +1,6 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
 
 class Model
 {
@@ -19,6 +19,10 @@ class Model
         'table_name' => $this->table_name,
         'create' => $this->create
       ));
+    }
+
+    if (method_exists($this, 'actions')) {
+      $this->actions();
     }
   }
 }

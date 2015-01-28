@@ -1,6 +1,6 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
 
 class SL_Framework
 {
@@ -12,16 +12,20 @@ class SL_Framework
   public function loader()
   {
     $directories = array(
-      'controllers',
       'models',
-      'types'
+      'controllers',
     );
+
+    include_once __DIR__.'/vendor/super-cpt/super-cpt.php';
 
     foreach ($directories as $dir) {
       foreach (glob(__DIR__.'/../'.$dir.'/*.php') as $filename) {
         include_once $filename;
         $class_name = preg_replace('/\.php/', '', basename($filename));
-        new $class_name;
+        $class_name = __NAMESPACE__.'\\'.$class_name;
+        if ($dir == 'controllers') {
+          new $class_name;
+        }
       }
     }
   }

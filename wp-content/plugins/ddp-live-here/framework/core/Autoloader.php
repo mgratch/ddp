@@ -1,6 +1,7 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
+
 /**
  * An example of a general-purpose implementation that includes the optional
  * functionality of allowing multiple base directories for a single namespace
@@ -58,7 +59,7 @@ class Autoloader
     public function __construct() {
         $this->register();
 
-        $this->addNamespace('\sixlabs\sl_framework', __DIR__);
+        $this->addNamespace('\ddp\live', __DIR__);
     }
 
     /**

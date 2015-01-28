@@ -1,6 +1,6 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
 
 class Database
 {

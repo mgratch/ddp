@@ -1,15 +1,15 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
 
 class Config
 {
 
   protected static $config = array();
 
-  public static function get($name, $default = null)
+  public static function get($name = false)
   {
-      return isset(self::$config[$name]) ? self::$config[$name] : $default;
+      return $name && isset(self::$config[$name]) ? self::$config[$name] : self::$config;
   }
   public static function add($parameters = array())
   {

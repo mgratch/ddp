@@ -1,47 +1,16 @@
 <?php
 
-namespace sixlabs\sl_framework;
+namespace ddp\live;
 
 class Helpers
 {
-  public static function sanitizeStr($str)
-  {
-    $string = trim( $string );
-    $string = preg_replace('/ /', '-', $string);
-    $string = preg_replace('/[^A-Za-z0-9-]/', '-', $string);
-    $string = preg_replace('/-+/', '-', $string);
 
-    return strtolower( $string );
+  public static function adminMessage($type = '', $message = '')
+  {
+    echo '<div id="message" class="'.esc_attr( $type ).'">'.wpautop( $message ).'</div>';
   }
 
-  public static function parseOptions($items, $values = ['slug'], $display = 'name')
-  {
-
-    $select = array();
-    foreach( $items as $item ) {
-        //maybe detect if this is an object or an array then objectify it?
-        if( is_object( $items ) || is_object( $items[0]) )
-         $item = get_object_vars ($item );
-
-         //build keys separated by '+' if needed
-         $key = '';
-         if(!empty($values) && is_array($values)){
-            foreach($values as $value){
-                   $key = $item[$value].'+';
-            }
-            $key=substr($key,0,strlen($key)-1);
-         } elseif(!empty($values)) {
-                $key= $item[$values];
-         }
-
-         //TODO - could build $display to work like $values, not sure it is needed
-      $select[$key] = $item[$display];
-    }
-
-    return $select;
-  }
-
-  public static function create_unique_slug($string, $id = null, $table = null, $slug_col = null, $id_col = 'id')
+  public static function createUniqueSlug($string, $id = null, $table = null, $slug_col = null, $id_col = 'id')
   {
     global $wpdb;
     $slug = Helpers::sanitizeStr($string);
@@ -72,8 +41,41 @@ class Helpers
     return $slug;
   }
 
-  public static function adminMessage($type = '', $message = '')
+  public static function parseOptions($items, $values = ['slug'], $display = 'name')
   {
-    echo '<div id="message" class="'.esc_attr( $type ).'">'.wpautop( $message ).'</div>';
+
+    $select = array();
+    foreach( $items as $item ) {
+        //maybe detect if this is an object or an array then objectify it?
+        if( is_object( $items ) || is_object( $items[0]) )
+         $item = get_object_vars ($item );
+
+         //build keys separated by '+' if needed
+         $key = '';
+         if(!empty($values) && is_array($values)){
+            foreach($values as $value){
+                   $key = $item[$value].'+';
+            }
+            $key=substr($key,0,strlen($key)-1);
+         } elseif(!empty($values)) {
+                $key= $item[$values];
+         }
+
+         //TODO - could build $display to work like $values, not sure it is needed
+      $select[$key] = $item[$display];
+    }
+
+    return $select;
   }
+
+  public static function sanitizeStr($str)
+  {
+    $string = trim( $string );
+    $string = preg_replace('/ /', '-', $string);
+    $string = preg_replace('/[^A-Za-z0-9-]/', '-', $string);
+    $string = preg_replace('/-+/', '-', $string);
+
+    return strtolower( $string );
+  }
+
 }

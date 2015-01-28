@@ -1,6 +1,6 @@
 <?php
 
-use sixlabs\sl_framework\Model as Model;
+namespace ddp\live;
 
 class Property_Model extends Model
 {
@@ -25,5 +25,13 @@ class Property_Model extends Model
     )
   );
 
+  function actions()
+  {
 
+  }
+
+  function syncTrulia()
+  {
+
+  }
 }

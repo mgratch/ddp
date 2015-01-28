@@ -17,14 +17,15 @@ require_once __DIR__ . '/framework/core/Autoloader.php';
 global $wpdb;
 $upload_dir = wp_upload_dir();
 
-sixlabs\sl_framework\Config::add(array(
+ddp\live\Config::add(array(
   'global' => array(
     'asset_uri' => plugins_url('', __FILE__ ),
     'asset_path' => dirname( __FILE__ ),
     'cache_path' => $upload_dir['basedir'] . '/' . basename(dirname( __FILE__ ))
   ),
   'api_keys' => array(
-
+    'google_maps' => null,
+    'trulia' => 'e65hmxpkumwctjw5s6n6sb5c'
   ),
   'database' => array(
     'prefix' => $wpdb->prefix
@@ -49,6 +50,4 @@ sixlabs\sl_framework\Config::add(array(
   )
 ));
 
-var_dump(sixlabs\sl_framework\Config::get('global'));
-
-new sixlabs\sl_framework\SL_Framework();
+new ddp\live\SL_Framework();
