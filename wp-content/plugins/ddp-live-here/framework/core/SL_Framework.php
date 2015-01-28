@@ -4,20 +4,17 @@ namespace sixlabs\sl_framework;
 
 class SL_Framework
 {
-
-  protected $config;
-
-  public function __construct($config = array())
+  public function __construct()
   {
     $this->loader();
-    $this->config = array('config');
   }
 
   public function loader()
   {
     $directories = array(
       'controllers',
-      'models'
+      'models',
+      'types'
     );
 
     foreach ($directories as $dir) {
