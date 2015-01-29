@@ -11,6 +11,14 @@ class Property_Controller extends Controller
 
   public function postType($type)
   {
-    $foos = new Super_Custom_Post_Type( 'foo', 'Foo', 'Foos' );
+    $foos = $type->scpt( 'foo', 'Foo', 'Foos' );
+
+    $foos->add_meta_box( array(
+      'id' => 'box-id',
+      'context' => 'side',
+      'fields' => array(
+        'field-name' => array()
+      )
+    ) );
   }
 }

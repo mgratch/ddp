@@ -27,17 +27,6 @@ namespace ddp\live;
 */
 
 
-$config = array(
-	'plugin_url' => plugins_url( '', __FILE__ ) . '/',
-	'plugin_dir' => dirname( __FILE__ )
-);
-
-require_once $config['plugin_dir'] . '/includes/scpt-helpers.php';
-require_once $config['plugin_dir'] . '/includes/class-scpt-markup.php';
-require_once $config['plugin_dir'] . '/includes/class-super-custom-post-meta.php';
-require_once $config['plugin_dir'] . '/includes/class-super-custom-post-type.php';
-require_once $config['plugin_dir'] . '/includes/class-super-custom-taxonomy.php';
-
 class Super_CPT {
 
 	protected $config;
@@ -48,10 +37,19 @@ class Super_CPT {
 	 * @uses admin_hooks
 	 * @author Matthew Boynes
 	 */
-	function __construct($config = array()) {
-		$this->config = $config;
+	function __construct() {
+		$this->config = array(
+			'plugin_url' => plugins_url( '', __FILE__ ) . '/',
+			'plugin_dir' => dirname( __FILE__ )
+		);
 
-		add_action('supercpt_loaded', array($this, 'load_js_and_css'));
+		require_once $this->config['plugin_dir'] . '/includes/scpt-helpers.php';
+		require_once $this->config['plugin_dir'] . '/includes/class-scpt-markup.php';
+		require_once $this->config['plugin_dir'] . '/includes/class-super-custom-post-meta.php';
+		require_once $this->config['plugin_dir'] . '/includes/class-super-custom-post-type.php';
+		require_once $this->config['plugin_dir'] . '/includes/class-super-custom-taxonomy.php';
+
+		$this->load_js_and_css();
 	}
 
 	/**
@@ -68,7 +66,9 @@ class Super_CPT {
 		});
 	}
 
+	function scpt($type, $singular = false, $plural = false, $register = array())
+	{
+		return new Super_Custom_Post_Type($type, $singular = false, $plural = false, $register = array());
+	}
 }
-$scpt_plugin = new Super_CPT($config);
-do_action( 'supercpt_loaded' );
 ?>

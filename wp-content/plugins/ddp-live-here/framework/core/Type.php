@@ -62,4 +62,29 @@ class Type
     return $current_post_type;
   }
 
+  public function scpt($type, $singular = false, $plural = false, $register = array())
+  {
+    $scpt = new Super_CPT;
+
+    return $scpt->scpt($type, $singular = false, $plural = false, $register = array());
+  }
+
+  public function admin_enqueue($enqueues = array())
+  {
+    add_action('admin_enqueue_scripts', function() use ($enqueues) {
+      foreach ($enqueues as $enqueue) {
+        if (isset($enqueue['localize']) && (bool) $enqueue['localize']) {
+          wp_localize_script(
+            $enqueue['handle'],
+            !empty($enqueue['object_name']) ? $enqueue['object_name'] : 'ajax_obj',
+            array_merge(array(
+              'ajax_url' => admin_url( 'admin-ajax.php' )
+            ), $enqueue['data'])
+          );
+        }
+
+        wp_enqueue_script($enqueue['handle']);
+      }
+    });
+  }
 }
