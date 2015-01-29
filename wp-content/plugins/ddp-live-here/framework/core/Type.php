@@ -64,9 +64,9 @@ class Type
 
   public function scpt($type, $singular = false, $plural = false, $register = array())
   {
-    $scpt = new Super_CPT;
+    $scpt = new \sixlabs\supercpt\Super_CPT;
 
-    return $scpt->scpt($type, $singular = false, $plural = false, $register = array());
+    return $scpt->Super_Custom_Post_Type($type, $singular = false, $plural = false, $register = array());
   }
 
   public function admin_enqueue($enqueues = array())

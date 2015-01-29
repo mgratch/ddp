@@ -1,6 +1,6 @@
 <?php
 
-namespace ddp\live;
+namespace sixlabs\supercpt;
 
 /*
 	Plugin Name: SuperCPT
@@ -66,7 +66,7 @@ class Super_CPT {
 		});
 	}
 
-	function scpt($type, $singular = false, $plural = false, $register = array())
+	function Super_Custom_Post_Type($type, $singular = false, $plural = false, $register = array())
 	{
 		return new Super_Custom_Post_Type($type, $singular = false, $plural = false, $register = array());
 	}

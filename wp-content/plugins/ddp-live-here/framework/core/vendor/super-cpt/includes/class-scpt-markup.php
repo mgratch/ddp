@@ -1,6 +1,6 @@
 <?php
 
-namespace ddp\live;
+namespace sixlabs\supercpt;
 
 /**
 *

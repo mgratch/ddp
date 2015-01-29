@@ -1,6 +1,6 @@
 <?php
 
-namespace ddp\live;
+namespace sixlabs\supercpt;
 
 /**
  * A custom integration of the Font Awesome icon library for SuperCPT

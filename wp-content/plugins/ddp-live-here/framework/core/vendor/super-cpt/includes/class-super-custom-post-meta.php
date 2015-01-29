@@ -1,6 +1,6 @@
 <?php
 
-namespace ddp\live;
+namespace sixlabs\supercpt;
 
 $scpt_known_custom_fields = array();
 
