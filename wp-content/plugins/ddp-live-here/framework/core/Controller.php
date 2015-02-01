@@ -12,6 +12,7 @@ class Controller
   {
     $this->loadModel();
     $this->config = Config::get();
+    $this->view = new View;
 
     if (method_exists($this, 'actions')) {
       $this->actions();

@@ -24,7 +24,13 @@ class SL_Framework
         $class_name = preg_replace('/\.php/', '', basename($filename));
         $class_name = __NAMESPACE__.'\\'.$class_name;
         if ($dir == 'controllers') {
-          new $class_name;
+          $instance = new $class_name;
+
+          $class_name = str_replace(__NAMESPACE__.'\\', '', $class_name);
+
+          Instance::add(array(
+            $class_name => $instance
+          ));
         }
       }
     }

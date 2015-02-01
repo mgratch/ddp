@@ -12,7 +12,7 @@ $config = array(
   'tables' => 'createTables'
 );
 
-require_once __DIR__ . '/framework/core/Autoloader.php';
+require_once __DIR__ . '/framework/core/autoload.php';
 
 global $wpdb;
 $upload_dir = wp_upload_dir();
