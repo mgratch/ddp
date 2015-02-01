@@ -1,0 +1,40 @@
+<?php $__env->startSection('test-section'); ?>
+  <h1 style="color:white;"><?php echo 'asshat'; ?></h1>
+
+  <div><?php echo $testVar; ?></div>
+
+  <div>
+  <?php if($testBool): ?>
+    <?php echo $testBool . ' is true'; ?>
+
+  <?php else: ?>
+   <?php echo "test bool false"; ?>
+
+  <?php endif; ?>
+  </div>
+
+
+  <?php /* test note */ ?>
+  <div>
+    <ul>
+      <?php foreach($testArr as $t): ?>
+        <li><?php echo $t; ?></li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+
+  <div>
+  <?php echo __('$newthing exists?'); ?>
+
+
+  <?php echo isset($newthing) ? $newthing : 'nope'; ?>
+
+
+  </div>
+
+  <?php if ( ! ($unlessTest == 'seven')): ?>
+    <?php echo 'Unless Test'; ?>
+
+  <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $v = new ddp\live\View; echo $v->makeView('layouts.testlayout', $__env->except(get_defined_vars(), array('__data', '__path'))); ?>
