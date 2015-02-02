@@ -1,40 +1,38 @@
-<?php $__env->startSection('test-section'); ?>
-  <h1 style="color:white;"><?php echo 'asshat'; ?></h1>
 
-  <div><?php echo $testVar; ?></div>
+<h1 style="color:white;"><?php echo 'asshat'; ?></h1>
 
-  <div>
-  <?php if($testBool): ?>
-    <?php echo $testBool . ' is true'; ?>
+<div><?php echo $testVar; ?></div>
 
-  <?php else: ?>
-   <?php echo "test bool false"; ?>
+<div>
+<?php if($testBool): ?>
+  <?php echo $testBool . ' is true'; ?>
 
-  <?php endif; ?>
-  </div>
+<?php else: ?>
+ <?php echo "test bool false"; ?>
 
-
-  <?php /* test note */ ?>
-  <div>
-    <ul>
-      <?php foreach($testArr as $t): ?>
-        <li><?php echo $t; ?></li>
-      <?php endforeach; ?>
-    </ul>
-  </div>
-
-  <div>
-  <?php echo __('$newthing exists?'); ?>
+<?php endif; ?>
+</div>
 
 
-  <?php echo isset($newthing) ? $newthing : 'nope'; ?>
+<?php /* test note */ ?>
+<div>
+  <ul>
+    <?php foreach($testArr as $t): ?>
+      <li><?php echo $t; ?></li>
+    <?php endforeach; ?>
+  </ul>
+</div>
+
+<div>
+<?php echo __('$newthing exists?'); ?>
 
 
-  </div>
+<?php echo isset($newthing) ? $newthing : 'nope'; ?>
 
-  <?php if ( ! ($unlessTest == 'seven')): ?>
-    <?php echo 'Unless Test'; ?>
 
-  <?php endif; ?>
-<?php $__env->stopSection(); ?>
-<?php $v = new ddp\live\View; echo $v->makeView('layouts.testlayout', $__env->except(get_defined_vars(), array('__data', '__path'))); ?>
+</div>
+
+<?php if ( ! ($unlessTest == 'seven')): ?>
+  <?php echo 'Unless Test'; ?>
+
+<?php endif; ?>

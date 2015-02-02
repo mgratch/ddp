@@ -75,8 +75,8 @@ class View
   {
     extract($data);
 
-    $__view = $this;
-    $__env = $this->engine;
+    $__this = $this;
+    $__engine = $this->engine;
 
     ob_start();
       require $this->cachePath.'/'.$view;

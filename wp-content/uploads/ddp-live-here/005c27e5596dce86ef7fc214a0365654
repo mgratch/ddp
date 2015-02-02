@@ -1,5 +1,0 @@
-<div style="background:orange;">
-
-<?php echo $__env->yieldContent('test-section'); ?>;
-
-</div>
