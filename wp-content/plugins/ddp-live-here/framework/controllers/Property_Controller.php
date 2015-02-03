@@ -23,8 +23,9 @@ class Property_Controller extends Controller
   }
 
   public function interactiveMap() {
-    wp_enqueue_script('ddpProperties.js');
-    wp_enqueue_style('ddpProperties.css');
+    wp_enqueue_script('ddpLiveGoogleMapsAPI');
+    wp_enqueue_script('ddpLiveInteractive.js');
+    wp_enqueue_style('ddpLiveInteractive.css');
     return $this->view->makeView('master');
   }
 }

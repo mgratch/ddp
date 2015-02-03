@@ -25,19 +25,20 @@ Config::add(array(
   'global' => array(
     'asset_uri' => plugins_url('', __FILE__ ) . '/framework/assets/',
     'asset_path' => dirname( __FILE__ ) . '/framework/assets/',
-    'cache_path' => $upload_dir['basedir'] . '/' . basename(dirname( __FILE__ ))
+    'cache_path' => __DIR__.'/framework/cache'
   ),
   'database' => array(
     'prefix' => $wpdb->prefix
   )
 ));
 
+
+// Project Config
+Config::set('api_keys.gmaps', 'AIzaSyBqliL3bXMUi1hgjx5m0s4rIbfiDppOjCY');
+
 Config::add(array(
-  'api_keys' => array(
-    'google_maps' => 'AIzaSyBqliL3bXMUi1hgjx5m0s4rIbfiDppOjCY'
-  ),
   'scripts' => array(
-    'ddpProperties.js' => array(
+    'ddpLiveInteractive.js' => array(
       'src' => Config::get('global.asset_uri').'/js/ddpProperties.js',
       'deps' => array(
         'jquery'
@@ -45,10 +46,14 @@ Config::add(array(
       'ver' => null,
       'footer' => true,
       'ajax' => true
+    ),
+    'ddpLiveGoogleMapsAPI' => array(
+      'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),
+      'footer' => true
     )
   ),
   'styles' => array(
-    'ddpProperties.css' => array(
+    'ddpLiveInteractive.css' => array(
       'src' => Config::get('global.asset_uri').'/css/style.css',
       'deps' => null,
       'ver' => null,

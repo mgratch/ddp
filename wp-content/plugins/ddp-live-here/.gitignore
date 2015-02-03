@@ -6,3 +6,7 @@
 ########
 node_modules/
 npm-debug.log
+
+# Cache #
+#########
+framework/cache/

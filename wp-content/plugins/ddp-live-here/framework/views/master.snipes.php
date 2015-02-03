@@ -1,5 +1,6 @@
 <!-- LIVE HERE CONTENT -->
   <div class="live-here-content">
+      <div id="map"></div>
     <div class="interaction-content">
 <!-- FILTER FORM CONTENT -->
       <div class="filter-content columned">
