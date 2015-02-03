@@ -34,5 +34,69 @@ class SL_Framework
         }
       }
     }
+
+    $this->registerAssets();
+  }
+
+  public function registerAssets()
+  {
+    $config = Config::get();
+
+    $script_defaults = array(
+      'deps' => null,
+      'ver' => null,
+      'footer' => false,
+      'enqueue' => false,
+      'admin' => false
+    );
+
+    $style_defaults = array(
+      'deps' => null,
+      'ver' => null,
+      'enqueue' => false,
+      'admin' => false
+    );
+
+    if (isset($config['scripts'])) {
+      foreach ($config['scripts'] as $handle => $atts) {
+        $atts = array_merge($script_defaults, $atts);
+        $action = $atts['admin'] ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
+
+        wp_register_script(
+          $handle,
+          $atts['src'],
+          $atts['deps'],
+          $atts['ver'],
+          $atts['footer']
+        );
+
+        if ($atts['enqueue']) {
+          add_action($action, function() use ($handle) {
+            wp_enqueue_script($handle);
+          });
+        }
+      }
+    }
+
+    if (isset($config['styles'])) {
+      foreach ($config['styles'] as $handle => $atts) {
+        $atts = array_merge($style_defaults, $atts);
+        $action = $atts['admin'] ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
+
+        wp_register_style(
+          $handle,
+          $atts['src'],
+          $atts['deps'],
+          $atts['ver'],
+          $atts['media']
+        );
+
+        if ($atts['enqueue']) {
+          add_action($action, function() use ($handle) {
+            wp_enqueue_style($handle);
+          });
+        }
+      }
+    }
   }
 }
