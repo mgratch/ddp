@@ -1,0 +1,165 @@
+/* Default Styles
+----------------------------------------*/
+/*Site Base*/
+body {
+  font: {
+    family: $font-main-light;
+    size: 100%;
+  }
+  line-height: 1.4;
+  color: $color-base;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: initial;
+  margin: 0;
+}
+
+.section-title {
+  font: {
+    family: $font-main-med;
+    size: rem(13px);
+  }
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+  color: $color-primary;
+}
+
+.wrapper {
+  width: 90%;
+  margin: 0 auto;
+
+  & > * + * {
+    margin-top: 15px;
+  }
+}
+
+.live-here-content {
+  position: relative;
+  line-height: 0;
+
+  & > * {
+    line-height: 1.4;
+  }
+}
+
+.interaction-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 640px;
+  height: 100%;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+
+  &.closed {
+    transform: translateX(calc(-100% + 23px));
+  }
+}
+
+.columned {
+  display: table;
+  width: 100%;
+
+  .columned-row {
+    display: table-row;
+
+    & > * {
+      display: table-cell;
+      width: 50%;
+    }
+  }
+}
+
+button.toggle-content-display {
+  position: absolute;
+  top: 21px;
+  right: -21px;
+  transform: rotate(-90deg);
+}
+
+.detail-content {
+  font: {
+    family: $font-body;
+    size: rem(14px);
+  }
+  line-height: (22/14);
+
+  & > * + * {
+    margin-top: #{(16/14)}em;
+  }
+  .section-title + * {
+    margin-top: 0;
+  }
+}
+
+.listing {
+  @include flex-grid( ul, top, 15px, left );
+
+  & > * {
+    width: (1/2)*100% - 0.01%;
+
+    &:nth-child(odd) {
+      padding-right: 10px;
+    }
+    &:nth-child(even) {
+      padding-left: 10px;
+    }
+    &:nth-child(n+3) {
+      padding-top: 15px;
+    }
+  }
+}
+
+.listing-image {
+  position: relative;
+  line-height: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.listing-price {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-family: $font-main-med;
+  line-height: 0.8;
+  color: white;
+  padding: 10px 7px 7px;
+  background-color: rgba(#070706, 0.75);
+}
+
+.listing-short-description {
+  font-family: $font-main-med;
+  margin-top: 8px;
+}
+
+.listing-features {
+  line-height: 1.1;
+}
+
+.listing-details {
+  @include flex-grid( div, baseline, null, left );
+  padding: 0 0 10px;
+  border-bottom: solid 1px #b5b5b4;
+}
+
+.listing-detail-price {
+  font-size: rem(29px);
+  line-height: 0.8;
+}
+
+.listing-detail-features {
+  font-family: $font-main-med;
+  line-height: 1.1;
+  padding-top: 5px;
+}

@@ -1,0 +1,39 @@
+/* Filter Form Structure
+-----------------------------------------*/
+.columned-row {
+
+  & > * {
+    vertical-align: middle;
+    padding-bottom: 8px;
+
+    &:nth-child(odd) {
+      padding-right: 10px;
+    }
+    &:nth-child(even) {
+      padding-left: 10px;
+    }
+  }
+
+  & + .columned-row > * {
+    border-top: solid 1px #dfdede;
+    padding-top: 10px;
+  }
+}
+
+.filter-content {
+  width: calc(100% - 23px);
+  padding: 16px 16px 2px (80/640)*100%;
+  background-color: white;
+  border: {
+    right: solid 1px #a29f9f;
+    bottom: solid 1px #a29f9f;
+  }
+
+  .form-label {
+    padding-bottom: 3px;
+  }
+}
+
+.checkbox-list {
+  @include flex-grid( div, baseline, null, left );
+}
