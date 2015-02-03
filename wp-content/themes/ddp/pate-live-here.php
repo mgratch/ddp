@@ -19,7 +19,7 @@ Template Name: Live Here Interactive
 			  	</div>
 
 	 <div class="interior-content">
-	 	<h1>here</h1>
+	 	<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
 
 	 </div>
 

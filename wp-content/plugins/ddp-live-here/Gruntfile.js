@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 
       scripts: {
         files: ['framework/assets/js/**/*.js'],
+        tasks: ['concat'],
         options: {
           spawn: false,
         },
@@ -33,7 +34,7 @@ module.exports = function (grunt) {
           lineNumbers: true
         },
         files: {
-          'css/style.css': 'css/sass/style.scss',
+          'framework/assets/css/style.css': 'framework/assets/css/sass/style.scss',
         }
       }
     },
@@ -49,6 +50,18 @@ module.exports = function (grunt) {
         src: 'css/style.css', // -> src/css/file1.css, src/css/file2.css
         dest: 'css/' // -> dest/css/file1.css, dest/css/file2.css
       }
+    },
+
+    concat: {
+      basic_and_extras: {
+        files: {
+          'framework/assets/js/ddpProperties.js': [
+            'framework/assets/js/lib/jquery.bxslider.min.js',
+            'framework/assets/js/lib/gmaps.min.js',
+            'framework/assets/js/src/ddpProperties.js'
+          ],
+        },
+      },
     }
   });
 

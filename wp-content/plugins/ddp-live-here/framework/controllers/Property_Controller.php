@@ -22,19 +22,9 @@ class Property_Controller extends Controller
     ) );
   }
 
-  public function TestView() {
-
-    $vars = [
-      'testVar' => 'testvarvalue',
-      'testBool' => false,
-      'testArr' => array(
-        'value 1',
-        'value 1',
-        'value 3'
-      ),
-      'unlessTest' => 'six'
-    ];
-
-    return $this->view->makeView('testDir.test', $vars);
+  public function interactiveMap() {
+    wp_enqueue_script('ddpProperties.js');
+    wp_enqueue_style('ddpProperties.css');
+    return $this->view->makeView('master');
   }
 }

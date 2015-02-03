@@ -47,7 +47,8 @@ class SL_Framework
       'ver' => null,
       'footer' => false,
       'enqueue' => false,
-      'admin' => false
+      'admin' => false,
+      'ajax' => false
     );
 
     $style_defaults = array(
@@ -62,19 +63,30 @@ class SL_Framework
         $atts = array_merge($script_defaults, $atts);
         $action = $atts['admin'] ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
 
-        wp_register_script(
-          $handle,
-          $atts['src'],
-          $atts['deps'],
-          $atts['ver'],
-          $atts['footer']
-        );
+        add_action($action, function() use ($handle, $atts) {
+          wp_register_script(
+            $handle,
+            $atts['src'],
+            $atts['deps'],
+            $atts['ver'],
+            $atts['footer']
+          );
 
-        if ($atts['enqueue']) {
-          add_action($action, function() use ($handle) {
+          if ($atts['ajax']) {
+            wp_localize_script(
+              $handle,
+              'sl_obj',
+              array(
+                'ajax_url' => admin_url( 'admin-ajax.php' )
+              )
+            );
+          }
+
+          if ($atts['enqueue']) {
             wp_enqueue_script($handle);
-          });
-        }
+          }
+        });
+
       }
     }
 
@@ -83,19 +95,20 @@ class SL_Framework
         $atts = array_merge($style_defaults, $atts);
         $action = $atts['admin'] ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
 
-        wp_register_style(
-          $handle,
-          $atts['src'],
-          $atts['deps'],
-          $atts['ver'],
-          $atts['media']
-        );
+        add_action($action, function() use ($handle, $atts) {
+          wp_register_style(
+            $handle,
+            $atts['src'],
+            $atts['deps'],
+            $atts['ver'],
+            $atts['media']
+          );
 
-        if ($atts['enqueue']) {
-          add_action($action, function() use ($handle) {
+          if ($atts['enqueue']) {
             wp_enqueue_style($handle);
-          });
-        }
+          }
+        });
+
       }
     }
   }
