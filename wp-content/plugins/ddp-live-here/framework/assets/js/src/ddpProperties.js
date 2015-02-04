@@ -113,15 +113,15 @@
         var $el = $(this),
             type = $el.attr('data-type'),
             ranges = $this.properties.ranges,
-            min = ranges[type]['min'],
-            max = ranges[type]['max'];
+            min = parseInt(ranges[type]['min']),
+            max = parseInt(ranges[type]['max']);
 
         if (!min) min = 0;
         if (!max) max = 0;
 
         var updateValues = function(minVal, maxVal) {
-          minVal = numeral(parseInt(minVal)).format('0,0');
-          maxVal = numeral(parseInt(maxVal)).format('0,0');
+          minVal = numeral(minVal).format('0,0');
+          maxVal = numeral(maxVal).format('0,0');
 
           var $group = $el.parents('.js-range-group');
 
@@ -136,7 +136,7 @@
 
         $el.slider({
           range: true,
-          min: 0,
+          min: min,
           max: max,
           values: [min, max],
           slide: function( event, ui ) {

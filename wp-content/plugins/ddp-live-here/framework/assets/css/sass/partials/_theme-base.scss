@@ -45,6 +45,14 @@ h6 {
   position: relative;
   line-height: 0;
 
+  * {
+    transition: none;
+
+    &:before,
+    &:after {
+      transition: none;
+    }
+  }
   & > * {
     line-height: 1.4;
   }

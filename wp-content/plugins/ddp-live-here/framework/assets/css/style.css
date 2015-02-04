@@ -2881,11 +2881,19 @@ h6 {
   line-height: 0;
 }
 /* line 48, sass/partials/_theme-base.scss */
+.live-here-content * {
+  transition: none;
+}
+/* line 51, sass/partials/_theme-base.scss */
+.live-here-content *:before, .live-here-content *:after {
+  transition: none;
+}
+/* line 56, sass/partials/_theme-base.scss */
 .live-here-content > * {
   line-height: 1.4;
 }
 
-/* line 53, sass/partials/_theme-base.scss */
+/* line 61, sass/partials/_theme-base.scss */
 .interaction-content {
   position: absolute;
   top: 0;
@@ -2896,27 +2904,27 @@ h6 {
   transform: translateX(0);
   transition: transform 0.25s ease;
 }
-/* line 63, sass/partials/_theme-base.scss */
+/* line 71, sass/partials/_theme-base.scss */
 .interaction-content.closed {
   transform: translateX(calc(-100% + 23px));
 }
 
-/* line 68, sass/partials/_theme-base.scss */
+/* line 76, sass/partials/_theme-base.scss */
 .columned {
   display: table;
   width: 100%;
 }
-/* line 72, sass/partials/_theme-base.scss */
+/* line 80, sass/partials/_theme-base.scss */
 .columned .columned-row {
   display: table-row;
 }
-/* line 75, sass/partials/_theme-base.scss */
+/* line 83, sass/partials/_theme-base.scss */
 .columned .columned-row > * {
   display: table-cell;
   width: 50%;
 }
 
-/* line 82, sass/partials/_theme-base.scss */
+/* line 90, sass/partials/_theme-base.scss */
 button.toggle-content-display {
   position: absolute;
   top: 21px;
@@ -2924,22 +2932,22 @@ button.toggle-content-display {
   transform: rotate(-90deg);
 }
 
-/* line 89, sass/partials/_theme-base.scss */
+/* line 97, sass/partials/_theme-base.scss */
 .detail-content {
   font-family: "Capita-Light";
   font-size: 0.875rem;
   line-height: 1.57143;
 }
-/* line 96, sass/partials/_theme-base.scss */
+/* line 104, sass/partials/_theme-base.scss */
 .detail-content > * + * {
   margin-top: 1.14286em;
 }
-/* line 99, sass/partials/_theme-base.scss */
+/* line 107, sass/partials/_theme-base.scss */
 .detail-content .section-title + * {
   margin-top: 0;
 }
 
-/* line 104, sass/partials/_theme-base.scss */
+/* line 112, sass/partials/_theme-base.scss */
 .listing {
   font-size: 0.1px;
   text-align: justify;
@@ -2958,35 +2966,35 @@ button.toggle-content-display {
   text-align: left;
   font-size: 0.9375rem;
 }
-/* line 107, sass/partials/_theme-base.scss */
+/* line 115, sass/partials/_theme-base.scss */
 .listing > * {
   width: 49.99%;
 }
-/* line 110, sass/partials/_theme-base.scss */
+/* line 118, sass/partials/_theme-base.scss */
 .listing > *:nth-child(odd) {
   padding-right: 10px;
 }
-/* line 113, sass/partials/_theme-base.scss */
+/* line 121, sass/partials/_theme-base.scss */
 .listing > *:nth-child(even) {
   padding-left: 10px;
 }
-/* line 116, sass/partials/_theme-base.scss */
+/* line 124, sass/partials/_theme-base.scss */
 .listing > *:nth-child(n+3) {
   padding-top: 15px;
 }
 
-/* line 122, sass/partials/_theme-base.scss */
+/* line 130, sass/partials/_theme-base.scss */
 .listing-image {
   position: relative;
   line-height: 0;
 }
-/* line 126, sass/partials/_theme-base.scss */
+/* line 134, sass/partials/_theme-base.scss */
 .listing-image img {
   width: 100%;
   height: auto;
 }
 
-/* line 132, sass/partials/_theme-base.scss */
+/* line 140, sass/partials/_theme-base.scss */
 .listing-price {
   position: absolute;
   bottom: 0;
@@ -2998,18 +3006,18 @@ button.toggle-content-display {
   background-color: rgba(7, 7, 6, 0.75);
 }
 
-/* line 143, sass/partials/_theme-base.scss */
+/* line 151, sass/partials/_theme-base.scss */
 .listing-short-description {
   font-family: "museo_sans500";
   margin-top: 8px;
 }
 
-/* line 148, sass/partials/_theme-base.scss */
+/* line 156, sass/partials/_theme-base.scss */
 .listing-features {
   line-height: 1.1;
 }
 
-/* line 152, sass/partials/_theme-base.scss */
+/* line 160, sass/partials/_theme-base.scss */
 .listing-details {
   font-size: 0.1px;
   text-align: justify;
@@ -3030,13 +3038,13 @@ button.toggle-content-display {
   font-size: 1rem;
 }
 
-/* line 158, sass/partials/_theme-base.scss */
+/* line 166, sass/partials/_theme-base.scss */
 .listing-detail-price {
   font-size: 1.8125rem;
   line-height: 0.8;
 }
 
-/* line 163, sass/partials/_theme-base.scss */
+/* line 171, sass/partials/_theme-base.scss */
 .listing-detail-features {
   font-family: "museo_sans500";
   line-height: 1.1;
