@@ -1,11 +1,13 @@
 /* Default Styles
 ----------------------------------------*/
 /*Site Base*/
+html,
 body {
-  font: {
-    family: $font-main-light;
-    size: 100%;
-  }
+  font-size: 100%;
+}
+
+body {
+  font-family: $font-main-light;
   line-height: 1.4;
   color: $color-base;
 }
