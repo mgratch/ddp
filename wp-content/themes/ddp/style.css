@@ -1619,6 +1619,38 @@ body.single-event-listing .row.event-details .col-xs-6 span {
 }
 */
 
+/* Live Here Page */
+/* ---------------------------------- */
+
+body[class*="page-live-here"] .col-md-offset-3 {
+  margin: 0 35px;
+  width: calc(100% - 70px);
+  height: 90px;
+}
+
+body[class*="page-live-here"] #wrapper-interior.interior-page .title h1 {
+  float: left;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  font-size: 48px;
+  line-height: 0.9;
+  border: none;
+  padding: 0;
+  margin-right: 5%;
+}
+
+body[class*="page-live-here"] #wrapper-interior.interior-page .title .sub-head {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  font-family: 'museo_sans300';
+  font-size: 18px;
+  line-height: 1.2;
+  overflow: hidden;
+}
 
 /* Property Page */
 /* ---------------------------------- */
@@ -1988,7 +2020,7 @@ body #wrapper-interior.interior-page .col-md-9.main-content ul.directors-list li
 	display: inline-block !important;
 	width: 100%;
 	}
-    
+
 }
 /* Form Styles */
 
