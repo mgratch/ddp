@@ -3,7 +3,13 @@
 Template Name: Live Here Interactive
  */
 ?>
+<style>
+#map {
+	width:100%;
+	height: 60vh;
+}
 
+</style>
 
 <?php get_header(); ?>
 
@@ -17,11 +23,15 @@ Template Name: Live Here Interactive
 			  			<div class="sub-head"><?php print get_post_meta($post->ID, 'wpcf-subhead', true); ?></div>
 			  		</div>
 			  	</div>
+			  	<div class="main-img img-container" style="height:210px;"></div>
+
 
 	 <div class="interior-content">
-	 	<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
-
+			<div class="row main-body">
+		 		<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
+		 	</div>
 	 </div>
+	</div>
 
 	<?php endwhile; endif; ?>
 

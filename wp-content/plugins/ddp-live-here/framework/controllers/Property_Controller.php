@@ -24,6 +24,7 @@ class Property_Controller extends Controller
 
   public function interactiveMap() {
     wp_enqueue_script('ddpLiveGoogleMapsAPI');
+    wp_enqueue_script('jquery-ui-slider');
     wp_enqueue_script('ddpLiveInteractive.js');
     wp_enqueue_style('ddpLiveInteractive.css');
     return $this->view->makeView('master');

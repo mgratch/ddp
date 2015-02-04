@@ -67,4 +67,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', ['sass']);
   grunt.registerTask('compile', ['sass']);
+  grunt.registerTask('js', ['concat']);
 };
