@@ -1,20 +1,20 @@
 <?php
 /*
 Template Name: Single-Generic
- */ 
+ */
 ?>
 
 
 <?php get_header(); ?>
 
-	<?php if (have_posts()) : while (have_posts()) : the_post(); 
+	<?php if (have_posts()) : while (have_posts()) : the_post();
 
 	$bknd_img = wp_get_attachment_url( get_post_thumbnail_id($id) );
 
 	?>
 
 		 <div id="wrapper-interior" class="interior-page do-business single-generic">
-	  
+
 	  			<div class="row title">
 	  				<div class="col-md-9 col-md-offset-3">
 			  			<h1><?php the_title(); ?></h1>
@@ -22,18 +22,18 @@ Template Name: Single-Generic
 			  		</div>
 			  	</div>
 	  			<div class="main-img img-container">
-			  		
-			  		<img class="bg-image" src="<?php print $bknd_img; ?>" />
-			  		
-			  	</div>
-	  		
-	  
 
-	  	
-	  
+			  		<img class="bg-image" src="<?php print $bknd_img; ?>" />
+
+			  	</div>
+
+
+
+
+
 	 <div class="interior-content">
-	 	<div class="row main-body"> 
-	 			<div class="col-md-3">	
+	 	<div class="row main-body">
+	 			<div class="col-md-3">
 	 				<div class="left-sidebar">
 	 				<h3 class="page-title"><?php echo empty( $post->post_parent ) ? get_the_title( $post->ID ) : get_the_title( $post->post_parent ); ?></h3>
 	 				<?php
@@ -69,7 +69,7 @@ Template Name: Single-Generic
 						<li>Safety &amp; Security Initiatives</li>
 						<li>Food &amp; Fun Guide</li>
 	 				</ul> -->
-	 				
+
 	 				<!-- <h4 class="categories">Categories</h4>
 	 				<ul class="categories">
 	 					<li>Environent</li>
@@ -86,7 +86,7 @@ Template Name: Single-Generic
 	 			<?php the_content(); ?>
 	 			</div>
 	 	</div>
-	 	
+
 	 </div>
 
 	<?php endwhile; else: ?>

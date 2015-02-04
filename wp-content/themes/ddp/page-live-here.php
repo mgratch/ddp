@@ -15,7 +15,7 @@ Template Name: Live Here Interactive
 
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-		 <div id="wrapper-interior" class="interior-page do-business single-generic">
+		 <div id="wrapper-interior" class="interior-page do-business live-here">
 
 	  			<div class="row title">
 	  				<div class="col-md-9 col-md-offset-3">
