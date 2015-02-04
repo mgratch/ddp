@@ -48,7 +48,8 @@ class SL_Framework
       'footer' => false,
       'enqueue' => false,
       'admin' => false,
-      'ajax' => false
+      'ajax' => false,
+      'ajax_obj_name' => false
     );
 
     $style_defaults = array(
@@ -73,11 +74,19 @@ class SL_Framework
           );
 
           if ($atts['ajax']) {
+
+            if ($atts['ajax_obj_name']) {
+              $localized_name = $atts['ajax_obj_name'];
+            } else {
+              $localized_name = preg_replace('/\./', '_', $handle.'_obj');
+            }
+
             wp_localize_script(
               $handle,
-              'sl_obj',
+              $localized_name,
               array(
-                'ajax_url' => admin_url( 'admin-ajax.php' )
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'key' => wp_create_nonce($handle)
               )
             );
           }

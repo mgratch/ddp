@@ -1,9 +1,9 @@
 <!-- LIVE HERE CONTENT -->
-  <div class="live-here-content">
+  <div class="live-here-content js-live-here">
       <div id="map"></div>
     <div class="interaction-content">
 <!-- FILTER FORM CONTENT -->
-      <div class="filter-content columned">
+      <div class="filter-content columned js-live-here-filters">
         <div class="columned-row">
           <div class="housing-type">
             <span class="form-label">Housing Type</span>
@@ -27,7 +27,7 @@
           <div class="rental-price-range">
             <div class="range-group js-range-group monetary">
               <span class="form-label">Price Range &mdash; Monthly Rental</span>
-              <div class="js-range-slider"></div>
+              <div class="js-range-slider" data-type="rent"></div>
               <input type="hidden" class="js-min-value slider-value" value="0" />
               <input type="hidden" class="js-max-value slider-value max-value" value="500" />
               <div class="value-display-wrap">
@@ -53,7 +53,7 @@
           <div class="sale-price-range">
             <div class="range-group js-range-group monetary">
               <span class="form-label">Price Range &mdash; For Sale Price</span>
-              <div class="js-range-slider"></div>
+              <div class="js-range-slider" data-type="buy"></div>
               <input type="hidden" class="js-min-value slider-value" value="0" />
               <input type="hidden" class="js-max-value slider-value max-value" value="500" />
               <div class="value-display-wrap">
@@ -70,7 +70,7 @@
           <div class="size-range">
             <div class="range-group js-range-group">
               <span class="form-label">Square Footage</span>
-              <div class="js-range-slider"></div>
+              <div class="js-range-slider" data-type="sq_ft"></div>
               <input type="hidden" class="js-min-value slider-value" value="0" />
               <input type="hidden" class="js-max-value slider-value max-value" value="500" />
               <div class="value-display-wrap">

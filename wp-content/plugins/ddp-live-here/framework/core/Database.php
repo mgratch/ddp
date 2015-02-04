@@ -12,7 +12,7 @@ class Database
   {
     global $wpdb;
     $this->wpdb = $wpdb;
-    $this->table_name = $this->wpdb->prefix.$data['table_name'];
+    $this->table_name = $data['table_name'];
     $this->create = $data['create'];
 
     if (! $this->check()) {

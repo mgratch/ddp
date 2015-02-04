@@ -17,7 +17,13 @@ class Property_Model extends Model
       'agent' => 'varchar(128) DEFAULT NULL',
       'description' => 'varchar(255) DEFAULT NULL',
       'features' => 'varchar(255) DEFAULT NULL',
-      'pictures' => 'varchar(255) DEFAULT NULL'
+      'pictures' => 'varchar(255) DEFAULT NULL',
+      'address' => 'varchar(128) DEFAULT NULL',
+      'city' => 'varchar(128) DEFAULT NULL',
+      'zip' => 'varchar(10) DEFAULT NULL',
+      'state' => 'varchar(2) DEFAULT NULL',
+      'latitude' => 'varchar(128) DEFAULT NULL',
+      'longitude' => 'varchar(128) DEFAULT NULL'
     ),
     'indexes' => array(
       'PRIMARY KEY (`id`)',
@@ -26,11 +32,6 @@ class Property_Model extends Model
   );
 
   function actions()
-  {
-
-  }
-
-  function syncTrulia()
   {
 
   }
