@@ -7,7 +7,7 @@ class Property_Controller extends Controller
   public function actions()
   {
     add_action('wp_ajax_ddpLiveGetProperties', array($this, 'getPropertiesAjax'));
-    add_action('wp_ajax_no_priv_ddpLiveGetProperties', array($this, 'getPropertiesAjax'));
+    add_action('wp_ajax_nopriv_ddpLiveGetProperties', array($this, 'getPropertiesAjax'));
   }
 
   public function postType($type)
