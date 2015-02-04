@@ -120,8 +120,8 @@
         if (!max) max = 0;
 
         var updateValues = function(minVal, maxVal) {
-          minVal = parseInt(minVal);
-          maxVal = parseInt(maxVal);
+          minVal = numeral(parseInt(minVal)).format('0,0');
+          maxVal = numeral(parseInt(maxVal)).format('0,0');
 
           var $group = $el.parents('.js-range-group');
 

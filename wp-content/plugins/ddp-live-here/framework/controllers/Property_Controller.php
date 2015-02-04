@@ -41,36 +41,29 @@ class Property_Controller extends Controller
     if ($properties) {
       $response = (object) array();
       $response->properties = $properties;
-      $buy_range = array();
-      $rent_range = array();
-      $sq_foot_range = array();
+      $response->ranges = array();
+      $ranges = array();
 
       foreach ($properties as $p) {
-        if ($p->type == 'rent') {
-          $rent_range[] = $p->price;
-        } else {
-          $buy_range[] = $p->price;
+        if (empty($p->price)) {
+          $p->price = 0;
         }
 
-        $sq_foot_range[] = $p->sq_footage;
+        if (empty($p->sq_footage)) {
+          $p->sq_footage = 0;
+        }
+
+        $ranges[$p->type][] = $p->price;
+
+        $ranges['sq_ft'][] = $p->sq_footage;
       }
 
-      $ranges = array(
-        'buy' => array(
-          'min' => min($buy_range),
-          'max' => max($buy_range)
-        ),
-        'rent' => array(
-          'min' => min($rent_range),
-          'max' => max($rent_range)
-        ),
-        'sq_ft' => array(
-          'min' => min($sq_foot_range),
-          'max' => max($sq_foot_range)
-        ),
-      );
-
-      $response->ranges = $ranges;
+      foreach ($ranges as $type => $range) {
+        $response->ranges[$type] = array(
+          'min' => min($range),
+          'max' => max($range)
+        );
+      }
 
       $response = json_encode($response);
     }

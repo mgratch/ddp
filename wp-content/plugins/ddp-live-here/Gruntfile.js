@@ -58,6 +58,7 @@ module.exports = function (grunt) {
           'framework/assets/js/ddpProperties.js': [
             'framework/assets/js/lib/jquery.bxslider.min.js',
             'framework/assets/js/lib/gmaps.min.js',
+            'framework/assets/js/lib/numeral.min.js',
             'framework/assets/js/src/ddpProperties.js'
           ],
         },
