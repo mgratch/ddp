@@ -79,14 +79,15 @@
 
       $this.model.getProperties({
         complete: function(response) {
+          $this.drawMap();
+
           if (response) {
             $this.properties = response;
             $this.registerSliders();
+            $this.update();
           } else {
             $this.noResults();
           }
-
-          $this.update();
         }
       });
 
@@ -107,15 +108,16 @@
         var $el = $(this),
             type = $el.attr('data-type'),
             ranges = $this.properties.ranges,
-            min = parseInt(ranges[type]['min']),
-            max = parseInt(ranges[type]['max']);
+            min = ranges[type]['min'],
+            max = ranges[type]['max'];
 
-        if (!min && !max) {
-          min = 0;
-          max = 0;
-        }
+        if (!min) min = 0;
+        if (!max) max = 0;
 
         var updateValues = function(minVal, maxVal) {
+          minVal = parseInt(minVal);
+          maxVal = parseInt(maxVal);
+
           var $group = $el.parents('.js-range-group');
 
           $group.find('.js-min-value').val(minVal);
@@ -155,7 +157,7 @@
       }
 
       var properties = $this.filterProperties();
-      $this.drawMap(properties);
+      $this.addProperties(properties);
     };
 
     $this.filterProperties = function()
@@ -163,19 +165,25 @@
       return $this.properties.properties;
     };
 
-    $this.drawMap = function(properties)
+    $this.drawMap = function()
     {
-      var map = new GMaps({
+
+      $this.public.map = new GMaps({
         div: '#map',
         lat: 42.331427,
         lng: -83.045754,
         scrollwheel: false
       });
 
+      $this.public.map.panBy(($(window).width() / 3) * (-1), 0);
+    };
+
+    $this.addProperties = function(properties)
+    {
       if (properties) {
         for (var i = 0; i < properties.length; i++) {
           if (exists(properties[i].latitude) && exists(properties[i].longitude)) {
-            map.addMarker({
+            $this.public.map.addMarker({
               lat: properties[i].latitude,
               lng: properties[i].longitude,
               title: properties[i].title
@@ -183,7 +191,7 @@
           }
         }
       }
-    };
+    }
 
     $this.noResults = function()
     {

@@ -5,8 +5,8 @@ Template Name: Live Here Interactive
 ?>
 <style>
 #map {
-	width:100%;
-	height: 60vh;
+	width:100% !important;
+	height: 60vh !important;
 }
 
 </style>

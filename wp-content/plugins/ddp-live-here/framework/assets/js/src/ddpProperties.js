@@ -2,14 +2,34 @@
 
   var $scope = {};
 
-  // Checks for null
-  function exists(check) {
-    if (check === null) {
-      return false;
-    }
+  var $helpers = {
+    exists: function(check) {
+      if (check === null) {
+        return false;
+      }
 
-    return true;
-  }
+      return true;
+    },
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    debounce: function(func, wait, immediate) {
+      var timeout;
+      return function() {
+        var context = this, args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    }
+  };
 
   var ddpLiveModel = function() {
     var $this = this;
@@ -64,14 +84,15 @@
 
       $this.model.getProperties({
         complete: function(response) {
+          $this.drawMap();
+
           if (response) {
             $this.properties = response;
             $this.registerSliders();
+            $this.update();
           } else {
             $this.noResults();
           }
-
-          $this.update();
         }
       });
 
@@ -92,15 +113,16 @@
         var $el = $(this),
             type = $el.attr('data-type'),
             ranges = $this.properties.ranges,
-            min = parseInt(ranges[type]['min']),
-            max = parseInt(ranges[type]['max']);
+            min = ranges[type]['min'],
+            max = ranges[type]['max'];
 
-        if (!min && !max) {
-          min = 0;
-          max = 0;
-        }
+        if (!min) min = 0;
+        if (!max) max = 0;
 
         var updateValues = function(minVal, maxVal) {
+          minVal = parseInt(minVal);
+          maxVal = parseInt(maxVal);
+
           var $group = $el.parents('.js-range-group');
 
           $group.find('.js-min-value').val(minVal);
@@ -140,7 +162,7 @@
       }
 
       var properties = $this.filterProperties();
-      $this.drawMap(properties);
+      $this.addProperties(properties);
     };
 
     $this.filterProperties = function()
@@ -148,19 +170,25 @@
       return $this.properties.properties;
     };
 
-    $this.drawMap = function(properties)
+    $this.drawMap = function()
     {
-      var map = new GMaps({
+
+      $this.public.map = new GMaps({
         div: '#map',
         lat: 42.331427,
         lng: -83.045754,
         scrollwheel: false
       });
 
+      $this.public.map.panBy(($(window).width() / 3) * (-1), 0);
+    };
+
+    $this.addProperties = function(properties)
+    {
       if (properties) {
         for (var i = 0; i < properties.length; i++) {
-          if (exists(properties[i].latitude) && exists(properties[i].longitude)) {
-            map.addMarker({
+          if ($helpers.exists(properties[i].latitude) && $helpers.exists(properties[i].longitude)) {
+            $this.public.map.addMarker({
               lat: properties[i].latitude,
               lng: properties[i].longitude,
               title: properties[i].title
@@ -168,7 +196,7 @@
           }
         }
       }
-    };
+    }
 
     $this.noResults = function()
     {
