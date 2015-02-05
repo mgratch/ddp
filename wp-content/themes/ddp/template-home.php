@@ -3,8 +3,9 @@
 Template Name: Home
 */
 ?>
-<?php get_header(); 
-	wp_enqueue_script( 'gmap', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCp9myMYaPmpqRMXpsuwIezCx5sAFE80IY&sensor=false');
+<?php get_header();
+	//wp_enqueue_script( 'gmap', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCp9myMYaPmpqRMXpsuwIezCx5sAFE80IY&sensor=false');
+  wp_enqueue_script( 'gmap', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCfbgn0br_jJ-4b92UzF1VQW9VGZrFYlGs&sensor=false');
 	wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
 	wp_enqueue_script( 'gmap-custom', plugins_url().'/ddp-interactive-map/js/ddp-map.js');
 ?>
@@ -58,7 +59,7 @@ Template Name: Home
 			  	</div>
 	  		</div> -->
 	  	</div>
-	  	
+
 
 	  	<!--controls-->
 	  	  <a class="left carousel-control" href="#main-carousel" data-slide="prev">
@@ -69,7 +70,7 @@ Template Name: Home
 		  </a>
 		  <div class="title-toggle"><span></span>Hide Title</div>
 	  </div>
-	  
+
 	  <div class="articles-main-header header">What's happening Downtown?</div>
       <div class="row articles-main">
     	<img src="<?php bloginfo('template_url'); ?>/images/loading.gif" class="loading" />
@@ -79,15 +80,15 @@ Template Name: Home
 				<li class="events" id="articles-events">Events</li>
 				<li id="articles-interactive-map">Interactive Map</li>
 			</ul>
-		
+
 		</div>
-		
+
 		<div class="articles-content ajax-container col-sm-10">
 		</div>
-		
-		
+
+
       </div>
-      
+
       <div class="programs-main-header header">Our Programs + Progress</div>
       <div class="row programs-progress-main">
       	<div class="col-md-4">
