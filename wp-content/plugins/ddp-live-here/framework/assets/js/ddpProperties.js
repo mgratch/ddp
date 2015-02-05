@@ -149,7 +149,8 @@
     var _el = {};
     var _config = $.extend({
       debug: false,
-      onUpdate: function(properties) {}
+      onUpdate: function(properties) {},
+      onFilter: function(properties, filters){}
     }, config);
 
     $_scope.debug = _config.debug;
@@ -179,6 +180,7 @@
       _el.filters = _el.container.find('.js-live-here-filters');
       _el.sliders = _el.container.find('.js-range-slider');
       _el.triggers = _el.container.find('.js-ddp-live-trigger-update');
+      _el.filterValues = _el.container.find('.js-ddp-live-filter-value');
     };
 
     var registerSliders = function() {
@@ -261,6 +263,14 @@
     };
 
     var filterProperties = function() {
+      $_this.filters = {};
+
+      _el.filterValues.each(function() {
+
+      });
+
+      _config.onFilter(properties, filters);
+
       return _properties.properties;
     };
 
