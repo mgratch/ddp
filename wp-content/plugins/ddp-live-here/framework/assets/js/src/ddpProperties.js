@@ -1,4 +1,4 @@
-;( function($) {
+;( function($, window) {
 
   var $scope = {};
 
@@ -10,7 +10,7 @@
     rent: "#369abd"
   };
 
-  var $helpers = {
+  $scope.helpers = {
     exists: function(check) {
       if (check === null) {
         return false;
@@ -39,14 +39,12 @@
     }
   };
 
-  var ddpLiveModel = function() {
-    var $this = this;
-    $this.public = {};
-    $this.ajaxUrl = ddpProperties_obj.ajax_url;
-    $this.ajaxKey = ddpProperties_obj.key;
+  $scope.ddpLiveModel = function() {
+    var self = this;
+    self.ajaxUrl = ddpProperties_obj.ajax_url;
+    self.ajaxKey = ddpProperties_obj.key;
 
-    $this.public.getProperties = function(args)
-    {
+    self.getProperties = function(args) {
       args = $.extend({
         complete: false,
         filters: false
@@ -54,11 +52,11 @@
 
       var data = {
         action: 'ddpLiveGetProperties',
-        key: $this.ajaxKey,
+        key: self.ajaxKey,
         filters: args.filters
       };
 
-      $.get($this.ajaxUrl, data, function(response) {
+      $.get(self.ajaxUrl, data, function(response) {
         response = $.parseJSON(response);
 
         if ($scope.debug) {
@@ -70,57 +68,50 @@
       });
     };
 
-    return $this.public;
+    return self;
   };
 
-  $.ddpLive = function (config)
-  {
-    var $this = this;
-    $this.public = {};
-    $this.model = ddpLiveModel();
-    $this.properties = false;
-    $this.config = $.extend({
+  window.ddpLive = function (config) {
+    var self = this;
+    var _model = $scope.ddpLiveModel();
+    var _properties = false;
+    var _el = {};
+    var _config = $.extend({
       debug: false
     }, config);
 
-    $scope.debug = $this.config.debug;
+    $scope.debug = _config.debug;
 
-    $this.init = function()
-    {
-      $this.cacheElements();
-      $this.bindEvents();
+    self.init = function() {
+      cacheElements();
+      bindEvents();
 
-      $this.model.getProperties({
+      _model.getProperties({
         complete: function(response) {
-          $this.drawMap();
+          drawMap();
 
           if (response) {
-            $this.properties = response;
-            $this.registerSliders();
-            $this.update();
+            _properties = response;
+            registerSliders();
+            update();
           } else {
-            $this.noResults();
+            $scope.View.noResults();
           }
         }
       });
-
-      return $this.public;
     };
 
-    $this.cacheElements = function()
-    {
-      $this.el = {};
-      $this.el.container = $('.js-live-here');
-      $this.el.filters = $this.el.container.find('.js-live-here-filters');
-      $this.el.sliders = $this.el.container.find('.js-range-slider');
+    var cacheElements = function() {
+      _el.container = $('.js-live-here');
+      _el.filters = _el.container.find('.js-live-here-filters');
+      _el.sliders = _el.container.find('.js-range-slider');
     };
 
-    $this.registerSliders = function()
-    {
-      $this.el.sliders.each(function() {
+    var registerSliders = function() {
+      _el.sliders.each(function() {
         var $el = $(this),
             type = $el.attr('data-type'),
-            ranges = $this.properties.ranges,
+            ranges = _properties.ranges,
             min = parseInt(ranges[type]['min']),
             max = parseInt(ranges[type]['max']);
 
@@ -152,55 +143,50 @@
             updateValues(values[0], values[1]);
           },
           stop: function(event, ui) {
-            $this.update();
+            update();
           }
         });
       });
     };
 
-    $this.bindEvents = function()
-    {
+    var bindEvents = function() {
 
     };
 
-    $this.update = function()
-    {
+    var update = function() {
       if ($scope.debug) {
         console.log("Update triggered");
       }
 
-      var properties = $this.filterProperties();
-      $this.addProperties(properties);
+      var properties = filterProperties();
+      addProperties(properties);
     };
 
-    $this.filterProperties = function()
-    {
-      return $this.properties.properties;
+    var filterProperties = function() {
+      return _properties.properties;
     };
 
-    $this.drawMap = function()
-    {
+    var drawMap = function() {
 
-      $this.public.map = new GMaps({
+      self.map = new GMaps({
         div: '#map',
         lat: 42.331427,
         lng: -83.045754,
         scrollwheel: false
       });
 
-      //$this.public.map.panBy(($(window).width() / 3) * (-1), 0);
+      //self.public.map.panBy(($(window).width() / 3) * (-1), 0);
     };
 
-    $this.addProperties = function(properties)
-    {
+    var addProperties = function(properties) {
 
       if (properties) {
         var bounds = [];
         for (var i = 0; i < properties.length; i++) {
-          if ($helpers.exists(properties[i].latitude) && $helpers.exists(properties[i].longitude)) {
+          if ($scope.helpers.exists(properties[i].latitude) && $scope.helpers.exists(properties[i].longitude)) {
             bounds.push(new google.maps.LatLng(properties[i].latitude, properties[i].longitude));
 
-            $this.public.map.addMarker({
+            self.map.addMarker({
               lat: properties[i].latitude,
               lng: properties[i].longitude,
               title: properties[i].title,
@@ -219,26 +205,24 @@
           }
         }
 
-        $this.public.map.fitLatLngBounds(bounds);
-        $this.public.map.panBy(($(window).width() / 3) * (-1), 0);
+        self.map.fitLatLngBounds(bounds);
+        self.map.panBy(($(window).width() / 3) * (-1), 0);
       }
     };
 
-    $this.noResults = function()
-    {
+    var noResults = function() {
 
     };
 
-    $this.showListings = function()
-    {
+    var showListings = function() {
 
     };
 
-    return $this.init();
+    return self.init();
   };
 
-  $.ddpLive({
+  var zz = ddpLive({
     debug: true
   });
 
-})(jQuery);
+})(jQuery, window);
