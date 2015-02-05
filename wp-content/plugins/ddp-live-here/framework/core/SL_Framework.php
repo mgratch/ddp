@@ -86,7 +86,8 @@ class SL_Framework
               $localized_name,
               array(
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'key' => wp_create_nonce($handle)
+                'key' => wp_create_nonce($handle),
+                'asset_uri' => Config::get('global.asset_uri')
               )
             );
           }

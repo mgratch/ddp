@@ -2,6 +2,14 @@
 
   var $scope = {};
 
+  $scope.mapPins = {
+    pin: "M12.113 1C5.976 1 1 6 1 12.113c0 6.2 7.9 17 11.1 23.321c3.18-6.451 11.139-17.449 11.139-23.321 C23.227 6 18.3 1 12.1 1z M12.113 15.679c-1.834 0-3.321-1.487-3.321-3.321s1.487-3.321 3.321-3.321 s3.321 1.5 3.3 3.321S13.947 15.7 12.1 15.679z, M12.113 1c6.138 0 11.1 5 11.1 11.113c0 5.873-7.959 16.87-11.139 23.3 C8.875 29.1 1 18.3 1 12.113C1 6 6 1 12.1 1 M12.113 15.679c1.834 0 3.321-1.487 3.321-3.321 s-1.487-3.321-3.321-3.321s-3.321 1.487-3.321 3.321S10.279 15.7 12.1 15.7 M12.113 0C5.434 0 0 5.4 0 12.1 c0 4.7 4.1 11.5 7.7 17.579c1.354 2.3 2.6 4.4 3.5 6.193l0.904 1.788l0.886-1.797 c0.932-1.891 2.299-4.208 3.747-6.662c3.513-5.957 7.495-12.708 7.495-17.102C24.227 5.4 18.8 0 12.1 0L12.113 0z M12.113 14.679c-1.28 0-2.321-1.041-2.321-2.321s1.042-2.321 2.321-2.321c1.28 0 2.3 1 2.3 2.3 S13.394 14.7 12.1 14.679L12.113 14.679z",
+
+    buy: "#d65b91",
+
+    rent: "#369abd"
+  };
+
   var $helpers = {
     exists: function(check) {
       if (check === null) {
@@ -180,23 +188,41 @@
         scrollwheel: false
       });
 
-      $this.public.map.panBy(($(window).width() / 3) * (-1), 0);
+      //$this.public.map.panBy(($(window).width() / 3) * (-1), 0);
     };
 
     $this.addProperties = function(properties)
     {
+
       if (properties) {
+        var bounds = [];
         for (var i = 0; i < properties.length; i++) {
           if ($helpers.exists(properties[i].latitude) && $helpers.exists(properties[i].longitude)) {
+            bounds.push(new google.maps.LatLng(properties[i].latitude, properties[i].longitude));
+
             $this.public.map.addMarker({
               lat: properties[i].latitude,
               lng: properties[i].longitude,
-              title: properties[i].title
+              title: properties[i].title,
+              icon: {
+                path: $scope.mapPins.pin,
+                fillColor: $scope.mapPins[properties[i].type],
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                scale: 1,
+
+              },
+              infoWindow: {
+                content: 'this.content'
+              }
             });
           }
         }
+
+        $this.public.map.fitLatLngBounds(bounds);
+        $this.public.map.panBy(($(window).width() / 3) * (-1), 0);
       }
-    }
+    };
 
     $this.noResults = function()
     {
