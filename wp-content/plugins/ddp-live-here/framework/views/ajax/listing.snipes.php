@@ -4,7 +4,7 @@
     <li class="listing-item">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://fillmurray.com/520/340">
+        <img src="http://placehold.it/520x340">
         <div class="listing-price">$0,000 / month</div>
       </div>
       <div class="listing-short-description">Short Description</div>
@@ -13,7 +13,7 @@
     <li class="listing-item">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://fillmurray.com/520/340">
+        <img src="http://placehold.it/520x340">
         <div class="listing-price">$0,000 / month</div>
       </div>
       <div class="listing-short-description">Short Description</div>
@@ -22,7 +22,7 @@
     <li class="listing-item">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://fillmurray.com/520/340">
+        <img src="http://placehold.it/520x340">
         <div class="listing-price">$0,000 / month</div>
       </div>
       <div class="listing-short-description">Short Description</div>
@@ -31,7 +31,7 @@
     <li class="listing-item">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://fillmurray.com/520/340">
+        <img src="http://placehold.it/520x340">
         <div class="listing-price">$0,000 / month</div>
       </div>
       <div class="listing-short-description">Short Description</div>
@@ -40,7 +40,7 @@
     <li class="listing-item">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://fillmurray.com/520/340">
+        <img src="http://placehold.it/520x340">
         <div class="listing-price">$0,000 / month</div>
       </div>
       <div class="listing-short-description">Short Description</div>
