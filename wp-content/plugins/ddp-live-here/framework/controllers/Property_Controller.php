@@ -8,6 +8,9 @@ class Property_Controller extends Controller
   {
     add_action('wp_ajax_ddpLiveGetProperties', array($this, 'getPropertiesAjax'));
     add_action('wp_ajax_nopriv_ddpLiveGetProperties', array($this, 'getPropertiesAjax'));
+
+    add_action('wp_ajax_ddpPropertyListing', array($this, 'getPropertyListingAjax'));
+    add_action('wp_ajax_nopriv_ddpPropertyListing', array($this, 'getPropertyListingAjax'));
   }
 
   public function postType($type)
@@ -58,6 +61,16 @@ class Property_Controller extends Controller
         $ranges['sq_ft'][] = $p->sq_footage;
       }
 
+      // Make sure we are sending back at least the key
+      if (!isset($ranges['buy'])) {
+        $ranges['buy'] = array(0);
+      }
+
+      // Make sure we are sending back at least the key
+      if (!isset($ranges['rent'])) {
+        $ranges['rent'] = array(0);
+      }
+
       foreach ($ranges as $type => $range) {
         $response->ranges[$type] = array(
           'min' => min($range),
@@ -69,6 +82,18 @@ class Property_Controller extends Controller
     }
 
     echo $response;
+    die();
+  }
+
+  public function getPropertyListingAjax()
+  {
+    $args = $_GET;
+    check_ajax_referer('ddpLiveInteractive.js', 'key', true);
+    $response = array();
+
+    $response['html'] = base64_encode($this->view->makeView('ajax.listing'));
+
+    echo json_encode($response);
     die();
   }
 }

@@ -8,7 +8,6 @@ Template Name: Live Here Interactive
 	width:100% !important;
 	height: 60vh !important;
 }
-
 </style>
 
 <?php get_header(); ?>

@@ -63,10 +63,18 @@ module.exports = function (grunt) {
           ],
         },
       },
+    },
+
+    uglify: {
+      my_target: {
+        files: {
+          'framework/assets/js/ddpProperties.js': ['framework/assets/js/ddpProperties.js']
+        }
+      }
     }
   });
 
   grunt.registerTask('default', ['sass']);
-  grunt.registerTask('compile', ['sass']);
+  grunt.registerTask('compile', ['sass', 'uglify']);
   grunt.registerTask('js', ['concat']);
 };
