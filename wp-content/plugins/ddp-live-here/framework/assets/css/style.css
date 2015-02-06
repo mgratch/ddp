@@ -3199,6 +3199,7 @@ button.toggle-content-display {
   border-right: solid 1px #a29f9f;
   overflow-x: hidden;
   overflow-y: scroll;
+  position: relative;
 }
 
 /* Single Listing Detail Structure

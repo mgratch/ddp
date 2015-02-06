@@ -82,7 +82,9 @@
         </div>
       </div>
 <!-- END FILTER FORM -->
-      <div class="js-ddp-live-listing-container"></div>
+      <div class="js-ddp-live-listing-container" style="display:none">
+        <div class="filter-results-listing-content js-listing-content"></div>
+      </div>
 
       <button class="toggle-button toggle-content-display js-toggle-content-display material" type="button">
         <span class="js-toggle-label">Hide</span> <span class="io-icon-arrow-up"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 317 371" enable-background="new 0 0 317 371" xml:space="preserve" version="1.1"><polygon fill="currentColor" points="0,156.438 0,212.272 139,75.079 139,371 179,371 179,76.065 317,212.273 317,156.438 158.5,0 "/></svg></span>

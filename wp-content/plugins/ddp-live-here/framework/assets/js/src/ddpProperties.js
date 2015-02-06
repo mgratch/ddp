@@ -13,9 +13,7 @@
     rent: "#369abd"
   };
 
-  $_scope.loader = function(color) {
-    return '<svg width="100%" height="100%" viewBox="0 0 44 44" xmlns=http://www.w3.org/2000/svg stroke="'+color+'"><g fill=none fill-rule=evenodd stroke-width=2><circle cx=22 cy=22 r=1><animate attributeName=r begin=0s dur=1.8s values="1; 20" calcMode=spline keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"/><animate attributeName=stroke-opacity begin=0s dur=1.8s values="1; 0" calcMode=spline keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"/></circle><circle cx=22 cy=22 r=1><animate attributeName=r begin=-0.9s dur=1.8s values="1; 20" calcMode=spline keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"/><animate attributeName=stroke-opacity begin=-0.9s dur=1.8s values="1; 0" calcMode=spline keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"/></circle></g></svg>';
-  };
+  $_scope.mask = $('<div style="background:white; opacity:.5; width:100%; height:100%; position:absolute; top:0; left:0; z-index:999;"></div>');
 
   $_scope.Helpers = {
     exists: function(check) {
@@ -93,8 +91,9 @@
     $_this.map = null;
 
     var init = function() {
-      // Cache elements
+      // Cache Elements
       _el.listingContainer = $('.js-ddp-live-listing-container');
+      _el.listingContent = _el.listingContainer.find('.js-listing-content');
     };
 
     $_this.renderMap = function() {
@@ -139,16 +138,14 @@
       }
     };
 
-    $_this.showListings = function(atts) {
+    $_this.loadListings = function(atts) {
       atts = atts || {};
       atts = $.extend({
-        container: _el.listingContainer,
         properties: false,
         onComplete: function() {}
       }, atts);
 
       if (! atts.properties) return false;
-      if (! atts.container) return false;
 
       var data = {
         action: 'ddpPropertyListing',
@@ -156,16 +153,34 @@
         properties: atts.properties
       };
 
+      var mask = $_scope.mask.appendTo(_el.listingContent);
+
       $.get($_scope.ajaxUrl, data, function(response) {
         response = $.parseJSON(response);
+        var zz = _el.listingContent.find('ul').first();
 
-        $(Base64.decode(response.html)).appendTo(atts.container);
+        mask.animate({
+          opacity: 1
+        }, 600, function() {
+          $(Base64.decode(response.html)).appendTo(_el.listingContent);
+
+          mask.animate({
+            opacity: 0
+          }, 400, function() {
+            mask.remove();
+          })
+        });
+
         atts.onComplete();
       });
     };
 
+    $_this.showListings = function() {
+      _el.listingContainer.show();
+    };
+
     $_this.removeListings = function() {
-      _el.listingContainer.html('');
+      _el.listingContainer.hide();
     };
 
     init();
@@ -288,9 +303,7 @@
         var text = $el.find('.js-toggle-label');
 
         if (! $el.hasClass('active')) {
-          _View.showListings({
-            properties: _currentProperties
-          });
+          _View.showListings();
 
           $el.addClass('active');
           text.text('Hide');
@@ -311,6 +324,9 @@
       _config.onUpdate(properties);
 
       _View.addProperties(properties);
+      _View.loadListings({
+        properties: _currentProperties
+      });
     };
 
     var filterProperties = function() {
