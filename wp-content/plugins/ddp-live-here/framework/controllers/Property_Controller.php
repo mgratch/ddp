@@ -91,7 +91,11 @@ class Property_Controller extends Controller
     check_ajax_referer('ddpLiveInteractive.js', 'key', true);
     $response = array();
 
-    $response['html'] = base64_encode($this->view->makeView('ajax.listing'));
+    $vars = array(
+      'properties' => $args['properties']
+    );
+
+    $response['html'] = base64_encode($this->view->makeView('ajax.listing', $vars));
 
     echo json_encode($response);
     die();

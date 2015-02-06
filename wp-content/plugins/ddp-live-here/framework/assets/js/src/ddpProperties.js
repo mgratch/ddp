@@ -157,11 +157,13 @@
 
       $.get($_scope.ajaxUrl, data, function(response) {
         response = $.parseJSON(response);
+
         var zz = _el.listingContent.find('ul').first();
 
         mask.animate({
           opacity: 1
         }, 600, function() {
+          zz.remove();
           $(Base64.decode(response.html)).appendTo(_el.listingContent);
 
           mask.animate({
