@@ -31,8 +31,23 @@ class Property_Model extends Model
     )
   );
 
-  function actions()
+  public function getProperty($id = false)
   {
+    if (! $id) {
+      return false;
+    }
 
+    $sql = trim("
+      SELECT *
+      FROM   {$this->table_name}
+      WHERE  ID = '%d'
+    ");
+
+    return $this->wpdb->get_results(
+      $this->wpdb->prepare(
+        $sql,
+        $id
+      )
+    );
   }
 }

@@ -11,6 +11,9 @@ class Property_Controller extends Controller
 
     add_action('wp_ajax_ddpPropertyListing', array($this, 'getPropertyListingAjax'));
     add_action('wp_ajax_nopriv_ddpPropertyListing', array($this, 'getPropertyListingAjax'));
+
+    add_action('wp_ajax_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
+    add_action('wp_ajax_nopriv_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
   }
 
   public function postType($type)
@@ -96,6 +99,22 @@ class Property_Controller extends Controller
     );
 
     $response['html'] = base64_encode($this->view->makeView('ajax.listing', $vars));
+
+    echo json_encode($response);
+    die();
+  }
+
+  public function getPropertyDetailAjax()
+  {
+    $args = $_GET;
+    check_ajax_referer('ddpLiveInteractive.js', 'key', true);
+    $response = array();
+
+    $vars = array(
+      'property' => array_pop($this->model->getProperty($_GET['property_id']))
+    );
+
+    $response['html'] = base64_encode($this->view->makeView('ajax.detail', $vars));
 
     echo json_encode($response);
     die();

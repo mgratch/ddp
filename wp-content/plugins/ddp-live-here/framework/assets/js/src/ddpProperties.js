@@ -138,6 +138,34 @@
       }
     };
 
+    $_this.listingDetail = function(atts) {
+      atts = atts || {};
+      atts = $.extend({
+        property_id: false,
+        $container: false,
+        onComplete: function($html, property_id) {}
+      }, atts);
+
+      if (! atts.$container) return false;
+      if (! atts.property_id) return false;
+
+      var data = {
+        action: 'ddpPropertyDetail',
+        key: $_scope.ajaxKey,
+        property_id: atts.property_id
+      };
+
+      $.get($_scope.ajaxUrl, data, function(response){
+        console.log(response);
+        response = $.parseJSON(response);
+        var $html = $(Base64.decode(response.html));
+
+        $html.prependTo(atts.$container);
+
+        atts.onComplete($html, data.property_id);
+      });
+    };
+
     $_this.loadListings = function(atts) {
       atts = atts || {};
       atts = $.extend({
@@ -170,7 +198,7 @@
             opacity: 0
           }, 400, function() {
             mask.remove();
-          })
+          });
         });
 
         atts.onComplete();
@@ -232,6 +260,9 @@
       _el.triggers = _el.container.find('.js-ddp-live-trigger-update');
       _el.filterValues = _el.container.find('.js-ddp-live-filter-value');
       _el.showListingButton = _el.container.find('.js-show-listings');
+      _el.getDetailButton = _el.container.find('.js-ddp-live-get-detail');
+      _el.interactionContent = _el.container.find('.js-interaction-content');
+      _el.closeDetailButton = _el.container.find('.js-close-detail');
     };
 
     var registerSliders = function() {
@@ -300,6 +331,10 @@
         });
       });
 
+      _el.closeDetailButton.live('click', function() {
+        $('.js-ddp-live-detail-container').remove();
+      });
+
       _el.showListingButton.click(function() {
         $el = $(this);
         var text = $el.find('.js-toggle-label');
@@ -314,6 +349,17 @@
           $el.removeClass('active');
           text.text('Show');
         }
+      });
+
+      _el.getDetailButton.live('click', function(event) {
+        event.preventDefault();
+        var $el = $(this);
+        var id = $el.attr('data-ddp-live-id');
+
+       _View.listingDetail({
+          property_id: id,
+          $container: _el.interactionContent
+       });
       });
     };
 

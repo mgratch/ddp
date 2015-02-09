@@ -1,7 +1,7 @@
 <!-- LIVE HERE CONTENT -->
   <div class="live-here-content js-live-here">
       <div id="map"></div>
-    <div class="interaction-content">
+    <div class="interaction-content js-interaction-content">
 <!-- FILTER FORM CONTENT -->
       <div class="filter-content columned js-live-here-filters">
         <div class="columned-row">
