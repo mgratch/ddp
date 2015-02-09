@@ -156,7 +156,6 @@
       };
 
       $.get($_scope.ajaxUrl, data, function(response){
-        console.log(response);
         response = $.parseJSON(response);
         var $html = $(Base64.decode(response.html));
 
