@@ -11,7 +11,7 @@
           ${{ number_format($property['price'], 0, '', ',') }} {{ $property['term'] ? '/' . $property['term'] : null }}
         </div>
       </div>
-      <div class="listing-short-description">{{ $property['features'] }}</div>
+      <div class="listing-short-description">{{ $property['title'] }}</div>
       <div class="listing-features">{{ $property['sq_footage'] }} sqft. | {{ $property['rooms'] }} bedrooms</div>
     </a>
   </li>

@@ -1,3 +1,10 @@
+/**
+ * TODO
+ *
+ * Debounce filter firing.
+ * Recenter map on window resize and debounce.
+ */
+
 ;( function($, window) {
 
   var $_scope = {
@@ -13,7 +20,7 @@
     rent: "#369abd"
   };
 
-  $_scope.mask = $('<div style="background:white; opacity:.5; width:100%; height:100%; position:absolute; top:0; left:0; z-index:999;"></div>');
+  $_scope.mask = $('<div style="background:white; display:block; opacity:.75 !important; width:100%; height:100%; position:absolute; top:0; left:0; z-index:99999;"></div>');
 
   $_scope.Helpers = {
     exists: function(check) {
@@ -94,6 +101,7 @@
       // Cache Elements
       _el.listingContainer = $('.js-ddp-live-listing-container');
       _el.listingContent = _el.listingContainer.find('.js-listing-content');
+      $_this.$listingContent = _el.listingContent;
     };
 
     $_this.renderMap = function() {
@@ -169,10 +177,13 @@
       atts = atts || {};
       atts = $.extend({
         properties: false,
+        $mask: false,
         onComplete: function() {}
       }, atts);
 
       if (! atts.properties) return false;
+
+      var mask = $_scope.mask;
 
       var data = {
         action: 'ddpPropertyListing',
@@ -180,23 +191,21 @@
         properties: atts.properties
       };
 
-      var mask = $_scope.mask.appendTo(_el.listingContent);
-
       $.get($_scope.ajaxUrl, data, function(response) {
         response = $.parseJSON(response);
 
         var zz = _el.listingContent.find('ul').first();
 
-        mask.animate({
+        atts.$mask.animate({
           opacity: 1
         }, 600, function() {
           zz.remove();
           $(Base64.decode(response.html)).appendTo(_el.listingContent);
 
-          mask.animate({
+          atts.$mask.animate({
             opacity: 0
           }, 400, function() {
-            mask.remove();
+            atts.$mask.remove();
           });
         });
 
@@ -367,11 +376,18 @@
         console.log("Update triggered");
       }
 
+      var $mask;
+      var $mask = $_scope.mask;
+
+      $mask.prependTo(_View.$listingContent);
+
       var properties = filterProperties();
       _config.onUpdate(properties);
 
+
       _View.addProperties(properties);
       _View.loadListings({
+        $mask: $mask,
         properties: _currentProperties
       });
     };
