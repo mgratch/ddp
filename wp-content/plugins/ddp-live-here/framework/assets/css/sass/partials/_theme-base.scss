@@ -127,6 +127,11 @@ button.toggle-content-display {
   }
 }
 
+.listing-item a {
+  color: $color-base;
+  text-decoration: none;
+}
+
 .listing-image {
   position: relative;
   line-height: 0;
