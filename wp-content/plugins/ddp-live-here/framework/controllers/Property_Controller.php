@@ -18,13 +18,42 @@ class Property_Controller extends Controller
 
   public function postType($type)
   {
-    $foos = $type->scpt( 'foo', 'Foo', 'Foos' );
+    $properties = $type->scpt(
+      'property',
+      'Property',
+      'Properties',
+      array(
+        'supports' => array(
+          'title',
+          'editor'
+        )
+      )
+    );
 
-    $foos->add_meta_box( array(
-      'id' => 'box-id',
-      'context' => 'side',
+    $properties->add_meta_box( array(
+      'id' => 'property-attributes',
+      'context' => 'normal',
       'fields' => array(
-        'field-name' => array()
+        'property_type' => array(
+          'type' => 'select',
+          'options' => array('Buy', 'Rent')
+        ),
+        'property_price' => array(
+          'type' => 'text'
+        ),
+        'property_term' => array(
+          'type' => 'select',
+          'options' => array('Monthly', 'Yearly')
+        ),
+        'property_sq_footage' => array(
+          'type' => 'text'
+        ),
+        'property_rooms' => array(
+          'type' => 'text'
+        ),
+        'property_bathrooms' => array(
+          'type' => 'text'
+        )
       )
     ) );
   }

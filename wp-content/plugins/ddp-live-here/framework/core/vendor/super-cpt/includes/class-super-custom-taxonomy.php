@@ -1,6 +1,6 @@
 <?php
 
-namespace sixlabs\supercpt;
+namespace ddp\live;
 
 /**
  * Easy-as-pie custom post types

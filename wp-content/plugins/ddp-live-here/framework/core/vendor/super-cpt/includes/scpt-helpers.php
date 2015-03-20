@@ -1,6 +1,6 @@
 <?php
 
-namespace sixlabs\supercpt;
+namespace ddp\live;
 
 if ( !function_exists( 'get_scpt_formatted_meta' ) ) {
 	$scpt_known_meta = array();
