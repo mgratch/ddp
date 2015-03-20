@@ -61,6 +61,9 @@ module.exports = function (grunt) {
             'framework/assets/js/lib/numeral.min.js',
             'framework/assets/js/src/ddpProperties.js'
           ],
+          'framework/assets/js/ddpPropertyAdmin.js': [
+            'framework/assets/js/src/ddpPropertyAdmin.js'
+          ],
         },
       },
     },
@@ -68,13 +71,14 @@ module.exports = function (grunt) {
     uglify: {
       my_target: {
         files: {
-          'framework/assets/js/ddpProperties.js': ['framework/assets/js/ddpProperties.js']
+          'framework/assets/js/ddpProperties.js': ['framework/assets/js/ddpProperties.js'],
+          'framework/assets/js/ddpPropertyAdmin.js': ['framework/assets/js/ddpPropertyAdmin.js']
         }
       }
     }
   });
 
   grunt.registerTask('default', ['sass']);
-  grunt.registerTask('compile', ['sass', 'uglify']);
+  grunt.registerTask('compile', ['sass', 'concat', 'uglify']);
   grunt.registerTask('js', ['concat']);
 };

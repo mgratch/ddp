@@ -11,6 +11,8 @@ class SL_Framework
 
   public function loader()
   {
+    $this->registerAssets();
+
     $directories = array(
       'models',
       'controllers',
@@ -34,8 +36,6 @@ class SL_Framework
         }
       }
     }
-
-    $this->registerAssets();
   }
 
   public function registerAssets()

@@ -23,8 +23,8 @@ $upload_dir = wp_upload_dir();
 // Globals stand alone for global access
 Config::add(array(
   'global' => array(
-    'asset_uri' => plugins_url('', __FILE__ ) . '/framework/assets/',
-    'asset_path' => dirname( __FILE__ ) . '/framework/assets/',
+    'asset_uri' => plugins_url('', __FILE__ ) . '/framework/assets',
+    'asset_path' => dirname( __FILE__ ) . '/framework/assets',
     'cache_path' => __DIR__.'/framework/cache'
   ),
   'database' => array(
@@ -51,6 +51,20 @@ Config::add(array(
     'ddpLiveGoogleMapsAPI' => array(
       'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),
       'footer' => true
+    ),
+    'ddpLiveGoogleMapsAPIAdmin' => array(
+      'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),
+      'footer' => true,
+      'admin' => true
+    ),
+    'ddpPropertyAdmin' => array(
+      'src' => Config::get('global.asset_uri').'/js/ddpPropertyAdmin.js',
+      'footer' => true,
+      'deps' => array(
+        'jquery',
+        'ddpLiveGoogleMapsAPIAdmin'
+      ),
+      'admin' => true
     )
   ),
   'styles' => array(

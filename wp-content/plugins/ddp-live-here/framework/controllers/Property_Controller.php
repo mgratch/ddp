@@ -53,9 +53,46 @@ class Property_Controller extends Controller
         ),
         'property_bathrooms' => array(
           'type' => 'text'
+        ),
+        'property_agent_email' => array(
+          'type' => 'email'
+        ),
+        'property_features' => array(
+          'type' => 'textarea'
+        ),
+        'property_address' => array(
+          'type' => 'text',
+          'style' => 'width: 100%;',
+          'field_description' => 'Include apartment/building number/suite.'
+        ),
+        'property_city' => array(
+          'type' => 'text'
+        ),
+        'property_state' => array(
+          'type' => 'text',
+          'length' => 2
+        ),
+        'property_latitude' => array(
+          'type' => 'text',
+          'length' => 50
+        ),
+        'property_longitude' => array(
+          'type' => 'text',
+          'length' => 50
+        ),
+        'property_get_latlng' => array(
+          'type' => 'button',
+          'button_text' => 'Get Coords'
         )
       )
     ) );
+
+    if ($type->getCurrentPostType() === 'property') {
+      add_action('admin_enqueue_scripts', function() {
+        wp_enqueue_script('ddpLiveGoogleMapsAPIAdmin');
+        wp_enqueue_script('ddpPropertyAdmin');
+      });
+    }
   }
 
   public function interactiveMap() {
@@ -63,6 +100,7 @@ class Property_Controller extends Controller
     wp_enqueue_script('jquery-ui-slider');
     wp_enqueue_script('ddpLiveInteractive.js');
     wp_enqueue_style('ddpLiveInteractive.css');
+
     return $this->view->makeView('master');
   }
 
