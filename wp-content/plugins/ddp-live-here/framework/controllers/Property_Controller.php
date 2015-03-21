@@ -14,6 +14,7 @@ class Property_Controller extends Controller
 
     add_action('wp_ajax_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
     add_action('wp_ajax_nopriv_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
+
   }
 
   public function postType($type)

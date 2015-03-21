@@ -13,7 +13,10 @@ class Model
     $config = Config::get('database');
     $this->wpdb = $wpdb;
     $this->prefix = $config['prefix'];
-    $this->table_name = $this->prefix.$this->table_name;
+
+    if (isset($this->table_name)) {
+      $this->table_name = $this->prefix.$this->table_name;
+    }
 
     if (isset($this->table_name) && isset($this->create)) {
       new Database(array(

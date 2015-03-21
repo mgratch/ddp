@@ -78,4 +78,42 @@ class Helpers
     return strtolower( $string );
   }
 
+  /**
+   * Utility function to clean single items out of nested array
+   * @param unknown_type $atts
+   * @return string
+   */
+  public static function parseMeta( $customDataRaw, $dont_flatten = array() ) {
+    $customData = array();
+    $serialized = false;
+    foreach($customDataRaw as $key => $data){
+      $unserialize_data = array();
+      if(count($data) > 1 ) {
+          foreach( $data as $d )
+            if( @unserialize( $d ) ) {
+              $unserialize_data[] = unserialize( $d );
+              $serialized = true;
+            }
+
+          if( $serialized )
+            $data = $unserialize_data;
+
+          $customData[$key] = $data;
+      } else {
+          if( @unserialize( $data[0] ) )
+            $data[0] = unserialize($data[0]);
+
+          if ( !empty( $dont_flatten ) && in_array( $key, $dont_flatten ) ) {
+            $customData[$key] = $data;
+          } elseif ( !empty( $dont_flatten ) && !in_array( $key, $dont_flatten ) ) {
+            $customData[$key] = $data[0];
+          } else {
+            $customData[$key] = $data[0];
+          }
+      }
+    }
+
+    return $customData;
+  }
+
 }

@@ -4,32 +4,24 @@ namespace ddp\live;
 
 class Property_Model extends Model
 {
-  protected $table_name = 'properties';
-  protected $create = array(
-    'columns' => array(
-      'id' => 'int(11) unsigned NOT NULL AUTO_INCREMENT',
-      'title' => 'varchar(255) DEFAULT NULL',
-      'type' => 'varchar(10) DEFAULT NULL',
-      'price' => 'int(11) DEFAULT NULL' ,
-      'term' => 'varchar(10) DEFAULT NULL',
-      'sq_footage' => 'int(11) DEFAULT NULL',
-      'rooms' => 'varchar(10) DEFAULT NULL',
-      'agent' => 'varchar(128) DEFAULT NULL',
-      'description' => 'varchar(255) DEFAULT NULL',
-      'features' => 'varchar(255) DEFAULT NULL',
-      'pictures' => 'varchar(255) DEFAULT NULL',
-      'address' => 'varchar(128) DEFAULT NULL',
-      'city' => 'varchar(128) DEFAULT NULL',
-      'zip' => 'varchar(10) DEFAULT NULL',
-      'state' => 'varchar(2) DEFAULT NULL',
-      'latitude' => 'varchar(128) DEFAULT NULL',
-      'longitude' => 'varchar(128) DEFAULT NULL'
-    ),
-    'indexes' => array(
-      'PRIMARY KEY (`id`)',
-      'KEY `type` (`type`)'
-    )
-  );
+  // Things get a little weird here because this was a custom table
+  // that was supposed to work off of apis but that changed to post types
+  // so we ar transforming the data to work with the existing codebase
+
+  public function findAll()
+  {
+    $properties = array();
+    $properties_posts = get_posts(array(
+      'numberposts' => -1,
+      'post_type' => 'property'
+    ));
+
+    foreach ($properties_posts as $property) {
+      $properties[] = $this->parseMeta($property);
+    }
+
+    return $properties;
+  }
 
   public function getProperty($id = false)
   {
@@ -37,17 +29,39 @@ class Property_Model extends Model
       return false;
     }
 
-    $sql = trim("
-      SELECT *
-      FROM   {$this->table_name}
-      WHERE  ID = '%d'
-    ");
+    $property = get_post($id);
 
-    return $this->wpdb->get_results(
-      $this->wpdb->prepare(
-        $sql,
-        $id
-      )
-    );
+    return $this->parseMeta($property);
+  }
+
+  private function parseMeta($property)
+  {
+    $newProperty = (object) array();
+    $meta = Helpers::parseMeta(get_post_custom($property->ID));
+
+    if (empty($meta['property_term'])) {
+      $meta['property_term'] == null;
+    }
+
+    $newProperty->id = $property->ID;
+    $newProperty->title = $property->post_title;
+    $newProperty->type = $meta['property_type'];
+    $newProperty->price = $meta['property_price'];
+    $newProperty->term = $meta['property_term'];
+    $newProperty->sq_footage = $meta['property_sq_footage'];
+    $newProperty->rooms = $meta['property_rooms'];
+    $newProperty->baths = $meta['property_bathrooms'];
+    $newProperty->agent = $meta['property_agent_email'];
+    $newProperty->description = $property->post_content;
+    $newProperty->features = $meta['property_features'];
+    $newProperty->address = $meta['property_address'];
+    $newProperty->city = $meta['property_city'];
+    $newProperty->zip = $meta['property_zip'];
+    $newProperty->state = $meta['property_state'];
+    $newProperty->latitude = $meta['property_latitude'];
+    $newProperty->longitude = $meta['property_longitude'];
+    // $newProperty->pictures = false;
+
+    return $newProperty;
   }
 }
