@@ -63,26 +63,37 @@ class Property_Controller extends Controller
         'property_address' => array(
           'type' => 'text',
           'style' => 'width: 100%;',
-          'field_description' => 'Include apartment/building number/suite.'
+          'field_description' => 'Include apartment/building number/suite.',
+          'data-field-type' => 'address'
         ),
         'property_city' => array(
-          'type' => 'text'
+          'type' => 'text',
+          'data-field-type' => 'city'
         ),
         'property_state' => array(
           'type' => 'text',
-          'length' => 2
+          'length' => 2,
+          'data-field-type' => 'state'
+        ),
+        'property_zip' => array(
+          'type' => 'text',
+          'data-field-type' => 'zip'
         ),
         'property_latitude' => array(
           'type' => 'text',
-          'length' => 50
+          'length' => 50,
+          'data-field-type' => 'latitude'
         ),
         'property_longitude' => array(
           'type' => 'text',
-          'length' => 50
+          'length' => 50,
+          'data-field-type' => 'longitude'
         ),
         'property_get_latlng' => array(
           'type' => 'button',
-          'button_text' => 'Get Coords'
+          'button_text' => 'Get Coords <span class="js-property-admin-loader" style="display:none;"><div style="max-width:.8em;height:auto;margin:0 1em;display:inline-block;"><svg style="width:100%;height:100%" viewBox="0 0 135 140" xmlns="http://www.w3.org/2000/svg" fill="#fff"> <rect y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.5s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.5s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="30" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.25s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.25s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="60" width="15" height="140" rx="6"> <animate attributeName="height" begin="0s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="90" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.25s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.25s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="120" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.5s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.5s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect></svg></div></span>',
+          'data-action' => 'getGeocodes',
+          'label' => false
         )
       )
     ) );

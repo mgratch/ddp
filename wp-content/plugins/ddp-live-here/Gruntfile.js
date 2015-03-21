@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 
       scripts: {
         files: ['framework/assets/js/**/*.js'],
-        tasks: ['concat'],
+        tasks: ['jshint', 'concat'],
         options: {
           spawn: false,
         },
@@ -75,10 +75,75 @@ module.exports = function (grunt) {
           'framework/assets/js/ddpPropertyAdmin.js': ['framework/assets/js/ddpPropertyAdmin.js']
         }
       }
+    },
+
+    jshint: {
+      options: {
+        /*
+         * ENVIRONMENTS
+         * =================
+         */
+
+        // Define globals exposed by modern browsers.
+        "browser": true,
+
+        // Define globals exposed by jQuery.
+        "jquery": true,
+
+        // Define globals exposed by Node.js.
+        "node": true,
+
+        /*
+         * ENFORCING OPTIONS
+         * =================
+         */
+
+        // Force all variable names to use either camelCase style or UPPER_CASE
+        // with underscores.
+        "camelcase": true,
+
+        // Prohibit use of == and != in favor of === and !==.
+        "eqeqeq": true,
+
+        // Enforce tab width of 2 spaces.
+        "indent": 2,
+
+        // Prohibit use of a variable before it is defined.
+        "latedef": true,
+
+        // Enforce line length to 80 characters
+        //"maxlen": 80,
+
+        // Require capitalized names for constructor functions.
+        "newcap": true,
+
+        // Enforce use of single quotation marks for strings.
+        "quotmark": "single",
+
+        // Enforce placing 'use strict' at the top function scope
+        "strict": true,
+
+        // Prohibit use of explicitly undeclared variables.
+        "undef": true,
+
+        // Warn when variables are defined but never used.
+        "unused": true,
+
+        /*
+         * RELAXING OPTIONS
+         * =================
+         */
+
+        // Suppress warnings about == null comparisons.
+        "eqnull": true
+      },
+      files: [
+        'framework/assets/js/src/ddpPropertyAdmin.js'
+      ]
     }
   });
 
   grunt.registerTask('default', ['sass']);
-  grunt.registerTask('compile', ['sass', 'concat', 'uglify']);
-  grunt.registerTask('js', ['concat']);
+  grunt.registerTask('compile', ['sass', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('js', ['jshint', 'concat']);
 };
