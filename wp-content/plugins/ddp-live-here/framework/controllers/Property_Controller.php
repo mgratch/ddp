@@ -190,7 +190,7 @@ class Property_Controller extends Controller
     $response = array();
 
     $vars = array(
-      'property' => array_pop($this->model->getProperty($_GET['property_id']))
+      'property' => $this->model->getProperty($_GET['property_id'])
     );
 
     $response['html'] = base64_encode($this->view->makeView('ajax.detail', $vars));

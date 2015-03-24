@@ -43,9 +43,9 @@ class Property_Model extends Model
       $meta['property_term'] == null;
     }
 
-    $newProperty->id = $property->ID;
+    $newProperty->id = (string) $property->ID;
     $newProperty->title = $property->post_title;
-    $newProperty->type = $meta['property_type'];
+    $newProperty->type = strtolower($meta['property_type']);
     $newProperty->price = $meta['property_price'];
     $newProperty->term = $meta['property_term'];
     $newProperty->sq_footage = $meta['property_sq_footage'];
