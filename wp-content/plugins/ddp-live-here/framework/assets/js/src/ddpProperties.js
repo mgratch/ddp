@@ -95,6 +95,7 @@
   $_scope.View = function() {
     var $_this = this;
     var _el = {};
+    var _hoodRendered = false;
     $_this.map = null;
 
     var init = function() {
@@ -105,6 +106,7 @@
     };
 
     $_this.renderMap = function() {
+
       $_this.map = new GMaps({
         div: '#map',
         lat: 42.331427,
@@ -114,6 +116,10 @@
       });
 
       $_this.map.panBy(($(window).width() / 3) * (-1), 0);
+
+      if (_hoodRendered === false) {
+        $_this.addHoods();
+      }
      };
 
     $_this.addProperties = function(properties) {
@@ -173,6 +179,37 @@
       });
     };
 
+    $_this.addHoods = function() {
+      console.log('called');
+
+      // Load hoods file
+      $.getJSON(ddpProperties_obj.asset_uri+'/data/hoods.json', function(data) {
+        data = data.features;
+        var i = 0;
+        for (i; i < data.length; i++) {
+          var item = data[i];
+
+          if (item.properties.COUNTY.toLowerCase() === 'wayne') {
+            var coords = [];
+            $.each(item.geometry.coordinates[0], function(index, value) {
+              coords.push(new google.maps.LatLng(value[1], value[0]));
+            });
+
+            $_this.map.drawPolygon({
+              paths: coords, // pre-defined polygon shape
+              strokeColor: '#FF0000',
+              strokeOpacity: 1,
+              strokeWeight: 3,
+              fillColor: '#FF0000',
+              fillOpacity: 0.6
+            });
+          }
+        }
+      });
+
+      _hoodRendered = true;
+    };
+
     $_this.loadListings = function(atts) {
       atts = atts || {};
       atts = $.extend({
@@ -194,13 +231,10 @@
       $.get($_scope.ajaxUrl, data, function(response) {
         response = $.parseJSON(response);
 
-        var zz = _el.listingContent.find('ul').first();
-
         atts.$mask.animate({
           opacity: 1
         }, 600, function() {
-          zz.remove();
-          $(Base64.decode(response.html)).appendTo(_el.listingContent);
+          _el.listingContent.html(Base64.decode(response.html));
 
           atts.$mask.animate({
             opacity: 0
@@ -483,7 +517,7 @@
   };
 
   $_scope.App({
-    debug: true
+    debug: false
   });
 
 })(jQuery, window);
