@@ -41,7 +41,7 @@ if [ -f $provisionTemplateDir/db-sync-config.json ]; then
   cd /home/vagrant && sql-sync -c $sqlSyncPasword;
 fi
 
-if [ -f $provisionTemplateDir/migrate-initial.sql.gz &&  ]; then
+if [ -f $provisionTemplateDir/migrate-initial.sql.gz ]; then
   gunzip < $provisionTemplateDir/migrate-initial.sql.gz | mysql -u root -proot $databaseName
 fi
 
