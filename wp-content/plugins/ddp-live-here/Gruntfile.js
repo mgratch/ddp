@@ -59,6 +59,7 @@ module.exports = function (grunt) {
             'framework/assets/js/lib/jquery.bxslider.min.js',
             'framework/assets/js/lib/gmaps.min.js',
             'framework/assets/js/lib/numeral.min.js',
+            'framework/assets/js/lib/Base64.js',
             'framework/assets/js/src/ddpProperties.js'
           ],
           'framework/assets/js/ddpPropertyAdmin.js': [
@@ -126,7 +127,7 @@ module.exports = function (grunt) {
         // Prohibit use of explicitly undeclared variables.
         "undef": true,
 
-        // Warn when variables are defined but never used.
+        // Warn when variables are defined but never used.clear
         "unused": true,
 
         /*
@@ -135,10 +136,12 @@ module.exports = function (grunt) {
          */
 
         // Suppress warnings about == null comparisons.
-        "eqnull": true
+        "eqnull": true,
+
+        "loopfunc": false
       },
       files: [
-        'framework/assets/js/src/ddpPropertyAdmin.js'
+        'framework/assets/js/src/*'
       ]
     }
   });

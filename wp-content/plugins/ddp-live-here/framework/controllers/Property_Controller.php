@@ -134,13 +134,13 @@ class Property_Controller extends Controller
           $p->price = 0;
         }
 
-        if (empty($p->sq_footage)) {
-          $p->sq_footage = 0;
+        if (empty($p->sqFootage)) {
+          $p->sqFootage = 0;
         }
 
         $ranges[$p->type][] = $p->price;
 
-        $ranges['sq_ft'][] = $p->sq_footage;
+        $ranges['sq_ft'][] = $p->sqFootage;
       }
 
       // Make sure we are sending back at least the key

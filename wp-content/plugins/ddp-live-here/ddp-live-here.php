@@ -46,7 +46,7 @@ Config::add(array(
       'ver' => null,
       'footer' => true,
       'ajax' => true,
-      'ajax_obj_name' => 'ddpProperties_obj'
+      'ajax_obj_name' => 'ddpPropertiesObj'
     ),
     'ddpLiveGoogleMapsAPI' => array(
       'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),

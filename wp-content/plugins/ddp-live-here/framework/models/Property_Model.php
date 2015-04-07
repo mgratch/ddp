@@ -48,7 +48,7 @@ class Property_Model extends Model
     $newProperty->type = strtolower($meta['property_type']);
     $newProperty->price = $meta['property_price'];
     $newProperty->term = $meta['property_term'];
-    $newProperty->sq_footage = $meta['property_sq_footage'];
+    $newProperty->sqFootage = $meta['property_sq_footage'];
     $newProperty->rooms = $meta['property_rooms'];
     $newProperty->baths = $meta['property_bathrooms'];
     $newProperty->agent = $meta['property_agent_email'];
