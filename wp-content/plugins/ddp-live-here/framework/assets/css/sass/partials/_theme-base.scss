@@ -172,14 +172,14 @@ button.toggle-content-display {
 }
 
 .listing-details {
-  @include flex-grid( div, baseline, null, left );
+  // @include flex-grid( div, baseline, null, left );
   padding: 0 0 10px;
   border-bottom: solid 1px #b5b5b4;
 }
 
 .listing-detail-price {
-  font-size: rem(29px);
-  line-height: 0.8;
+  font-size: rem(20px);
+  line-height: (28/20);
 }
 
 .listing-detail-features {
