@@ -176,6 +176,25 @@
 
         $html.prependTo(atts.$container);
 
+        atts.$container.find('.js-listing-carousel').show().bxSlider({
+          slideWidth   : '1080',
+          pager        : false,
+          prevText     : '<span class="io-icon-arrow-left"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="371px" height="317px" viewBox="0 0 371 317" enable-background="new 0 0 371 317" xml:space="preserve" version="1.1" id="Layer_1"><polygon fill="currentColor" points="156.438,317 212.272,317 75.079,178 371,178 371,138 76.065,138 212.273,0 156.438,0 0,158.5 "/></svg></span>',
+          nextText     : '<span class="io-icon-arrow-right"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="371.256px" height="317px" viewBox="0 0 371.256 317" enable-background="new 0 0 371.256 317" xml:space="preserve" version="1.1" id="Layer_1"><polygon fill="currentColor" points="214.818,0 158.983,0 296.177,139 0,139 0,179 295.19,179 158.982,317 214.818,317 371.256,158.5 "/></svg></span>',
+          onSliderLoad: function(){
+            jQuery('.slide').eq(1).addClass('current');
+          },
+          onSlideBefore: function(){
+            jQuery('.slide').removeClass('current');
+
+          },
+          onSlideAfter: function(currentSlideNumber, totalSlideQty, currentSlideHtmlObject){
+            totalSlideQty = null;
+            currentSlideNumber = null;
+            jQuery('.slide').eq(currentSlideHtmlObject+1).addClass('current');
+          }
+        });
+
         atts.onComplete($html, data.propertyId);
       });
     };
