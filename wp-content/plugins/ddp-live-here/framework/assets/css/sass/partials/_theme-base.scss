@@ -77,12 +77,21 @@ h6 {
   display: table;
   width: 100%;
 
-  .columned-row {
-    display: table-row;
+  .column {
+    display: table-cell;
+    width: 50%;
+    padding-bottom: 20px;
 
-    & > * {
-      display: table-cell;
-      width: 50%;
+    &:nth-child(odd) {
+      padding-right: 10px;
+    }
+    &:nth-child(even) {
+      padding-left: 10px;
+    }
+
+    & > * + * {
+      border-top: solid 1px #dfdede;
+      padding-top: 10px;
     }
   }
 }

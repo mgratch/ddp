@@ -1,22 +1,10 @@
 /* Filter Form Structure
 -----------------------------------------*/
-.columned-row {
+.column {
 
   & > * {
-    vertical-align: middle;
+    vertical-align: top;
     padding-bottom: 8px;
-
-    &:nth-child(odd) {
-      padding-right: 10px;
-    }
-    &:nth-child(even) {
-      padding-left: 10px;
-    }
-  }
-
-  & + .columned-row > * {
-    border-top: solid 1px #dfdede;
-    padding-top: 10px;
   }
 }
 
