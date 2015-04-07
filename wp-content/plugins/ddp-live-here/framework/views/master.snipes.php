@@ -20,7 +20,7 @@
                   </span>
                   <input type="checkbox" name="ddp-filter-rent-show-available-only" value="rent" class="js-ddp-live-trigger-update js-ddp-live-filter-value" data-ddp-live-data-type="type" checked>
                   <span class="checkbox-label rent-available-only-label">
-                    Only Show Units with Availability
+                    Only Show Available
                   </span>
                 </span>
               </div>
