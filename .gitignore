@@ -10,7 +10,8 @@
 # SYSTEM FILES #
 ################
 .DS_Store
-
+.env
+!.env.example
 # WP FILES #
 ############
 wp-config.php
