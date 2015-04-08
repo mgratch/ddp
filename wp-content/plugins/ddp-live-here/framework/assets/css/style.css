@@ -3054,29 +3054,14 @@ button.toggle-content-display {
 
 /* line 174, sass/partials/_theme-base.scss */
 .listing-details {
-  font-size: 0.1px;
-  text-align: justify;
   padding: 0 0 10px;
   border-bottom: solid 1px #b5b5b4;
-}
-/* line 43, sass/modules/_utils.scss */
-.listing-details:after {
-  content: '';
-  display: inline-block;
-  width: 100%;
-}
-/* line 49, sass/modules/_utils.scss */
-.listing-details > * {
-  display: inline-block;
-  vertical-align: baseline;
-  text-align: left;
-  font-size: 1rem;
 }
 
 /* line 180, sass/partials/_theme-base.scss */
 .listing-detail-price {
-  font-size: 1.8125rem;
-  line-height: 0.8;
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
 /* line 185, sass/partials/_theme-base.scss */
@@ -3215,7 +3200,7 @@ button.toggle-content-display {
 /* line 3, sass/partials/_theme-filter-results-listing.scss */
 .filter-results-listing-content {
   width: calc(100% - 23px);
-  height: calc(100% - 269px);
+  height: calc(100% - 267px);
   padding: 20px 16px 20px 12.5%;
   background-color: white;
   border-right: solid 1px #a29f9f;
@@ -3234,20 +3219,95 @@ button.toggle-content-display {
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 40px 0 92px;
+  padding: 40px 0 20px;
   background-color: white;
   border-right: solid 1px #a29f9f;
 }
 /* line 14, sass/partials/_theme-single-listing-detail.scss */
 .single-listing-detail-content .listing-details {
-  margin-top: 20px;
+  margin-top: 10px;
 }
-/* line 18, sass/partials/_theme-single-listing-detail.scss */
+/* line 17, sass/partials/_theme-single-listing-detail.scss */
+.single-listing-detail-content .listing-detail-name {
+  font-family: "museo_sans500";
+  font-size: 1.625rem;
+  line-height: 1.23077;
+}
+/* line 25, sass/partials/_theme-single-listing-detail.scss */
 .single-listing-detail-content .detail-content {
   margin-top: 12px;
 }
 
-/* line 23, sass/partials/_theme-single-listing-detail.scss */
+/* line 30, sass/partials/_theme-single-listing-detail.scss */
+.listing-unit-types {
+  list-style: none;
+}
+/* line 33, sass/partials/_theme-single-listing-detail.scss */
+.listing-unit-types > * {
+  color: #a4a4a4;
+}
+/* line 36, sass/partials/_theme-single-listing-detail.scss */
+.listing-unit-types > *.available {
+  position: relative;
+  color: inherit;
+}
+/* line 40, sass/partials/_theme-single-listing-detail.scss */
+.listing-unit-types > *.available:after {
+  content: 'AVAILABLE';
+  display: inline-block;
+  color: #ffa01e;
+  padding-left: 22px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE4cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE4IDE2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOCAxNiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PHBhdGggZmlsbD0iI2ZmYTAxZSIgZD0iTTE0LjgyNiAxNS4wNjJIMC45MjJWMC45MzdoMTMuNTVDMTQuODgyIDAuNiAxNS4zIDAuMyAxNS42IDBIMHYxNmgxNS43NVY2LjMzMSBjLTAuMjk5IDAuMzE2LTAuNjA3IDAuNjUxLTAuOTI0IDEuMDA4VjE1LjA2MnoiLz48cGF0aCBmaWxsPSIjZmZhMDFlIiBkPSJNMTcuMTQ4IDEuNDQ2aC0wLjAxMlYxLjQyOGMtMC4xNzItMC4yODEtMC4zNC0wLjU2Mi0wLjQ5NC0wLjg1MmMtMC4zMDkgMC4yMTgtMC42MDUgMC40NDUtMC44OTMgMC43IGMtMC4zMiAwLjI1My0wLjYyNSAwLjUxOC0wLjkyNCAwLjc4N2MtMC4wNDUgMC4wNC0wLjA5MiAwLjA4My0wLjEzNyAwLjEyMmMtMC45MzYgMC44NjItMS44MDMgMS43NzEtMi42MzMgMi43IGMtMC44MjggMC45MzQtMy4yMjMgNC4zOS0zLjY5MyA1LjIwOGMtMC4xMzctMC4yMy0xLjY4Ny0yLjI2Mi0zLjM1My0zLjQ0MUM0LjQ1NyA2LjIgMy45IDUuOSAzLjIgNS42MTFMMi44MjYgNi4zIGMwLjQ5OCAwLjQgMC45IDAuOCAxLjQgMS4yODNDNC42MDQgOC4xIDUgOC42IDUuNCA5LjA5NWMwLjM3OSAwLjUgMC43IDEgMS4xIDEuNiBjMC4zNDcgMC41IDIuMSAzLjEgMi4xIDMuMDk2bDEuMDQ5LTEuNTFjMC42NTktMC45NTUgMS4zODUtMS45MzIgMi4xMTQtMi44NjljMC43MzQtMC45MzYgMS40OS0xLjg1NCAyLjI3My0yLjc0MiBjMC4yNjYtMC4zMDMgMC41MzctMC41OTggMC44MTItMC44OTFjMC4zMDMtMC4zMjQgMC42MTEtMC42NDEgMC45MjQtMC45NDhjMC4yMy0wLjIzNCAwLjQ2NS0wLjQ1OSAwLjcwMy0wLjY3NiBDMTYuOTUxIDMuNyAxNy41IDMuMiAxOCAyLjg1NEMxNy43MyAyLjQgMTcuNCAxLjkgMTcuMSAxLjQ0NnoiLz48L2c+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-position: left 1px;
+  margin-left: 7px;
+}
+
+/* line 56, sass/partials/_theme-single-listing-detail.scss */
+.unit-features.unit-features {
+  font-size: 0.1px;
+  text-align: justify;
+  list-style: none;
+  margin: 0 -5px;
+}
+/* line 43, sass/modules/_utils.scss */
+.unit-features.unit-features:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+}
+/* line 49, sass/modules/_utils.scss */
+.unit-features.unit-features > * {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  font-size: 0.875rem;
+}
+/* line 60, sass/partials/_theme-single-listing-detail.scss */
+.unit-features.unit-features > * {
+  padding: 5px;
+}
+/* line 64, sass/partials/_theme-single-listing-detail.scss */
+.unit-features.unit-features [class*="icon-"] {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ffa01e;
+}
+
+/* line 71, sass/partials/_theme-single-listing-detail.scss */
+.listing-contact-info.listing-contact-info {
+  margin-top: 5px;
+}
+/* line 74, sass/partials/_theme-single-listing-detail.scss */
+.listing-contact-info.listing-contact-info > * {
+  display: block;
+}
+/* line 78, sass/partials/_theme-single-listing-detail.scss */
+.listing-contact-info.listing-contact-info a {
+  color: #ffa01e;
+}
+
+/* line 83, sass/partials/_theme-single-listing-detail.scss */
 .close-detail {
   position: absolute;
   top: 8px;
@@ -3258,28 +3318,28 @@ button.toggle-content-display {
   border-radius: 2px;
 }
 
-/* line 33, sass/partials/_theme-single-listing-detail.scss */
+/* line 93, sass/partials/_theme-single-listing-detail.scss */
 .bx-controls-direction a {
   color: rgba(255, 255, 255, 0);
 }
-/* line 36, sass/partials/_theme-single-listing-detail.scss */
+/* line 96, sass/partials/_theme-single-listing-detail.scss */
 .bx-wrapper:hover .bx-controls-direction a, .bx-wrapper:focus .bx-controls-direction a {
   color: rgba(255, 255, 255, 0.25);
 }
-/* line 40, sass/partials/_theme-single-listing-detail.scss */
+/* line 100, sass/partials/_theme-single-listing-detail.scss */
 .bx-wrapper:hover .bx-controls-direction a:hover, .bx-wrapper:focus .bx-controls-direction a:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* line 46, sass/partials/_theme-single-listing-detail.scss */
+/* line 106, sass/partials/_theme-single-listing-detail.scss */
 .scroll-content {
   height: 100%;
-  padding: 0 20px 20px 12.5%;
+  padding: 0 20px 0 12.5%;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-/* line 53, sass/partials/_theme-single-listing-detail.scss */
+/* line 113, sass/partials/_theme-single-listing-detail.scss */
 .fixed-footer {
   position: absolute;
   bottom: 0;
