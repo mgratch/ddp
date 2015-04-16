@@ -459,11 +459,8 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       var $mask = $scope.mask;
       $mask.prependTo(_View.$listingContent);
 
-      // var properties = filterProperties();
-      // _config.onUpdate(properties);
-
-      var properties = _properties.properties;
-      _currentProperties = properties;
+      var properties = filterProperties();
+      _config.onUpdate(properties);
 
       _View.addProperties(properties);
       _View.loadListings({
@@ -472,81 +469,81 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       });
     };
 
-    // var filterProperties = function() {
-    //   var properties = [];
-    //   var filters = {};
-    //   var types = [];
-    //   var rooms = [];
+    var filterProperties = function() {
+      var properties = [];
+      var filters = {};
+      var types = [];
+      var rooms = [];
 
-    //   _el.filterValues.each(function() {
-    //     var $el = $(this);
-    //     var elType = $el.attr('type');
-    //     var dataType = $el.attr('data-ddp-live-data-type');
-    //     var value;
+      _el.filterValues.each(function() {
+        var $el = $(this);
+        var elType = $el.attr('type');
+        var dataType = $el.attr('data-ddp-live-data-type');
+        var value;
 
-    //     if (elType === 'button') {
-    //       value = $el.attr('data-ddp-live-button-value');
+        if (elType === 'button') {
+          value = $el.attr('data-ddp-live-button-value');
 
-    //       if ($el.hasClass('selected')) {
-    //         rooms.push(value);
-    //       }
-    //     } else {
-    //       value = $el.val();
-    //         if (dataType === 'type' && $el.is(':checked')) {
-    //         types.push(value);
-    //       } else {
-    //         filters[dataType] = value;
-    //       }
-    //     }
-    //   });
+          if ($el.hasClass('selected')) {
+            rooms.push(value);
+          }
+        } else {
+          value = $el.val();
+            if (dataType === 'type' && $el.is(':checked')) {
+            types.push(value);
+          } else {
+            filters[dataType] = value;
+          }
+        }
+      });
 
-    //   filters.type = types;
-    //   filters.rooms = rooms;
+      filters.type = types;
+      filters.rooms = rooms;
 
-    //   if ($scope.debug) {
-    //     console.log('Filters: ');
-    //     console.log(filters);
-    //   }
+      if ($scope.debug) {
+        console.log('Filters: ');
+        console.log(filters);
+      }
 
-    //   for (var i = 0; i < _properties.properties.length; i++) {
-    //     var prop = _properties.properties[i];
+      for (var i = 0; i < _properties.properties.length; i++) {
+        var prop = _properties.properties[i];
 
-    //     if (filters.type.indexOf(prop.type) < 0 ) {
-    //       continue;
-    //     }
+        if (filters.type.indexOf(prop.type) < 0 ) {
+          continue;
+        }
 
-    //     if (! $scope.Helpers.intBetween(
-    //       prop.price,
-    //       filters['min-'+prop.type],
-    //       filters['max-'+prop.type])) {
-    //       continue;
-    //     }
+        if (! $scope.Helpers.intBetween(
+          prop.price,
+          filters['min-'+prop.type],
+          filters['max-'+prop.type])) {
+          continue;
+        }
 
-    //     if (! $scope.Helpers.intBetween(
-    //       prop.sqFootage,
-    //       filters['min-sq-ft'],
-    //       filters['max-sq-ft'])) {
-    //       continue;
-    //     }
+        if (! $scope.Helpers.intBetween(
+          prop.sqFootage,
+          filters['min-sq-ft'],
+          filters['max-sq-ft'])) {
+          continue;
+        }
 
-    //     if (filters.rooms.indexOf(prop.rooms) < 0 ) {
-    //       var continueable = true;
-    //       if (filters.rooms.indexOf('6') >= 0 && Number(prop.rooms) > 6) {
-    //         continueable = false;
-    //       }
+        if (filters.rooms.indexOf(prop.rooms) < 0 ) {
+          var continueable = true;
+          if (filters.rooms.indexOf('6') >= 0 && Number(prop.rooms) > 6) {
+            continueable = false;
+          }
 
-    //       if (continueable) continue;
-    //     }
+          if (continueable) continue;
+        }
 
 
-    //     properties.push(_properties.properties[i]);
-    //   }
+        properties.push(_properties.properties[i]);
+      }
 
-    //   _config.onFilter(properties, filters);
-    //   _currentProperties = properties;
+      _config.onFilter(properties, filters);
+      _currentProperties = properties;
 
-    //   return properties;
-    // };
+      return properties;
+    };
 
     $this.init();
 
@@ -554,7 +551,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
   };
 
   $scope.App({
-    debug: false
+    debug: true
   });
 
 })(jQuery, window);

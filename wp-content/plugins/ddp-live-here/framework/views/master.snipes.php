@@ -18,7 +18,7 @@
                   <span class="sub-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="15px" height="18px" viewBox="0 0 15 18" enable-background="new 0 0 15 18" xml:space="preserve"><path fill="currentColor" d="M15 13.026L6.935 8.051v3.112H4.54c-0.288 0-0.522-0.23-0.522-0.514V0H0v10.649c0 2.5 2 4.5 4.5 4.471h2.395V18 L15 13.026z"/></svg>
                   </span>
-                  <input type="checkbox" name="ddp-filter-rent-show-available-only" value="rent" class="js-ddp-live-trigger-update js-ddp-live-filter-value" data-ddp-live-data-type="type" checked>
+                  <input type="checkbox" name="ddp-filter-rent-show-available-only" value="available" class="js-ddp-live-trigger-update js-ddp-live-filter-value" data-ddp-live-data-type="type" checked>
                   <span class="checkbox-label rent-available-only-label">
                     Only Show Available Units
                   </span>
@@ -37,7 +37,7 @@
           <div class="map-options">
             <span class="form-label">Map Options</span>
             <div class="checkbox-group">
-            <input type="checkbox" name="ddp-filter-map-options" value="district-overlays" class="js-ddp-live-trigger-update js-ddp-live-filter-value" data-ddp-live-data-type="type" checked>
+            <input type="checkbox" name="ddp-filter-map-options" value="district-overlays" class="js-ddp-live-district-overlay" data-ddp-live-data-type="type" checked>
             <span class="checkbox-label">Show District Overlays</span>
             </div>
           </div>
