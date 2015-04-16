@@ -63,6 +63,7 @@ module.exports = function (grunt) {
             'framework/assets/js/src/ddpProperties.js'
           ],
           'framework/assets/js/ddpPropertyAdmin.js': [
+            'framework/assets/js/lib/metabox-geocode.jquery.js',
             'framework/assets/js/src/ddpPropertyAdmin.js'
           ],
         },

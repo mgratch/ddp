@@ -37,22 +37,13 @@ class Property_Controller extends Controller
       'fields' => array(
         'property_type' => array(
           'type' => 'select',
-          'options' => array('Buy', 'Rent')
+          'options' => array('sale' => 'Sale', 'rent' => 'Rent'),
+          'data-js' => 'typeSelect'
         ),
-        'property_price' => array(
+        'property_agent_name' => array(
           'type' => 'text'
         ),
-        'property_term' => array(
-          'type' => 'select',
-          'options' => array('Monthly', 'Yearly')
-        ),
-        'property_sq_footage' => array(
-          'type' => 'text'
-        ),
-        'property_rooms' => array(
-          'type' => 'text'
-        ),
-        'property_bathrooms' => array(
+        'property_agent_phone' => array(
           'type' => 'text'
         ),
         'property_agent_email' => array(
@@ -95,6 +86,69 @@ class Property_Controller extends Controller
           'button_text' => 'Get Coords <span class="js-property-admin-loader" style="display:none;"><div style="max-width:.8em;height:auto;margin:0 1em;display:inline-block;"><svg style="width:100%;height:100%" viewBox="0 0 135 140" xmlns="http://www.w3.org/2000/svg" fill="#fff"> <rect y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.5s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.5s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="30" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.25s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.25s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="60" width="15" height="140" rx="6"> <animate attributeName="height" begin="0s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="90" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.25s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.25s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect> <rect x="120" y="10" width="15" height="120" rx="6"> <animate attributeName="height" begin="0.5s" dur="1s" values="120;110;100;90;80;70;60;50;40;140;120" calcMode="linear" repeatCount="indefinite"/> <animate attributeName="y" begin="0.5s" dur="1s" values="10;15;20;25;30;35;40;45;50;0;10" calcMode="linear" repeatCount="indefinite"/> </rect></svg></div></span>',
           'data-action' => 'getGeocodes',
           'label' => false
+        )
+      )
+    ) );
+
+    $properties->add_meta_box( array(
+      'id' => 'sale-attributes',
+      'context' => 'normal',
+      'fields' => array(
+        'property_bathrooms' => array(
+          'type' => 'text',
+          'label' => 'Bathrooms'
+        ),
+        'property_price' => array(
+          'type' => 'text',
+          'label' => 'Price'
+        ),
+        'property_sq_footage' => array(
+          'type' => 'text',
+          'label' => 'SQ Footage'
+        )
+      )
+    ) );
+
+    $properties->add_meta_box( array(
+      'id' => 'rent-attributes',
+      'context' => 'normal',
+      'fields' => array(
+        'rent_listings' => array(
+          'type' => 'repeat',
+          'fields' => array(
+            'unit_title' => array(
+              'type' => 'text',
+              'field_description' => 'e.g. 1 Bedroom, 3 Bedroom'
+            ),
+            'property_bathrooms' => array(
+              'type' => 'text',
+              'label' => 'Bathrooms'
+            ),
+            'property_price' => array(
+              'type' => 'text',
+              'label' => 'Price'
+            ),
+            'property_sq_footage' => array(
+              'type' => 'text',
+              'label' => 'SQ Footage'
+            ),
+            'property_pets' => array(
+              'type' => 'checkbox',
+              'label' => 'Pets'
+            ),
+            'property_fitness' => array(
+              'type' => 'checkbox',
+              'label' => 'Fitness'
+            ),
+            'property_washer_dryer' => array(
+              'type' => 'checkbox',
+              'label' => 'Washer / Dryer'
+            ),
+            'property_available' => array(
+              'type' => 'checkbox',
+              'label' => 'Currently Available'
+            )
+          )
         )
       )
     ) );
