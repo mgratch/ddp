@@ -97,21 +97,21 @@ class Property_Model extends Model
     return $newListings;
   }
 
-  private function getListingPrice(array $args)
-  {
-    $args = array_merge(array(
-      'property' => false,
-      'type' => false
-    ), $args);
+  // private function getListingPrice(array $args)
+  // {
+  //   $args = array_merge(array(
+  //     'property' => false,
+  //     'type' => false
+  //   ), $args);
 
-    if ($args['type'] == 'rent') {
+  //   if ($args['type'] == 'rent') {
 
-    }
+  //   }
 
-    if ($args['type'] == 'buy') {
+  //   if ($args['type'] == 'buy') {
 
-    }
-  }
+  //   }
+  // }
 
   private function hasAvailable(array $listings)
   {
