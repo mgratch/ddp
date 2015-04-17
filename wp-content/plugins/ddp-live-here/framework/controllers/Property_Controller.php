@@ -14,7 +14,6 @@ class Property_Controller extends Controller
 
     add_action('wp_ajax_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
     add_action('wp_ajax_nopriv_ddpPropertyDetail', array($this, 'getPropertyDetailAjax'));
-
   }
 
   public function postType($type)
@@ -182,51 +181,64 @@ class Property_Controller extends Controller
   {
     $args = $_GET;
     check_ajax_referer('ddpLiveInteractive.js', 'key', true);
-    $response = 'false';
+
+    echo json_encode($this->getProperties());
+    die();
+  }
+
+  private function getProperties()
+  {
+    $response = false;
     $properties = $this->model->findAll();
 
     if ($properties) {
       $response = (object) array();
       $response->properties = $properties;
-      $response->ranges = array();
-      $ranges = array();
-
-      foreach ($properties as $p) {
-        if (empty($p->price)) {
-          $p->price = 0;
-        }
-
-        if (empty($p->sqFootage)) {
-          $p->sqFootage = 0;
-        }
-
-        $ranges[$p->type][] = $p->price;
-
-        $ranges['sq_ft'][] = $p->sqFootage;
-      }
-
-      // Make sure we are sending back at least the key
-      if (!isset($ranges['buy'])) {
-        $ranges['buy'] = array(0);
-      }
-
-      // Make sure we are sending back at least the key
-      if (!isset($ranges['rent'])) {
-        $ranges['rent'] = array(0);
-      }
-
-      foreach ($ranges as $type => $range) {
-        $response->ranges[$type] = array(
-          'min' => min($range),
-          'max' => max($range)
-        );
-      }
-
-      $response = json_encode($response);
+      $response->ranges = $this->getRanges($properties);
     }
 
-    echo $response;
-    die();
+    return $response;
+  }
+
+  private function getRanges(array $properties)
+  {
+    $ranges = array(
+      'price' => array(
+        'rent' => array(
+          'min' => false,
+          'max' => false
+        ),
+        'sale' => array(
+          'min' => false,
+          'max' => false
+        )
+      )
+    );
+
+    $prices = array(
+      'rent' => array(),
+      'sale' => array()
+    );
+
+    foreach ($properties as $property) {
+
+      if ($property->type == 'rent') {
+        foreach ($property->rent->listings as $listing) {
+          $prices['rent'][] = $listing->price;
+        }
+      }
+
+      if ($property->type == 'sale') {
+        $prices['sale'][] = $property->sale->price;
+      }
+    }
+
+    $ranges['price']['rent']['min'] = min($prices['rent']);
+    $ranges['price']['rent']['max'] = max($prices['rent']);
+    $ranges['price']['sale']['min'] = min($prices['sale']);
+    $ranges['price']['sale']['max'] = max($prices['sale']);
+
+    return $ranges;
   }
 
   public function getPropertyListingAjax()

@@ -3,6 +3,7 @@
  *
  * Debounce filter firing.
  * Recenter map on window resize and debounce.
+ * Filtering function could use some refining.
  */
 
 ;( function($, window) {
@@ -19,7 +20,7 @@
   $scope.mapPins = {
     pin: 'M12.113 1C5.976 1 1 6 1 12.113c0 6.2 7.9 17 11.1 23.321c3.18-6.451 11.139-17.449 11.139-23.321 C23.227 6 18.3 1 12.1 1z M12.113 15.679c-1.834 0-3.321-1.487-3.321-3.321s1.487-3.321 3.321-3.321 s3.321 1.5 3.3 3.321S13.947 15.7 12.1 15.679z, M12.113 1c6.138 0 11.1 5 11.1 11.113c0 5.873-7.959 16.87-11.139 23.3 C8.875 29.1 1 18.3 1 12.113C1 6 6 1 12.1 1 M12.113 15.679c1.834 0 3.321-1.487 3.321-3.321 s-1.487-3.321-3.321-3.321s-3.321 1.487-3.321 3.321S10.279 15.7 12.1 15.7 M12.113 0C5.434 0 0 5.4 0 12.1 c0 4.7 4.1 11.5 7.7 17.579c1.354 2.3 2.6 4.4 3.5 6.193l0.904 1.788l0.886-1.797 c0.932-1.891 2.299-4.208 3.747-6.662c3.513-5.957 7.495-12.708 7.495-17.102C24.227 5.4 18.8 0 12.1 0L12.113 0z M12.113 14.679c-1.28 0-2.321-1.041-2.321-2.321s1.042-2.321 2.321-2.321c1.28 0 2.3 1 2.3 2.3 S13.394 14.7 12.1 14.679L12.113 14.679z',
 
-    buy: '#d65b91',
+    sale: '#d65b91',
 
     rent: '#369abd'
   };
@@ -96,15 +97,15 @@
 
   var View = function() {
     var $this = this;
-    var _el = {};
+    var _elements = {};
     var _hoodRendered = false;
     $this.map = null;
 
     var init = function() {
       // Cache Elements
-      _el.listingContainer = $('.js-ddp-live-listing-container');
-      _el.listingContent = _el.listingContainer.find('.js-listing-content');
-      $this.$listingContent = _el.listingContent;
+      _elements.listingContainer = $('.js-ddp-live-listing-container');
+      _elements.listingContent = _elements.listingContainer.find('.js-listing-content');
+      $this.$listingContent = _elements.listingContent;
     };
 
     $this.renderMap = function() {
@@ -254,7 +255,7 @@
         atts.$mask.animate({
           opacity: 1
         }, 600, function() {
-          _el.listingContent.html(window.Base64.decode(response.html));
+          _elements.listingContent.html(window.Base64.decode(response.html));
 
           atts.$mask.animate({
             opacity: 0
@@ -268,11 +269,11 @@
     };
 
     $this.showListings = function() {
-      _el.listingContainer.show();
+      _elements.listingContainer.show();
     };
 
     $this.removeListings = function() {
-      _el.listingContainer.hide();
+      _elements.listingContainer.hide();
     };
 
     init();
@@ -285,7 +286,7 @@
     var _View = new View();
     var _properties = false;
     var _currentProperties = {};
-    var _el = {};
+    var _elements = {};
     $this.filters = {};
     var _config = $.extend({
       debug: false,
@@ -316,24 +317,24 @@
     };
 
     var cacheElements = function() {
-      _el.container = $('.js-live-here');
-      _el.filters = _el.container.find('.js-live-here-filters');
-      _el.sliders = _el.container.find('.js-range-slider');
-      _el.triggers = _el.container.find('.js-ddp-live-trigger-update');
-      _el.filterValues = _el.container.find('.js-ddp-live-filter-value');
-      _el.showListingButton = _el.container.find('.js-show-listings');
-      _el.getDetailButton = _el.container.find('.js-ddp-live-get-detail');
-      _el.interactionContent = _el.container.find('.js-interaction-content');
-      _el.closeDetailButton = _el.container.find('.js-close-detail');
+      _elements.container = $('.js-live-here');
+      _elements.filters = _elements.container.find('.js-live-here-filters');
+      _elements.sliders = _elements.container.find('.js-range-slider');
+      _elements.triggers = _elements.container.find('.js-ddp-live-trigger-update');
+      _elements.filterValues = _elements.container.find('.js-ddp-live-filter-value');
+      _elements.showListingButton = _elements.container.find('.js-show-listings');
+      _elements.getDetailButton = _elements.container.find('.js-ddp-live-get-detail');
+      _elements.interactionContent = _elements.container.find('.js-interaction-content');
+      _elements.closeDetailButton = _elements.container.find('.js-close-detail');
     };
 
     var registerSliders = function() {
-      _el.sliders.each(function() {
+      _elements.sliders.each(function() {
         var $el = $(this),
             type = $el.attr('data-type'),
             ranges = _properties.ranges,
-            min = parseInt(ranges[type].min),
-            max = parseInt(ranges[type].max);
+            min = parseInt(ranges.price[type].min),
+            max = parseInt(ranges.price[type].max);
 
         if (!min) min = 0;
         if (!max) max = 0;
@@ -368,7 +369,7 @@
     };
 
     var bindEvents = function() {
-      _el.triggers.each(function() {
+      _elements.triggers.each(function() {
         var $el = $(this),
             type = $el.attr('type'),
             eType;
@@ -380,7 +381,6 @@
 
           case 'checkbox':
             eType = 'change';
-
           break;
         }
 
@@ -393,13 +393,13 @@
         });
       });
 
-      _el.closeDetailButton.live('click', function() {
+      _elements.closeDetailButton.live('click', function() {
         $scope.currentSlider.destroySlider();
         $('.js-listing-carousel').hide();
         $('.js-ddp-live-detail-container').remove();
       });
 
-      _el.showListingButton.click(function() {
+      _elements.showListingButton.click(function() {
         var $el = $(this);
         var text = $el.find('.js-toggle-label');
 
@@ -415,14 +415,14 @@
         }
       });
 
-      _el.getDetailButton.live('click', function(event) {
+      _elements.getDetailButton.live('click', function(event) {
         event.preventDefault();
         var $el = $(this);
         var id = $el.attr('data-ddp-live-id');
 
        _View.listingDetail({
           propertyId: id,
-          $container: _el.interactionContent
+          $container: _elements.interactionContent
        });
       });
     };
@@ -451,7 +451,7 @@
       var types = [];
       var rooms = [];
 
-      _el.filterValues.each(function() {
+      _elements.filterValues.each(function() {
         var $el = $(this);
         var elType = $el.attr('type');
         var dataType = $el.attr('data-ddp-live-data-type');
@@ -481,6 +481,22 @@
         console.log(filters);
       }
 
+      var listingPriceBetween = function(property) {
+        var rentPriceBetween = false;
+
+        $.each(property.rent.listings, function(i, listing) {
+          if ($scope.Helpers.intBetween(
+            listing.price,
+            filters['min-'+prop.type],
+            filters['max-'+prop.type])) {
+              rentPriceBetween = true;
+              return false;
+          }
+        });
+
+        return rentPriceBetween;
+      };
+
       for (var i = 0; i < _properties.properties.length; i++) {
         var prop = _properties.properties[i];
 
@@ -488,35 +504,35 @@
           continue;
         }
 
-        if (! $scope.Helpers.intBetween(
-          prop.price,
-          filters['min-'+prop.type],
-          filters['max-'+prop.type])) {
-          continue;
-        }
-
-        if (! $scope.Helpers.intBetween(
-          prop.sqFootage,
-          filters['min-sq-ft'],
-          filters['max-sq-ft'])) {
-          continue;
-        }
-
-        if (filters.rooms.indexOf(prop.rooms) < 0 ) {
-          var continueable = true;
-          if (filters.rooms.indexOf('6') >= 0 && Number(prop.rooms) > 6) {
-            continueable = false;
+        if (prop.type === 'sale') {
+          if ($scope.Helpers.intBetween(
+            prop.sale.price,
+            filters['min-'+prop.type],
+            filters['max-'+prop.type])) {
+            continue;
           }
-
-          if (continueable) continue;
         }
 
+        if (prop.type === 'rent') {
+          var propHasPrice = listingPriceBetween(prop);
 
-        properties.push(_properties.properties[i]);
+          if (propHasPrice === false) {
+            continue;
+          }
+        }
+
+        if (filters.type.indexOf('available') > 0 &&
+            prop.type === 'rent' &&
+            prop.availability === false) {
+          continue;
+        }
+
+        properties.push(prop);
       }
 
       _config.onFilter(properties, filters);
       _currentProperties = properties;
+
 
       return properties;
     };
@@ -527,7 +543,7 @@
   };
 
   $scope.App({
-    debug: true
+    debug: false
   });
 
 })(jQuery, window);

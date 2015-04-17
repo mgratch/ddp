@@ -73,7 +73,8 @@ class Property_Model extends Model
     return $newProperty;
   }
 
-  private function transformerListings(array $listings) {
+  private function transformerListings(array $listings)
+  {
     $newListings = array();
 
     foreach($listings as $listing) {
@@ -96,7 +97,24 @@ class Property_Model extends Model
     return $newListings;
   }
 
-  private function hasAvailable(array $listings) {
+  private function getListingPrice(array $args)
+  {
+    $args = array_merge(array(
+      'property' => false,
+      'type' => false
+    ), $args);
+
+    if ($args['type'] == 'rent') {
+
+    }
+
+    if ($args['type'] == 'buy') {
+
+    }
+  }
+
+  private function hasAvailable(array $listings)
+  {
     $availibility = false;
 
     foreach ($listings as $listing) {
