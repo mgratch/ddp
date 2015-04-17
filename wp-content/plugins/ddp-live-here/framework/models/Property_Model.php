@@ -44,16 +44,16 @@ class Property_Model extends Model
     $newProperty->type = strtolower($meta['property_type']);
     $newProperty->availability = $this->hasAvailable($meta['rent_listings']);
     $newProperty->agent = (object) array(
-      'name'  => $meta['property_agent_name'],
-      'phone' => $meta['property_agent_phone'],
-      'email' => $meta['property_agent_email']
+      'name'  => Helpers::emptySet($meta, 'property_agent_name'),
+      'phone' => Helpers::emptySet($meta, 'property_agent_phone'),
+      'email' => Helpers::emptySet($meta, 'property_agent_email')
     );
     if ($newProperty->type == 'sale') {
       $newProperty->sale = (object) array(
-        'price'     => $meta['property_price'],
-        'bedrooms'  => $meta['property_bedrooms'],
-        'bathrooms' => $meta['property_bathrooms'],
-        'sq_feet'   => $meta['property_sq_footage']
+        'price'     => Helpers::emptySet($meta, 'property_price'),
+        'bedrooms'  => Helpers::emptySet($meta, 'property_bedrooms'),
+        'bathrooms' => Helpers::emptySet($meta, 'property_bathrooms'),
+        'sq_feet'   => Helpers::emptySet($meta, 'property_sq_footage')
       );
     }
     if ($newProperty->type == 'rent') {
@@ -62,13 +62,13 @@ class Property_Model extends Model
       );
     }
     $newProperty->description = $property->post_content;
-    $newProperty->features = $meta['property_features'];
-    $newProperty->address = $meta['property_address'];
-    $newProperty->city = $meta['property_city'];
-    $newProperty->zip = $meta['property_zip'];
-    $newProperty->state = $meta['property_state'];
-    $newProperty->latitude = $meta['property_latitude'];
-    $newProperty->longitude = $meta['property_longitude'];
+    $newProperty->features = Helpers::emptySet($meta, 'property_features');
+    $newProperty->address = Helpers::emptySet($meta, 'property_address');
+    $newProperty->city = Helpers::emptySet($meta, 'property_city');
+    $newProperty->zip = Helpers::emptySet($meta, 'property_zip');
+    $newProperty->state = Helpers::emptySet($meta, 'property_state');
+    $newProperty->latitude = Helpers::emptySet($meta, 'property_latitude');
+    $newProperty->longitude = Helpers::emptySet($meta, 'property_longitude');
 
     return $newProperty;
   }
