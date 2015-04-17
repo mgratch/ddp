@@ -41,7 +41,8 @@ class Helpers
     return $slug;
   }
 
-  public static function emptySet($array, $key, $default = null) {
+  public static function emptySet($array, $key, $default = null)
+  {
     return !empty($array[$key]) ? $array[$key] : $default;
   }
 

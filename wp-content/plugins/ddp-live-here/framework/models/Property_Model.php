@@ -78,19 +78,17 @@ class Property_Model extends Model
 
     foreach($listings as $listing) {
       $newListing = (object) array();
-      foreach ($listing as $item) {
-        $newListing->title = Helpers::emptySet($item, 'unit_title');
-        $newListing->bedrooms = Helpers::emptySet($item, 'property_bedrooms');
-        $newListing->bathrooms = Helpers::emptySet($item, 'property_bathrooms');
-        $newListing->price = Helpers::emptySet($item, 'property_price');
-        $newListing->sq_feet = Helpers::emptySet($item, 'property_sq_footage');
-        $newListing->attribues = (object) array(
-          'pets'         => Helpers::emptySet($item, 'property_pets'),
-          'fitness'      => Helpers::emptySet($item, 'property_fitness'),
-          'washer_dryer' => Helpers::emptySet($item, 'property_washer_dryer')
-        );
-        $newListing->available = Helpers::emptySet($item, 'property_available');
-      }
+      $newListing->title = Helpers::emptySet($listing, 'unit_title');
+      $newListing->bedrooms = Helpers::emptySet($listing, 'property_bedrooms');
+      $newListing->bathrooms = Helpers::emptySet($listing, 'property_bathrooms');
+      $newListing->price = Helpers::emptySet($listing, 'property_price');
+      $newListing->sq_feet = Helpers::emptySet($listing, 'property_sq_footage');
+      $newListing->attribues = (object) array(
+        'pets'         => (bool) Helpers::emptySet($listing, 'property_pets', false),
+        'fitness'      => (bool) Helpers::emptySet($listing, 'property_fitness', false),
+        'washer_dryer' => (bool) Helpers::emptySet($listing, 'property_washer_dryer', false)
+      );
+      $newListing->available = Helpers::emptySet($listing, 'property_available');
 
       $newListings[] = $newListing;
     }
