@@ -94,6 +94,10 @@ class Property_Controller extends Controller
       'id' => 'sale-attributes',
       'context' => 'normal',
       'fields' => array(
+        'property_bedrooms' => array(
+          'type' => 'text',
+          'label' => 'Bedrooms'
+        ),
         'property_bathrooms' => array(
           'type' => 'text',
           'label' => 'Bathrooms'
@@ -119,6 +123,10 @@ class Property_Controller extends Controller
             'unit_title' => array(
               'type' => 'text',
               'field_description' => 'e.g. 1 Bedroom, 3 Bedroom'
+            ),
+            'property_bedrooms' => array(
+              'type' => 'text',
+              'label' => 'Bedrooms'
             ),
             'property_bathrooms' => array(
               'type' => 'text',

@@ -41,6 +41,10 @@ class Helpers
     return $slug;
   }
 
+  public static function emptySet($array, $key, $default = null) {
+    return !empty($array[$key]) ? $array[$key] : $default;
+  }
+
   public static function parseOptions($items, $values = ['slug'], $display = 'name')
   {
 
