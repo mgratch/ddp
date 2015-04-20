@@ -189,6 +189,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
 
       if (! atts.$container) return false;
       if (! atts.propertyId) return false;
+
       var data = {
         action: 'ddpPropertyDetail',
         key: $scope.ajaxKey,

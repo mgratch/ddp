@@ -5,6 +5,10 @@ namespace ddp\live;
 class Property_Model extends Model
 {
 
+  public function actions() {
+    //var_dump($this->findAll());
+  }
+
   public function findAll()
   {
     $properties = array();
@@ -107,7 +111,7 @@ class Property_Model extends Model
         'fitness'      => (bool) Helpers::emptySet($listing, 'property_fitness', false),
         'washer_dryer' => (bool) Helpers::emptySet($listing, 'property_washer_dryer', false)
       );
-      $newListing->available = Helpers::emptySet($listing, 'property_available');
+      $newListing->available = (bool) Helpers::emptySet($listing, 'property_available', false);
 
       $newListings[] = $newListing;
     }

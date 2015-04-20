@@ -48,9 +48,6 @@ class Property_Controller extends Controller
         'property_agent_email' => array(
           'type' => 'email'
         ),
-        'property_features' => array(
-          'type' => 'textarea'
-        ),
         'property_address' => array(
           'type' => 'text',
           'style' => 'width: 100%;',
@@ -118,6 +115,26 @@ class Property_Controller extends Controller
       'box_description' => '<p>For low / high value fields, if a range of values is not
        applicable, only fill in the "low" value field.</p>',
       'fields' => array(
+        'property_pets' => array(
+          'type' => 'checkbox',
+          'label' => 'Pets'
+        ),
+        'property_fitness' => array(
+          'type' => 'checkbox',
+          'label' => 'Fitness'
+        ),
+        'property_washer_dryer' => array(
+          'type' => 'checkbox',
+          'label' => 'Washer / Dryer'
+        ),
+        'property_washer_dryer' => array(
+          'type' => 'checkbox',
+          'label' => 'Washer / Dryer'
+        ),
+        'property_parking' => array(
+          'type' => 'checkbox',
+          'label' => 'Parking Included'
+        ),
         'rent_listings' => array(
           'type' => 'repeat',
           'fields' => array(
@@ -148,18 +165,6 @@ class Property_Controller extends Controller
             'property_sq_footage_high' => array(
               'type' => 'text',
               'label' => 'SQ Footage High'
-            ),
-            'property_pets' => array(
-              'type' => 'checkbox',
-              'label' => 'Pets'
-            ),
-            'property_fitness' => array(
-              'type' => 'checkbox',
-              'label' => 'Fitness'
-            ),
-            'property_washer_dryer' => array(
-              'type' => 'checkbox',
-              'label' => 'Washer / Dryer'
             ),
             'property_available' => array(
               'type' => 'checkbox',
@@ -297,7 +302,7 @@ class Property_Controller extends Controller
     $response = array();
 
     $vars = array(
-      'property' => $this->model->getProperty($_GET['property_id'])
+      'property' => $this->model->getProperty($args['propertyId'])
     );
 
     $response['html'] = base64_encode($this->view->makeView('ajax.detail', $vars));

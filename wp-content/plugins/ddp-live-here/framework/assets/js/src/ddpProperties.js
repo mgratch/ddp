@@ -165,6 +165,7 @@
 
       if (! atts.$container) return false;
       if (! atts.propertyId) return false;
+
       var data = {
         action: 'ddpPropertyDetail',
         key: $scope.ajaxKey,

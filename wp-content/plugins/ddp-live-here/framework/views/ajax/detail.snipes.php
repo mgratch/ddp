@@ -21,18 +21,32 @@
       </li>
     </ul>
     <div class="listing-details">
-      <h2 class="listing-detail-name">Robot Arms Apartments</h2>
-      <span class="listing-detail-price">$0,000 - $0,000/month</span>
+      <h2 class="listing-detail-name">{{ $property->title }}</h2>
+      {{-- <span class="listing-detail-price">$0,000 - $0,000/month</span> --}}
+      @if ($property->type === 'sale')
+        {{ $property->price }}
+      @endif
     </div>
     <div class="detail-content">
-      <h3 class="section-title">Units</h3>
-      <ul class="listing-unit-types">
-        <li class="unit-type available">Studio: $850 - $1,000 | 800 - 900 sq.ft.</li>
-        <li class="unit-type">1 Bedroom: $1,350 - $1,500 | 1,000 - 1,200 sq.ft</li>
-        <li class="unit-type available">2 Bedrooms: $1,600 - $1,750 | 1,300 - 1,550 sq.ft.</li>
-      </ul>
+
+      @if ($property->type === 'rent')
+        <h3 class="section-title">Units</h3>
+        <ul class="listing-unit-types">
+          @foreach ($property->rent->listings as $listing)
+            <li class="unit-type {{ $listing->available ? 'available' : null }}">
+              {{ $listing->title }}: ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
+              @if (!empty($listing->sqFeetLow))
+              | {{ $listing->sqFeetLow }} {{ !empty($listing->sqFeetHigh) ? '- ' . $listing->sqFeetHigh : null }} sq.ft.
+              @endif
+            </li>
+          @endforeach
+        </ul>
+      @endif
+
       <h3 class="section-title">Description</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+
+      {{ apply_filters('the_content', $property->description) }}
+
       <h3 class="section-title">Features</h3>
       <ul class="unit-features">
         <li class="unit-feature">
