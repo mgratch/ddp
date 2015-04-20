@@ -220,7 +220,7 @@ class Property_Controller extends Controller
     if ($properties) {
       $response = (object) array();
       $response->properties = $properties;
-      //$response->ranges = $this->getRanges($properties);
+      $response->ranges = $this->getRanges($properties);
     }
 
     return $response;
@@ -250,7 +250,8 @@ class Property_Controller extends Controller
 
       if ($property->type == 'rent') {
         foreach ($property->rent->listings as $listing) {
-          $prices['rent'][] = $listing->price;
+          $prices['rent'][] = $listing->priceHigh;
+          $prices['rent'][] = $listing->priceHigh;
         }
       }
 
@@ -273,8 +274,10 @@ class Property_Controller extends Controller
     check_ajax_referer('ddpLiveInteractive.js', 'key', true);
     $response = array();
 
+    $properties = $this->model->getProperties($args['properties']);
+
     $vars = array(
-      'properties' => $args['properties']
+      'properties' => $properties
     );
 
     $response['html'] = base64_encode($this->view->makeView('ajax.listing', $vars));

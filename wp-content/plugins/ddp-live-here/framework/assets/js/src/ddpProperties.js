@@ -243,10 +243,14 @@
 
       if (! atts.properties) return false;
 
+      var properties = $.map(atts.properties, function(val) {
+        return val.id;
+      });
+
       var data = {
         action: 'ddpPropertyListing',
         key: $scope.ajaxKey,
-        properties: atts.properties
+        properties: properties
       };
 
       $.get($scope.ajaxUrl, data, function(response) {
@@ -486,7 +490,11 @@
 
         $.each(property.rent.listings, function(i, listing) {
           if ($scope.Helpers.intBetween(
-            listing.price,
+            listing.priceLow,
+            filters['min-'+prop.type],
+            filters['max-'+prop.type]) ||
+            $scope.Helpers.intBetween(
+            listing.priceHigh,
             filters['min-'+prop.type],
             filters['max-'+prop.type])) {
               rentPriceBetween = true;
