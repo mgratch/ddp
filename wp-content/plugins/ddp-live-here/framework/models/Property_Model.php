@@ -78,7 +78,13 @@ class Property_Model extends Model
     }
     if ($newProperty->type == 'rent') {
       $newProperty->rent = (object) array(
-        'listings' => $this->transformerListings($meta['rent_listings'])
+        'listings'     => $this->transformerListings($meta['rent_listings']),
+        'attributes'    => (object) array(
+          'pets'         => (bool) Helpers::emptySet($meta, 'property_pets', false),
+          'fitness'      => (bool) Helpers::emptySet($meta, 'property_fitness', false),
+          'washer_dryer' => (bool) Helpers::emptySet($meta, 'property_washer_dryer', false),
+          'parking'      => (bool) Helpers::emptySet($meta, 'property_parking', false)
+        )
       );
     }
     $newProperty->description = $property->post_content;
@@ -106,11 +112,6 @@ class Property_Model extends Model
       $newListing->priceLow = Helpers::emptySet($listing, 'property_price_low');
       $newListing->sqFeetLow = Helpers::emptySet($listing, 'property_sq_footage_low');
       $newListing->sqFeetHigh = Helpers::emptySet($listing, 'property_sq_footage_high');
-      $newListing->attribues = (object) array(
-        'pets'         => (bool) Helpers::emptySet($listing, 'property_pets', false),
-        'fitness'      => (bool) Helpers::emptySet($listing, 'property_fitness', false),
-        'washer_dryer' => (bool) Helpers::emptySet($listing, 'property_washer_dryer', false)
-      );
       $newListing->available = (bool) Helpers::emptySet($listing, 'property_available', false);
 
       $newListings[] = $newListing;
