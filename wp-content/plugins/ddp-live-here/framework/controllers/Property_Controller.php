@@ -90,26 +90,6 @@ class Property_Controller extends Controller
     ) );
 
     $properties->add_meta_box( array(
-      'id' => 'property-photos',
-      'context' => 'normal',
-      'fields' => array(
-        'property_listing_photo' => array(
-          'type' => 'media',
-          'field_description' => 'Minimum Size: 520px x 340px. Aspect Ratio: 26:17'
-        ),
-        'property_photos' => array(
-          'type' => 'repeat',
-          'fields' => array(
-            'photo' => array(
-              'type' => 'media',
-              'field_description' => 'Minimum size: 1080px x 720px. Aspect Ratio: 3:2'
-            )
-          )
-        )
-      )
-    ) );
-
-    $properties->add_meta_box( array(
       'id' => 'sale-attributes',
       'context' => 'normal',
       'fields' => array(
@@ -184,6 +164,26 @@ class Property_Controller extends Controller
             'property_available' => array(
               'type' => 'checkbox',
               'label' => 'Currently Available'
+            )
+          )
+        )
+      )
+    ) );
+
+    $properties->add_meta_box( array(
+      'id' => 'property-photos',
+      'context' => 'normal',
+      'fields' => array(
+        'property_listing_photo' => array(
+          'type' => 'media',
+          'field_description' => 'Minimum Size: 520px x 340px. Aspect Ratio: 26:17'
+        ),
+        'property_photos' => array(
+          'type' => 'repeat',
+          'fields' => array(
+            'photo' => array(
+              'type' => 'media',
+              'field_description' => 'Minimum size: 1080px x 720px. Aspect Ratio: 3:2'
             )
           )
         )
