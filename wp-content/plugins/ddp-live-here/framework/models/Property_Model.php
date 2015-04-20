@@ -82,8 +82,10 @@ class Property_Model extends Model
       $newListing->title = Helpers::emptySet($listing, 'unit_title');
       $newListing->bedrooms = Helpers::emptySet($listing, 'property_bedrooms');
       $newListing->bathrooms = Helpers::emptySet($listing, 'property_bathrooms');
-      $newListing->price = Helpers::emptySet($listing, 'property_price');
-      $newListing->sq_feet = Helpers::emptySet($listing, 'property_sq_footage');
+      $newListing->price_low = Helpers::emptySet($listing, 'property_price_high');
+      $newListing->price_high = Helpers::emptySet($listing, 'property_price_low');
+      $newListing->sq_feet_low = Helpers::emptySet($listing, 'property_sq_footage_low');
+      $newListing->sq_feet_high = Helpers::emptySet($listing, 'property_sq_footage_high');
       $newListing->attribues = (object) array(
         'pets'         => (bool) Helpers::emptySet($listing, 'property_pets', false),
         'fitness'      => (bool) Helpers::emptySet($listing, 'property_fitness', false),

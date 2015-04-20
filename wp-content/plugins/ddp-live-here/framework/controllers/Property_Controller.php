@@ -90,6 +90,22 @@ class Property_Controller extends Controller
     ) );
 
     $properties->add_meta_box( array(
+      'id' => 'property-photos',
+      'context' => 'normal',
+      'fields' => array(
+        'property_photos' => array(
+          'type' => 'repeat',
+          'fields' => array(
+            'photo' => array(
+              'type' => 'media',
+              'field_description' => 'Minimum size: 1080px x 720px'
+            )
+          )
+        )
+      )
+    ) );
+
+    $properties->add_meta_box( array(
       'id' => 'sale-attributes',
       'context' => 'normal',
       'fields' => array(
@@ -204,7 +220,7 @@ class Property_Controller extends Controller
     if ($properties) {
       $response = (object) array();
       $response->properties = $properties;
-      $response->ranges = $this->getRanges($properties);
+      //$response->ranges = $this->getRanges($properties);
     }
 
     return $response;
