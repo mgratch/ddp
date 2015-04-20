@@ -93,12 +93,16 @@ class Property_Controller extends Controller
       'id' => 'property-photos',
       'context' => 'normal',
       'fields' => array(
+        'property_listing_photo' => array(
+          'type' => 'media',
+          'field_description' => 'Minimum Size: 520px x 340px. Aspect Ratio: 26:17'
+        ),
         'property_photos' => array(
           'type' => 'repeat',
           'fields' => array(
             'photo' => array(
               'type' => 'media',
-              'field_description' => 'Minimum size: 1080px x 720px'
+              'field_description' => 'Minimum size: 1080px x 720px. Aspect Ratio: 3:2'
             )
           )
         )
