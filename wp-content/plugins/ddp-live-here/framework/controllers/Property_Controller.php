@@ -115,6 +115,8 @@ class Property_Controller extends Controller
     $properties->add_meta_box( array(
       'id' => 'rent-attributes',
       'context' => 'normal',
+      'box_description' => '<p>For low / high value fields, if a range of values is not
+       applicable, only fill in the "low" value field.</p>',
       'fields' => array(
         'rent_listings' => array(
           'type' => 'repeat',
@@ -131,13 +133,21 @@ class Property_Controller extends Controller
               'type' => 'text',
               'label' => 'Bathrooms'
             ),
-            'property_price' => array(
+            'property_price_low' => array(
               'type' => 'text',
-              'label' => 'Price'
+              'label' => 'Price Low'
             ),
-            'property_sq_footage' => array(
+            'property_price_high' => array(
               'type' => 'text',
-              'label' => 'SQ Footage'
+              'label' => 'Price High'
+            ),
+            'property_sq_footage_low' => array(
+              'type' => 'text',
+              'label' => 'SQ Footage Low'
+            ),
+            'property_sq_footage_high' => array(
+              'type' => 'text',
+              'label' => 'SQ Footage High'
             ),
             'property_pets' => array(
               'type' => 'checkbox',
