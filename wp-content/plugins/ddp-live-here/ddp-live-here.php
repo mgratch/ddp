@@ -77,4 +77,15 @@ Config::add(array(
   )
 ));
 
-new SL_Framework();
+$ddpLive = new SL_Framework();
+
+$ddpLive->event('init', function() {
+  add_image_size(
+    'ddp-live-here-listing',
+    '520',
+    '340',
+    true
+  );
+});
+
+$ddpLive->run();

@@ -4,13 +4,31 @@ namespace ddp\live;
 
 class SL_Framework
 {
+  private $events = array(
+    'init' => array()
+  );
+
   public function __construct()
   {
-    $this->loader();
+
+  }
+
+  public function run() {
+    return $this->loader();
+  }
+
+  public function event($action, $function)
+  {
+    $this->events[$action][] = $function;
   }
 
   public function loader()
   {
+
+    foreach ($this->events['init'] as $init) {
+      $init();
+    }
+
     $this->registerAssets();
 
     $directories = array(

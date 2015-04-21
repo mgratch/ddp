@@ -2622,6 +2622,11 @@ body {
 }
 
 /* line 11, sass/partials/_elements-global.scss */
+.ddp-live-info-window {
+  max-width: 200px;
+}
+
+/* line 15, sass/partials/_elements-global.scss */
 [class*="io-icon"] {
   display: inline-block;
   vertical-align: baseline;
@@ -2629,13 +2634,13 @@ body {
   width: 1em;
   height: 1em;
 }
-/* line 18, sass/partials/_elements-global.scss */
+/* line 22, sass/partials/_elements-global.scss */
 [class*="io-icon"] svg {
   width: 100%;
   height: 100%;
 }
 
-/* line 24, sass/partials/_elements-global.scss */
+/* line 28, sass/partials/_elements-global.scss */
 button {
   -webkit-appearance: none;
   font-size: 0.9375rem;
@@ -2643,131 +2648,131 @@ button {
   border: none;
   background-color: transparent;
 }
-/* line 31, sass/partials/_elements-global.scss */
+/* line 35, sass/partials/_elements-global.scss */
 .button-group button {
   padding: 5px 8px 4px;
 }
-/* line 34, sass/partials/_elements-global.scss */
+/* line 38, sass/partials/_elements-global.scss */
 .button-group button:nth-of-type(n) {
   border-top: solid 1px #c9c9c9;
   border-bottom: solid 1px #c9c9c9;
   border-left: solid 1px #c9c9c9;
 }
-/* line 41, sass/partials/_elements-global.scss */
+/* line 45, sass/partials/_elements-global.scss */
 .button-group button:first-of-type {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-/* line 47, sass/partials/_elements-global.scss */
+/* line 51, sass/partials/_elements-global.scss */
 .button-group button:last-of-type {
   border-right: solid 1px #c9c9c9;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-/* line 55, sass/partials/_elements-global.scss */
+/* line 59, sass/partials/_elements-global.scss */
 .button-group button:hover, .button-group button.selected {
   background-color: #e8e9e4;
 }
-/* line 61, sass/partials/_elements-global.scss */
+/* line 65, sass/partials/_elements-global.scss */
 button[class*="-button"] {
   font-family: "museo_sans500";
   text-transform: uppercase;
   color: white;
 }
-/* line 67, sass/partials/_elements-global.scss */
+/* line 71, sass/partials/_elements-global.scss */
 button.action-button, button.cta-button {
   width: 100%;
   background-color: #36b3ce;
   border-radius: 2px;
 }
-/* line 73, sass/partials/_elements-global.scss */
+/* line 77, sass/partials/_elements-global.scss */
 button.action-button {
   padding: 6px 10px 5px;
 }
-/* line 76, sass/partials/_elements-global.scss */
+/* line 80, sass/partials/_elements-global.scss */
 button.cta-button {
   font-family: "museo_sans500";
   font-size: 1.625rem;
   text-transform: capitalize;
   padding: 14px 14px 13px;
 }
-/* line 85, sass/partials/_elements-global.scss */
+/* line 89, sass/partials/_elements-global.scss */
 button.toggle-button {
   padding: 5px 10px 6px;
   font-size: 0.8125rem;
   background-color: #b8c733;
 }
-/* line 90, sass/partials/_elements-global.scss */
+/* line 94, sass/partials/_elements-global.scss */
 button.toggle-button .io-icon-arrow-up {
   font-size: 0.92308em;
   width: 0.92308em;
   height: 0.92308em;
 }
-/* line 95, sass/partials/_elements-global.scss */
+/* line 99, sass/partials/_elements-global.scss */
 button.toggle-button .io-icon-arrow-up svg {
   transform: rotate(0deg);
   transition: transform 0.25s ease;
 }
-/* line 101, sass/partials/_elements-global.scss */
+/* line 105, sass/partials/_elements-global.scss */
 button.toggle-button.closed .io-icon-arrow-up svg {
   transform: rotate(180deg);
 }
 
-/* line 107, sass/partials/_elements-global.scss */
+/* line 111, sass/partials/_elements-global.scss */
 .form-label,
 .checkbox-label {
   font-size: 0.9375rem;
 }
-/* line 113, sass/partials/_elements-global.scss */
+/* line 117, sass/partials/_elements-global.scss */
 .button-group .form-label, .button-group
 .checkbox-label {
   display: block;
 }
 
-/* line 118, sass/partials/_elements-global.scss */
+/* line 122, sass/partials/_elements-global.scss */
 .form-label {
   display: block;
 }
 
-/* line 124, sass/partials/_elements-global.scss */
+/* line 128, sass/partials/_elements-global.scss */
 .checkbox-label .io-icon-map-marker {
   vertical-align: bottom;
   height: 1.73333em;
 }
-/* line 129, sass/partials/_elements-global.scss */
+/* line 133, sass/partials/_elements-global.scss */
 .checkbox-label.rent-label {
   color: #369abd;
 }
-/* line 132, sass/partials/_elements-global.scss */
+/* line 136, sass/partials/_elements-global.scss */
 .checkbox-label.sale-label {
   color: #d65b91;
 }
 
-/* line 136, sass/partials/_elements-global.scss */
+/* line 140, sass/partials/_elements-global.scss */
 .sub-checkbox-group {
   display: block;
   line-height: 1.2;
   padding-left: 5px;
 }
-/* line 141, sass/partials/_elements-global.scss */
+/* line 145, sass/partials/_elements-global.scss */
 .rent-label + .sub-checkbox-group {
   color: #369abd;
 }
-/* line 144, sass/partials/_elements-global.scss */
+/* line 148, sass/partials/_elements-global.scss */
 .sale-label + .sub-checkbox-group {
   color: #d65b91;
 }
-/* line 148, sass/partials/_elements-global.scss */
+/* line 152, sass/partials/_elements-global.scss */
 .sub-checkbox-group .sub-arrow {
   opacity: 0.5;
 }
 
-/* line 153, sass/partials/_elements-global.scss */
+/* line 157, sass/partials/_elements-global.scss */
 .ui-corner-all {
   border-radius: 2px;
 }
 
-/* line 157, sass/partials/_elements-global.scss */
+/* line 161, sass/partials/_elements-global.scss */
 .ui-slider-horizontal {
   height: 10px;
   border: none;
@@ -2775,7 +2780,7 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   background-image: none;
   margin: 5px 10px;
 }
-/* line 166, sass/partials/_elements-global.scss */
+/* line 170, sass/partials/_elements-global.scss */
 .ui-slider-horizontal:after {
   content: '';
   display: block;
@@ -2788,7 +2793,7 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   background: #c2c0c0;
 }
 
-/* line 178, sass/partials/_elements-global.scss */
+/* line 182, sass/partials/_elements-global.scss */
 .ui-widget-header.ui-widget-header {
   top: 50%;
   transform: translateY(-50%);
@@ -2796,7 +2801,7 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   background: #ffa01e;
 }
 
-/* line 184, sass/partials/_elements-global.scss */
+/* line 188, sass/partials/_elements-global.scss */
 .ui-slider-handle.ui-slider-handle {
   width: 20px;
   height: 20px;
@@ -2806,7 +2811,7 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   border: solid 1px #c2c0c0;
   margin-left: -10px;
 }
-/* line 193, sass/partials/_elements-global.scss */
+/* line 197, sass/partials/_elements-global.scss */
 .ui-slider-handle.ui-slider-handle:before {
   content: '';
   display: inline-block;
@@ -2818,7 +2823,7 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' width='7px' height='12px' viewBox='0 0 7 12' enable-background='new 0 0 7 12' xml:space='preserve'><g><rect fill='#dfdede' width='1' height='12'/><rect fill='#dfdede' x='3' width='1' height='12'/><rect fill='#dfdede' x='6' width='1' height='12'/></g></svg>");
 }
 
-/* line 205, sass/partials/_elements-global.scss */
+/* line 209, sass/partials/_elements-global.scss */
 .value-display-wrap {
   font-size: 0.1px;
   text-align: justify;
@@ -2837,12 +2842,12 @@ button.toggle-button.closed .io-icon-arrow-up svg {
   text-align: left;
   font-size: 0.9375rem;
 }
-/* line 209, sass/partials/_elements-global.scss */
+/* line 213, sass/partials/_elements-global.scss */
 .value-display-wrap .denomination {
   display: none;
   visibility: hidden;
 }
-/* line 213, sass/partials/_elements-global.scss */
+/* line 217, sass/partials/_elements-global.scss */
 .monetary .value-display-wrap .denomination {
   display: inline;
   visibility: visible;

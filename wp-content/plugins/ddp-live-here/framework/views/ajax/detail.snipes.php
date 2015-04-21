@@ -2,24 +2,17 @@
   <button type="button" class="js-close-detail close-detail"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 15 15" enable-background="new 0 0 15 15" xml:space="preserve" version="1.1" id="Layer_1"><polygon fill="currentColor" points="15,12.603 9.897,7.5 15,2.397 12.603,0 7.5,5.103 2.397,0 0,2.397 5.103,7.5 0,12.603 2.397,15 7.5,9.897 12.603,15"/></svg></button>
 
   <div class="scroll-content">
-    <ul class="listing-carousel js-listing-carousel">
-      <li class="slide">
-        <!-- ASPECT RATIO 3:2 - 1080x720px -->
-        <img src="http://fillmurray.com/1080/720">
-      </li>
-      <li class="slide">
-        <!-- ASPECT RATIO 3:2 - 1080x720px -->
-        <img src="http://fillmurray.com/1080/720">
-      </li>
-      <li class="slide">
-        <!-- ASPECT RATIO 3:2 - 1080x720px -->
-        <img src="http://fillmurray.com/1080/720">
-      </li>
-      <li class="slide">
-        <!-- ASPECT RATIO 3:2 - 1080x720px -->
-        <img src="http://fillmurray.com/1080/720">
-      </li>
-    </ul>
+    @if ($property->images->detailImages)
+      <ul class="listing-carousel js-listing-carousel">
+        @foreach ($property->images->detailImages as $number => $image)
+          <li class="slide">
+            {{-- ASPECT RATIO 3:2 - 1080x720px --}}
+            <img src="{{ $image[0] }}" alt="{{ $property->title }} Photo #{{ $number }}">
+          </li>
+        @endforeach
+      </ul>
+    @endif
+
     <div class="listing-details">
       <h2 class="listing-detail-name">{{ $property->title }}</h2>
       {{-- <span class="listing-detail-price">$0,000 - $0,000/month</span> --}}
@@ -98,7 +91,9 @@
         @if (!empty($property->agent->phone))
           <span class="listing-contact-phone">t: <a href="tel:{{ $property->agent->phone }}">{{ $property->agent->phone }}</a></span>
         @endif
-        <span class="listing-contact-email">e: <a href="mailto:{{ $property->agent->email }}">{{ $property->agent->email }}</a></span>
+        @if ($property->agent->email)
+          <span class="listing-contact-email">e: <a href="mailto:{{ $property->agent->email }}">{{ $property->agent->email }}</a></span>
+        @endif
         {{-- <span class="listing-contact-website">w: <a href="">smithandsmith.com</a></span> --}}
       </div>
     </div>

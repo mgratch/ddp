@@ -4,11 +4,16 @@
     <a href="#" class="js-ddp-live-get-detail" data-ddp-live-id="{{ $property->id }}">
       <div class="listing-image">
         <!-- ASPECT RATIO 26:17 - 520x340px -->
-        <img src="http://placehold.it/520x340">
+        @if ($property->images->listingImage)
+          <img src="{{ $property->images->listingImage[0] }}" alt="{{ $property->title }}">
+        @else
+          <img src="http://placehold.it/520x340&text=N/A">
+        @endif
 
         <div class="listing-price">
           @if ($property->type === 'rent')
-
+            ${{ $property->rent->pricing->lowest or null }}
+            {{ $property->rent->pricing->highest > 0 ? '- '. $property->rent->pricing->highest : null }}
           @endif
 
           @if ($property->type === 'sale')

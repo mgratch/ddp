@@ -6,7 +6,8 @@ class Property_Model extends Model
 {
 
   public function actions() {
-    //var_dump($this->findAll());
+    // var_dump($this->findAll());
+    // $this->findAll();
   }
 
   public function findAll()
@@ -59,6 +60,22 @@ class Property_Model extends Model
       array('rent_listings')
     );
 
+    $imageURL = function($image_id = false, $crop = 'full') {
+      if ($image_id === false) {
+        return false;
+      }
+
+      return wp_get_attachment_image_src(
+        $image_id,
+        $crop,
+        false
+      );
+    };
+
+    $filterMetaValues = function($values, $function) {
+      return $function($values);
+    };
+
     $newProperty->id = (string) $property->ID;
     $newProperty->title = $property->post_title;
     $newProperty->type = strtolower($meta['property_type']);
@@ -84,7 +101,29 @@ class Property_Model extends Model
           'fitness'      => (bool) Helpers::emptySet($meta, 'property_fitness', false),
           'washer_dryer' => (bool) Helpers::emptySet($meta, 'property_washer_dryer', false),
           'parking'      => (bool) Helpers::emptySet($meta, 'property_parking', false)
-        )
+        ),
+        'pricing' => $filterMetaValues($meta['rent_listings'], function($values) {
+            $range = array(
+              'lowest' => 9999999999999,
+              'highest' => 0
+            );
+
+            foreach ($values as $listing) {
+              if ($listing['property_price_high'] > (int) $range['highest']) {
+                $range['highest'] = (int) $listing['property_price_high'];
+              }
+
+              if ($listing['property_price_low'] < (int) $range['lowest']) {
+                $range['lowest'] = (int) $listing['property_price_low'];
+              }
+            }
+
+            if ($range['lowest'] === 9999999999999) {
+              $range['lowest'] = 0;
+            }
+
+            return (object) $range;
+        })
       );
     }
     $newProperty->description = $property->post_content;
@@ -95,6 +134,28 @@ class Property_Model extends Model
     $newProperty->state = Helpers::emptySet($meta, 'property_state');
     $newProperty->latitude = Helpers::emptySet($meta, 'property_latitude');
     $newProperty->longitude = Helpers::emptySet($meta, 'property_longitude');
+    $newProperty->images = (object) array(
+      'listingImage' => $imageURL(
+        $meta['property_listing_photo'],
+        'ddp-live-here-listing'
+      ),
+      'detailImages' => $filterMetaValues($meta['property_photos'], function($values) {
+        if (empty($values)) {
+          return false;
+        }
+
+        $photoURL = array();
+        foreach ($values as $photo) {
+          $photoURL[] = wp_get_attachment_image_src(
+            $photo['photo'],
+            'full',
+            null
+          );
+        }
+
+        return $photoURL;
+      })
+    );
 
     return $newProperty;
   }

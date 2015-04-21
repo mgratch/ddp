@@ -139,7 +139,7 @@ module.exports = function (grunt) {
         // Suppress warnings about == null comparisons.
         "eqnull": true,
 
-        "loopfunc": false
+        "loopfunc": true
       },
       files: [
         'framework/assets/js/src/*'

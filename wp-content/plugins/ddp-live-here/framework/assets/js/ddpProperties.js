@@ -86,6 +86,11 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       }
 
       return false;
+    },
+
+    isFunction: function(functionToCheck) {
+     var getType = {};
+     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
     }
   };
 
@@ -145,7 +150,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       $this.map.panBy(($(window).width() / 3) * (-1), 0);
 
       if (_hoodRendered === false) {
-        // $this.addHoods();
+        $this.addHoods();
       }
      };
 
@@ -153,29 +158,35 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       if (properties) {
         $this.map.removeMarkers();
 
-        for (var i = 0; i < properties.length; i++) {
-          if ($scope.Helpers.exists(properties[i].latitude) && $scope.Helpers.exists(properties[i].longitude)) {
+        var domCheck = setTimeout(function() {
+          if ($('.listing-item').length) {
+            for (var i = 0; i < properties.length; i++) {
+              if ($scope.Helpers.exists(properties[i].latitude) && $scope.Helpers.exists(properties[i].longitude)) {
 
-            $this.map.addMarker({
-              lat: properties[i].latitude,
-              lng: properties[i].longitude,
-              title: properties[i].title,
-              animation: window.google.maps.Animation.DROP,
-              icon: {
-                path: $scope.mapPins.pin,
-                fillColor: $scope.mapPins[properties[i].type],
-                fillOpacity: 1,
-                strokeColor: '#ffffff',
-                strokeWeight: 1,
-                scale: 1,
-                anchor: {x: 24, y: 38}
-              },
-              infoWindow: {
-                content: 'this.content'
+                $this.map.addMarker({
+                  lat: properties[i].latitude,
+                  lng: properties[i].longitude,
+                  title: properties[i].title,
+                  //animation: window.google.maps.Animation.DROP,
+                  icon: {
+                    path: $scope.mapPins.pin,
+                    fillColor: $scope.mapPins[properties[i].type],
+                    fillOpacity: 1,
+                    strokeColor: '#ffffff',
+                    strokeWeight: 1,
+                    scale: 1,
+                    anchor: {x: 24, y: 38}
+                  },
+                  infoWindow: {
+                    content: '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '</div>'
+                  }
+                });
               }
-            });
+            }
+
+            clearInterval(domCheck);
           }
-        }
+        }, 2000);
       }
     };
 
@@ -227,36 +238,36 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       });
     };
 
-    // $this.addHoods = function() {
-    //   console.log('called');
+    $this.addHoods = function() {
+      console.log('called');
 
-    //   // Load hoods file
-    //   $.getJSON(window.ddpPropertiesObj.assetUri+'/data/hoods.json', function(data) {
-    //     data = data.features;
-    //     var i = 0;
-    //     for (i; i < data.length; i++) {
-    //       var item = data[i];
+      // Load hoods file
+      $.getJSON(window.ddpPropertiesObj.assetUri+'/data/hoods.json', function(data) {
+        data = data.features;
+        var i = 0;
+        for (i; i < data.length; i++) {
+          var item = data[i];
 
-    //       if (item.properties.COUNTY.toLowerCase() === 'wayne') {
-    //         var coords = [];
-    //         $.each(item.geometry.coordinates[0], function(index, value) {
-    //           coords.push(new window.gogle.maps.LatLng(value[1], value[0]));
-    //         });
+            var coords = [];
+            $.each(item.geometry.coordinates[0], function(index, value) {
+              coords.push(new window.google.maps.LatLng(value[1], value[0]));
+            });
 
-    //         $this.map.drawPolygon({
-    //           paths: coords, // pre-defined polygon shape
-    //           strokeColor: '#FF0000',
-    //           strokeOpacity: 1,
-    //           strokeWeight: 3,
-    //           fillColor: '#FF0000',
-    //           fillOpacity: 0.6
-    //         });
-    //       }
-    //     }
-    //   });
+            var zz = $this.map.drawPolygon({
+              paths: coords, // pre-defined polygon shape
+              strokeColor: '#FF0000',
+              strokeOpacity: 1,
+              strokeWeight: 3,
+              fillColor: '#FF0000',
+              fillOpacity: 0.6
+            });
 
-    //   _hoodRendered = true;
-    // };
+            console.log(zz);
+          }
+      });
+
+      _hoodRendered = true;
+    };
 
     $this.loadListings = function(atts) {
       atts = atts || {};
@@ -423,7 +434,9 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       });
 
       _elements.closeDetailButton.live('click', function() {
-        $scope.currentSlider.destroySlider();
+        if ($scope.Helpers.isFunction($scope.currentSlider.destroySlider)) {
+          $scope.currentSlider.destroySlider();
+        }
         $('.js-listing-carousel').hide();
         $('.js-ddp-live-detail-container').remove();
       });
@@ -467,10 +480,12 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       var properties = filterProperties();
       _config.onUpdate(properties);
 
-      _View.addProperties(properties);
       _View.loadListings({
         $mask: $mask,
-        properties: _currentProperties
+        properties: _currentProperties,
+        onComplete: function() {
+          _View.addProperties(properties);
+        }
       });
     };
 
