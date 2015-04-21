@@ -61,7 +61,7 @@ class Super_CPT {
 	function load_js_and_css() {
 		add_action('admin_enqueue_scripts', function() {
 			wp_register_style( 'supercpt.css', $this->config['plugin_url'] . 'css/supercpt.css', array(), '0.2.0' );
-			wp_register_script( 'supercpt.js', $this->config['plugin_url'] . 'js/supercpt.js', array( 'jquery', 'jquery-ui-core' ), '0.2.1' );
+			wp_register_script( 'supercpt-ddp-live.js', $this->config['plugin_url'] . 'js/supercpt.js', array( 'jquery', 'jquery-ui-core' ), '0.2.1' );
 			wp_enqueue_style( 'supercpt.css' );
 		});
 	}

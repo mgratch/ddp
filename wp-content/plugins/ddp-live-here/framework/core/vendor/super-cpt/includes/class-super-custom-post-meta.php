@@ -4,10 +4,11 @@ namespace ddp\live;
 
 $scpt_known_custom_fields = array();
 
+
 /**
 * Easy as pie Custom post meta
 */
-class Super_Custom_Post_Meta extends Super_CPT {
+class Super_Custom_Post_Meta {
 
 
   /**
@@ -672,13 +673,13 @@ class Super_Custom_Post_Meta extends Super_CPT {
       'style' => ( $value ? 'display:none' : '' )
       ), $html_attributes ), sprintf( __( '%s', 'super-cpt' ), $button_text ) )
     );
-    echo SCPT_Markup::tag( 'input', array(
+    echo SCPT_Markup::tag( 'input', array_merge(array(
       'type'  => 'hidden',
       'value' => $value,
       'name'  => $field['name'],
       'class' => 'scpt-media-id',
       'id'    => 'scpt_meta_' . $field['name']
-    ) );
+    ), $html_attributes) );
   }
 
 
@@ -886,7 +887,7 @@ class Super_Custom_Post_Meta extends Super_CPT {
   public function add_media_js() {
     global $post;
     wp_enqueue_media( array( 'post' => $post ) );
-    wp_enqueue_script( 'supercpt.js' );
+    wp_enqueue_script( 'supercpt-ddp-live.js' );
   }
 
 
@@ -976,6 +977,3 @@ class Super_Custom_Post_Meta extends Super_CPT {
 
 
 }
-
-
-?>
