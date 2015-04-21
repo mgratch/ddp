@@ -9,8 +9,6 @@
 ;( function($, window) {
   'use strict';
 
-  var GMaps = window.GMaps;
-
   var $scope = {
     ajaxUrl: window.ddpPropertiesObj.ajaxUrl,
     ajaxKey: window.ddpPropertiesObj.key,
@@ -104,6 +102,7 @@
     var $this = this;
     var _elements = {};
     var _hoodRendered = false;
+    var _markers = [];
     $this.map = null;
 
     var init = function() {
@@ -115,35 +114,38 @@
 
     $this.renderMap = function() {
 
-      $this.map = new GMaps({
-        div: '#map',
-        lat: 42.331427,
-        lng: -83.045754,
-        scrollwheel: false,
-        zoom: 14
-      });
+      var options = {
+        zoom: 14,
+        center: new window.google.maps.LatLng(42.331427,-83.045754),
+        scrollwheel: false
+      };
+
+      $this.map = new window.google.maps.Map(document.getElementById('map'), options);
 
       $this.map.panBy(($(window).width() / 3) * (-1), 0);
 
       if (_hoodRendered === false) {
-        $this.addHoods();
+        //$this.addHoods();
       }
      };
 
     $this.addProperties = function(properties) {
       if (properties) {
-        $this.map.removeMarkers();
+        console.log(_markers);
+        $.each(_markers, function(i, val) {
+          val.marker.setMap(null);
+        });
+
+        _markers = [];
 
         var domCheck = setTimeout(function() {
           if ($('.listing-item').length) {
             for (var i = 0; i < properties.length; i++) {
               if ($scope.Helpers.exists(properties[i].latitude) && $scope.Helpers.exists(properties[i].longitude)) {
 
-                $this.map.addMarker({
-                  lat: properties[i].latitude,
-                  lng: properties[i].longitude,
-                  title: properties[i].title,
-                  //animation: window.google.maps.Animation.DROP,
+                var marker = new window.google.maps.Marker({
+                  map: $this.map,
+                  position: new window.google.maps.LatLng(properties[i].latitude, properties[i].longitude),
                   icon: {
                     path: $scope.mapPins.pin,
                     fillColor: $scope.mapPins[properties[i].type],
@@ -152,11 +154,29 @@
                     strokeWeight: 1,
                     scale: 1,
                     anchor: {x: 24, y: 38}
-                  },
-                  infoWindow: {
-                    content: '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '</div>'
                   }
                 });
+
+                _markers.push({
+                  id: properties[i].id,
+                  marker: marker
+                });
+
+
+                // Attach Infowindows
+                // There may be a better way of doing this but it just needs to get done
+                $.each(_markers, function(i, val) {
+                  if (val.id === properties[i].id) {
+                    var infowindow = new window.google.maps.InfoWindow({
+                        content: '<div class="ddp-live-info-window js-ddp-live-here-infowindow" data-property-id="'+val.id+'">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '</div>'
+                    });
+
+                    window.google.maps.event.addListener(val.marker, 'click', function() {
+                      infowindow.open($this.map, val.marker);
+                    });
+                  }
+                });
+
               }
             }
 
@@ -216,6 +236,7 @@
 
     $this.addHoods = function() {
       console.log('called');
+      var polys = [];
 
       // Load hoods file
       $.getJSON(window.ddpPropertiesObj.assetUri+'/data/hoods.json', function(data) {
@@ -229,7 +250,7 @@
               coords.push(new window.google.maps.LatLng(value[1], value[0]));
             });
 
-            $this.map.drawPolygon({
+            var zz = $this.map.drawPolygon({
               paths: coords, // pre-defined polygon shape
               strokeColor: '#FF0000',
               strokeOpacity: 1,
@@ -237,16 +258,21 @@
               fillColor: '#FF0000',
               fillOpacity: 0.6
             });
+
+            polys.push(zz);
           }
+
+          setTimeout(function() {
+            $.each(polys, function(i, val) {
+              console.log(val);
+              val.visible = false;
+            });
+          }, 7000);
+
+          console.log(polys);
+          console.log($this.map);
+
       });
-
-      console.log($this.map);
-
-      setTimeout(function() {
-        $this.map.polygons.each(function() {
-          this.visible = false;
-        });
-      }, 5000);
 
       _hoodRendered = true;
     };
@@ -391,6 +417,17 @@
     };
 
     var bindEvents = function() {
+
+      $('.js-ddp-live-here-infowindow').live('click', function() {
+        var $el = $(this);
+        var propertyID = $el.attr('data-property-id');
+
+          _View.listingDetail({
+            propertyId: propertyID,
+            $container: _elements.interactionContent
+         });
+      });
+
       _elements.triggers.each(function() {
         var $el = $(this),
             type = $el.attr('type'),
@@ -571,6 +608,7 @@
 
     return $this;
   };
+
 
   $scope.App({
     debug: false

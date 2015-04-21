@@ -148,6 +148,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['sass']);
-  grunt.registerTask('compile', ['sass', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('compile', ['sass', 'autoprefixer', 'jshint', 'concat', 'uglify']);
   grunt.registerTask('js', ['jshint', 'concat']);
 };
