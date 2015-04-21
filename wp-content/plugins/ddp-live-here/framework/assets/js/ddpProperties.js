@@ -253,7 +253,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
               coords.push(new window.google.maps.LatLng(value[1], value[0]));
             });
 
-            var zz = $this.map.drawPolygon({
+            $this.map.drawPolygon({
               paths: coords, // pre-defined polygon shape
               strokeColor: '#FF0000',
               strokeOpacity: 1,
@@ -261,10 +261,16 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
               fillColor: '#FF0000',
               fillOpacity: 0.6
             });
-
-            console.log(zz);
           }
       });
+
+      console.log($this.map);
+
+      setTimeout(function() {
+        $this.map.polygons.each(function() {
+          this.visible = false;
+        });
+      }, 5000);
 
       _hoodRendered = true;
     };
