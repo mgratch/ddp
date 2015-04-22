@@ -103,6 +103,7 @@
     var _elements = {};
     var _hoodRendered = false;
     var _markers = [];
+    var _regionsPolygons = [];
     $this.map = null;
 
     var init = function() {
@@ -125,13 +126,12 @@
       $this.map.panBy(($(window).width() / 3) * (-1), 0);
 
       if (_hoodRendered === false) {
-        //$this.addHoods();
+        $this.addRegions();
       }
      };
 
     $this.addProperties = function(properties) {
       if (properties) {
-        console.log(_markers);
         $.each(_markers, function(i, val) {
           val.marker.setMap(null);
         });
@@ -234,9 +234,46 @@
       });
     };
 
-    $this.addHoods = function() {
-      console.log('called');
-      var polys = [];
+    $this.addRegions = function() {
+
+      var regionMeta = {
+        downtown: {
+          fillColor: '#ffa01e',
+          label: 'Downtown'
+        },
+        corktown:  {
+          fillColor: '#c7db80',
+          label: 'Corktown'
+        },
+        rivertown: {
+          fillColor: '#FF0000',
+          label: 'Rivertown'
+        },
+        lafayettepark: {
+          fillColor: '#FF0000',
+          label: 'Lafayette Park'
+        },
+        easternmarket: {
+          fillColor: '#FF0000',
+          label: 'Eastern Market'
+        },
+        midtown: {
+          fillColor: '#9ea7ca',
+          label: 'Midtown'
+        },
+        woodbridge: {
+          fillColor: '#FF0000',
+          label: 'Woodbridge'
+        },
+        techtown: {
+          fillColor: '#FF0000',
+          label: 'Techtown'
+        },
+        newcenter: {
+          fillColor: '#FF0000',
+          label: 'New Center'
+        }
+      };
 
       // Load hoods file
       $.getJSON(window.ddpPropertiesObj.assetUri+'/data/hoods.json', function(data) {
@@ -250,31 +287,30 @@
               coords.push(new window.google.maps.LatLng(value[1], value[0]));
             });
 
-            var zz = $this.map.drawPolygon({
-              paths: coords, // pre-defined polygon shape
-              strokeColor: '#FF0000',
-              strokeOpacity: 1,
-              strokeWeight: 3,
-              fillColor: '#FF0000',
-              fillOpacity: 0.6
+            var metaRef = item.properties.name.toLowerCase().replace(' ', '');
+
+            var poly = new window.google.maps.Polygon({
+              paths: coords,
+              strokeColor: null,
+              strokeOpacity: 0,
+              strokeWeight: 0,
+              fillColor: regionMeta[metaRef].fillColor,
+              fillOpacity: 0.25
             });
 
-            polys.push(zz);
+            poly.setMap($this.map);
+
+            _regionsPolygons.push(poly);
           }
-
-          setTimeout(function() {
-            $.each(polys, function(i, val) {
-              console.log(val);
-              val.visible = false;
-            });
-          }, 7000);
-
-          console.log(polys);
-          console.log($this.map);
-
       });
 
       _hoodRendered = true;
+    };
+
+    $this.removeRegions = function() {
+      $.each(_regionsPolygons, function(i, val) {
+        val.setMap(null);
+      });
     };
 
     $this.loadListings = function(atts) {
@@ -374,6 +410,7 @@
       _elements.getDetailButton = _elements.container.find('.js-ddp-live-get-detail');
       _elements.interactionContent = _elements.container.find('.js-interaction-content');
       _elements.closeDetailButton = _elements.container.find('.js-close-detail');
+      _elements.districtOverlay = _elements.container.find('.js-ddp-live-district-overlay');
     };
 
     var registerSliders = function() {
@@ -417,6 +454,16 @@
     };
 
     var bindEvents = function() {
+
+      _elements.districtOverlay.click(function() {
+        var $el = $(this);
+
+        if ($el.is(':checked')) {
+          _View.addRegions();
+        } else {
+          _View.removeRegions();
+        }
+      });
 
       $('.js-ddp-live-here-infowindow').live('click', function() {
         var $el = $(this);
