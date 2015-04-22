@@ -238,23 +238,23 @@
 
       var regionMeta = {
         downtown: {
-          fillColor: '#ffa01e',
+          fillColor: '#fb9a00',
           label: 'Downtown'
         },
         corktown:  {
-          fillColor: '#c7db80',
+          fillColor: '#36b3ce',
           label: 'Corktown'
         },
         rivertown: {
-          fillColor: '#FF0000',
+          fillColor: '#b4c82c',
           label: 'Rivertown'
         },
         lafayettepark: {
-          fillColor: '#FF0000',
+          fillColor: '#2468c0',
           label: 'Lafayette Park'
         },
         easternmarket: {
-          fillColor: '#FF0000',
+          fillColor: '#ea60d5',
           label: 'Eastern Market'
         },
         midtown: {
@@ -262,15 +262,15 @@
           label: 'Midtown'
         },
         woodbridge: {
-          fillColor: '#FF0000',
+          fillColor: '#fa4b5b',
           label: 'Woodbridge'
         },
         techtown: {
-          fillColor: '#FF0000',
+          fillColor: '#e8e116',
           label: 'Techtown'
         },
         newcenter: {
-          fillColor: '#FF0000',
+          fillColor: '#06b39d',
           label: 'New Center'
         }
       };
