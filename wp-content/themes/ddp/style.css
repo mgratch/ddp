@@ -365,6 +365,9 @@ body header .brand:after {
   margin-left: 0x;
 }
 body header .about {
+  position: absolute;
+  top: 0;
+  right: 0;
   height: 60px;
   width: 105px;
   float: right;
@@ -402,10 +405,17 @@ body header .social img:hover {
   opacity: 1;
 }
 body header .main-nav .big-three {
-  width: 700px;
+  width: 714px;
+  /*background: gray;*/
   margin: auto;
   display: block;
   padding: 0;
+  text-align: justify;
+}
+body header .main-nav .big-three:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
 }
 body header .main-nav .big-three .explore {
   transition: border 0s;
@@ -434,25 +444,39 @@ body header .main-nav .big-three .live {
 }
 body header .main-nav .big-three .live:hover {
   transition: border 0s;
-  border-bottom: 5px #f69a0b solid;
+  border-bottom: 5px #2468c0 solid;
 }
 body header .main-nav .big-three .live ul li:hover {
-  border-bottom: 1px #f69a0b solid;
+  border-bottom: 1px #2468c0 solid;
+  color: #ddd;
+}
+body header .main-nav .big-three .biz-improvement {
+  transition: border 0s;
+}
+body header .main-nav .big-three .biz-improvement:hover {
+  transition: border 0s;
+  border-bottom: 5px #f8981d solid;
+}
+body header .main-nav .big-three .biz-improvement ul li:hover {
+  border-bottom: 1px #f8981d solid;
   color: #ddd;
 }
 body header .main-nav .big-three li {
   display: block;
   float: left;
-  width: 33%;
   text-align: center;
   color: #fff;
-  padding: 15px;
+  padding: 17px 15px 16px;
   transition: all 0.5s;
+}
+body header .main-nav .big-three > li {
+  display: inline-block;
+  float: none;
 }
 body header .main-nav .big-three li a {
   text-decoration: none;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'museo_slab100';
 }
 body header .main-nav .big-three li a .img-container {
@@ -516,10 +540,19 @@ body header.min .main-nav .big-three .live {
   transition: border 0s;
 }
 body header.min .main-nav .big-three .live a {
-  color: #f69a0b;
+  color: #2468c0;
 }
 body header.min .main-nav .big-three .live:hover {
-  border-bottom: 5px #f69a0b solid;
+  border-bottom: 5px #2468c0 solid;
+}
+body header.min .main-nav .big-three .biz-improvement {
+  transition: border 0s;
+}
+body header.min .main-nav .big-three .biz-improvement a {
+  color: #f8981d;
+}
+body header.min .main-nav .big-three .biz-improvement:hover {
+  border-bottom: 5px #f8981d solid;
 }
 body header.min .main-nav .big-three li .img-container {
   height: 0px;
@@ -554,9 +587,9 @@ body header .dropdown-menu {
   border: 0;
   margin: 0;
   padding: 25px 0 0 0;
-  width: 700px;
+  width: 714px;
   left: 50%;
-  margin-left: -350px;
+  margin-left: -357px;
   background-color: #1a1c1c;
   height: auto;
   overflow: visible;
@@ -564,7 +597,8 @@ body header .dropdown-menu {
   -webkit-transition: all 0s 0s;
 }
 
-body header .main-nav .big-three li:hover .dropdown-menu{
+body header .biz-improvement .dropdown-menu,
+body header .main-nav .big-three li:hover .dropdown-menu {
 	display: block;
 }
 
@@ -606,7 +640,10 @@ body header ul.big-three li.business .description > a{
   color: #36b3ce;
 }
 body header ul.big-three li.live .description > a{
-  color: #f69a0b;
+  color: #2468c0;
+}
+body header ul.big-three li.biz-improvement .description > a{
+  color: #f8981d;
 }
 
 /* Home Page */
@@ -879,7 +916,7 @@ body .articles-main .articles-sub .article1 {
   margin-bottom: 15px;
   padding: 25px;
   display: block;
-  background-color: #f69a0b;
+  background-color: #2468c0;
 }
 body .articles-main .articles-sub .article1:hover {
   background-color: #ffad2d;
@@ -1293,7 +1330,7 @@ body #wrapper-interior.interior-page.do-business .col-md-3:before, body #wrapper
 }
 
 body #wrapper-interior.interior-page.live-here .col-md-3:before, body #wrapper-interior.interior-page.live-here .col-md-3 h3.page-title {
-	background-color: #F69A0B;
+	background-color: #2468c0;
 }
 body #wrapper-interior.interior-page .col-md-3 h3.page-title a {
 	color: #fff;
@@ -1310,7 +1347,7 @@ body #wrapper-interior.interior-page.live-here .col-md-3 .left-sidebar ul li.cur
 body #wrapper-interior.interior-page.live-here .col-md-3 .left-sidebar ul li.current-menu-item > a,
 body #wrapper-interior.interior-page.live-here .col-md-3 .left-sidebar ul li a:hover,
 body #wrapper-interior.interior-page.live-here .col-md-3 .left-sidebar .sub-menu li ul.sub-menu li a:before {
-	color: #F69A0B;
+	color: #2468c0;
 }
 
 body #wrapper-interior.interior-page.explore .col-md-9.main-content h4,body #wrapper-interior.interior-page.explore .col-md-9.main-content h5 {
@@ -1327,7 +1364,7 @@ body #wrapper-interior.interior-page.live-here .col-md-9.main-content h4, body #
 
 
 body #wrapper-interior.interior-page.live-here .main-img:after {
-  background-color: rgba(246, 154, 11, 0.9);
+  background-color: rgba(36, 104, 192, 0.9);
 }
 
 body #wrapper-interior.interior-page .row.main-body {
@@ -1492,7 +1529,7 @@ body #wrapper-interior.interior-page .col-md-9.main-content img.alignright{
 }
 body #wrapper-interior.interior-page .col-md-9.main-content .header,
 body #wrapper-interior.interior-page .col-md-9.main-content h6 {
-  background-color: #f69a0b;
+  background-color: #2468c0;
   color: #fff;
   font-family: 'museo_sans100';
   font-size: 24px;
@@ -1584,12 +1621,12 @@ body #wrapper-interior.interior-page .col-md-3 .left-sidebar .sub-menu li.curren
 }
 
 #wrapper .archive .row.main-body .single-listing h4 a {
-	color: #F69A0B;
+	color: #2468c0;
 	font-size: 30px;
 }
 
 #wrapper .archive .row.main-body .single-listing a {
-	color: #F69A0B;
+	color: #2468c0;
 	margin: 0 !important;
 }
 #wrapper .archive .row.main-body .single-listing a:hover {
@@ -1651,13 +1688,13 @@ body.single-event-listing .row.event-details .col-xs-6 span {
 
 .interior-page.property-listings .sort-listings ul li a {
 	padding: 5px 30px;
-	border: 1px #F69A0B solid;
+	border: 1px #2468c0 solid;
 }
 
 .interior-page.property-listings .sort-listings ul li a.active {
 	padding: 5px 30px;
-	border: 1px #F69A0B solid;
-	background-color: #F69A0B;
+	border: 1px #2468c0 solid;
+	background-color: #2468c0;
 	color: #fff;
 }
 
@@ -1988,7 +2025,7 @@ body #wrapper-interior.interior-page .col-md-9.main-content ul.directors-list li
 	display: inline-block !important;
 	width: 100%;
 	}
-    
+
 }
 /* Form Styles */
 
@@ -2157,7 +2194,7 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
 	  transition: border 0s;
 	}
 	body header .main-nav .big-three .live a {
-	  color: #f69a0b;
+	  color: #2468c0;
 	}
 	body header .about {
 		position: fixed;
