@@ -273,16 +273,16 @@ class Property_Controller extends Controller
     }
 
     if (!empty($prices['rent'])) {
-      $ranges['price']['rent']['min'] = min();
+      $ranges['price']['rent']['min'] = min($prices['rent']);
     }
     if (!empty($prices['rent'])) {
-      $ranges['price']['rent']['max'] = max();
+      $ranges['price']['rent']['max'] = max($prices['rent']);
     }
     if (!empty($prices['sale'])) {
-      $ranges['price']['sale']['min'] = min();
+      $ranges['price']['sale']['min'] = min($prices['sale']);
     }
     if (!empty($prices['sale'])) {
-      $ranges['price']['sale']['max'] = max();
+      $ranges['price']['sale']['max'] = max($prices['sale']);
     }
 
     return $ranges;
