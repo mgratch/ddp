@@ -33,7 +33,7 @@ Template Name: Page BIZ Zone
 	 	<div class="row main-body">
 	 			<div class="col-md-3">
 	 				<div class="left-sidebar">
-	 				<h3 class="page-title"><a href="<?php bloginfo('url'); ?>/live-here/">Live Here</a></h3>
+	 				<h3 class="page-title"><a href="<?php bloginfo('url'); ?>/business-improvement-zone/">Business Improvement Zone</a></h3>
 	 				<?php
 			  				$defaults = array(
 								'theme_location'  => '',

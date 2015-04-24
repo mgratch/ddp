@@ -150,7 +150,7 @@
 	  				<li id="m-3" class="biz-improvement">
 
 	  					<div>
-	  						<a href="<?php bloginfo('url'); ?>/live-here/">
+	  						<a href="<?php bloginfo('url'); ?>/business-improvement-zone/">
 			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/biz-icon.png" /></span>
 			  				Business Improvement Zone
 			  				</a>
@@ -180,7 +180,7 @@
 							wp_nav_menu( $defaults );
 							?>
 
-			  				<div class="description"><a href="<?php bloginfo('url'); ?>/live-here/"><?php print get_post_meta(get_option('page_on_front'), 'wpcf-live-here-description', true); ?></a></div>
+			  				<div class="description"><a href="<?php bloginfo('url'); ?>/business-improvement-zone/"><?php print get_post_meta(get_option('page_on_front'), 'wpcf-biz-zone-description', true); ?></a></div>
 
 			  			</div>
 	  				</li>
