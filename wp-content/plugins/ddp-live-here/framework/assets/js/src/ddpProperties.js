@@ -681,7 +681,7 @@
 
 
   $scope.App({
-    debug: true
+    debug: false
   });
 
 })(jQuery, window);
