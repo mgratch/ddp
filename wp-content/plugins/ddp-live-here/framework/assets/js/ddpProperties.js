@@ -108,7 +108,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
       };
 
       $.get($scope.ajaxUrl, data, function(response) {
-        console.loc(response);
+        console.log(response);
         response = $.parseJSON(response);
 
         if ($scope.debug) {
