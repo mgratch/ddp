@@ -48,6 +48,9 @@ class Property_Controller extends Controller
         'property_agent_email' => array(
           'type' => 'email'
         ),
+        'property_agent_website' => array(
+          'type' => 'text'
+        ),
         'property_address' => array(
           'type' => 'text',
           'style' => 'width: 100%;',
