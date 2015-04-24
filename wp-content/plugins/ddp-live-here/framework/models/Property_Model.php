@@ -147,11 +147,13 @@ class Property_Model extends Model
 
         $photoURL = array();
         foreach ($values as $photo) {
-          $photoURL[] = wp_get_attachment_image_src(
-            $photo['photo'],
-            'full',
-            null
-          );
+          if (!empty($photo['photo'])) {
+            $photoURL[] = wp_get_attachment_image_src(
+              $photo['photo'],
+              'full',
+              null
+            );
+          }
         }
 
         return $photoURL;
