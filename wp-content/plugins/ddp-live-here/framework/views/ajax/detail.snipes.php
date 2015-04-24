@@ -40,7 +40,11 @@
 
       {{ apply_filters('the_content', $property->description) }}
 
-      @if ($property->type === 'rent')
+      @if ($property->type === 'rent' &&
+           ($property->rent->attributes->pets ||
+           $property->rent->attributes->fitness ||
+           $property->rent->attributes->parking ||
+           $property->rent->attributes->washer_dryer))
       <h3 class="section-title">Features</h3>
       <ul class="unit-features">
         @if ($property->rent->attributes->pets)
@@ -94,7 +98,9 @@
         @if ($property->agent->email)
           <span class="listing-contact-email">e: <a href="mailto:{{ $property->agent->email }}">{{ $property->agent->email }}</a></span>
         @endif
-        {{-- <span class="listing-contact-website">w: <a href="">smithandsmith.com</a></span> --}}
+        @if ($property->agent->website)
+          <span class="listing-contact-website">w: <a href="">{{ $property->agent->website }}</a></span>
+        @endif
       </div>
     </div>
   </div>

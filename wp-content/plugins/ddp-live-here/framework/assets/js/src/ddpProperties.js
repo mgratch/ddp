@@ -84,7 +84,6 @@
       };
 
       $.get($scope.ajaxUrl, data, function(response) {
-        console.log(response);
         response = $.parseJSON(response);
 
         if ($scope.debug) {

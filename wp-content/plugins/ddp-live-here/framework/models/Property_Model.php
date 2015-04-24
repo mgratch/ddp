@@ -81,10 +81,10 @@ class Property_Model extends Model
     $newProperty->type = strtolower($meta['property_type']);
     $newProperty->availability = $this->hasAvailable($meta['rent_listings']);
     $newProperty->agent = (object) array(
-      'name'    => Helpers::emptySet($meta, 'property_agent_name'),
-      'phone'   => Helpers::emptySet($meta, 'property_agent_phone'),
-      'email'   => Helpers::emptySet($meta, 'property_agent_email'),
-      'website' => Helpers::emptySet($meta, 'property_agent_website')
+      'name'    => Helpers::emptySet($meta, 'property_agent_name', false),
+      'phone'   => Helpers::emptySet($meta, 'property_agent_phone', false),
+      'email'   => Helpers::emptySet($meta, 'property_agent_email', false),
+      'website' => Helpers::emptySet($meta, 'property_agent_website', false)
     );
     if ($newProperty->type == 'sale') {
       $newProperty->sale = (object) array(
