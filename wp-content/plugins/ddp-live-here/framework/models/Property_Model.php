@@ -89,7 +89,7 @@ class Property_Model extends Model
     if ($newProperty->type == 'sale') {
       $newProperty->sale = (object) array(
         'price'     => Helpers::emptySet($meta, 'property_price'),
-        'bedrooms'  => Helpers::emptySet($meta, 'property_bedrooms'),
+        'bedrooms'  => Helpers::emptySet($meta, 'property_bedrooms', 0),
         'bathrooms' => Helpers::emptySet($meta, 'property_bathrooms'),
         'sq_feet'   => Helpers::emptySet($meta, 'property_sq_footage')
       );
@@ -170,7 +170,7 @@ class Property_Model extends Model
     foreach($listings as $listing) {
       $newListing = (object) array();
       $newListing->title = Helpers::emptySet($listing, 'unit_title');
-      $newListing->bedrooms = Helpers::emptySet($listing, 'property_bedrooms');
+      $newListing->bedrooms = Helpers::emptySet($listing, 'property_bedrooms', 0);
       $newListing->bathrooms = Helpers::emptySet($listing, 'property_bathrooms');
       $newListing->priceHigh = Helpers::emptySet($listing, 'property_price_high');
       $newListing->priceLow = Helpers::emptySet($listing, 'property_price_low');

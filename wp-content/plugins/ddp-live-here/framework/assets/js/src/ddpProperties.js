@@ -591,6 +591,23 @@
         console.log(filters);
       }
 
+      var listingBedrooms = function(property, rooms) {
+        var maxNumberRooms = 0;
+        var skip = false;
+
+        $.each(property.rent.listings, function(i, listing) {
+          if (listing.bedrooms > maxNumberRooms) {
+            maxNumberRooms = listing.bedrooms;
+          }
+        });
+
+        if ($.inArray(String(maxNumberRooms), rooms) < 0) {
+          skip = true;
+        }
+
+        return skip;
+      };
+
       var listingPriceBetween = function(property) {
         var rentPriceBetween = false;
 
@@ -641,6 +658,12 @@
           continue;
         }
 
+        if (prop.type === 'rent') {
+          if (listingBedrooms(prop, filters.rooms)) {
+            continue;
+          }
+        }
+
         properties.push(prop);
       }
 
@@ -658,7 +681,7 @@
 
 
   $scope.App({
-    debug: false
+    debug: true
   });
 
 })(jQuery, window);
