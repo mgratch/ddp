@@ -135,7 +135,7 @@ jQuery(document).ready(function($){
 
 		$('body #wrapper #wrapper-interior.interior-page .col-md-3 .left-sidebar').mouseenter(function(){
 			if ($(document).width() <= 991 && isTouchDevice() == false) {
-			$('body #wrapper #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu').css({'height': 'auto'});
+			$('body #wrapper #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu').css({'height': 'auto'}).addClass('open');
 			 subNavIsOpen = true;
 			}
 

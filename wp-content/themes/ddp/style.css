@@ -429,7 +429,7 @@ body header .main-nav .big-three .explore .dropdown-menu > ul > li:hover {
   border-bottom: 1px #b4c82c solid;
   color: #ddd;
 }
-.interior-page.explore .open > a:after,
+#wrapper-interior.interior-page.explore .open > a:after,
 body .explore .open > a:after {
   border-left-color: #b4c82c;
 }
@@ -445,7 +445,7 @@ body header .main-nav .big-three .business .dropdown-menu > ul > li:hover {
   border-bottom: 1px #36b3ce solid;
   color: #ddd;
 }
-.interior-page.do-business .open > a:after,
+#wrapper-interior.interior-page.do-business .open > a:after,
 body .business .open > a:after {
   border-left-color: #36b3ce;
 }
@@ -461,7 +461,7 @@ body header .main-nav .big-three .live .dropdown-menu > ul > li:hover {
   border-bottom: 1px #2468c0 solid;
   color: #ddd;
 }
-.interior-page.live-here .open > a:after,
+#wrapper-interior.interior-page.live-here .open > a:after,
 body .live .open > a:after {
   border-left-color: #2468c0;
 }
@@ -477,7 +477,7 @@ body header .main-nav .big-three .biz-improvement .dropdown-menu > ul > li:hover
   border-bottom: 1px #f8981d solid;
   color: #ddd;
 }
-.interior-page.biz-zone .open > a:after,
+#wrapper-interior.interior-page.biz-zone .open > a:after,
 body .biz-improvement .open > a:after {
   border-left-color: #f8981d;
 }
@@ -1429,7 +1429,6 @@ body #wrapper-interior.interior-page .title .sub-head {
 body #wrapper-interior.interior-page .col-md-3 {
   background-color: #1a1c1c;
   padding-left: 0;
-  overflow: hidden;
 }
 body #wrapper-interior.interior-page .col-md-3:before {
   content: '';
@@ -1543,6 +1542,13 @@ body #wrapper-interior.interior-page .col-md-9.main-content .photo-credit {
   font-size: 14px;
   color: #aaa;
  }
+body #wrapper-interior.interior-page .col-md-9.main-content > h2 {
+  font-size: 26px;
+  margin: 0;
+}
+body #wrapper-interior.interior-page.biz-zone .col-md-9.main-content > h2 {
+  color: #f8981d;
+}
 
 body #wrapper-interior.interior-page .col-md-9.main-content > h4 {
   font-family: 'museo_slab100';
@@ -2262,6 +2268,9 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
   }
 }
 @media (min-width: 992px) {
+  body #wrapper-interior.interior-page .col-md-3 {
+    overflow: hidden;
+  }
   body #wrapper-interior.interior-page .col-md-3 .left-sidebar h3:before,
   body #wrapper-interior.interior-page .col-md-3 .left-sidebar h3:after {
     content: '';
