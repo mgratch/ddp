@@ -263,7 +263,7 @@ class Property_Controller extends Controller
       if ($property->type == 'rent') {
         foreach ($property->rent->listings as $listing) {
           $prices['rent'][] = $listing->priceHigh;
-          $prices['rent'][] = $listing->priceHigh;
+          $prices['rent'][] = $listing->priceLow;
         }
       }
 
@@ -285,7 +285,7 @@ class Property_Controller extends Controller
       $ranges['price']['sale']['max'] = max($prices['sale']);
     }
 
-    return $ranges;
+    return $ranges;  //.json_encode($properties);
   }
 
   public function getPropertyListingAjax()

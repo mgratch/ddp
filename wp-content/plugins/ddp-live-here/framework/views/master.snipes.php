@@ -104,8 +104,18 @@
     (function($) {
 
     $('.js-toggle-content-display').on('click', function() {
+
+
       $(this).toggleClass('closed');
       $(this).parent().toggleClass('closed');
+
+      if ($(this).hasClass('closed')) {
+			$('.js-toggle-label').html('Show');
+
+      } else {
+    	  $('.js-toggle-label').html('Hide');
+      
+      }
     });
 
     })(jQuery);
