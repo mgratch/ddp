@@ -55,7 +55,7 @@
 
     intBetween: function(test, min, max) {
       test = Number(test);
-      if (test >= min && test <= max) {
+      if (test >= Number(min) && test <= Number(max)) {
         return true;
       }
 
@@ -118,7 +118,11 @@
       var options = {
         zoom: 14,
         center: new window.google.maps.LatLng(42.331427,-83.045754),
-        scrollwheel: false
+        scrollwheel: false,
+        panControl: false,
+        zoomControlOptions: {
+          position: window.google.maps.ControlPosition.RIGHT_TOP
+        },
       };
 
       $this.map = new window.google.maps.Map(document.getElementById('map'), options);
@@ -146,6 +150,7 @@
                 var marker = new window.google.maps.Marker({
                   map: $this.map,
                   position: new window.google.maps.LatLng(properties[i].latitude, properties[i].longitude),
+                  animation: window.google.maps.Animation.DROP,
                   icon: {
                     path: $scope.mapPins.pin,
                     fillColor: $scope.mapPins[properties[i].type],
@@ -167,8 +172,12 @@
                 // There may be a better way of doing this but it just needs to get done
                 $.each(_markers, function(i, val) {
                   if (val.id === properties[i].id) {
+
+                    var contentStr = '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '<div><button href="#" class="action-button js-ddp-live-here-infowindow" data-property-id="'+val.id+'">View Listing</button></div></div>';
+
                     var infowindow = new window.google.maps.InfoWindow({
-                        content: '<div class="ddp-live-info-window js-ddp-live-here-infowindow" data-property-id="'+val.id+'">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '</div>'
+                        content: contentStr,
+                        maxWidth: 200
                     });
 
                     window.google.maps.event.addListener(val.marker, 'click', function() {
@@ -442,6 +451,7 @@
           min: min,
           max: max,
           values: [min, max],
+          step: 5,
           slide: function( event, ui ) {
             var values = ui.values;
             updateValues(values[0], values[1]);
@@ -636,10 +646,11 @@
         }
 
         if (prop.type === 'sale') {
+
           if ($scope.Helpers.intBetween(
             prop.sale.price,
             filters['min-'+prop.type],
-            filters['max-'+prop.type])) {
+            filters['max-'+prop.type]) === false) {
             continue;
           }
         }

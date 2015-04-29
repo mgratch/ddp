@@ -64,8 +64,8 @@
             <div class="range-group js-range-group monetary">
               <span class="form-label">Price Range &mdash; For Sale Price</span>
               <div class="js-range-slider" data-type="sale"></div>
-              <input type="hidden" data-ddp-live-data-type="min-buy" class="js-ddp-live-filter-value js-min-value slider-value" value="0" />
-              <input type="hidden" data-ddp-live-data-type="max-buy" class="js-ddp-live-filter-value js-max-value slider-value max-value" value="500" />
+              <input type="hidden" data-ddp-live-data-type="min-sale" class="js-ddp-live-filter-value js-min-value slider-value" value="0" />
+              <input type="hidden" data-ddp-live-data-type="max-sale" class="js-ddp-live-filter-value js-max-value slider-value max-value" value="500" />
               <div class="value-display-wrap">
                 <span class="min-value"><span class="denomination">$</span><span class="js-min-value-display">Min Val</span></span>
                 <span class="max-value"><span class="denomination">$</span><span class="js-max-value-display">Max Val</span></span>
@@ -114,7 +114,7 @@
 
       } else {
     	  $('.js-toggle-label').html('Hide');
-      
+
       }
     });
 

@@ -9,7 +9,11 @@
 }
 
 .ddp-live-info-window {
-  max-width: 200px;
+  max-width: 100%;
+
+  .action-button {
+    margin-top: 20px;
+  }
 }
 
 [class*="io-icon"] {
@@ -220,5 +224,3 @@ button {
     }
   }
 }
-
-
