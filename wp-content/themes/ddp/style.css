@@ -655,15 +655,19 @@ body header .dropdown-menu.over ul {
 body header.min .dropdown-menu {
   top: 60px;
 }
+body header ul.big-three li.explore .sub-menu a:hover,
 body header ul.big-three li.explore .description > a {
   color: #b4c82c;
 }
+body header ul.big-three li.business .sub-menu a:hover,
 body header ul.big-three li.business .description > a {
   color: #36b3ce;
 }
+body header ul.big-three li.live .sub-menu a:hover,
 body header ul.big-three li.live .description > a {
   color: #2468c0;
 }
+body header ul.big-three li.biz-improvement .sub-menu a:hover,
 body header ul.big-three li.biz-improvement .description > a {
   color: #f8981d;
 }
