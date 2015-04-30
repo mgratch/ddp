@@ -380,6 +380,7 @@
     var _properties = false;
     var _currentProperties = {};
     var _elements = {};
+    var _events = {};
     $this.filters = {};
     var _config = $.extend({
       debug: false,
@@ -420,6 +421,8 @@
       _elements.interactionContent = _elements.container.find('.js-interaction-content');
       _elements.closeDetailButton = _elements.container.find('.js-close-detail');
       _elements.districtOverlay = _elements.container.find('.js-ddp-live-district-overlay');
+      _elements.controlToggle = _elements.container.find('.js-toggle-content-display');
+      _elements.controlToggleLabel = _elements.controlToggle.find('.js-toggle-label');
     };
 
     var registerSliders = function() {
@@ -479,6 +482,11 @@
         var $el = $(this);
         var propertyID = $el.attr('data-property-id');
 
+        // Make sure we are showing the control / listing area
+        _events.toggleControls({
+          state: 'open'
+        });
+
           _View.listingDetail({
             propertyId: propertyID,
             $container: _elements.interactionContent
@@ -507,6 +515,10 @@
 
           update();
         });
+      });
+
+      _elements.controlToggle.click(function() {
+        _events.toggleControls();
       });
 
       _elements.closeDetailButton.live('click', function() {
@@ -543,6 +555,26 @@
           $container: _elements.interactionContent
        });
       });
+    };
+
+    _events.toggleControls = function(args) {
+      args = args || {};
+      args = $.extend({
+        state: 'toggle'
+      }, args);
+
+      var $el = _elements.controlToggle;
+      console.log($el.hasClass('closed'));
+
+      if ($el.hasClass('closed') === false && args.state !== 'open') {
+        _elements.controlToggleLabel.html('Show');
+        $el.addClass('closed');
+        $el.parent().addClass('closed');
+      } else {
+        _elements.controlToggleLabel.html('Hide');
+        $el.removeClass('closed');
+        $el.parent().removeClass('closed');
+      }
     };
 
     var update = function() {

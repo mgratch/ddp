@@ -98,26 +98,3 @@
     </div>
   </div>
 <!-- END LIVE HERE CONTENT -->
-
-<?php add_action('wp_footer', function() { ?>
-<script>
-    (function($) {
-
-    $('.js-toggle-content-display').on('click', function() {
-
-
-      $(this).toggleClass('closed');
-      $(this).parent().toggleClass('closed');
-
-      if ($(this).hasClass('closed')) {
-			$('.js-toggle-label').html('Show');
-
-      } else {
-    	  $('.js-toggle-label').html('Hide');
-
-      }
-    });
-
-    })(jQuery);
-  </script>
-<?php }, 666); ?>
