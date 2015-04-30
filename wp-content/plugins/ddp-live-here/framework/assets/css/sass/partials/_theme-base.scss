@@ -101,6 +101,11 @@ button.toggle-content-display {
   top: 21px;
   right: -21px;
   transform: rotate(-90deg);
+
+
+  &.closed {
+    top: 25px;
+  }
 }
 
 .detail-content {

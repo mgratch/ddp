@@ -2969,23 +2969,27 @@ button.toggle-content-display {
   right: -21px;
   transform: rotate(-90deg);
 }
-
 /* line 106, sass/partials/_theme-base.scss */
+button.toggle-content-display.closed {
+  top: 25px;
+}
+
+/* line 111, sass/partials/_theme-base.scss */
 .detail-content {
   font-family: "Capita-Light";
   font-size: 0.875rem;
   line-height: 1.57143;
 }
-/* line 113, sass/partials/_theme-base.scss */
+/* line 118, sass/partials/_theme-base.scss */
 .detail-content > * + * {
   margin-top: 1.14286em;
 }
-/* line 116, sass/partials/_theme-base.scss */
+/* line 121, sass/partials/_theme-base.scss */
 .detail-content .section-title + * {
   margin-top: 0;
 }
 
-/* line 121, sass/partials/_theme-base.scss */
+/* line 126, sass/partials/_theme-base.scss */
 .listing {
   font-size: 0.1px;
   text-align: justify;
@@ -3004,41 +3008,41 @@ button.toggle-content-display {
   text-align: left;
   font-size: 0.9375rem;
 }
-/* line 124, sass/partials/_theme-base.scss */
+/* line 129, sass/partials/_theme-base.scss */
 .listing > * {
   width: 49.99%;
 }
-/* line 127, sass/partials/_theme-base.scss */
+/* line 132, sass/partials/_theme-base.scss */
 .listing > *:nth-child(odd) {
   padding-right: 10px;
 }
-/* line 130, sass/partials/_theme-base.scss */
+/* line 135, sass/partials/_theme-base.scss */
 .listing > *:nth-child(even) {
   padding-left: 10px;
 }
-/* line 133, sass/partials/_theme-base.scss */
+/* line 138, sass/partials/_theme-base.scss */
 .listing > *:nth-child(n+3) {
   padding-top: 15px;
 }
 
-/* line 139, sass/partials/_theme-base.scss */
+/* line 144, sass/partials/_theme-base.scss */
 .listing-item a {
   color: #292d1f;
   text-decoration: none;
 }
 
-/* line 144, sass/partials/_theme-base.scss */
+/* line 149, sass/partials/_theme-base.scss */
 .listing-image {
   position: relative;
   line-height: 0;
 }
-/* line 148, sass/partials/_theme-base.scss */
+/* line 153, sass/partials/_theme-base.scss */
 .listing-image img {
   width: 100%;
   height: auto;
 }
 
-/* line 154, sass/partials/_theme-base.scss */
+/* line 159, sass/partials/_theme-base.scss */
 .listing-price {
   position: absolute;
   bottom: 0;
@@ -3050,30 +3054,30 @@ button.toggle-content-display {
   background-color: rgba(7, 7, 6, 0.75);
 }
 
-/* line 165, sass/partials/_theme-base.scss */
+/* line 170, sass/partials/_theme-base.scss */
 .listing-short-description {
   font-family: "museo_sans500";
   margin-top: 8px;
 }
 
-/* line 170, sass/partials/_theme-base.scss */
+/* line 175, sass/partials/_theme-base.scss */
 .listing-features {
   line-height: 1.1;
 }
 
-/* line 174, sass/partials/_theme-base.scss */
+/* line 179, sass/partials/_theme-base.scss */
 .listing-details {
   padding: 0 0 10px;
   border-bottom: solid 1px #b5b5b4;
 }
 
-/* line 180, sass/partials/_theme-base.scss */
+/* line 185, sass/partials/_theme-base.scss */
 .listing-detail-price {
   font-size: 1.25rem;
   line-height: 1.4;
 }
 
-/* line 185, sass/partials/_theme-base.scss */
+/* line 190, sass/partials/_theme-base.scss */
 .listing-detail-features {
   font-family: "museo_sans500";
   line-height: 1.1;

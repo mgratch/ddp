@@ -6,7 +6,7 @@
  * Filtering function could use some refining.
  */
 
-;( function($, window) {
+;( function($, window, google) {
   'use strict';
 
   var $scope = {
@@ -77,6 +77,8 @@
         filters: false
       }, args);
 
+      console.log(args.filters);
+
       var data = {
         action: 'ddpLiveGetProperties',
         key: $scope.ajaxKey,
@@ -117,15 +119,15 @@
 
       var options = {
         zoom: 14,
-        center: new window.google.maps.LatLng(42.331427,-83.045754),
+        center: new google.maps.LatLng(42.331427,-83.045754),
         scrollwheel: false,
         panControl: false,
         zoomControlOptions: {
-          position: window.google.maps.ControlPosition.RIGHT_TOP
+          position: google.maps.ControlPosition.RIGHT_TOP
         },
       };
 
-      $this.map = new window.google.maps.Map(document.getElementById('map'), options);
+      $this.map = new google.maps.Map(document.getElementById('map'), options);
 
       $this.map.panBy(($(window).width() / 3) * (-1), 0);
 
@@ -147,10 +149,10 @@
             for (var i = 0; i < properties.length; i++) {
               if ($scope.Helpers.exists(properties[i].latitude) && $scope.Helpers.exists(properties[i].longitude)) {
 
-                var marker = new window.google.maps.Marker({
+                var marker = new google.maps.Marker({
                   map: $this.map,
-                  position: new window.google.maps.LatLng(properties[i].latitude, properties[i].longitude),
-                  animation: window.google.maps.Animation.DROP,
+                  position: new google.maps.LatLng(properties[i].latitude, properties[i].longitude),
+                  animation: google.maps.Animation.DROP,
                   icon: {
                     path: $scope.mapPins.pin,
                     fillColor: $scope.mapPins[properties[i].type],
@@ -175,12 +177,12 @@
 
                     var contentStr = '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '<div><button href="#" class="action-button js-ddp-live-here-infowindow" data-property-id="'+val.id+'">View Listing</button></div></div>';
 
-                    var infowindow = new window.google.maps.InfoWindow({
+                    var infowindow = new google.maps.InfoWindow({
                         content: contentStr,
                         maxWidth: 200
                     });
 
-                    window.google.maps.event.addListener(val.marker, 'click', function() {
+                    google.maps.event.addListener(val.marker, 'click', function() {
                       infowindow.open($this.map, val.marker);
                     });
                   }
@@ -244,6 +246,7 @@
     };
 
     $this.addRegions = function() {
+      _regionsPolygons = [];
 
       var regionMeta = {
         downtown: {
@@ -293,12 +296,12 @@
 
             var coords = [];
             $.each(item.geometry.coordinates[0], function(index, value) {
-              coords.push(new window.google.maps.LatLng(value[1], value[0]));
+              coords.push(new google.maps.LatLng(value[1], value[0]));
             });
 
             var metaRef = item.properties.name.toLowerCase().replace(' ', '');
 
-            var poly = new window.google.maps.Polygon({
+            var poly = new google.maps.Polygon({
               paths: coords,
               strokeColor: null,
               strokeOpacity: 0,
@@ -309,8 +312,38 @@
 
             poly.setMap($this.map);
 
-            _regionsPolygons.push(poly);
-          }
+            _regionsPolygons.push({
+              polygon: poly,
+              center: poly.getBounds().getCenter(),
+              regionMeta: regionMeta[metaRef]
+            });
+        }
+
+        // Set Region Pins
+        $.each(_regionsPolygons, function(i, val) {
+          console.log(val);
+          var pinName = val.regionMeta.label.toLowerCase().replace(' ', '_');
+
+          console.log(window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+pinName+'.svg');
+
+          var marker = new google.maps.Marker({
+            map: $this.map,
+            position: new google.maps.LatLng(val.center.A, val.center.F),
+            animation: google.maps.Animation.DROP,
+            icon: {
+              url: window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+pinName+'.svg',
+              scale: 1,
+              anchor: {x: 136/2, y: 36/2}
+            }
+          });
+
+          _regionsPolygons[i].marker = marker;
+
+          google.maps.event.addListener(_regionsPolygons[i].marker, 'click', function() {
+            window.alert(val.regionMeta.label);
+          });
+        });
+
       });
 
       _hoodRendered = true;
@@ -318,7 +351,8 @@
 
     $this.removeRegions = function() {
       $.each(_regionsPolygons, function(i, val) {
-        val.setMap(null);
+        val.polygon.setMap(null);
+        val.marker.setMap(null);
       });
     };
 
@@ -564,7 +598,6 @@
       }, args);
 
       var $el = _elements.controlToggle;
-      console.log($el.hasClass('closed'));
 
       if ($el.hasClass('closed') === false && args.state !== 'open') {
         _elements.controlToggleLabel.html('Show');
@@ -727,4 +760,4 @@
     debug: false
   });
 
-})(jQuery, window);
+})(jQuery, window, window.google);
