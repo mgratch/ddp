@@ -99,7 +99,7 @@
           <span class="listing-contact-email">e: <a href="mailto:{{ $property->agent->email }}">{{ $property->agent->email }}</a></span>
         @endif
         @if ($property->agent->website)
-          <span class="listing-contact-website">w: <a href="">{{ $property->agent->website }}</a></span>
+          <span class="listing-contact-website">w: <a href="{{ $property->agent->website }}" target="_blank">{{ $property->agent->website }}</a></span>
         @endif
       </div>
     </div>
