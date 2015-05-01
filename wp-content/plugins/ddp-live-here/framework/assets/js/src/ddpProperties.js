@@ -577,9 +577,11 @@
           $scope.currentSlider.destroySlider();
         }
 
-        _elements.interactionContent.css({
-          height: 'auto'
-        });
+        if (_elements.showListingButton.hasClass('active') === false) {
+          _elements.interactionContent.css({
+            height: 'auto'
+          });
+        }
 
         $('.js-listing-carousel').hide();
         $('.js-ddp-live-detail-container').remove();
