@@ -22,7 +22,7 @@ Template Name: Live Here Interactive
 			  			<div class="sub-head"><?php print get_post_meta($post->ID, 'wpcf-subhead', true); ?></div>
 			  		</div>
 			  	</div>
-			  	<div class="main-img img-container" style="height:210px;"></div>
+			  	<div class="main-img img-container" style="height:130px;"></div>
 
 
 	 <div class="interior-content">

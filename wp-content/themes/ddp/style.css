@@ -1623,9 +1623,7 @@ body.single-event-listing .row.event-details .col-xs-6 span {
 /* ---------------------------------- */
 
 body[class*="page-live-here"] .col-md-offset-3 {
-  margin: 0 35px;
-  width: calc(100% - 70px);
-  height: 90px;
+  height: 10px;
 }
 
 body[class*="page-live-here"] #wrapper-interior.interior-page .title h1 {
@@ -1639,6 +1637,7 @@ body[class*="page-live-here"] #wrapper-interior.interior-page .title h1 {
   border: none;
   padding: 0;
   margin-right: 5%;
+  display: none;
 }
 
 body[class*="page-live-here"] #wrapper-interior.interior-page .title .sub-head {
@@ -1650,6 +1649,7 @@ body[class*="page-live-here"] #wrapper-interior.interior-page .title .sub-head {
   font-size: 18px;
   line-height: 1.2;
   overflow: hidden;
+  display: none;
 }
 
 /* Property Page */
