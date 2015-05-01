@@ -662,19 +662,26 @@
       }
 
       var listingBedrooms = function(property, rooms) {
-        var maxNumberRooms = 0;
-        var skip = false;
+        var skip = true;
+        rooms.sort();
+
+        console.log(rooms[(rooms.length - 1)]);
 
         if (rooms.length !== 0) {
           $.each(property.rent.listings, function(i, listing) {
-            if (listing.bedrooms > maxNumberRooms) {
-              maxNumberRooms = listing.bedrooms;
+            // Must be a string for compare
+            listing.bedrooms = String(listing.bedrooms);
+
+            if ($.inArray(listing.bedrooms, rooms) >= 0 ||
+                (rooms[(rooms.length - 1)] === 3 &&
+                  listing.bedrooms >= rooms[(rooms.length - 1)])) {
+
+              skip = false;
+              return false;
             }
           });
-
-          if ($.inArray(String(maxNumberRooms), rooms) < 0) {
-            skip = true;
-          }
+        } else {
+          skip = false;
         }
 
         return skip;
