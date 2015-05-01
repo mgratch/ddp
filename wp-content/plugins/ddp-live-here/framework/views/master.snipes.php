@@ -76,13 +76,10 @@
           <div class="bedrooms">
             <div class="button-group">
               <span class="form-label">Bedrooms</span>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="0" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">Studio</button>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="1" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">1</button>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="2" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">2</button>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="3" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">3</button>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="4" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">4</button>
-              <button type="button" data-ddp-live-data-type="rooms"  data-ddp-live-button-value="5" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">5</button>
-              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="6" class="js-ddp-live-trigger-update js-ddp-live-filter-value selected">6+</button>
+              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="0" class="js-ddp-live-trigger-update js-ddp-live-filter-value">Studio</button>
+              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="1" class="js-ddp-live-trigger-update js-ddp-live-filter-value">1</button>
+              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="2" class="js-ddp-live-trigger-update js-ddp-live-filter-value">2</button>
+              <button type="button" data-ddp-live-data-type="rooms" data-ddp-live-button-value="3" class="js-ddp-live-trigger-update js-ddp-live-filter-value">3+</button>
             </div>
           </div>
         </div>

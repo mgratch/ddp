@@ -77,8 +77,6 @@
         filters: false
       }, args);
 
-      console.log(args.filters);
-
       var data = {
         action: 'ddpLiveGetProperties',
         key: $scope.ajaxKey,
@@ -667,14 +665,16 @@
         var maxNumberRooms = 0;
         var skip = false;
 
-        $.each(property.rent.listings, function(i, listing) {
-          if (listing.bedrooms > maxNumberRooms) {
-            maxNumberRooms = listing.bedrooms;
-          }
-        });
+        if (rooms.length !== 0) {
+          $.each(property.rent.listings, function(i, listing) {
+            if (listing.bedrooms > maxNumberRooms) {
+              maxNumberRooms = listing.bedrooms;
+            }
+          });
 
-        if ($.inArray(String(maxNumberRooms), rooms) < 0) {
-          skip = true;
+          if ($.inArray(String(maxNumberRooms), rooms) < 0) {
+            skip = true;
+          }
         }
 
         return skip;
