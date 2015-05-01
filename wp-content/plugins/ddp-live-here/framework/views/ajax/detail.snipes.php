@@ -27,7 +27,7 @@
         <ul class="listing-unit-types">
           @foreach ($property->rent->listings as $listing)
             <li class="unit-type {{ $listing->available ? 'available' : null }}">
-              {{ $listing->title }}: ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
+              {{ $listing->title }}{{ $listing->bathrooms ? ', ' . $listing->bathrooms . ' Bathroom' : null }}: ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
               @if (!empty($listing->sqFeetLow))
               | {{ $listing->sqFeetLow }} {{ !empty($listing->sqFeetHigh) ? '- ' . $listing->sqFeetHigh : null }} sq.ft.
               @endif
