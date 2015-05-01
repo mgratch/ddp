@@ -321,10 +321,7 @@
 
         // Set Region Pins
         $.each(_regionsPolygons, function(i, val) {
-          console.log(val);
           var pinName = val.regionMeta.label.toLowerCase().replace(' ', '_');
-
-          console.log(window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+pinName+'.svg');
 
           var marker = new google.maps.Marker({
             map: $this.map,
@@ -339,9 +336,9 @@
 
           _regionsPolygons[i].marker = marker;
 
-          google.maps.event.addListener(_regionsPolygons[i].marker, 'click', function() {
-            window.alert(val.regionMeta.label);
-          });
+          // google.maps.event.addListener(_regionsPolygons[i].marker, 'click', function() {
+          //   window.alert(val.regionMeta.label);
+          // });
         });
 
       });
