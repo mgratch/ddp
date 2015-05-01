@@ -534,6 +534,10 @@
           state: 'open'
         });
 
+        _elements.interactionContent.css({
+          height: '100%'
+        });
+
           _View.listingDetail({
             propertyId: propertyID,
             $container: _elements.interactionContent
@@ -572,6 +576,11 @@
         if ($scope.Helpers.isFunction($scope.currentSlider.destroySlider)) {
           $scope.currentSlider.destroySlider();
         }
+
+        _elements.interactionContent.css({
+          height: 'auto'
+        });
+
         $('.js-listing-carousel').hide();
         $('.js-ddp-live-detail-container').remove();
       });
@@ -585,7 +594,16 @@
 
           $el.addClass('active');
           text.text('Hide');
+
+          _elements.interactionContent.css({
+            height: '100%'
+          });
         } else {
+
+           _elements.interactionContent.css({
+            height: 'auto'
+          });
+
           _View.removeListings();
           $el.removeClass('active');
           text.text('Show');
