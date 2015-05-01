@@ -249,39 +249,48 @@
       var regionMeta = {
         downtown: {
           fillColor: '#fb9a00',
-          label: 'Downtown'
+          label: 'Downtown',
+          linkUri: 'live-here/district-profiles/downtown'
         },
         corktown:  {
           fillColor: '#36b3ce',
-          label: 'Corktown'
+          label: 'Corktown',
+          linkUri: 'live-here/district-profiles/corktown'
         },
         rivertown: {
           fillColor: '#b4c82c',
-          label: 'Rivertown'
+          label: 'Rivertown',
+          linkUri: false
         },
         lafayettepark: {
           fillColor: '#2468c0',
-          label: 'Lafayette Park'
+          label: 'Lafayette Park',
+          linkUri: 'live-here/district-profiles/lafayette-park'
         },
         easternmarket: {
           fillColor: '#ea60d5',
-          label: 'Eastern Market'
+          label: 'Eastern Market',
+          linkUri: 'live-here/district-profiles/eastern-market'
         },
         midtown: {
           fillColor: '#9ea7ca',
-          label: 'Midtown'
+          label: 'Midtown',
+          linkUri: 'live-here/district-profiles/midtown'
         },
         woodbridge: {
           fillColor: '#fa4b5b',
-          label: 'Woodbridge'
+          label: 'Woodbridge',
+          linkUri: false
         },
         techtown: {
           fillColor: '#e8e116',
-          label: 'Techtown'
+          label: 'Techtown',
+          linkUri: false
         },
         newcenter: {
           fillColor: '#06b39d',
-          label: 'New Center'
+          label: 'New Center',
+          linkUri: 'live-here/district-profiles/new-center'
         }
       };
 
@@ -319,14 +328,14 @@
 
         // Set Region Pins
         $.each(_regionsPolygons, function(i, val) {
-          var pinName = val.regionMeta.label.toLowerCase().replace(' ', '_');
+          var slug = val.regionMeta.label.toLowerCase().replace(' ', '-');
 
           var marker = new google.maps.Marker({
             map: $this.map,
             position: new google.maps.LatLng(val.center.A, val.center.F),
             animation: google.maps.Animation.DROP,
             icon: {
-              url: window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+pinName+'.svg',
+              url: window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+slug+'.svg',
               scale: 1,
               anchor: {x: 136/2, y: 36/2}
             }
@@ -334,9 +343,26 @@
 
           _regionsPolygons[i].marker = marker;
 
-          // google.maps.event.addListener(_regionsPolygons[i].marker, 'click', function() {
-          //   window.alert(val.regionMeta.label);
-          // });
+          if (val.regionMeta.linkUri) {
+            var contentStr = '';
+
+            contentStr += '<div class="infowindow-content"><div>';
+              contentStr += '<img src="'+window.ddpPropertiesObj.assetUri+'/images/regions/images/'+slug+'.jpg" />';
+            contentStr += '</div>';
+
+            contentStr += '<div>';
+              contentStr += '<a class="action-button" href="'+window.ddpPropertiesObj.siteUrl+''+val.regionMeta.linkUri+'">More Info<a>';
+            contentStr += '</div></div>';
+
+            var infowindow = new google.maps.InfoWindow({
+              content: contentStr,
+              maxWidth: 200
+            });
+
+            google.maps.event.addListener(_regionsPolygons[i].marker, 'click', function() {
+              infowindow.open($this.map, _regionsPolygons[i].marker);
+            });
+          }
         });
 
       });
@@ -664,8 +690,6 @@
       var listingBedrooms = function(property, rooms) {
         var skip = true;
         rooms.sort();
-
-        console.log(rooms[(rooms.length - 1)]);
 
         if (rooms.length !== 0) {
           $.each(property.rent.listings, function(i, listing) {

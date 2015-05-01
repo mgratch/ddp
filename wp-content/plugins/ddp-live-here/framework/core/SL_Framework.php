@@ -103,6 +103,7 @@ class SL_Framework
               $handle,
               $localized_name,
               array(
+                'siteUrl' => home_url('/'),
                 'ajaxUrl' => admin_url( 'admin-ajax.php' ),
                 'key' => wp_create_nonce($handle),
                 'assetUri' => Config::get('global.asset_uri')

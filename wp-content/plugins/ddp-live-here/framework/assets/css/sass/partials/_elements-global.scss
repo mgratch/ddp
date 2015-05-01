@@ -112,6 +112,40 @@ button {
   }
 }
 
+.infowindow-content {
+  a {
+    font-size: rem(15px);
+    line-height: 0.8;
+    display: block;
+    text-align: center;
+    margin: 10px 0 5px 0;
+
+    &[class*="-button"] {
+      font-family: $font-main-med;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    &.action-button,
+    &.cta-button {
+      width: 100%;
+      background-color: $color-primary;
+      border-radius: 2px;
+    }
+    &.action-button {
+      padding: 6px 10px 5px;
+    }
+    &.cta-button {
+      font: {
+        family: $font-main-med;
+        size: rem(26px);
+      }
+      text-transform: capitalize;
+      padding: 14px 14px 13px;
+    }
+  }
+}
+
 .form-label,
 .checkbox-label {
   font: {
