@@ -102,7 +102,7 @@
     var $this = this;
     var _elements = {};
     var _hoodRendered = false;
-    var _markers = [];
+    var _markers = {};
     var _regionsPolygons = [];
     $this.map = null;
 
@@ -140,20 +140,22 @@
           val.marker.setMap(null);
         });
 
-        _markers = [];
+        _markers = {};
 
-        var domCheck = setTimeout(function() {
+        // Need timeout to get the content for the info window
+        setTimeout(function() {
           if ($('.listing-item').length) {
             for (var i = 0; i < properties.length; i++) {
-              if ($scope.Helpers.exists(properties[i].latitude) && $scope.Helpers.exists(properties[i].longitude)) {
+              var property = properties[i];
+              if ($scope.Helpers.exists(property.latitude) && $scope.Helpers.exists(property.longitude)) {
 
                 var marker = new google.maps.Marker({
                   map: $this.map,
-                  position: new google.maps.LatLng(properties[i].latitude, properties[i].longitude),
+                  position: new google.maps.LatLng(property.latitude, property.longitude),
                   animation: google.maps.Animation.DROP,
                   icon: {
                     path: $scope.mapPins.pin,
-                    fillColor: $scope.mapPins[properties[i].type],
+                    fillColor: $scope.mapPins[property.type],
                     fillOpacity: 1,
                     strokeColor: '#ffffff',
                     strokeWeight: 1,
@@ -162,34 +164,24 @@
                   }
                 });
 
-                _markers.push({
-                  id: properties[i].id,
+                _markers[property.id] = {
+                  id: property.id,
                   marker: marker
+                };
+
+                var contentStr = '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+property.id+'"]').html() + '<div><button href="#" class="action-button js-ddp-live-here-infowindow" data-property-id="'+property.id+'">View Listing</button></div></div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentStr,
+                    maxWidth: 200
                 });
 
-
-                // Attach Infowindows
-                // There may be a better way of doing this but it just needs to get done
-                $.each(_markers, function(i, val) {
-                  if (val.id === properties[i].id) {
-
-                    var contentStr = '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+properties[i].id+'"]').html() + '<div><button href="#" class="action-button js-ddp-live-here-infowindow" data-property-id="'+val.id+'">View Listing</button></div></div>';
-
-                    var infowindow = new google.maps.InfoWindow({
-                        content: contentStr,
-                        maxWidth: 200
-                    });
-
-                    google.maps.event.addListener(val.marker, 'click', function() {
-                      infowindow.open($this.map, val.marker);
-                    });
-                  }
+                google.maps.event.addListener(_markers[property.id].marker, 'click', function() {
+                  infowindow.open($this.map, _markers[property.id].marker);
                 });
 
               }
             }
-
-            clearInterval(domCheck);
           }
         }, 2000);
       }
