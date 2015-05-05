@@ -61,7 +61,7 @@
 								'link_after'      => '',
 								'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 								'depth'           => 0,
-								'walker'          => ''
+								'walker'          => new ddp_nav_walker
 							);
 
 							wp_nav_menu( $defaults );
@@ -98,7 +98,7 @@
 								'link_after'      => '',
 								'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 								'depth'           => 0,
-								'walker'          => ''
+								'walker'          => new ddp_nav_walker()
 							);
 
 							wp_nav_menu( $defaults );
@@ -136,7 +136,7 @@
 								'link_after'      => '',
 								'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 								'depth'           => 0,
-								'walker'          => ''
+								'walker'          => new ddp_nav_walker
 							);
 
 							wp_nav_menu( $defaults );
@@ -174,7 +174,7 @@
 								'link_after'      => '',
 								'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 								'depth'           => 0,
-								'walker'          => ''
+								'walker'          => new ddp_nav_walker
 							);
 
 							wp_nav_menu( $defaults );

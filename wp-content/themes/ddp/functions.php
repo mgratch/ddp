@@ -110,4 +110,82 @@ function numeric_posts_nav() {
 }
 
 
+/*
+ * Menu spliter
+ * 
+ */
+class ddp_nav_walker extends Walker_Nav_Menu {
+	
+	
+	function walk( $elements, $max_depth) {
+		
+
+			
+		$menu_elements = array();
+		foreach ($elements as $element) {
+			
+			if( $element->menu_item_parent == 0 ){
+			
+				$chidren_items = array();
+				foreach ($elements as $s_element) {
+					if( $element->db_id == $s_element->menu_item_parent){
+						$chidren_items[] = $s_element;
+					}
+				}
+	
+				if(count($chidren_items) > 0 ){
+					$childItems[$element->db_id] = $chidren_items;
+				}
+				$menu_elements[] = $element;
+			} else {
+				//don't add
+			}
+			
+		}
+	
+		$split = ceil(count($menu_elements)/2);
+		$rightHtml = '</ul><ul class="right-side-menu">';
+		foreach($menu_elements as $key => $item){
+			if($key % 2 == 0) {
+			
+				$classes = join(' ', $item->classes);
+				$strHTML .= "<li id='menu-{$item->db_id}' class='$classes'><a href='{$item->url}'>{$item->title}</a>";
+			
+				if (isset($childItems[$item->db_id])){
+					$strHTML .= '<ul class="sub-menu">';
+					foreach($childItems[$item->db_id] as $subitem){
+						$classes = join(' ', $subitem->classes);
+						$strHTML .= "<li id='menu-{$subitem->db_id}' class='$classes'><a href='{$subitem->url}'>{$subitem->title}</a></li>";
+					}
+			    	$strHTML .= '</ul>';
+			    	
+				}
+				
+				$strHTML .= '</li>';
+			
+			} else {
+				$classes = join(' ', $item->classes);
+				$rightHtml .= "<li id='menu-{$item->db_id}' class='$classes'><a href='{$item->url}'>{$item->title}</a>";
+					
+				if (isset($childItems[$item->db_id])){
+					$rightHtml .= '<ul class="sub-menu">';
+					foreach($childItems[$item->db_id] as $subitem){
+						$classes = join(' ', $subitem->classes);
+						$rightHtml .= "<li id='menu-{$subitem->db_id}' class='$classes'><a href='{$subitem->url}'>{$subitem->title}</a></li>";
+					}
+					$rightHtml .= '</ul>';
+				
+				}
+				
+				$rightHtml .= '</li>';
+			}
+		}
+
+		return $strHTML.$rightHtml;
+	}
+}
+
+
+
+
 ?>
