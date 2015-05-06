@@ -103,6 +103,7 @@
     var _elements = {};
     var _hoodRendered = false;
     var _markers = {};
+    var _propertyInfoWindows = {};
     var _regionsPolygons = [];
     $this.map = null;
 
@@ -141,6 +142,7 @@
         });
 
         _markers = {};
+        _propertyInfoWindows = {};
 
         // Need timeout to get the content for the info window
         setTimeout(function() {
@@ -171,17 +173,19 @@
 
                 var contentStr = '<div class="ddp-live-info-window">' + $('[data-ddp-live-id="'+property.id+'"]').html() + '<div><button href="#" class="action-button js-ddp-live-here-infowindow" data-property-id="'+property.id+'">View Listing</button></div></div>';
 
-                var infowindow = new google.maps.InfoWindow({
+                _markers[property.id].infowindow = new google.maps.InfoWindow({
                     content: contentStr,
                     maxWidth: 200
                 });
 
-                google.maps.event.addListener(_markers[property.id].marker, 'click', function() {
-                  infowindow.open($this.map, _markers[property.id].marker);
-                });
-
               }
             }
+
+            $.each(_markers, function(i, marker) {
+              google.maps.event.addListener(marker.marker, 'click', function() {
+                marker.infowindow.open($this.map, this);
+              });
+            });
           }
         }, 2000);
       }
