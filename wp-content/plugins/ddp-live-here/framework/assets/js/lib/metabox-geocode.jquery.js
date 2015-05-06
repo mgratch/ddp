@@ -37,8 +37,12 @@
           $this.getGeocode({
             address: address.address,
             onSuccess: function(response) {
-              _elements.$latitudeField.val(response.geocodes.k);
-              _elements.$longitudeField.val(response.geocodes.D);
+              var codes = [];
+              $.each(response.geocodes, function(i, val) {
+                codes.push(val);
+              });
+              _elements.$latitudeField.val(codes[0]);
+              _elements.$longitudeField.val(codes[1]);
               _private.loader.deactivate();
             },
             onError: function(response) {

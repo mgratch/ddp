@@ -35,6 +35,8 @@ class Upload_Controller extends Controller
       }
     }
 
+    //var_dump(Helpers::cleanMeta(get_post_custom(3262, array('rent_listings'))));
+
     $vars = array(
 
     );
@@ -100,6 +102,6 @@ class Upload_Controller extends Controller
     $this->model->addProperties($properties);
 
 
-    var_dump($properties);
+    //var_dump($properties);
   }
 }
