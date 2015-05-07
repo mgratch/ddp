@@ -483,7 +483,7 @@ body .biz-improvement .open > a:after {
 }
 body header .main-nav .big-three li {
   display: block;
-  float: left;
+  /*float: left;*/
   text-align: center;
   color: #fff;
   padding: 17px 15px 16px;
@@ -494,6 +494,7 @@ body header .main-nav .big-three > li {
   float: none;
 }
 body header .main-nav .big-three li a {
+  display: block;
   text-decoration: none;
   color: #fff;
   font-size: 16px;
@@ -506,6 +507,12 @@ body header .main-nav .big-three li a .img-container {
   display: block;
   background-color: transparent;
 }
+
+body header .main-nav .big-three li a .short-label {
+  display: none;
+  visibility: hidden;
+}
+
 body header .main-nav .big-three li a .img-container img {
   width: auto;
   height: 100%;
@@ -605,11 +612,11 @@ body header .dropdown-menu {
   top: 120px;
   border-radius: 0;
   border: 0;
-  margin: 0;
+  margin: 0 0 0 -357px;
   padding: 25px 0 0 0;
   width: 714px;
   left: 50%;
-  margin-left: -357px;
+  font-size: 0.1px;
   background-color: #1a1c1c;
   height: auto;
   overflow: visible;
@@ -617,7 +624,10 @@ body header .dropdown-menu {
   -webkit-transition: all 0s 0s;*/
 }
 
-/*body header .biz-improvement .dropdown-menu,*/
+/*#m-3 .dropdown-menu {
+  display: block;
+}*/
+
 body header .main-nav .big-three li:hover .dropdown-menu {
 	display: block;
 }
@@ -625,14 +635,26 @@ body header .main-nav .big-three li:hover .dropdown-menu {
 body header .dropdown-menu ul {
   transition: padding 0s;
   -webkit-transition: padding 0s;
+  display: inline-block;
+  width: 49.9%;
+  vertical-align: top;
 }
+
+body header .dropdown-menu ul:first-child {
+  padding-right: 7.5px;
+}
+
+body header .dropdown-menu ul.right-side-menu {
+  padding: 0 40px 0 7.5px;
+}
+
 body header .big-three .dropdown-menu ul li {
   padding: 0;
-  margin: 0px 15px 0px 0;
+  /*margin: 0px 15px 0px 0;*/
   text-align: left !important;
   font-size: 16px;
   border-bottom: 1px #787878 solid;
-  width: 45% !important;
+  /*width: 45% !important;*/
   cursor: pointer;
 }
 body header .big-three .dropdown-menu > ul > li > a {
@@ -1622,6 +1644,7 @@ body #wrapper-interior.interior-page .col-md-9.main-content ul li, body #wrapper
 /* sub-menu styles. Currently Sub-menu only appears in the sidebar of current page items */
 .dropdown-menu .sub-menu {
 	display: none;
+  width: 100%;
 }
 body #wrapper-interior.interior-page .col-md-3 .left-sidebar .sub-menu li ul.sub-menu {
 	display: none;

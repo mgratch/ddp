@@ -152,7 +152,8 @@
 	  					<div>
 	  						<a href="<?php bloginfo('url'); ?>/business-improvement-zone/">
 			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/biz-icon.png" /></span>
-			  				Business Improvement Zone
+			  				<span class="short-label">BIZ</span>
+			  				<span class="long-label">Business Improvement Zone</span>
 			  				</a>
 			  			</div>
 
