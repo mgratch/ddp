@@ -512,6 +512,16 @@ body header .main-nav .big-three li a .short-label {
   display: none;
   visibility: hidden;
 }
+@media (max-width: 1135px) {
+  body header .main-nav .big-three li a .short-label {
+    display: inline-block;
+    visibility: visible;
+  }
+
+  body header .main-nav .big-three li a .long-label {
+    display: none;
+  }
+}
 
 body header .main-nav .big-three li a .img-container img {
   width: auto;
@@ -679,19 +689,19 @@ body header.min .dropdown-menu {
 }
 body header ul.big-three li.explore .sub-menu a:hover,
 body header ul.big-three li.explore .description > a {
-  color: #b4c82c;
+  color: #b4c82c !important;
 }
 body header ul.big-three li.business .sub-menu a:hover,
 body header ul.big-three li.business .description > a {
-  color: #36b3ce;
+  color: #36b3ce !important;
 }
 body header ul.big-three li.live .sub-menu a:hover,
 body header ul.big-three li.live .description > a {
-  color: #2468c0;
+  color: #2468c0 !important;
 }
 body header ul.big-three li.biz-improvement .sub-menu a:hover,
 body header ul.big-three li.biz-improvement .description > a {
-  color: #f8981d;
+  color: #f8981d !important;
 }
 
 /* Home Page */
@@ -2340,17 +2350,17 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
 	body #wrapper-interior .main-img.img-container img.bg-image{
 		margin-top: 60px;
 	}
-	body header .main-nav .big-three {
+	/*body header .main-nav .big-three {
 		margin-left: 250px;
 		width: 100%;
 		margin-right: 125px;
-	}
+	}*/
 	body header .main-nav .big-three li {
 		width: auto;
 		padding: 50px 15px 40px;
-		float: left;
+		/*float: left;*/
 	}
-	body header.min .main-nav .big-three li {
+	body header.min .main-nav .big-three > li {
 		padding: 20px 15px 20px;
 	}
 	body header .main-nav .big-three .explore a {
@@ -2374,6 +2384,12 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
 	body header .main-nav .big-three .live a {
 	  color: #2468c0;
 	}
+  body header .main-nav .big-three .biz-improvement {
+    transition: border 0s;
+  }
+  body header .main-nav .big-three .biz-improvement a {
+    color: #f8981d;
+  }
 	body header .about {
 		position: fixed;
 		right: 0;
@@ -2385,9 +2401,9 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
 		margin-left: 250px;
 
 	}
-	body header .dropdown-menu ul {
+	/*body header .dropdown-menu ul {
 		width: 100%;
-	}
+	}*/
 	body header ul.big-three li .description > a {
 		width: 100%;
 	}
