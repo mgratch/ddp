@@ -326,8 +326,6 @@
         $.each(_regionsPolygons, function(i, val) {
           var slug = val.regionMeta.label.toLowerCase().replace(' ', '-');
 
-          console.log(window.ddpPropertiesObj.assetUri+'/images/regions/pins/'+slug+'.svg');
-
           var marker = new google.maps.Marker({
             map: $this.map,
             position: new google.maps.LatLng(val.center.A, val.center.F),
