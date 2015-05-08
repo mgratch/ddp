@@ -734,7 +734,7 @@
           if ($scope.Helpers.intBetween(
             listing.priceLow,
             filters['min-'+prop.type],
-            filters['max-'+prop.type]) ||
+            filters['max-'+prop.type]) &&
             $scope.Helpers.intBetween(
             listing.priceHigh,
             filters['min-'+prop.type],
