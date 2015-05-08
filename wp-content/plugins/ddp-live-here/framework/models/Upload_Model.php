@@ -7,68 +7,101 @@ class Upload_Model extends Model
 
   protected $postType = 'property';
 
+  public function findAll()
+  {
+    $posts = get_posts(array(
+      'numberposts' => -1,
+      'post_type'   => $this->postType,
+      'post_status' => array(
+        'publish',
+        'draft'
+      )
+    ));
+
+    return $posts;
+  }
+
+  public function setPropertyMeta($post_id, $property)
+  {
+    $keyExclude = array(
+      'property_title',
+      'rent',
+      'sale',
+      'property_latitude',
+      'property_longitude'
+    );
+
+    foreach ($property->data as $mKey => $metaValue) {
+      if (!in_array($mKey, $keyExclude)) {
+        update_post_meta(
+          $post_id,
+          $mKey,
+          $metaValue
+        );
+      }
+
+      if ($property->data->property_type === 'rent' && $mKey === 'rent') {
+        foreach ($property->data->rent->attributes as $rKey => $rMeta) {
+          update_post_meta(
+            $post_id,
+            $rKey,
+            $rMeta
+          );
+        }
+
+        // clear out listings
+        delete_post_meta($post_id, 'rent_listings');
+
+        foreach ($property->data->rent->listings as $listing) {
+          add_post_meta(
+            $post_id,
+            'rent_listings',
+            $listing
+          );
+        }
+      }
+    }
+  }
+
   public function addProperties($properties)
   {
     $transformed = $this->transformPropertyData($properties);
+    $currentProperties = $this->findAll();
+    $processed = array();
 
+    foreach ($currentProperties as $property) {
+      if (array_key_exists($property->post_name, $transformed)) {
+        // ensure status
+        wp_update_post(array(
+          'ID'          => $property->ID,
+          'post_status' => 'publish'
+        ));
+
+        // update
+        $this->setPropertyMeta($property->ID, $transformed[$property->post_name]);
+      } else {
+        // Remove (draft for now)
+        wp_update_post(array(
+          'ID'          => $property->ID,
+          'post_status' => 'draft'
+        ));
+      }
+
+      $processed[] = $property->post_name;
+    }
+
+    // Add post, make sure it hasn't been processed
     foreach ($transformed as $pKey => $property) {
-      $exists = false;
-      $post_id = false;
-      $keyExclude = array(
-        'property_title',
-        'rent',
-        'sale',
-        'property_latitude',
-        'property_longitude'
-      );
-
-      // check to see if it exists by address
-
-      // add
-      if ($exists === false) {
+      if (!in_array($pKey, $processed)) {
         $post_id = wp_insert_post(array(
           'post_type' => $this->postType,
           'post_title' => $property->property_title,
           'post_content' => $property->property_description,
           'post_status' => 'publish'
         ));
+
+        $this->setPropertyMeta($post_id, $property);
       }
-
-        // add Meta
-        foreach ($property->data as $mKey => $metaValue) {
-          if (!in_array($mKey, $keyExclude)) {
-            update_post_meta(
-              $post_id,
-              $mKey,
-              $metaValue
-            );
-          }
-
-          if ($property->data->property_type === 'rent' && $mKey === 'rent') {
-            foreach ($property->data->rent->attributes as $rKey => $rMeta) {
-              update_post_meta(
-                $post_id,
-                $rKey,
-                $rMeta
-              );
-            }
-
-            // clear out listings
-            delete_post_meta($post_id, 'rent_listings');
-
-            foreach ($property->data->rent->listings as $listing) {
-              add_post_meta(
-                $post_id,
-                'rent_listings',
-                $listing
-              );
-            }
-          }
-        }
-
-      // update
-
-      // draft
     }
   }
 
@@ -97,6 +130,10 @@ class Upload_Model extends Model
 
     foreach ($properties as $property) {
       $key = Helpers::sanitizeStr($property['property_title']);
+
+      if (empty($property['property_title'])) {
+        continue;
+      }
 
       // Set initial property data
       if (!array_key_exists($key, $grouped)) {

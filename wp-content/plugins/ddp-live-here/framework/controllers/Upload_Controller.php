@@ -25,8 +25,6 @@ class Upload_Controller extends Controller
 
   public function adminUpload()
   {
-
-
     if (!empty($_POST) && !empty($_FILES)) {
      $uploaded =  $this->handleUpload($_FILES);
 
@@ -35,11 +33,7 @@ class Upload_Controller extends Controller
       }
     }
 
-    //var_dump(Helpers::cleanMeta(get_post_custom(3262, array('rent_listings'))));
-
-    $vars = array(
-
-    );
+    $vars = array();
 
     echo $this->view->makeView('admin.upload', $vars);
   }
@@ -100,8 +94,5 @@ class Upload_Controller extends Controller
     ));
 
     $this->model->addProperties($properties);
-
-
-    //var_dump($properties);
   }
 }
