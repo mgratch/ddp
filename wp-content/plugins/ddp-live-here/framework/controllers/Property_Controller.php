@@ -298,7 +298,8 @@ class Property_Controller extends Controller
       $properties = $this->model->getProperties($args['properties']);
 
       $vars = array(
-        'properties' => $properties
+        'properties' => $properties,
+        'asset_url'   => Config::get('global.asset_uri')
       );
 
       $response['html'] = base64_encode($this->view->makeView('ajax.listing', $vars));

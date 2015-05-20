@@ -7,7 +7,7 @@
         @if ($property->images->listingImage)
           <img src="{{ $property->images->listingImage[0] }}" alt="{{ $property->title }}">
         @else
-          <img src="http://placehold.it/520x340&text=N/A">
+          <img src="{{ $asset_url . '/images/na.jpg' }}">
         @endif
 
         <div class="listing-price">

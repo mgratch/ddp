@@ -128,7 +128,7 @@
 
       $this.map = new google.maps.Map(document.getElementById('map'), options);
 
-      $this.map.panBy(($(window).width() / 3) * (-1), 0);
+      $this.map.panBy(-100, -200);
 
       if (_hoodRendered === false) {
         $this.addRegions();
@@ -216,7 +216,7 @@
 
         $scope.currentSlider = atts.$container.find('.js-listing-carousel').show().bxSlider({
           slideWidth   : '1080',
-          auto         : true,
+          auto         : false,
           useCSS       : false,
           pager        : false,
           prevText     : '<span class="io-icon-arrow-left"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="371px" height="317px" viewBox="0 0 371 317" enable-background="new 0 0 371 317" xml:space="preserve" version="1.1" id="Layer_1"><polygon fill="currentColor" points="156.438,317 212.272,317 75.079,178 371,178 371,138 76.065,138 212.273,0 156.438,0 0,158.5 "/></svg></span>',
@@ -324,7 +324,14 @@
 
         // Set Region Pins
         $.each(_regionsPolygons, function(i, val) {
+          var offset;
           var slug = val.regionMeta.label.toLowerCase().replace(' ', '-');
+
+          if (slug === 'downtown') {
+            offset = 0.004;
+            val.center.A = (val.center.A - offset);
+            val.center.F = (val.center.F + offset);
+          }
 
           var marker = new google.maps.Marker({
             map: $this.map,

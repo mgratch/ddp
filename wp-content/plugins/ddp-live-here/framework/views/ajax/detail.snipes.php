@@ -70,7 +70,7 @@
             <span class="icon-parking">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="23px" height="23px" viewBox="0 0 23 23" enable-background="new 0 0 23 23" xml:space="preserve"><g><path fill="currentColor" d="M18 0H5C2.238 0 0 2.2 0 5v13c0 2.8 2.2 5 5 5h13c2.762 0 5-2.238 5-5V5C23 2.2 20.8 0 18 0z M21 18 c0 1.654-1.346 3-3 3H5c-1.654 0-3-1.346-3-3V5c0-1.654 1.346-3 3-3h13c1.654 0 3 1.3 3 3V18z"/><path fill="currentColor" d="M12.36 6.175H8.25v10.649h1.935V13.15h2.176c1.994 0 3.39-1.44 3.39-3.51S14.354 6.2 12.4 6.175z M12 11.47h-1.815V7.84 h1.846c1.095 0 1.8 0.7 1.8 1.8C13.785 10.8 13.1 11.5 12 11.47z"/></g></svg>
             </span>
-            Parking Included
+            Parking Available
           </li>
         @endif
 
@@ -79,7 +79,7 @@
             <span class="icon-in-unit">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="19px" height="24px" viewBox="0 0 19 24" enable-background="new 0 0 19 24" xml:space="preserve"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.979 24H2.118v-0.83H0.737H0v-0.723V0.722V0h0.737h17.526H19v0.722v21.726v0.723 h-0.736h-1.382V24h-2.86v-0.83H4.979V24L4.979 24z M16.002 3.251V2.168h-1.459v1.083H16.002L16.002 3.251z M6.634 3.251V2.168H2.999 v1.083H6.634L6.634 3.251z M13.705 3.251V2.168h-1.458v1.083H13.705L13.705 3.251z M9.5 7.301c-3.017 0-5.466 2.399-5.466 5.4 c0 3 2.4 5.4 5.5 5.353c3.016 0 5.466-2.4 5.466-5.353C14.966 9.7 12.5 7.3 9.5 7.301L9.5 7.301z M12.975 14.6 c-0.625-0.422-1.034-1.127-1.034-1.927s0.409-1.506 1.034-1.929C12.288 9.5 11 8.7 9.5 8.7 c-2.206 0-3.991 1.748-3.991 3.91c0 2.2 1.8 3.9 4 3.909C10.991 16.6 12.3 15.8 13 14.582L12.975 14.582z M17.525 1.444H1.475v2.498h16.051V1.444L17.525 1.444z M1.475 5.386v16.339h16.051V5.386H1.475z"/></svg>
             </span>
-            Washer/Dryer
+            W/D In Unit
           </li>
         @endif
           <li class="unit-feature"></li>
