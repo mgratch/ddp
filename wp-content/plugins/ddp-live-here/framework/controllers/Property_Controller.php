@@ -182,10 +182,10 @@ class Property_Controller extends Controller
       'id' => 'property-photos',
       'context' => 'normal',
       'fields' => array(
-        'property_listing_photo' => array(
-          'type' => 'media',
-          'field_description' => 'Minimum Size: 520px x 340px. Aspect Ratio: 26:17'
-        ),
+        // 'property_listing_photo' => array(
+        //   'type' => 'media',
+        //   'field_description' => 'Minimum Size: 520px x 340px. Aspect Ratio: 26:17'
+        // ),
         'property_photos' => array(
           'type' => 'repeat',
           'fields' => array(
@@ -298,7 +298,19 @@ class Property_Controller extends Controller
       $properties = $this->model->getProperties($args['properties']);
 
       $vars = array(
-        'properties' => $properties,
+        'properties' => array_map(function($a) {
+          // setup unique title for displaying listings in the property listing
+          if ($a->type === 'rent') {
+            $a->rent->listingDisplay = [];
+            foreach ($a->rent->listings as $listing) {
+              if (!in_array($listing->title, $a->rent->listingDisplay)) {
+                $a->rent->listingDisplay[] = $listing->title;
+              }
+            }
+          }
+
+          return $a;
+        }, $properties),
         'asset_url'   => Config::get('global.asset_uri')
       );
 

@@ -19,7 +19,7 @@ class Property_Model extends Model
     ));
 
     foreach ($properties_posts as $property) {
-      $properties[] = $this->transformerProperty($property);
+      $properties[] = $this->serializerProperty($property);
     }
 
     return $properties;
@@ -33,7 +33,7 @@ class Property_Model extends Model
 
     $property = get_post($id);
 
-    return $this->transformerProperty($property);
+    return $this->serializerProperty($property);
   }
 
   public function getProperties(array $propertyIds)
@@ -46,13 +46,13 @@ class Property_Model extends Model
     ));
 
     foreach ($property_posts as $property) {
-      $properties[] = $this->transformerProperty($property);
+      $properties[] = $this->serializerProperty($property);
     }
 
     return $properties;
   }
 
-  private function transformerProperty($property)
+  private function serializerProperty($property)
   {
     $newProperty = (object) array();
     $meta = Helpers::parseMeta(
@@ -96,7 +96,7 @@ class Property_Model extends Model
     }
     if ($newProperty->type == 'rent') {
       $newProperty->rent = (object) array(
-        'listings'     => $this->transformerListings($meta['rent_listings']),
+        'listings'     => $this->serializerListings($meta['rent_listings']),
         'attributes'    => (object) array(
           'pets'         => (bool) Helpers::emptySet($meta, 'property_pets', false),
           'fitness'      => (bool) Helpers::emptySet($meta, 'property_fitness', false),
@@ -163,7 +163,7 @@ class Property_Model extends Model
     return $newProperty;
   }
 
-  private function transformerListings(array $listings)
+  private function serializerListings(array $listings)
   {
     $newListings = array();
 

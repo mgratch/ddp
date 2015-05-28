@@ -168,7 +168,8 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
         _markers = {};
         _propertyInfoWindows = {};
 
-        // Need timeout to get the content for the info window
+        // Need timeout to get the content for the info window, race condition
+        // failsafe
         setTimeout(function() {
           if ($('.listing-item').length) {
             for (var i = 0; i < properties.length; i++) {
@@ -207,6 +208,9 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
 
             $.each(_markers, function(i, marker) {
               google.maps.event.addListener(marker.marker, 'click', function() {
+                $.each(_markers, function(ii, mmarker) {
+                  mmarker.infowindow.close($this.map);
+                });
                 marker.infowindow.open($this.map, this);
               });
             });
@@ -726,7 +730,13 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
         }
       });
 
-      filters.type = types;
+      /**
+       * Harded coded this to rentals only because there is no data source for
+       * the for sale homes. We removed the filter selection.
+       */
+      // filters.type = types;
+      filters.type = 'rent';
+
       filters.rooms = rooms;
 
       if ($scope.debug) {
@@ -832,7 +842,7 @@ window.Base64 = {_keyStr:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
 
 
   $scope.App({
-    debug: false
+    debug: true
   });
 
 })(jQuery, window, window.google);

@@ -3220,8 +3220,12 @@ button.toggle-content-display.closed {
 .filter-content .form-label {
   padding-bottom: 3px;
 }
+/* line 23, sass/partials/_theme-filter-form.scss */
+.bedrooms .filter-content .form-label {
+  float: left;
+}
 
-/* line 25, sass/partials/_theme-filter-form.scss */
+/* line 29, sass/partials/_theme-filter-form.scss */
 .checkbox-list {
   font-size: 0.1px;
   text-align: justify;
@@ -3245,7 +3249,7 @@ button.toggle-content-display.closed {
 /* line 3, sass/partials/_theme-filter-results-listing.scss */
 .filter-results-listing-content {
   width: calc(100% - 23px);
-  height: calc(100% - 267px);
+  height: calc(100% - 156px);
   padding: 20px 16px 20px 12.5%;
   background-color: white;
   border-right: solid 1px #a29f9f;
