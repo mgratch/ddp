@@ -178,7 +178,6 @@
                     content: contentStr,
                     maxWidth: 200
                 });
-
               }
             }
 
@@ -250,12 +249,14 @@
         downtown: {
           fillColor: '#fb9a00',
           label: 'Downtown',
-          linkUri: 'live-here/district-profiles/downtown'
+          linkUri: 'live-here/district-profiles/downtown',
+          description: 'Signs of new life are everywhere in Detroit\'s downtown area. It is currently experiencing one of the largest urban redevelopment booms in the country.'
         },
         corktown:  {
           fillColor: '#36b3ce',
           label: 'Corktown',
-          linkUri: 'live-here/district-profiles/corktown'
+          linkUri: 'live-here/district-profiles/corktown',
+          description: 'Corktown is Detroit\'s oldest neighborhood and is just west of the Downtown Detroit commercial district.'
         },
         rivertown: {
           fillColor: '#b4c82c',
@@ -265,17 +266,20 @@
         lafayettepark: {
           fillColor: '#2468c0',
           label: 'Lafayette Park',
-          linkUri: 'live-here/district-profiles/lafayette-park'
+          linkUri: 'live-here/district-profiles/lafayette-park',
+          description: 'Lafayette Park is an internationally renowned district of residential architecture, both historic and modern.'
         },
         easternmarket: {
           fillColor: '#ea60d5',
           label: 'Eastern Market',
-          linkUri: 'live-here/district-profiles/eastern-market'
+          linkUri: 'live-here/district-profiles/eastern-market',
+          description: 'At the heart of Eastern Market is a six-block public market that has been feeding Detroit since 1891.'
         },
         midtown: {
           fillColor: '#9ea7ca',
           label: 'Midtown',
-          linkUri: 'live-here/district-profiles/midtown'
+          linkUri: 'live-here/district-profiles/midtown',
+          description: 'Midtown is Detroit\'s cultural hub, boasting some of the best galleries and museums as well as a vibrant blend of housing options.'
         },
         woodbridge: {
           fillColor: '#fa4b5b',
@@ -290,7 +294,8 @@
         newcenter: {
           fillColor: '#06b39d',
           label: 'New Center',
-          linkUri: 'live-here/district-profiles/new-center'
+          linkUri: 'live-here/district-profiles/new-center',
+          description: 'Detroit\'s New Center is a vibrant, diverse and economically healthy district and the northern anchor of Detroit\'s Greater Downtown.'
         }
       };
 
@@ -356,6 +361,12 @@
             contentStr += '<div class="infowindow-content"><div>';
               contentStr += '<img src="'+window.ddpPropertiesObj.assetUri+'/images/regions/images/'+slug+'.jpg" />';
             contentStr += '</div>';
+
+            if (val.regionMeta.description) {
+              contentStr += '<div>';
+                contentStr += '<p>' + val.regionMeta.description + '</p>';
+              contentStr += '</div>';
+            }
 
             contentStr += '<div>';
               contentStr += '<a class="action-button" href="'+window.ddpPropertiesObj.siteUrl+''+val.regionMeta.linkUri+'">More Info<a>';
@@ -818,7 +829,7 @@
 
 
   $scope.App({
-    debug: true
+    debug: false
   });
 
 })(jQuery, window, window.google);
