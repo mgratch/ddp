@@ -1362,15 +1362,20 @@ body footer h4 {
 
 .biz-board-headshot {
   display: inline-block;
-  float: left;
   width: 100%;
   max-width: 165px;
   line-height: 0;
-  margin-right: 15px;
+  margin: 0 15px 15px 0;
 }
 .biz-board-headshot img {
   width: 100%;
   height: auto;
+}
+
+@media screen and (min-width: 568px) {
+  .biz-board-headshot {
+    float: left;
+  }
 }
 
 .biz-board-title,
