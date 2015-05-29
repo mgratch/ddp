@@ -1347,6 +1347,41 @@ body footer h4 {
 /* Interior Page Styles */
 /* ---------------------------------- */
 
+/* Posts Lising - Board of Directors */
+.posts-listing > * {
+  border-bottom: solid 2px #a8a8a8;
+  padding: 30px 0 35px;
+}
+.posts-listing > *:first-child {
+  padding-top: 0;
+}
+
+.flex-container {
+  overflow: hidden;
+}
+
+.biz-board-headshot {
+  display: inline-block;
+  float: left;
+  width: 100%;
+  max-width: 165px;
+  line-height: 0;
+  margin-right: 15px;
+}
+.biz-board-headshot img {
+  width: 100%;
+  height: auto;
+}
+
+.biz-board-title,
+.biz-board-name {
+  font-size: 26px;
+  line-height: 1.15;
+  color: #f8981d;
+}
+.biz-board-title {
+  margin-bottom: 10px;
+}
 
 /* Fixed positioning to background logo */
 body .interior-page .main-img.img-container img.bg-image {
@@ -2699,4 +2734,17 @@ body.search #wrapper-interior.interior-page .col-md-3:before {
   		min-width: 0px;
   		width: 180px;
   	}
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:before, .clearfix:after {
+  content: '';
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
 }

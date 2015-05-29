@@ -81,63 +81,61 @@ Template Name: Page BIZ Zone-Board of Directors
 	 				</div>
 	 				</div>
 	 			<div class="col-md-9 main-content">
-	 			<?php //the_content(); 
-							
-							
+	 			<?php //the_content();
+
 						$board_directors = get_posts(array(
 							'post_type'=>'biz-board',
 							'posts_per_page' => -1,
  							'orderby' => 'menu',
 							'order' => 'ASC'
-						
-							)
-						);	
-							
-							
-					 if(!empty($board_directors)) {
 
-						foreach($board_directors as $director) {
-							
-							echo '<div>';
-							
-							$director_title = types_render_field("biz-board-title", array("raw"=>true,"post_id"=>$director->ID));
-							if(!empty($director_title)){
-								echo '<div>'.$director_title.'</div>';
-							}
+							)
+						);
+
+
+					if(!empty($board_directors)) {
+						echo '<div class="posts-listing">';
+
+							foreach($board_directors as $director) {
 
 								echo '<div>';
-								$post_thumbnail_id = get_post_thumbnail_id( $post_id );
-								if ( !empty($post_thumbnail_id) ) {
-									echo wp_get_attachment_image($post_thumbnail_id);
-								} 
-								
-									echo '<div>';
-									
-										echo '<div class="biz-board-name">';
-											echo get_the_title($director->ID);
-										
-										$director_company = types_render_field("biz-board-company", array("raw"=>true,"post_id"=>$director->ID));
-										if(!empty($director_company)){
-											echo ', '.$director_company;
+									$director_title = types_render_field("biz-board-title", array("raw"=>true,"post_id"=>$director->ID));
+
+									if(!empty($director_title)){
+										echo '<div class="biz-board-title">'.$director_title.'</div>';
+									}
+
+									echo '<div class="clearfix">';
+										$director_headshot_src = types_render_field("biz-board-headshot", array("raw"=>true,"post_id"=>$director->ID));
+
+										if (!empty($director_headshot_src)) {
+											$director_headshot = $director_headshot_src;
+										} else {
+											$director_headshot = 'http://placehold.it/330';
 										}
-									
-										echo '</div>'; //end biz-board-name
-										
-										echo apply_filters('the_content', $director->post_content);
+
+										echo '<div class="biz-board-headshot">';
+											echo '<img src="'.$director_headshot.'">';
+										echo '</div>';
+
+										echo '<div class="flex-container">';
+											echo '<div class="biz-board-name">';
+												echo get_the_title($director->ID);
+
+												$director_company = types_render_field("biz-board-company", array("raw"=>true,"post_id"=>$director->ID));
+												if(!empty($director_company)){
+													echo ', '.$director_company;
+												}
+											echo '</div>'; //end biz-board-name
+											echo '<div class="biz-board-bio">';
+												echo apply_filters('the_content', $director->post_content);
+											echo '</div>';
+										echo '</div>';
 									echo '</div>';
-								
 								echo '</div>';
-							echo '</div>';
-
-
-						}
-		
-
+							}
+						echo '</div>';
 					}
-							
-							
-							
-							
 				?>
 	 			</div>
 	 	</div>
