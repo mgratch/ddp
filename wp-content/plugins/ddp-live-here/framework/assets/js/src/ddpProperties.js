@@ -555,6 +555,9 @@
         var $el = $(this);
         var propertyID = $el.attr('data-property-id');
 
+        // Dirty, awful, bug fix
+        $('.js-close-detail').click();
+
         // Make sure we are showing the control / listing area
         _events.toggleControls({
           state: 'open'
@@ -744,8 +747,17 @@
                 (rooms[(rooms.length - 1)] === 3 &&
                   listing.bedrooms >= rooms[(rooms.length - 1)])) {
 
-              skip = false;
-              return false;
+              if ($scope.Helpers.intBetween(
+                listing.priceLow,
+                filters['min-'+property.type],
+                filters['max-'+property.type]) &&
+                $scope.Helpers.intBetween(
+                listing.priceHigh,
+                filters['min-'+property.type],
+                filters['max-'+property.type])) {
+                  skip = false;
+                  return false;
+              }
             }
           });
         } else {

@@ -27,7 +27,12 @@
         <ul class="listing-unit-types">
           @foreach ($property->rent->listings as $listing)
             <li class="unit-type {{ $listing->available ? 'available' : null }}">
-              {{ $listing->title }}{{ $listing->bathrooms ? ', ' . $listing->bathrooms . ' Bathroom' : null }}: ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
+              {{ $listing->title }}{{ $listing->bathrooms ? ', ' . $listing->bathrooms . ' Bathroom' : null }}:
+                @if (!empty($listing->priceHigh) && !empty($listing->priceLow))
+                  ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
+                @else
+                  $N/A
+                @endif
               @if (!empty($listing->sqFeetLow))
               | {{ $listing->sqFeetLow }} {{ !empty($listing->sqFeetHigh) ? '- ' . $listing->sqFeetHigh : null }} sq.ft.
               @endif
@@ -36,9 +41,11 @@
         </ul>
       @endif
 
-      <h3 class="section-title">Description</h3>
+      @if (!empty($property->description))
+        <h3 class="section-title">Description</h3>
 
-      {{ apply_filters('the_content', $property->description) }}
+        {{ apply_filters('the_content', $property->description) }}
+      @endif
 
       @if ($property->type === 'rent' &&
            ($property->rent->attributes->pets ||
