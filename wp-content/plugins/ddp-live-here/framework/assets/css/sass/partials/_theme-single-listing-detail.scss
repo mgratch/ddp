@@ -71,6 +71,10 @@
 .listing-contact-info.listing-contact-info {
   margin-top: 5px;
 
+  & * {
+    word-break: break-all;
+  }
+
   & > * {
     display: block;
   }

@@ -3348,15 +3348,19 @@ button.toggle-content-display.closed {
   margin-top: 5px;
 }
 /* line 74, sass/partials/_theme-single-listing-detail.scss */
+.listing-contact-info.listing-contact-info * {
+  word-break: break-all;
+}
+/* line 78, sass/partials/_theme-single-listing-detail.scss */
 .listing-contact-info.listing-contact-info > * {
   display: block;
 }
-/* line 78, sass/partials/_theme-single-listing-detail.scss */
+/* line 82, sass/partials/_theme-single-listing-detail.scss */
 .listing-contact-info.listing-contact-info a {
   color: #ffa01e;
 }
 
-/* line 83, sass/partials/_theme-single-listing-detail.scss */
+/* line 87, sass/partials/_theme-single-listing-detail.scss */
 .close-detail {
   position: absolute;
   top: 8px;
@@ -3367,20 +3371,20 @@ button.toggle-content-display.closed {
   border-radius: 2px;
 }
 
-/* line 93, sass/partials/_theme-single-listing-detail.scss */
+/* line 97, sass/partials/_theme-single-listing-detail.scss */
 .bx-controls-direction a {
   color: rgba(255, 255, 255, 0);
 }
-/* line 96, sass/partials/_theme-single-listing-detail.scss */
+/* line 100, sass/partials/_theme-single-listing-detail.scss */
 .bx-wrapper:hover .bx-controls-direction a, .bx-wrapper:focus .bx-controls-direction a {
   color: rgba(255, 255, 255, 0.25);
 }
-/* line 100, sass/partials/_theme-single-listing-detail.scss */
+/* line 104, sass/partials/_theme-single-listing-detail.scss */
 .bx-wrapper:hover .bx-controls-direction a:hover, .bx-wrapper:focus .bx-controls-direction a:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* line 106, sass/partials/_theme-single-listing-detail.scss */
+/* line 110, sass/partials/_theme-single-listing-detail.scss */
 .scroll-content {
   height: 100%;
   padding: 0 20px 0 12.5%;
@@ -3388,7 +3392,7 @@ button.toggle-content-display.closed {
   overflow-y: scroll;
 }
 
-/* line 113, sass/partials/_theme-single-listing-detail.scss */
+/* line 117, sass/partials/_theme-single-listing-detail.scss */
 .fixed-footer {
   position: absolute;
   bottom: 0;
