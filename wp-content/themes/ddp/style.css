@@ -1570,8 +1570,7 @@ body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul li:hover {
   color: #B4C82C;
 }
 
-body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu li.current_page_item,
-body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu li.current-menu-item {
+body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu li .sub-menu li.current-menu-item {
   padding: 0 0 0 10px !important;
   /*margin-left: -10px;*/
 }
