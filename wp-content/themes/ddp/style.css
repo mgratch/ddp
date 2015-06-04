@@ -430,6 +430,7 @@ body header .main-nav .big-three .explore .dropdown-menu > ul > li:hover {
   color: #ddd;
 }
 #wrapper-interior.interior-page.explore .open > a:after,
+#wrapper-interior.interior-page.explore .current-page-ancestor > a:after,
 body .explore .open > a:after {
   border-left-color: #b4c82c;
 }
@@ -446,6 +447,7 @@ body header .main-nav .big-three .business .dropdown-menu > ul > li:hover {
   color: #ddd;
 }
 #wrapper-interior.interior-page.do-business .open > a:after,
+#wrapper-interior.interior-page.do-business .current-page-ancestor > a:after,
 body .business .open > a:after {
   border-left-color: #36b3ce;
 }
@@ -462,6 +464,7 @@ body header .main-nav .big-three .live .dropdown-menu > ul > li:hover {
   color: #ddd;
 }
 #wrapper-interior.interior-page.live-here .open > a:after,
+#wrapper-interior.interior-page.live-here .current-page-ancestor > a:after,
 body .live .open > a:after {
   border-left-color: #2468c0;
 }
@@ -478,6 +481,7 @@ body header .main-nav .big-three .biz-improvement .dropdown-menu > ul > li:hover
   color: #ddd;
 }
 #wrapper-interior.interior-page.biz-zone .open > a:after,
+#wrapper-interior.interior-page.biz-zone .current-page-ancestor > a:after,
 body .biz-improvement .open > a:after {
   border-left-color: #f8981d;
 }
@@ -1568,7 +1572,7 @@ body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul li:hover {
 
 body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu li.current_page_item,
 body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu li.current-menu-item {
-  padding: 0px !important;
+  padding: 0 0 0 10px !important;
   /*margin-left: -10px;*/
 }
 body #wrapper-interior.interior-page .col-md-3 .left-sidebar ul.sub-menu > li.current-menu-parent{
@@ -1735,7 +1739,8 @@ header .menu-item-has-children > a:after,
   border-bottom: solid 4px transparent;
 }
 header .menu-item-has-children.open > a:after,
-#wrapper-interior.interior-page .menu-item-has-children.open > a:after {
+#wrapper-interior.interior-page .menu-item-has-children.open > a:after,
+#wrapper-interior.interior-page .menu-item-has-children.current-page-ancestor > a:after {
   -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
