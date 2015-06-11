@@ -1,9 +1,16 @@
 <?php
-
+/*
+ *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/includes/fields/file.php $
+ * $LastChangedDate: 2015-03-16 12:03:31 +0000 (Mon, 16 Mar 2015) $
+ * $LastChangedRevision: 1113864 $
+ * $LastChangedBy: iworks $
+ *
+ */
 /**
  * Register data (called automatically).
- * 
- * @return type 
+ *
+ * @return type
  */
 function wpcf_fields_file() {
     return array(
@@ -11,18 +18,15 @@ function wpcf_fields_file() {
         'title' => __( 'File', 'wpcf' ),
         'description' => __( 'File', 'wpcf' ),
         'validate' => array('required'),
-        'meta_box_js' => array(
-            'wpcf-jquery-fields-file' => array(
-                'inline' => 'wpcf_fields_file_meta_box_js_inline',
-            )
-        ),
     );
 }
 
 /**
  * Form data for post edit page.
- * 
- * @param type $field 
+ *
+ * @global object $wpdb
+ *
+ * @param type $field
  */
 function wpcf_fields_file_meta_box_form( $field ) {
     add_thickbox();
@@ -34,9 +38,12 @@ function wpcf_fields_file_meta_box_form( $field ) {
     // Get attachment by guid
     global $wpdb;
     if ( !empty( $field['value'] ) ) {
-        $attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}
-    WHERE post_type = 'attachment' AND guid=%s",
-                        $field['value'] ) );
+        $attachment_id = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid=%s",
+                $field['value']
+            )
+        );
     }
 
     // Set preview
@@ -94,68 +101,11 @@ function wpcf_fields_file_meta_box_form( $field ) {
 }
 
 /**
- * Renders inline JS.
- */
-function wpcf_fields_file_meta_box_js_inline() {
-    global $post;
-    $for_post = (isset( $post ) ? 'post_id=' . $post->ID . '&' : '');
-    ?>
-    <script type="text/javascript">
-        //<![CDATA[
-        jQuery(document).ready(function($){
-            window.wpcf_formfield = false;
-            $('.wpcf-fields-file-upload-link').live('click', function() {
-                window.wpcf_formfield = '#'+$(this).attr('id')+'-holder';
-                tb_show('', 'media-upload.php?<?php echo $for_post ?>type=file&context=wpcf-fields-media-insert&types[field_type]='+$(this).data('types').id+'&types[field_id]='+$(this).data('types').id+'&TB_iframe=true');
-                return false;
-            });
-        });
-        function wpcfFieldsFileMediaInsert(url, type) {
-            jQuery(window.wpcf_formfield).val(url);
-            if (type == 'image') {
-                jQuery(window.wpcf_formfield+'-preview').html('<img src="'+url+'" />');
-            } else {
-                jQuery(window.wpcf_formfield+'-preview').html('');
-            }
-            tb_remove();
-            window.wpcf_formfield = false;
-        }
-        //]]>
-    </script>
-    <?php
-}
-
-/**
- * Media popup JS.
- */
-function wpcf_fields_file_media_admin_head() {
-    ?>
-    <script type="text/javascript">
-        function wpcfFieldsFileMediaTrigger(guid, type) {
-            window.parent.wpcfFieldsFileMediaInsert(guid, type);
-            window.parent.jQuery('#TB_closeWindowButton').trigger('click');
-        }
-        <?php
-    if ( isset( $_GET['types']['field_type'] ) && in_array( $_GET['types']['field_type'],
-                        array('audio', 'video') ) ):
-        ?>
-        jQuery(document).ready(function($){
-            $('#media-upload-header').after('<div class="message updated"><p><?php printf(esc_js(__('Please note that not all video and audio formats are supported by the WordPress media player. Before you upload media files, have a look at %ssupported media formats%s.', 'wpcf')), '<a href="http://wp-types.com/documentation/user-guides/adding-audio-video-and-other-embedded-content-to-your-site/" target="_blank">', '</a>'); ?></p></div>');
-        });
-    <?php endif; ?>
-    </script>
-    <style type="text/css">
-        tr.submit, .ml-submit, #save, #media-items .A1B1 p:last-child  { display: none; }
-    </style>
-    <?php
-}
-
-/**
  * Adds 'Types' column to media item table.
- * 
+ *
  * @param type $form_fields
  * @param type $post
- * @return type 
+ * @return type
  */
 function wpcf_fields_file_attachment_fields_to_edit_filter( $form_fields, $post ) {
     // Reset form
@@ -186,8 +136,8 @@ function wpcf_fields_file_attachment_fields_to_edit_filter( $form_fields, $post 
 
 /**
  * View function.
- * 
- * @param type $params 
+ *
+ * @param type $params
  */
 function wpcf_fields_file_view( $params ) {
     $output = '';
@@ -218,6 +168,9 @@ function wpcf_fields_file_view( $params ) {
 
 /**
  * Editor callback form.
+ *
+ * @global object $wpdb
+ *
  */
 function wpcf_fields_file_editor_callback( $field, $data, $meta_type, $post ) {
 
@@ -234,14 +187,16 @@ function wpcf_fields_file_editor_callback( $field, $data, $meta_type, $post ) {
         if ( !empty( $file ) ) {
             // Get attachment by guid
             global $wpdb;
-            $attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}
-    WHERE post_type = 'attachment' AND guid=%s",
-                            $file ) );
+            $attachment_id = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid=%s",
+                    $file
+                )
+            );
         }
     }
 
     // Set data
-//    $data['post_id'] = !empty( $post->ID ) ? $post->ID : -1;
     $data['attachment_id'] = $attachment_id;
     $data['file'] = !empty($file) ? $file : '';
 
@@ -279,9 +234,9 @@ function wpcf_fields_file_editor_submit( $data, $field, $context ) {
 
 /**
  * Filters media TABs.
- * 
+ *
  * @param type $tabs
- * @return type 
+ * @return type
  */
 function wpcf_fields_file_media_upload_tabs_filter( $tabs ) {
     unset( $tabs['type_url'] );

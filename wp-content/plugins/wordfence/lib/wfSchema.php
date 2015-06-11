@@ -122,6 +122,7 @@ class wfSchema {
 	KEY k2(endTime)
 ) default charset=utf8",
 "wfStatus" => "(
+	id bigint UNSIGNED NOT NULL auto_increment PRIMARY KEY,
 	ctime DOUBLE(17,6) UNSIGNED NOT NULL,
 	level tinyint UNSIGNED NOT NULL,
 	type char(5) NOT NULL,
@@ -158,6 +159,13 @@ class wfSchema {
 	reason varchar(255) NOT NULL,
 	totalBlocked int UNSIGNED default 0,
 	lastBlocked int UNSIGNED default 0
+) default charset=utf8",
+'wfBlockedIPLog' => "(
+	IP int UNSIGNED NOT NULL,
+	countryCode VARCHAR(2) NOT NULL,
+	blockCount int UNSIGNED NOT NULL DEFAULT 0,
+	unixday int UNSIGNED NOT NULL,
+	PRIMARY KEY(IP, unixday)
 ) default charset=utf8"
 /*
 'wfPerfLog' => "(

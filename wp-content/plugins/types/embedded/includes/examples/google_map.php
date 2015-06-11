@@ -72,9 +72,13 @@ function wpcf_fields_google_map() {
                 'deps' => array('jquery'), // (optional) Same as WP's enqueue_script() param
                 'in_footer' => true, // (optional) Same as WP's enqueue_script() param
             ),
+            /**
+             * example how to add javascript file
+             *
             'wpcf-jquery-fields-my-field' => array(
                 'src' => get_stylesheet_directory_uri() . '/js/my-field.js', // This will load JS file
             ),
+             */
         ),
         // Additional CSS on post edit page
         'meta_box_css' => array(
@@ -85,14 +89,22 @@ function wpcf_fields_google_map() {
         ),
         // Additional JS on group edit page
         'group_form_js' => array(// Add JS when field is active on post edit page
+            /**
+             * example how to add javascript file wit callback fundtion
+             *
             'wpcf-jquery-fields-my-field' => array(
                 'inline' => 'wpcf_fields_google_map_group_form_js_inline', // This calls function that renders JS
                 'deps' => array('jquery'), // (optional) Same as WP's enqueue_script() param
                 'in_footer' => true, // (optional) Same as WP's enqueue_script() param
             ),
+             */
+            /**
+             * example how to add javascript file
+             *
             'wpcf-jquery-fields-my-field' => array(
                 'src' => get_stylesheet_directory_uri() . '/js/my-field.js', // This will load JS file
             ),
+             */
         ),
         // Additional CSS on post edit page
         'group_form_css' => array(
@@ -159,7 +171,6 @@ function wpcf_fields_google_map_editor_callback( $field, $settings ) {
     $form = ob_get_contents();
     ob_get_clean();
     return array(
-//        'supports' => array('styling', 'style'),
         'tabs' => array(
             'display' => array(
                 'menu_title' => __( 'Display', 'wpcf' ),
@@ -211,4 +222,34 @@ function wpcf_fields_google_map_view( $data ) {
             . '&amp;source=embed" style="color:#0000FF;text-align:left">'
             . __( 'View Larger Map', 'wpcf' )
             . '</a></small><br />';
+}
+
+function WPToolset_Field_Google_Map_loader()
+{
+
+    if ( class_exists('WPToolset_Field_Google_Map' ) ) {
+        return;
+    }
+
+    class WPToolset_Field_Google_Map extends FieldFactory
+    {
+        public function metaform()
+        {
+            $attributes =  $this->getAttr();
+
+            $metaform = array();
+            $metaform[] = array(
+                '#type' => 'textfield',
+                '#title' => $this->getTitle(),
+                '#description' => $this->getDescription(),
+                '#name' => $this->getName(),
+                '#value' => $this->getValue(),
+                '#validate' => $this->getValidationData(),
+                '#repetitive' => $this->isRepetitive(),
+                '#attributes' => $attributes,
+            );
+            return $metaform;
+        }
+
+    }
 }

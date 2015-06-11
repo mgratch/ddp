@@ -39,7 +39,9 @@ function wpcf_fields_checkbox_insert_form( $form_data ) {
         '#description' => __( 'Under this name field will be stored in DB (sanitized)',
                 'wpcf' ),
         '#name' => 'name',
-        '#attributes' => array('class' => 'wpcf-forms-set-legend'),
+        '#attributes' => array(
+            'class' => 'wpcf-forms-set-legend',
+        ),
         '#validate' => array('required' => array('value' => true)),
     );
     $form['description'] = array(
@@ -54,6 +56,11 @@ function wpcf_fields_checkbox_insert_form( $form_data ) {
         '#title' => __( 'Value to store', 'wpcf' ),
         '#name' => 'set_value',
         '#value' => 1,
+        '#attributes' => array(
+            'data-wpcf-type' => 'checkbox',
+            'data-required-message-0' => __("This value can't be zero", 'wpcf'),
+            'data-required-message' => __("Please enter a value", 'wpcf')
+        )
     );
     $cb_migrate_save = !empty( $form_data['slug'] ) ? "wpcfCbSaveEmptyMigrate(jQuery(this), '{$form_data['slug']}', '', '" . wp_create_nonce( 'cb_save_empty_migrate' ) . "', 'save_check', '{$meta_type}');" : '';
     $cb_migrate_do_not_save = !empty( $form_data['slug'] ) ? "wpcfCbSaveEmptyMigrate(jQuery(this), '{$form_data['slug']}', '', '" . wp_create_nonce( 'cb_save_empty_migrate' ) . "', 'do_not_save_check', '{$meta_type}');" : '';
@@ -112,12 +119,18 @@ function wpcf_fields_checkbox_insert_form( $form_data ) {
         '#name' => 'display_value_not_selected',
         '#value' => '',
         '#inline' => true,
+        '#attributes' => array(
+            'placeholder' => __('Enter not selected value', 'wpcf'),
+        ),
     );
     $form['display-value-2'] = array(
         '#type' => 'textfield',
         '#title' => __( 'Selected:', 'wpcf' ),
         '#name' => 'display_value_selected',
         '#value' => '',
+        '#attributes' => array(
+            'placeholder' => __('Enter selected value', 'wpcf'),
+        ),
     );
     $form['help'] = array(
         '#type' => 'markup',

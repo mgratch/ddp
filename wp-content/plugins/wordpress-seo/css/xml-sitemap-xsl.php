@@ -1,20 +1,26 @@
 <?php
 /**
- * @package XML_Sitemaps
+ * @package WPSEO\XML_Sitemaps
  */
+
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
 
 // This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
 // to deal with support requests for other people's wrong code...
-if ( extension_loaded( 'newrelic' ) && function_exists('newrelic_disable_autorum') ) {
+if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
 $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
-                xmlns:html="http://www.w3.org/TR/REC-html40"
+				xmlns:html="http://www.w3.org/TR/REC-html40"
 				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-                xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+				xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
 	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">

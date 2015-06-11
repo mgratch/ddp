@@ -29,12 +29,12 @@
 	width: 70%;
 	float:left;
 }
-/*.wpcf-profile-line-right img{
+.wpcf-profile-line-right img{
 	max-width:40%;
 	height:auto;
-}*/
-.CodeMirror-wrap{ 
-	background:#fff;
+}
+.wpcf-fields-form .CodeMirror-wrap
+{
 	border:1px solid #ccc;
 }
 .wpcf-admin-css-preview-style-edit{

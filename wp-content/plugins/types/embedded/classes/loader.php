@@ -1,11 +1,18 @@
 <?php
-/*
+/**
+ *
  * Loader class
+ *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/classes/loader.php $
+ * $LastChangedDate: 2015-03-25 12:38:40 +0000 (Wed, 25 Mar 2015) $
+ * $LastChangedRevision: 1120400 $
+ * $LastChangedBy: iworks $
+ *
  */
 
 /**
  * Loader Class
- * 
+ *
  * @since Types 1.2
  * @package Types
  * @subpackage Classes
@@ -18,7 +25,7 @@ class WPCF_Loader
 
     /**
      * Settings
-     * @var array 
+     * @var array
      */
     private static $__settings = array();
 
@@ -31,11 +38,14 @@ class WPCF_Loader
                 array('WPCF_Loader', 'renderJsSettings'), 5 );
 		add_filter( 'the_posts', array('WPCF_Loader', 'wpcf_cache_complete_postmeta') );
     }
-    
+
     /**
-    * Cache the postmeta for posts returned by a WP_Query
-    */
-    
+     * Cache the postmeta for posts returned by a WP_Query
+     *
+     * @global object $wpdb
+     *
+     */
+
     public static function wpcf_cache_complete_postmeta( $posts ) {
 		global $wpdb;
 		if ( !$posts )
@@ -47,7 +57,7 @@ class WPCF_Loader
 			$cache_key_looped_post = md5( 'post::_is_cached' . $post->ID );
 			$cached_object = wp_cache_get( $cache_key_looped_post, $cache_group_ids );
 			if ( false === $cached_object ) {
-				$post_ids[] = $post->ID;
+				$post_ids[] = intval( $post->ID );
 				wp_cache_add( $cache_key_looped_post, $post->ID, $cache_group_ids );
 			}
 		}
@@ -91,12 +101,17 @@ class WPCF_Loader
         wp_register_script( 'types-wp-views',
                 WPCF_EMBEDDED_RES_RELPATH . '/js/wp-views.js', array('jquery'),
                 WPCF_VERSION, true );
+        global $pagenow;
+        // Exclude on post edit screen
+        if ( defined( 'WPTOOLSET_FORMS_ABSPATH' )
+                && !in_array( $pagenow, array('edit.php', 'post.php', 'post-new.php') ) ) {
         wp_register_script( 'types-conditional',
                 WPCF_EMBEDDED_RES_RELPATH . '/js/conditional.js',
                 array('types-utils'), WPCF_VERSION, true );
         wp_register_script( 'types-validation',
                 WPCF_EMBEDDED_RES_RELPATH . "/js/validation{$min}.js",
                 array('jquery'), WPCF_VERSION, true );
+        }
 //        wp_register_script( 'types-jquery-validation',
 //                WPCF_EMBEDDED_RES_RELPATH . '/js/jquery-form-validation/jquery.validate-1.11.1.min.js',
 //                array('jquery'), WPCF_VERSION, true );
@@ -126,11 +141,19 @@ class WPCF_Loader
                     array('admin-bar', 'wp-admin', 'buttons', 'media-views'),
                     WPCF_VERSION );
         }
+        if ( !wp_style_is( 'toolset-dashicons', 'registered' ) ) {
+            wp_register_style(
+                'toolset-dashicons',
+                WPCF_EMBEDDED_RES_RELPATH . '/css/dashicons.css',
+                array(),
+                WPCF_VERSION
+            );
+        }
     }
 
     /**
      * Returns HTML formatted output.
-     * 
+     *
      * @param string $view
      * @param mixed $data
      * @return string
@@ -151,7 +174,7 @@ class WPCF_Loader
 
     /**
      * Returns HTML formatted output.
-     * 
+     *
      * @param string $view
      * @param mixed $data
      * @return string
@@ -167,7 +190,7 @@ class WPCF_Loader
 
     /**
      * Returns HTML formatted output.
-     * 
+     *
      * @param string $template
      * @param mixed $data
      * @return string
@@ -188,7 +211,7 @@ class WPCF_Loader
 
     /**
      * Loads model.
-     * 
+     *
      * @param string $template
      * @param mixed $data
      * @return string
@@ -204,7 +227,7 @@ class WPCF_Loader
 
     /**
      * Loads class.
-     * 
+     *
      * @param string $template
      * @param mixed $data
      * @return string
@@ -220,7 +243,7 @@ class WPCF_Loader
 
     /**
      * Loads include.
-     * 
+     *
      * @param string $template
      * @param mixed $data
      * @return string
@@ -236,7 +259,7 @@ class WPCF_Loader
 
     /**
      * Adds JS settings.
-     * 
+     *
      * @staticvar array $settings
      * @param type $id
      * @param type $setting

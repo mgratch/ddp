@@ -1,7 +1,14 @@
 <?php
 
 /**
+ *
  * Returns HTML formatted output for elements and handles form submission.
+ *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/classes/forms.php $
+ * $LastChangedDate: 2015-03-16 12:03:31 +0000 (Mon, 16 Mar 2015) $
+ * $LastChangedRevision: 1113864 $
+ * $LastChangedBy: iworks $
+ *
  *
  * @version 1.0
  */
@@ -118,8 +125,10 @@ class Enlimbo_Forms_Wpcf
         if ( empty( $id ) ) {
             $id = $this->_id;
         }
-        return (isset( $_REQUEST['_wpnonce_wpcf'] )
-                && wp_verify_nonce( $_REQUEST['_wpnonce_wpcf'], $id ));
+        return (
+            isset( $_REQUEST['_wpnonce_wpcf'] )
+            && wp_verify_nonce( $_REQUEST['_wpnonce_wpcf'], $id )
+        );
     }
 
     /**
@@ -711,7 +720,7 @@ class Enlimbo_Forms_Wpcf
                     == $value['#value']) ? ' selected="selected"' : '';
             $element['_render']['element'] .= $this->_setElementAttributes( $value );
             $element['_render']['element'] .= '>';
-            $element['_render']['element'] .= isset( $value['#title'] ) ? $value['#title'] : $value['#value'];
+            $element['_render']['element'] .= $this->strip( isset( $value['#title'] ) ? $value['#title'] : $value['#value'] );
             $element['_render']['element'] .= "</option>\r\n";
         }
         $element['_render']['element'] .= "</select>\r\n";
@@ -839,10 +848,14 @@ class Enlimbo_Forms_Wpcf
     public function hidden( $element )
     {
         $element['#type'] = 'hidden';
-        $output = '<input type="hidden" id="' . $element['#id'] . '"  name="'
-                . $element['#name'] . '" value="';
-        $output .= isset( $element['#value'] ) ? $element['#value'] : 1;
-        $output .= '" />';
+        $element = $this->_setRender( $element );
+        $output = '<input type="hidden" ';
+        foreach( array('id', 'name' ) as $key ) {
+            $output .= sprintf( '%s="%s" ', $key, $element['#'.$key] );
+        }
+        $output .= sprintf( 'value="%s" ', isset( $element['#value'] ) ? $element['#value'] : 1 );
+        $output .= $element['_attributes_string'];
+        $output .= ' />';
         return $output;
     }
 
@@ -909,9 +922,15 @@ class Enlimbo_Forms_Wpcf
                             array('textfield', 'textarea') ) ? '' : 0;
         }
 
+        if ( !function_exists('getSubmittedDataTrim')) {
+            function getSubmittedDataTrim($a)
+            {
+                return trim($a, ']');
+            }
+        }
+
         $parts = explode( '[', $name );
-        $parts = array_map( create_function( '&$a', 'return trim($a, \']\');' ),
-                $parts );
+        $parts = array_map( 'getSubmittedDataTrim', $parts );
         if ( !isset( $_REQUEST[$parts[0]] ) ) {
             return in_array( $element['#type'], array('textfield', 'textarea') ) ? '' : 0;
         }
@@ -941,4 +960,13 @@ class Enlimbo_Forms_Wpcf
         return 0;
     }
 
+    private function strip($value)
+    {
+        if ( empty( $value ) ) {
+            return $value;
+        }
+        $re = array( "/\\\\'/", '/\\\\"/' );
+        $to = array( "'", '"' );
+        return esc_attr( preg_replace( $re, $to, $value ) );
+    }
 }

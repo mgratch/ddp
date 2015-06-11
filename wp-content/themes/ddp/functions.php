@@ -7,7 +7,7 @@ if (function_exists('register_sidebar')) {
 		'before_title' => '<h2 class="widgettitle">',
 		'after_title' => '</h2>',
 	));
-	
+
 	register_sidebar(array(
 		'name' => 'sidebar_twitter',
 		'before_widget' => '',
@@ -17,13 +17,13 @@ if (function_exists('register_sidebar')) {
 	));
 }
 
-add_theme_support( 'post-thumbnails', array( 'page', 'post', 'explore', 'do-business', 'live-here', 'tribe_events', 'property-listing' ) ); 
+add_theme_support( 'post-thumbnails', array( 'page', 'post', 'explore', 'do-business', 'live-here', 'tribe_events', 'property-listing' ) );
 
 add_theme_support( 'menus' );
 
 function my_action_callback() {
 	 global $wpdb;
-	 
+
 }
 
 
@@ -108,6 +108,87 @@ function numeric_posts_nav() {
 	echo '</ul></div>' . "\n";
 
 }
+
+
+/*
+ * Menu spliter
+ *
+ */
+class ddp_nav_walker extends Walker_Nav_Menu {
+
+
+	function walk( $elements, $max_depth) {
+
+
+
+		$menu_elements = array();
+		foreach ($elements as $element) {
+
+			if( $element->menu_item_parent == 0 ){
+
+				$chidren_items = array();
+				foreach ($elements as $s_element) {
+					if( $element->db_id == $s_element->menu_item_parent){
+						$chidren_items[] = $s_element;
+					}
+				}
+
+				if(count($chidren_items) > 0 ){
+					$childItems[$element->db_id] = $chidren_items;
+				}
+				$menu_elements[] = $element;
+			} else {
+				//don't add
+			}
+
+		}
+
+		$split = ceil(count($menu_elements)/2);
+		//$rightHtml = '</ul><ul class="right-side-menu">';
+		foreach($menu_elements as $key => $item){
+		//	if($key % 2 == 0) {
+			if($key == $split) {
+				$strHTML .= '</ul><ul class="right-side-menu">';
+			}
+				$classes = join(' ', $item->classes);
+				$strHTML .= "<li id='menu-{$item->db_id}' class='$classes'><a href='{$item->url}'>{$item->title}</a>";
+
+				if (isset($childItems[$item->db_id])){
+					$strHTML .= '<ul class="sub-menu">';
+					foreach($childItems[$item->db_id] as $subitem){
+						$classes = join(' ', $subitem->classes);
+						$strHTML .= "<li id='menu-{$subitem->db_id}' class='$classes'><a href='{$subitem->url}'>{$subitem->title}</a></li>";
+					}
+			    	$strHTML .= '</ul>';
+
+				}
+
+				$strHTML .= '</li>';
+		/*
+			} else {
+				$classes = join(' ', $item->classes);
+				$rightHtml .= "<li id='menu-{$item->db_id}' class='$classes'><a href='{$item->url}'>{$item->title}</a>";
+
+				if (isset($childItems[$item->db_id])){
+					$rightHtml .= '<ul class="sub-menu">';
+					foreach($childItems[$item->db_id] as $subitem){
+						$classes = join(' ', $subitem->classes);
+						$rightHtml .= "<li id='menu-{$subitem->db_id}' class='$classes'><a href='{$subitem->url}'>{$subitem->title}</a></li>";
+					}
+					$rightHtml .= '</ul>';
+
+				}
+
+				$rightHtml .= '</li>';
+			}
+			*/
+		}
+
+		return $strHTML;
+	}
+}
+
+
 
 
 ?>

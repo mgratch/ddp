@@ -4,8 +4,10 @@ Plugin Name: Latest Tweets Widget
 Plugin URI: http://wordpress.org/extend/plugins/latest-tweets-widget/
 Description: Provides a sidebar widget showing latest tweets - compatible with the new Twitter API 1.1
 Author: Tim Whitlock
-Version: 1.1.0
+Version: 1.1.3
 Author URI: http://timwhitlock.info/
+Text Domain: twitter-api
+Domain Path: /api/lang/
 */
 
 
@@ -90,6 +92,8 @@ function latest_tweets_render( $screen_name, $count, $rts, $ats, $pop = 0 ){
         if( $os_timezone !== $wp_timezone ){
             date_default_timezone_set( $wp_timezone );
         }
+        // Let theme disable or override emoji rendering
+        $emoji_callback = apply_filters('latest_tweets_emoji_callback', 'twitter_api_replace_emoji_callback' );
         // render each tweet as a block of html for the widget list items
         $rendered = array();
         foreach( $tweets as $tweet ){
@@ -115,10 +119,6 @@ function latest_tweets_render( $screen_name, $count, $rts, $ats, $pop = 0 ){
                 if( ! function_exists('twitter_api_html') ){
                     twitter_api_include('utils');
                 }
-                // strip characters that will choke Wordpress cache.
-                if( $cachettl && ! TWITTER_CACHE_APC ){
-                    $text = twitter_api_strip_emoji( $text );
-                }
                 // htmlify tweet, using entities if we can
                 if( isset($entities) && is_array($entities) ){
                     $html = twitter_api_html_with_entities( $text, $entities );
@@ -127,11 +127,20 @@ function latest_tweets_render( $screen_name, $count, $rts, $ats, $pop = 0 ){
                 else {
                     $html = twitter_api_html( $text );
                 }
+                // render emoji, unless filtered out
+                if( $emoji_callback ){
+                    $html = twitter_api_replace_emoji( $html, $emoji_callback );
+                }
+                // strip characters that will choke mysql cache.
+                if( $cachettl && ! TWITTER_CACHE_APC ){
+                    $html = twitter_api_strip_quadruple_bytes( $html );
+                }
             }
             // piece together the whole tweet, allowing override
             $final = apply_filters('latest_tweets_render_tweet', $html, $date, $link, $tweet );
             if( $final === $html ){
-                $final = '<p class="tweet-details"><a href="'.$link.'" target="_blank">'.$date.'</a></p>'.'<p class="tweet-text">'.$html.'</p>'.'<a class="readmore" href="'.$link.'" target="_blank">Read on Twitter ></a>';
+                $final = '<p class="tweet-text">'.$html.'</p>'.
+                         '<p class="tweet-details"><a href="'.$link.'" target="_blank">'.$date.'</a></p>';
             }
             $rendered[] = $final;
         }
@@ -310,7 +319,7 @@ if( is_admin() ){
     // extra visibility of API settings link
     function latest_tweets_plugin_row_meta( $links, $file ){
         if( false !== strpos($file,'/latest-tweets.php') ){
-            $links[] = '<a href="options-general.php?page=twitter-api-admin"><strong>'.esc_attr__('Connect to Twitter').'</strong></a>';
+            $links[] = '<a href="options-general.php?page=twitter-api-admin"><strong>'.esc_attr__('Connect to Twitter','twitter-api').'</strong></a>';
         } 
         return $links;
     }

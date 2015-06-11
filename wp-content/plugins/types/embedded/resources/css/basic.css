@@ -91,8 +91,9 @@ NO DUPLICATES
     font-style: normal;
     margin-bottom: 5px;
 }
-.wpcf-form-label {
-    white-space: nowrap;
+.wpcf-form-fieldset .wpcf-form-label
+{
+    white-space: normal;
 }
 .wpcf-form-textfield-label {
     font-size: 1em;
@@ -162,7 +163,6 @@ input.wpcf-form-error {
 .wpcf-form-fields-delete,
 .wpcf-fields-form-move-field {
     float: left;
-    margin-top: 10px;
     margin-top: 3px;
     margin-right: 5px;
 }
@@ -255,6 +255,9 @@ input.wpcf-form-error {
 }
 #wpcf-types-form-name-table input {
     width: 100%;
+}
+#wpcf-types-form-name-table input[type="checkbox"] {
+    width: auto;
 }
 #wpcf-types-form-name-table label {
     font-weight: normal;
@@ -422,7 +425,11 @@ input.wpcf-form-error {
     display: none;
 }
 .ac_results{
-	width:200px !important;
+	/**
+	* Commented out because it breaks autocomplete suggestions in, well, everywhere, if any result is longer.
+	* Adjust to specific place if needed, using the resultsClass option.
+	*/
+	/*width:200px !important;*/
 }
 
 /* temp */
@@ -451,4 +458,123 @@ input.wpcf-form-error {
 }
 .types-help-content p, .toolset-help-content ul, .toolset-help-content ol {
     line-height: 1.6;
+}
+
+/**
+ * message after active plugin
+ */
+
+.toolset-message-after-activate
+,.toolset-message-after-activate h2
+{
+    color: #4d4d4d;
+}
+
+.toolset-message-after-activate
+{
+    background-color: #fffce1;
+    border: 2px solid #fffe38;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.toolset-message-after-activate span:before
+{
+    color:#f05a28;
+    font-size:70px;
+}
+
+.toolset-message-after-activate .button-dismiss:hover
+{
+    text-decoration: underline;
+}
+
+.toolset-message-after-activate .button-dismiss
+{
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.toolset-message-after-activate .button-primary
+{
+    font-size: 18px;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.toolset-message-after-activate p.buttons
+{
+    margin-bottom: 0;
+}
+
+.toolset-message-after-activate p
+{
+    font-size: 16px;
+}
+
+.toolset-message-after-activate h2 em
+{
+    font-weight: 900;
+}
+
+.toolset-message-after-activate h2
+{
+    font-size: 40px;
+}
+
+.toolset-message-after-activate div
+{
+    border-right: 2px solid #f05a28;
+    max-width: 500px;
+    padding-right: 60px;
+    float: left;
+}
+
+.wp-core-ui .toolset-message-after-activate .button-primary
+{
+    background-color:#f05a28;
+    border-color:#ed4e26;
+}
+
+.toolset-message-after-activate:after
+{
+    content: " ";
+    display: block;
+    clear: both;
+}
+
+.toolset-message-after-activate .logo
+{
+    background: transparent url(../images/types-toolset-component.png) no-repeat 73px 50%;
+    display: block;
+    height: 70px;
+    width: 158px;
+    float: left;
+    margin: 35px 0 0 20px;
+}
+
+.status-inactive:hover
+{
+    opacity: 1;
+}
+
+.status-inactive
+{
+    opacity: .7;
+/*transition: all .4s;*/
+}
+
+.wpcf-table-column-name
+{
+    min-width: 250px;
+}
+
+#wpcf_types_list
+,#wpcf_tax_list
+{
+    margin: 1.5em 0;
 }

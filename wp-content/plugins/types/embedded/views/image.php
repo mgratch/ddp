@@ -560,25 +560,17 @@ class Types_Image_Utils
 
     /**
      * Normalize attachment URL.
-     * 
+     *
      * @param type $file
      * @return string
      */
-    public static function normalizeAttachmentUrl( $file ) {
+    public static function normalizeAttachmentUrl( $file )
+    {
         $upload_info = self::uploadInfo();
         if ( $upload_info ) {
-            $file = ltrim( str_replace( $upload_info['basedir'], '',
-                            self::realpath( $file ) ), '/\\' );
-//            $matches = null;
-//
-//            if ( preg_match( '~(\d{4}/\d{2}/)?[^/]+$~', $file, $matches ) ) {
-//                $file = $matches[0];
-//            }
-
-            $file = $upload_info['baseurl'] . '/' . str_replace( '\\', '/',
-                            $file );
+            $file = ltrim( str_replace( $upload_info['basedir'], '', self::realpath( $file ) ), '/\\' );
+            $file = $upload_info['baseurl'] . '/' . str_replace( '\\', '/', $file );
         }
-
         return $file;
     }
 
@@ -593,11 +585,11 @@ class Types_Image_Utils
         if ( $upload_info ) {
             $file = ltrim( str_replace( $upload_info['basedir'], '',
                             self::realpath( $file ) ), '/\\' );
-//            $matches = null;
-//
-//            if ( preg_match( '~(\d{4}/\d{2}/)?[^/]+$~', $file, $matches ) ) {
-//                $file = $matches[0];
-//            }
+            $matches = null;
+
+            if ( preg_match( '~(\d{4}/\d{2}/)?[^/]+$~', $file, $matches ) ) {
+                $file = $matches[0];
+            }
         }
 
         return $file;
@@ -657,10 +649,12 @@ class Types_Image_Utils
         $upload_dir = self::uploadInfo();
         if ( $upload_dir ) {
             $parsed = parse_url( $imgUrl );
+            if ( !isset($upload_dir['baseurl'] ) ) {
+                return false;
+            }
             $upload_dir_parsed = parse_url( $upload_dir['baseurl'] );
             // This works for regular installation and main blog on multisite
-            if ( (!is_multisite() || is_main_site()) && strpos( $parsed['path'],
-                            $upload_dir_parsed['path'] ) === 0 ) {
+            if ( (!is_multisite() || is_main_site()) && strpos( $parsed['path'], $upload_dir_parsed['path'] ) === 0 ) {
                 return true;
                 // Check Multisite
             } else if ( is_multisite() && !is_main_site() ) {
@@ -690,21 +684,31 @@ class Types_Image_Utils
      * @param type $imgUrl
      * @return type
      */
-    public static function onDomain( $imgUrl ) {
+    public static function onDomain( $imgUrl )
+    {
         $parsed = parse_url( $imgUrl );
+        /**
+         * if 'host' do not exists as key in array $parsed,
+         * then it is relative url and is always on same 
+         * domain, then return true
+         */
+        if ( !array_key_exists('host', $parsed) ) {
+            return true;
+        }
+        /**
+         * compare site url to $imgUrl to check is on domain
+         */
         $parsed_wp = parse_url( get_site_url() );
-        if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i',
-                        $parsed['host'], $regs ) ) {
+        if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsed['host'], $regs ) ) {
             $parsed['domain'] = $regs['domain'];
         } else {
             $parsed['domain'] = $parsed['host'];
         }
-        if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i',
-                        $parsed_wp['host'], $regs ) ) {
+        if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsed_wp['host'], $regs ) ) {
             $parsed_wp['domain'] = $regs['domain'];
         } else {
             $parsed_wp['domain'] = $parsed_wp['host'];
-        }
+        } 
         return $parsed['domain'] == $parsed_wp['domain'];
     }
 
@@ -807,8 +811,8 @@ class Types_Error extends WP_Error
 
         if ( $message instanceof WP_Error ) {
             $code = $message->get_error_code();
-            $data = $message->error_data;
             $message = $message->get_error_message();
+            $data = $message->error_data;
         } else {
             $db = debug_backtrace();
             $code = "{$db[1]['class']}::{$db[1]['function']}()";

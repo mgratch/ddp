@@ -27,10 +27,11 @@ class GF_Field_Post_Tags extends GF_Field {
 			'visibility_setting',
 			'description_setting',
 			'css_class_setting',
+			'placeholder_setting'
 		);
 	}
 
-	public function is_conditional_logic_supported(){
+	public function is_conditional_logic_supported() {
 		return true;
 	}
 
@@ -59,7 +60,7 @@ class GF_Field_Post_Tags extends GF_Field {
 				</div>";
 	}
 
-	public function allow_html(){
+	public function allow_html() {
 		return true;
 	}
 }

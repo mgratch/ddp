@@ -2,10 +2,15 @@
 /**
  * Returns HTML formatted output for elements and handles form submission.
  *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/common/classes/forms.php $
+ * $LastChangedDate: 2015-03-16 12:03:31 +0000 (Mon, 16 Mar 2015) $
+ * $LastChangedRevision: 1113864 $
+ * $LastChangedBy: iworks $
+ *
  * @version 1.0
  */
-if (!class_exists('Enlimbo_Forms_Wpcf')) {
-
+if (!class_exists('Enlimbo_Forms_Wpcf')) {   
+    
     class Enlimbo_Forms_Wpcf
     {
 
@@ -318,7 +323,7 @@ if (!class_exists('Enlimbo_Forms_Wpcf')) {
                         continue;
                     }
                     // Don't set disabled for checkbox
-                    if ($attribute == 'disabled' && $element['#type'] == 'checkbox') {
+                    if ( ( 'disabled' == $attribute || '#disabled' == $attribute )  && $element['#type'] == 'checkbox') {
                         continue;
                     }
                     // Append class values
@@ -578,7 +583,7 @@ if (!class_exists('Enlimbo_Forms_Wpcf')) {
                 $element['_render']['element'] .= ' onclick="javascript:return false; if(this.checked == 1){this.checked=1; return true;}else{this.checked=0; return false;}"';
             }
             if (!empty($element['#attributes']['#disabled'])) {
-                $element['_render']['element'] .= ' disabled="disabled""';
+                $element['_render']['element'] .= ' disabled="disabled"';
             }
 			
             $element['_render']['element'] .= ' />';
@@ -927,8 +932,10 @@ if (!class_exists('Enlimbo_Forms_Wpcf')) {
             }
 
             $parts = explode('[', $name);
-            $parts = array_map(create_function('&$a', 'return trim($a, \']\');'),
-                    $parts);
+            //https://icanlocalize.basecamphq.com/projects/7393061-toolset/todo_items/196173458/comments
+            //Security Fixing
+            //$parts = array_map(create function('&$a', 'return trim($a, \']\');'), $parts);
+            $parts = array_map("cred_mytrimfunction", $parts);
             if (!isset($_REQUEST[$parts[0]])) {
                 return in_array($element['#type'],
                                 array('textfield', 'textarea')) ? '' : 0;
