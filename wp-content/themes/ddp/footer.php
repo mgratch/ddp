@@ -1,9 +1,9 @@
 		<footer>
-      	
+
       	<div class="row footer">
       		<div class="col-md-4"><h4>Get in Touch</h4>
 			<br>
-				
+
       		<?php print wpautop(get_post_meta(get_option('page_on_front'), 'wpcf-copyright-block', true)); ?>
       		<a href="http://instagram.com/downtowndetroitpartnership#"><img class="social" src="<?php bloginfo('template_url'); ?>/images/instagram-header2.png" /></a><a href="https://twitter.com/DDPDetroit"><img class="social" src="<?php bloginfo('template_url'); ?>/images/twitter-header2.png" /></a><a href="https://www.facebook.com/DowntownDetroitPartnership"><img class="social" src="<?php bloginfo('template_url'); ?>/images/facebook-header2.png" /></a>
       		</div>
@@ -28,24 +28,24 @@
 				</div>
 
 			<!--End mc_embed_signup-->
-      		
+
 			</div>
-      		
+
       		<div class="col-md-4"><h4>About The Downtown Detroit Partnership</h4>
 			<br>
 			Downtown Detroit Partnership is a partnership of corporate, civic and philanthropic leaders that supports advocates and develops programs and initiatives designed to create a clean, safe, and inviting Downtown Detroit.
       		</div>
-      		
-      		
+
+
       	</div>
-      	
-      	
+
+
       </footer>
 
     </div><!-- end #wrapper -->
 
     <div id="about-menu">
-    	
+
     	<div class="search">
     		<form role="search" method="get" action="<?php bloginfo('url'); ?>/">
     			<input id="search s" name="s" type="text" class="search-input" placeholder="Search" />
@@ -54,9 +54,9 @@
     	</div>
     						<div class="responsive-sidebar-nav">
     						<div class="responsive-item explore">
-	    						
+
 				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/explore-icon.png" /></span>
-				  				
+
 	    						<h5>Explore Downtown</h5>
 	            				<?php
 				  				$defaults = array(
@@ -77,14 +77,14 @@
 									'depth'           => 0,
 									'walker'          => ''
 								);
-	
+
 								wp_nav_menu( $defaults );
 								?>
     						</div>
     						<div class="responsive-item do-business">
-    							
+
 				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/business-icon.png" /></span>
-				  				
+
 	    						<h5>Do Business</h5>
 	            				<?php
 				  				$defaults = array(
@@ -105,14 +105,14 @@
 									'depth'           => 0,
 									'walker'          => ''
 								);
-	
+
 								wp_nav_menu( $defaults ); ?>
-    						
+
     						</div>
     						<div class="responsive-item live-here">
-    							
+
 				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/live-icon.png" /></span>
-				  				
+
     							<h5>Live Here</h5>
 								<?php
 				  				$defaults = array(
@@ -133,10 +133,38 @@
 									'depth'           => 0,
 									'walker'          => ''
 								);
-	
+
 								wp_nav_menu( $defaults ); ?>
-							
+
     						</div>
+                <div class="responsive-item biz-zone">
+
+                  <span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/biz-icon.png" /></span>
+
+                  <h5>Business Improvement Zone</h5>
+                <?php
+                  $defaults = array(
+                  'theme_location'  => '',
+                  'menu'            => 'BIZ Zone',
+                  'container'       => '',
+                  'container_class' => '',
+                  'container_id'    => '',
+                  'menu_class'      => 'sub-menu',
+                  'menu_id'         => '',
+                  'echo'            => true,
+                  'fallback_cb'     => 'wp_page_menu',
+                  'before'          => '',
+                  'after'           => '',
+                  'link_before'     => '',
+                  'link_after'      => '',
+                  'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                  'depth'           => 0,
+                  'walker'          => ''
+                );
+
+                wp_nav_menu( $defaults ); ?>
+
+                </div>
     						</div>
     						<?php
 			  				$defaults = array(
@@ -160,7 +188,7 @@
 
 							wp_nav_menu( $defaults );
 							?>
-							
+
 							<div class="social">
 				  				<a href="http://instagram.com/downtowndetroitpartnership#"><img src="<?php bloginfo('template_url'); ?>/images/instagram-header2.png" /></a>
 				  				<a href="https://www.facebook.com/DowntownDetroitPartnership"><img src="<?php bloginfo('template_url'); ?>/images/twitter-header2.png" /></a>
@@ -192,14 +220,14 @@
     		<li><a href="#">Get in Touch</a></li>
     	</ul>
     	-->
-    	
+
     </div>
-    
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
-    
+
+
     <script src="<?php bloginfo('template_url'); ?>/javascript/idangerous.swiper.js"></script>
     <script src="<?php bloginfo('template_url'); ?>/javascript/bootstrap.js"></script>
     <script src="<?php bloginfo('template_url'); ?>/javascript/jquery.mobile.custom.min.js"></script>
@@ -207,7 +235,7 @@
     <script src="<?php bloginfo('template_url'); ?>/javascript/jquery.tinysort.js"></script>
     <script src="<?php bloginfo('template_url'); ?>/javascript/pdfobject.js"></script>
 
-   
+
 		<?php wp_footer(); ?>
 
 	<script>

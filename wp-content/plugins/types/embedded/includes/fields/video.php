@@ -1,4 +1,12 @@
 <?php
+/**
+ *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/includes/fields/video.php $
+ * $LastChangedDate: 2015-03-16 12:03:31 +0000 (Mon, 16 Mar 2015) $
+ * $LastChangedRevision: 1113864 $
+ * $LastChangedBy: iworks $
+ *
+ */
 
 /**
  * Register data (called automatically).
@@ -10,9 +18,9 @@ function wpcf_fields_video() {
         'id' => 'wpcf-video',
         'title' => __( 'Video', 'wpcf' ),
         'description' => __( 'Video', 'wpcf' ),
-        'validate' => array('required', 'url'),
         'wp_version' => '3.6',
         'inherited_field_type' => 'file',
+        'validate' => array('required'),
     );
 }
 
@@ -20,6 +28,8 @@ function wpcf_fields_video() {
  * View function.
  * 
  * @global type $wp_embed
+ * @global object $wpdb
+ *
  * @param type $field
  * @return string
  */
@@ -75,9 +85,12 @@ function wpcf_fields_video_editor_callback( $field, $data, $meta_type, $post ) {
         if ( !empty( $file ) ) {
             // Get attachment by guid
             global $wpdb;
-            $attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}
-    WHERE post_type = 'attachment' AND guid=%s",
-                            $file ) );
+            $attachment_id = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid=%s",
+                    $file
+                )
+            );
         }
     }
 

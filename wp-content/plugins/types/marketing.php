@@ -75,3 +75,4 @@ function types_marketing_message_usermeta_saved($message, $title, $update) {
     ob_end_clean();
     return $message;
 }
+

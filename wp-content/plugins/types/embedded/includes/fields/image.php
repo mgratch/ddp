@@ -1,14 +1,22 @@
 <?php
+/**
+ *
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.1/embedded/includes/fields/image.php $
+ * $LastChangedDate: 2015-03-16 12:03:31 +0000 (Mon, 16 Mar 2015) $
+ * $LastChangedRevision: 1113864 $
+ * $LastChangedBy: iworks $
+ *
+ */
+
 add_filter( 'wpcf_fields_type_image_value_get', 'wpcf_fields_image_value_filter' );
-add_filter( 'wpcf_fields_type_image_value_save',
-        'wpcf_fields_image_value_filter' );
+add_filter( 'wpcf_fields_type_image_value_save', 'wpcf_fields_image_value_filter' );
 
 // Do not wrap if 'url' is TRUE
 add_filter( 'types_view', 'wpcf_fields_image_view_filter', 10, 6 );
 
 /**
  * Register data (called automatically).
- * @return type 
+ * @return type
  */
 function wpcf_fields_image() {
     return array(
@@ -16,46 +24,15 @@ function wpcf_fields_image() {
         'title' => __( 'Image', 'wpcf' ),
         'description' => __( 'Image', 'wpcf' ),
         'validate' => array('required'),
-        'meta_box_js' => array(
-            'wpcf-jquery-fields-file' => array(
-                'inline' => 'wpcf_fields_file_meta_box_js_inline',
-            ),
-            'wpcf-jquery-fields-image' => array(
-                'inline' => 'wpcf_fields_image_meta_box_js_inline',
-            ),
-        ),
         'inherited_field_type' => 'file',
     );
 }
 
 /**
- * Renders inline JS.
- */
-function wpcf_fields_image_meta_box_js_inline() {
-    global $post;
-    $for_post = (isset( $post ) ? 'post_id=' . $post->ID . '&' : '');
-
-    ?>
-    <script type="text/javascript">
-        //<![CDATA[
-        jQuery(document).ready(function(){
-            wpcf_formfield = false;
-            jQuery('.wpcf-fields-image-upload-link').live('click', function() {
-                wpcf_formfield = '#'+jQuery(this).attr('id')+'-holder';
-                tb_show('<?php
-    echo esc_js( __( 'Upload image', 'wpcf' ) );
-
-    ?>', 'media-upload.php?<?php echo $for_post ?>type=image&context=wpcf-fields-media-insert&TB_iframe=1&width=640&height=336');
-                return false;
-            }); 
-        });
-        //]]>
-    </script>
-    <?php
-}
-
-/**
  * Editor callback form.
+ *
+ * @global object $wpdb
+ *
  */
 function wpcf_fields_image_editor_callback( $field, $data, $context, $post ) {
 
@@ -76,9 +53,12 @@ function wpcf_fields_image_editor_callback( $field, $data, $context, $post ) {
         if ( !empty( $image ) ) {
             // Get attachment by guid
             global $wpdb;
-            $attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}
-    WHERE post_type = 'attachment' AND guid=%s",
-                            $image ) );
+            $attachment_id = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid=%s",
+                    $image
+                )
+            );
         }
     }
     $data['image'] = $image;
@@ -216,7 +196,7 @@ function wpcf_fields_image_editor_submit( $data, $field, $context ) {
         $add .= ' onload="' . $data['onload'] . '"';
     }
 
-    if ( $data['image_size'] != 'full' ) {
+    if ( array_key_exists('image_size', $data) && $data['image_size'] != 'full' ) {
         if ( !empty( $data['proportional'] ) ) {
             $settings['resize'] = isset( $data['resize'] ) ? $data['resize'] : 'proportional';
             $add .= " resize=\"{$settings['resize']}\"";
@@ -256,12 +236,12 @@ function wpcf_fields_image_editor_submit( $data, $field, $context ) {
 
 /**
  * View function.
- * 
- * @param type $params 
+ *
+ * @param type $params
  */
 function wpcf_fields_image_view( $params ) {
 
-    global $wpcf, $post;
+    global $wpcf;
 
     $output = '';
     $alt = false;
@@ -304,17 +284,6 @@ function wpcf_fields_image_view( $params ) {
         $style[] = $params['style'];
     }
 
-    // Add remote to library
-    if ( wpcf_get_settings( 'add_resized_images_to_library' )
-            && !empty( $image_data['remotely_fetched'] )
-            && $image_data['is_in_upload_path'] ) {
-        if ( $image_data['is_attachment'] = wpcf_image_add_to_library( $post,
-                $image_data['fullabspath'] ) ) {
-            wpcf_file_recreate_library_images( $image_data['is_attachment'],
-                    $image_data['fullabspath'] );
-        }
-    }
-    
     // Compatibility with old parameters
     $old_param = isset( $params['proportional'] ) && $params['proportional'] == 'true' ? 'proportional' : 'crop';
     $resize = isset( $params['resize'] ) ? $params['resize'] : $old_param;
@@ -408,15 +377,10 @@ function wpcf_fields_image_view( $params ) {
                 $resized_image = $__resized_image->url;
                 $image_abspath = $__resized_image->path;
                 if ( wpcf_get_settings( 'add_resized_images_to_library' )
+                        && !wpcf_image_is_attachment( $__resized_image->url )
                         && $image_data['is_in_upload_path'] ) {
-                    $attach_id = wpcf_image_is_attachment( $__resized_image->url );
-                    if ( !$attach_id ) {
-                        wpcf_image_add_to_library( $post, $image_abspath );
-                    } else if ( !empty( $image_data['remotely_fetched'] ) ) {
-                        // Maybe remote cleared from cache
-                        wpcf_file_recreate_library_images( $attach_id,
-                                $__resized_image->path );
-                    }
+                    global $post;
+                    wpcf_image_add_to_library( $post, $image_abspath );
                 }
             }
         } else {
@@ -558,10 +522,9 @@ function wpcf_fields_image_resize_image( $url_path, $width = 300, $height = 200,
 
 /**
  * Gets all necessary data for processed image.
- * 
- * @global type $wpdb
+ *
  * @param type $image
- * @return type 
+ * @return type
  */
 function wpcf_fields_image_get_data( $image ) {
 
@@ -573,7 +536,7 @@ function wpcf_fields_image_get_data( $image ) {
     if ( isset( $cache[$cache_key] ) ) {
         return $cache[$cache_key];
     }
-    
+
     WPCF_Loader::loadView( 'image' );
     $utils = Types_Image_Utils::getInstance();
 
@@ -593,7 +556,9 @@ function wpcf_fields_image_get_data( $image ) {
     );
 
     // Strip GET vars
-    $image = strtok( $image, '?' );
+    if ( !apply_filters('wpcf_allow_questionmark_in_image_url', false) ) {
+        $image = strtok( $image, '?' );
+    }
 
     // Basic URL check
     if ( strpos( $image, 'http' ) != 0 ) {
@@ -664,20 +629,21 @@ function wpcf_fields_image_get_data( $image ) {
 
 /**
  * Strips GET vars from value.
- * 
+ *
  * @param type $value
- * @return type 
+ * @return type
  */
 function wpcf_fields_image_value_filter( $value ) {
-    if ( is_string( $value ) ) {
+    if ( is_string( $value ) && !apply_filters('wpcf_allow_questionmark_in_image_url', false) ) {
         return strtok( $value, '?' );
     }
+    return $value;
 }
 
 /**
  * Gets cache directory.
- * 
- * @return \WP_Error 
+ *
+ * @return \WP_Error
  */
 function wpcf_fields_image_get_cache_directory( $suppress_filters = false ) {
     WPCF_Loader::loadView( 'image' );
@@ -704,9 +670,9 @@ function wpcf_image_http_request_timeout( $timeout ) {
 
 /**
  * Fetches remote images.
- * 
+ *
  * @param type $url
- * @return \WP_Error 
+ * @return \WP_Error
  */
 function wpcf_fields_image_get_remote( $url ) {
 
@@ -728,7 +694,6 @@ function wpcf_fields_image_get_remote( $url ) {
     }
 
     $image = $cache_dir . md5( $url ) . '.' . $extension;
-    $relpath = wpcf_image_attachment_url( $image );
 
     // Refresh if necessary
     $refresh_time = intval( wpcf_get_settings( 'images_remote_cache_time' ) );
@@ -800,14 +765,14 @@ function wpcf_fields_image_get_remote( $url ) {
 
     return array(
         'abspath' => $image,
-        'relpath' => $relpath,
+        'relpath' => wpcf_image_attachment_url( $image ),
     );
 }
 
 /**
  * Clears remote image cache.
- * 
- * @param type $action 
+ *
+ * @param type $action
  */
 function wpcf_fields_image_clear_cache( $cache_dir = null, $action = 'outdated' ) {
     if ( is_null( $cache_dir ) ) {
@@ -836,7 +801,7 @@ function wpcf_fields_image_clear_cache( $cache_dir = null, $action = 'outdated' 
 
 /**
  * Filters upload paths (to fix Windows issues).
- * 
+ *
  * @param type $args
  * @return type
  */
@@ -849,12 +814,12 @@ function wpcf_fields_image_uploads_realpath( $args ) {
         if ( isset( $args[$fix] ) ) {
             /*
              * Since 1.1.5
-             * 
+             *
              * We need realpath(), open_basedir restriction check
-             * 
+             *
              * Suppressing warnings, checking realpath returning FALSE, check
              * if open_basedir ini is set.
-             * 
+             *
              * https://icanlocalize.basecamphq.com/projects/7393061-wp-views/todo_items/153462252/comments
              * http://php.net/manual/en/ini.sect.safe-mode.php
              * http://php.net/manual/en/ini.core.php#ini.open-basedir
@@ -984,9 +949,9 @@ function wpcf_image_resize( $file, $max_w, $max_h, $crop = false,
 
 /**
  * Fixes for Win.
- * 
+ *
  * For now we fix file path to have unified type slashes.
- * 
+ *
  * @param type $file
  * @param type $attachment_id
  * @return type
@@ -1008,10 +973,10 @@ function wpcf_fields_image_win32_update_attached_file_filter( $file,
 
 /**
  * Filters image view.
- * 
+ *
  * This is added to handle image 'url' parameter.
  * We need to unwrap value. Also added to avoid cludging frontend.php.
- * 
+ *
  * @param boolean $params
  * @param type $field
  * @return boolean
@@ -1036,13 +1001,13 @@ function wpcf_fields_image_view_filter( $output, $value, $type, $slug, $name,
 
 /**
  * Adds image to library.
- * 
+ *
  * @param type $post
  * @param type $abspath
  */
 function wpcf_image_add_to_library( $post, $abspath ){
     $guid = wpcf_image_attachment_url( $abspath );
-    if ( !($attach_id = wpcf_image_is_attachment( $guid )) ) {
+    if ( !wpcf_image_is_attachment( $guid ) ) {
         $wp_filetype = wp_check_filetype( basename( $abspath ), null );
         $attachment = array(
             'post_mime_type' => $wp_filetype['type'],
@@ -1059,26 +1024,28 @@ function wpcf_image_add_to_library( $post, $abspath ){
         wp_update_attachment_metadata( $attach_id, $attach_data );
         update_attached_file( $attach_id, $attach_data['file'] );
     }
-    return $attach_id;
 }
 
 /**
  * Checks if image is attachment.
- * 
- * @global type $wpdb
+ *
+ * @global object $wpdb
  * @param type $guid
  * @return type
  */
 function wpcf_image_is_attachment( $guid ) {
     global $wpdb;
-    return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}
-    WHERE post_type = 'attachment' AND guid=%s",
-                            $guid ) );
+    return $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid=%s",
+            $guid
+        )
+    );
 }
 
 /**
  * Gets attachment URL (in uploads, root or date structure).
- * 
+ *
  * @param type $abspath
  * @return type
  */
@@ -1089,26 +1056,11 @@ function wpcf_image_attachment_url( $abspath ) {
 
 /**
  * Returns path to attachment relative to upload_dir.
- * 
+ *
  * @param type $abspath
  * @return string '2014/01/img.jpg'
  */
 function wpcf_image_normalize_attachment( $abspath ) {
     WPCF_Loader::loadView( 'image' );
     return Types_Image_Utils::getInstance()->normalizeAttachment( $abspath );
-}
-
-function wpcf_file_recreate_library_images( $attach_id, $abspath ) {
-    $src = wp_get_attachment_image_src( $attach_id );
-    if ( isset( $src[0] ) ) {
-        $thumbnail = dirname( $abspath )
-                . DIRECTORY_SEPARATOR . basename( $src[0] );
-        if ( !file_exists( $thumbnail ) ) {
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
-            $attach_data = wp_generate_attachment_metadata( $attach_id, $abspath );
-            $attach_data['file'] = str_replace( '\\', '/',
-                    wpcf_image_normalize_attachment( $attach_data['file'] ) );
-            wp_update_attachment_metadata( $attach_id, $attach_data );
-        }
-    }
 }
