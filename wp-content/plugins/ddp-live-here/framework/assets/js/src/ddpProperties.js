@@ -841,7 +841,7 @@
 
 
   $scope.App({
-    debug: false
+    debug: true
   });
 
 })(jQuery, window, window.google);

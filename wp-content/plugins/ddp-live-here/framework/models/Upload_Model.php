@@ -137,6 +137,14 @@ class Upload_Model extends Model
 
       // Set initial property data
       if (!array_key_exists($key, $grouped)) {
+	      // Fix upload template documentation issue
+	      if (!empty($property['type'])) {
+		      if (preg_match('/rent/', $property['type'])) {
+			      $property['type'] = 'rent';
+		      } else {
+			      $property['type'] = 'sale';
+		      }
+	      }
         $grouped[$key] = (object) array(
           'property_title'         => $property['property_title'],
           'property_description'   => $property['description'],

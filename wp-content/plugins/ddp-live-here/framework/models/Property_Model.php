@@ -79,7 +79,11 @@ class Property_Model extends Model
     $newProperty->id = (string) $property->ID;
     $newProperty->title = $property->post_title;
     $newProperty->type = strtolower($meta['property_type']);
-    $newProperty->availability = $this->hasAvailable($meta['rent_listings']);
+    if (!empty($meta['rent_listings'])) {
+	    $newProperty->availability = $this->hasAvailable($meta['rent_listings']);
+	  } else {
+		  $newProperty->availability = false;
+	  }
     $newProperty->agent = (object) array(
       'name'    => Helpers::emptySet($meta, 'property_agent_name', false),
       'phone'   => Helpers::emptySet($meta, 'property_agent_phone', false),
