@@ -34,6 +34,7 @@ class wfConfig {
 				"scansEnabled_plugins" => false,
 				"scansEnabled_malware" => false,
 				"scansEnabled_fileContents" => false,
+				"scansEnabled_database" => false,
 				"scansEnabled_posts" => false,
 				"scansEnabled_comments" => false,
 				"scansEnabled_passwds" => false,
@@ -69,6 +70,7 @@ class wfConfig {
 				"debugOn" => false,
 				'email_summary_enabled' => true,
 				'email_summary_dashboard_widget_enabled' => true,
+				'ssl_verify' => true,
 			),
 			"otherParams" => array(
 				'securityLevel' => '0',
@@ -121,6 +123,7 @@ class wfConfig {
 				"scansEnabled_plugins" => false,
 				"scansEnabled_malware" => true,
 				"scansEnabled_fileContents" => true,
+				"scansEnabled_database" => true,
 				"scansEnabled_posts" => true,
 				"scansEnabled_comments" => true,
 				"scansEnabled_passwds" => true,
@@ -156,6 +159,7 @@ class wfConfig {
 				"debugOn" => false,
 				'email_summary_enabled' => true,
 				'email_summary_dashboard_widget_enabled' => true,
+				'ssl_verify' => true,
 			),
 			"otherParams" => array(
 				'securityLevel' => '1',
@@ -208,6 +212,7 @@ class wfConfig {
 				"scansEnabled_plugins" => false,
 				"scansEnabled_malware" => true,
 				"scansEnabled_fileContents" => true,
+				"scansEnabled_database" => true,
 				"scansEnabled_posts" => true,
 				"scansEnabled_comments" => true,
 				"scansEnabled_passwds" => true,
@@ -243,6 +248,7 @@ class wfConfig {
 				"debugOn" => false,
 				'email_summary_enabled' => true,
 				'email_summary_dashboard_widget_enabled' => true,
+				'ssl_verify' => true,
 			),
 			"otherParams" => array(
 				'securityLevel' => '2',
@@ -295,6 +301,7 @@ class wfConfig {
 				"scansEnabled_plugins" => false,
 				"scansEnabled_malware" => true,
 				"scansEnabled_fileContents" => true,
+				"scansEnabled_database" => true,
 				"scansEnabled_posts" => true,
 				"scansEnabled_comments" => true,
 				"scansEnabled_passwds" => true,
@@ -330,6 +337,7 @@ class wfConfig {
 				"debugOn" => false,
 				'email_summary_enabled' => true,
 				'email_summary_dashboard_widget_enabled' => true,
+				'ssl_verify' => true,
 			),
 			"otherParams" => array(
 				'securityLevel' => '3',
@@ -382,6 +390,7 @@ class wfConfig {
 				"scansEnabled_plugins" => false,
 				"scansEnabled_malware" => true,
 				"scansEnabled_fileContents" => true,
+				"scansEnabled_database" => true,
 				"scansEnabled_posts" => true,
 				"scansEnabled_comments" => true,
 				"scansEnabled_passwds" => true,
@@ -417,6 +426,7 @@ class wfConfig {
 				"debugOn" => false,
 				'email_summary_enabled' => true,
 				'email_summary_dashboard_widget_enabled' => true,
+				'ssl_verify' => true,
 			),
 			"otherParams" => array(
 				'securityLevel' => '4',
@@ -789,8 +799,11 @@ class wfConfig {
 		return true;
 	}
 	public static function enableAutoUpdate(){
-		wfConfig::set('autoUpdate', '1');	
-		wp_schedule_event(time(), 'daily', 'wordfence_daily_autoUpdate');
+		wfConfig::set('autoUpdate', '1');
+		wp_clear_scheduled_hook('wordfence_daily_autoUpdate');
+		if (is_main_site()) {
+			wp_schedule_event(time(), 'daily', 'wordfence_daily_autoUpdate');
+		}
 	}
 	public static function disableAutoUpdate(){
 		wfConfig::set('autoUpdate', '0');	
@@ -857,11 +870,12 @@ Options -ExecCGI
 		$upload_dir = wp_upload_dir();
 		return $upload_dir['basedir'] . '/.htaccess';
 	}
-	
+
 	/**
 	 * Add/Merge .htaccess file in the uploads directory to prevent code execution.
 	 *
 	 * @return bool
+	 * @throws wfConfigException
 	 */
 	public static function disableCodeExecutionForUploads() {
 		$uploads_htaccess_file_path = self::_uploadsHtaccessFilePath();
@@ -880,27 +894,32 @@ Options -ExecCGI
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Remove script execution protections for our the .htaccess file in the uploads directory.
 	 *
 	 * @return bool
+	 * @throws wfConfigException
 	 */
 	public static function removeCodeExecutionProtectionForUploads() {
 		$uploads_htaccess_file_path = self::_uploadsHtaccessFilePath();
 		if (file_exists($uploads_htaccess_file_path)) {
 			$htaccess_contents = file_get_contents($uploads_htaccess_file_path);
-			$htaccess_contents = str_replace(self::$_disable_scripts_htaccess, '', $htaccess_contents);
-			
-			$error_message = "Unable to remove code execution protections applied to the .htaccess file in the uploads directory.  Please check your permissions on that file.";
-			if (strlen(trim($htaccess_contents)) === 0) {
-				// empty file, remove it
-				if (!@unlink($uploads_htaccess_file_path)) {
+
+			// Check that it is in the file
+			if (strpos($htaccess_contents, self::$_disable_scripts_htaccess) !== false) {
+				$htaccess_contents = str_replace(self::$_disable_scripts_htaccess, '', $htaccess_contents);
+
+				$error_message = "Unable to remove code execution protections applied to the .htaccess file in the uploads directory.  Please check your permissions on that file.";
+				if (strlen(trim($htaccess_contents)) === 0) {
+					// empty file, remove it
+					if (!@unlink($uploads_htaccess_file_path)) {
+						throw new wfConfigException($error_message);
+					}
+
+				} elseif (@file_put_contents($uploads_htaccess_file_path, $htaccess_contents, LOCK_EX) === false) {
 					throw new wfConfigException($error_message);
 				}
-				
-			} elseif (@file_put_contents($uploads_htaccess_file_path, $htaccess_contents, LOCK_EX) === false) {
-				throw new wfConfigException($error_message);
 			}
 		}
 		return true;

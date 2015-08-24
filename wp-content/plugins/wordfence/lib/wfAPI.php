@@ -60,14 +60,32 @@ class wfAPI {
 			require_once ABSPATH . WPINC . 'http.php';
 		}
 
-		$response = wp_remote_post($url, array(
+		$ssl_verify = (bool) wfConfig::get('ssl_verify');
+		$args = array(
 			'timeout'    => 900,
 			'user-agent' => "Wordfence.com UA " . (defined('WORDFENCE_VERSION') ? WORDFENCE_VERSION : '[Unknown version]'),
 			'body'       => $postParams,
-		));
+			'sslverify'  => $ssl_verify,
+		);
+		if (!$ssl_verify) {
+			// Some versions of cURL will complain that SSL verification is disabled but the CA bundle was supplied.
+			$args['sslcertificates'] = false;
+		}
+
+		$response = wp_remote_post($url, $args);
 
 		$this->lastHTTPStatus = (int) wp_remote_retrieve_response_code($response);
-		if (is_wp_error($response) || 200 != $this->lastHTTPStatus) {
+
+		if (is_wp_error($response)) {
+			$error_message = $response->get_error_message();
+			throw new Exception("There was an " . ($error_message ? '' : 'unknown ') . "error connecting to the the Wordfence scanning servers" . ($error_message ? ": $error_message" : '.'));
+		}
+
+		if (!empty($response['response']['code'])) {
+			$this->lastHTTPStatus = (int) $response['response']['code'];
+		}
+
+		if (200 != $this->lastHTTPStatus) {
 			throw new Exception("We received an error response when trying to contact the Wordfence scanning servers. The HTTP status code was [$this->lastHTTPStatus]");
 		}
 

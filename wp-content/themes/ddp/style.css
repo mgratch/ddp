@@ -1692,6 +1692,8 @@ body #wrapper-interior.interior-page .col-md-9.main-content ul li, body #wrapper
 	background-color: #e4e4e4;
 }
 
+#data .map-table tbody tr td:first-child{ width: 50%; }
+
 /**/
 
 /* sub-menu styles. Currently Sub-menu only appears in the sidebar of current page items */

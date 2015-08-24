@@ -2,7 +2,6 @@
 /*
 Template Name: Events AJAX
 */
-
 $type = $_GET['t'];
 
 if($type == "articles-events"){

@@ -76,8 +76,8 @@ Template Name: Home
       	<div class="col-sm-2 article-nav">
 			<ul>
 				<li id="articles-latest-news">Latest News</li>
-				<li class="events" id="articles-events">Events</li>
-				<li id="articles-interactive-map">Interactive Map</li>
+				<!-- <li class="events" id="articles-events">Events</li>
+				<li id="articles-interactive-map">Interactive Map</li> -->
 			</ul>
 		
 		</div>

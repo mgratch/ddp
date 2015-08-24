@@ -28,7 +28,7 @@
           @foreach ($property->rent->listings as $listing)
             <li class="unit-type {{ $listing->available ? 'available' : null }}">
               {{ $listing->title }}{{ $listing->bathrooms ? ', ' . $listing->bathrooms . ' Bathroom' : null }}:
-                @if (!empty($listing->priceHigh) && !empty($listing->priceLow))
+                @if (!empty($listing->priceHigh) || !empty($listing->priceLow))
                   ${{ $listing->priceLow }} {{ !empty($listing->priceHigh) ? '- ' . $listing->priceHigh : null }}
                 @else
                   $N/A
