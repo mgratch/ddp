@@ -1,0 +1,63 @@
+---
+- hosts: all
+  tasks:
+    - name: Update Box
+      sudo: yes
+      apt: update_cache=yes
+
+    - name: Install Packages
+      sudo: yes
+      apt: pkg={{item}} state=installed
+      with_items:
+        - python-mysqldb
+        - mysql-server
+        - libapache2-mod-auth-mysql
+        - apache2
+        - php5
+        - php5-mcrypt
+        - php5-mysql
+        - php5-xdebug
+        - php5-curl
+        - libapache2-mod-php5
+
+    - name: Configuring Apache
+      apache2_module: state=present name=rewrite
+      sudo: yes
+      notify: restart apache2
+
+    - copy: src=files/templates/20-xdebug.ini
+            dest=/etc/php5/apache2/conf.d/20-xdebug.ini
+            owner=root group=root mode=0644
+      sudo: yes
+      notify: restart apache2
+
+    - copy: src=files/.env
+          dest=/var/www/html/vagrant
+          owner=www-data group=www-data mode=0644
+      sudo: yes
+
+    - copy: src=files/.htaccess
+          dest=/var/www/html/vagrant
+          owner=www-data group=www-data mode=0644
+      sudo: yes
+
+    - copy: src=files/templates/000-default.conf
+            dest=/etc/apache2/sites-available/000-default.conf
+            owner=root group=root mode=0644
+      sudo: yes
+      notify: restart apache2
+
+    # MySQL Config
+    - name: Config MySQL User
+      mysql_user: name=root password=root priv=*.*:ALL state=present
+
+    - name: Create Table
+      mysql_db: name=wp state=present login_user=root login_password=root
+
+    - copy: src=files/import.sql.gz dest=/tmp
+    - mysql_db: name=wp state=import target=/tmp/import.sql.gz login_user=root login_password=root
+
+  handlers:
+    - name: restart apache2
+      command: service apache2 restart
+      sudo: yes

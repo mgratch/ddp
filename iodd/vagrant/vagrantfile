@@ -2,7 +2,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Base box config
-  config.vm.box = "sixlabs/sixbox"
+  config.vm.box = "ubuntu/trusty64"
 
   # Networking
   config.vm.hostname = "ddp.dev"
@@ -42,10 +42,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Folder Sync
-  config.vm.synced_folder ".", "/var/www/html",
+  config.vm.synced_folder "./", "/var/www/html/vagrant",
     create: true,
     owner: "www-data", group: "www-data",
-    :mount_options => ["dmode=777", "fmode=775"]
+    :mount_options => ["dmode=777", "fmode=777"]
 
-  config.vm.provision "shell", path: "iodd/vagrant/provision/bootstrap.sh"
+  config.vm.synced_folder ".", "/vagrant",
+  create: true,
+  owner: "www-data", group: "www-data",
+    :mount_options => ["dmode=777", "fmode=777"]
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "iodd/vagrant/provision/playbook.yml"
+  end
 end
