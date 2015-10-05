@@ -4,9 +4,9 @@ Template Name: Home
 */
 ?>
 <?php get_header();
-	wp_enqueue_script( 'gmap', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDjC8OjHMmiox7fqIcuwfXtmnBiLjFLkZ0&sensor=false');
-	wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
-	wp_enqueue_script( 'gmap-custom', plugins_url().'/ddp-interactive-map/js/ddp-map.js');
+	// wp_enqueue_script( 'gmap', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDjC8OjHMmiox7fqIcuwfXtmnBiLjFLkZ0&sensor=false');
+	// wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
+	// wp_enqueue_script( 'gmap-custom', plugins_url().'/ddp-interactive-map/js/ddp-map.js');
 ?>
 
 		<div id="main-carousel" class="slideshow carousel slide" data-ride="carousel">
