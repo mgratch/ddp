@@ -1,5 +1,10 @@
 ---
 - hosts: all
+  vars:
+    db_name: wp
+    db_user: root
+    db_password: root
+    web_root: /var/www/html/vagrant/
   tasks:
     - name: Update Box
       sudo: yes
@@ -20,6 +25,11 @@
         - php5-curl
         - libapache2-mod-php5
 
+    - name: php5enmod
+      command: php5enmod mcrypt
+      sudo: yes
+      notify: restart apache2
+
     - name: Configuring Apache
       apache2_module: state=present name=rewrite
       sudo: yes
@@ -32,12 +42,12 @@
       notify: restart apache2
 
     - copy: src=files/.env
-          dest=/var/www/html/vagrant
+          dest={{web_root}}
           owner=www-data group=www-data mode=0644
       sudo: yes
 
     - copy: src=files/.htaccess
-          dest=/var/www/html/vagrant
+          dest={{web_root}}
           owner=www-data group=www-data mode=0644
       sudo: yes
 
@@ -52,10 +62,13 @@
       mysql_user: name=root password=root priv=*.*:ALL state=present
 
     - name: Create Table
-      mysql_db: name=wp state=present login_user=root login_password=root
+      mysql_db: name={{db_name}} state=present login_user={{db_user}} login_password={{db_password}}
 
-    - copy: src=files/import.sql.gz dest=/tmp
-    - mysql_db: name=wp state=import target=/tmp/import.sql.gz login_user=root login_password=root
+    - name: Copy SQL import
+      copy: src=files/import.sql.gz dest=/tmp
+
+    - name: Import initial SQL
+      mysql_db: name={{db_name}} state=import target=/tmp/import.sql.gz login_user={{db_user}} login_password={{db_password}}
 
   handlers:
     - name: restart apache2
