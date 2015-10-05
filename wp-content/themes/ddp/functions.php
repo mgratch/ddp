@@ -119,8 +119,6 @@ class ddp_nav_walker extends Walker_Nav_Menu {
 
 	function walk( $elements, $max_depth) {
 
-
-
 		$menu_elements = array();
 		foreach ($elements as $element) {
 
@@ -144,6 +142,7 @@ class ddp_nav_walker extends Walker_Nav_Menu {
 		}
 
 		$split = ceil(count($menu_elements)/2);
+		$strHTML = '';
 		//$rightHtml = '</ul><ul class="right-side-menu">';
 		foreach($menu_elements as $key => $item){
 		//	if($key % 2 == 0) {
