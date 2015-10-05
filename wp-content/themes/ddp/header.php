@@ -9,10 +9,10 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="shortcut icon" href="<?php echo site_url(); ?>/favicon.ico" />
-		<link href="<?php bloginfo('template_url'); ?>/css/idangerous.swiper.css" rel="stylesheet" />
-    	<link href="<?php bloginfo('template_url'); ?>/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="<?php echo get_template_directory_uri(); ?>/css/idangerous.swiper.css" rel="stylesheet" />
+    	<link href="<?php echo get_template_directory_uri(); ?>/bootstrap/css/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url'); ?>" media="screen">
-        <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url'); ?>/css/style_print.css" media="print">
+        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/css/style_print.css" media="print">
 		<link rel="alternate" type="text/xml" title="<?php bloginfo('name'); ?> RSS 0.92 Feed" href="<?php bloginfo('rss_url'); ?>">
 		<link rel="alternate" type="application/atom+xml" title="<?php bloginfo('name'); ?> Atom Feed" href="<?php bloginfo('atom_url'); ?>">
 		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS 2.0 Feed" href="<?php bloginfo('rss2_url'); ?>">
@@ -32,13 +32,13 @@
 		<header class="">
 
 	  		<nav class="main-nav">
-	  			<a href="<?php bloginfo('home'); ?>"><div class="brand"></div></a>
+	  			<a href="<?php echo home_url(); ?>"><div class="brand"></div></a>
 	  			<ul class="big-three">
 	  				<li id="m-0" class="explore">
 
 	  					<div>
 	  						<a href="<?php bloginfo('url'); ?>/explore-downtown/">
-			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/explore-icon.png" /></span>
+			  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/explore-icon.png" /></span>
 			  				Explore Downtown
 			  				</a>
 			  			</div>
@@ -75,7 +75,7 @@
 
 						<div >
 							<a href="<?php bloginfo('url'); ?>/do-business/">
-			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/business-icon.png" /></span>
+			  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/business-icon.png" /></span>
 			  				Do Business
 			  				</a>
 			  			</div>
@@ -113,7 +113,7 @@
 
 	  					<div>
 	  						<a href="<?php bloginfo('url'); ?>/live-here/">
-			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/live-icon.png" /></span>
+			  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/live-icon.png" /></span>
 			  				Live Here
 			  				</a>
 			  			</div>
@@ -151,7 +151,7 @@
 
 	  					<div>
 	  						<a href="<?php bloginfo('url'); ?>/business-improvement-zone/">
-			  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/biz-icon.png" /></span>
+			  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/biz-icon.png" /></span>
 			  				<span class="short-label">BIZ</span>
 			  				<span class="long-label">Business Improvement Zone</span>
 			  				</a>
@@ -191,13 +191,13 @@
 
 	  			<a class="about" href="#">
 	  			Menu
-	  			<span><img src="<?php bloginfo('template_url'); ?>/images/arrow-sprite.png" /></span>
+	  			<span><img src="<?php echo get_template_directory_uri(); ?>/images/arrow-sprite.png" /></span>
 	  			</a>
 
 	  			<div class="social">
-	  				<a href="http://instagram.com/downtowndetroitpartnership#" target="_blank"><img src="<?php bloginfo('template_url'); ?>/images/instagram-header2.png" /></a>
-	  				<a href="https://twitter.com/DDPDetroit" target="_blank"><img src="<?php bloginfo('template_url'); ?>/images/twitter-header2.png" /></a>
-	  				<a href="https://www.facebook.com/DowntownDetroitPartnership" target="_blank"><img src="<?php bloginfo('template_url'); ?>/images/facebook-header2.png" /></a>
+	  				<a href="http://instagram.com/downtowndetroitpartnership#" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/images/instagram-header2.png" /></a>
+	  				<a href="https://twitter.com/DDPDetroit" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/images/twitter-header2.png" /></a>
+	  				<a href="https://www.facebook.com/DowntownDetroitPartnership" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/images/facebook-header2.png" /></a>
 	  			</div>
 
 	  		</nav>

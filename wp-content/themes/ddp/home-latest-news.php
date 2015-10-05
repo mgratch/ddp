@@ -4,7 +4,7 @@
 		      	<div class="col-md-7">
 		      		<div class="feature-article-1">
 			      		<div class="img-container">
-			      		<img class="bg-image" src="<?php bloginfo('template_url'); ?>/images/stadium.jpg" />
+			      		<img class="bg-image" src="<?php echo get_template_directory_uri(); ?>/images/stadium.jpg" />
 			      		</div>
 			      		<div class="text-box">
 			      		<div class="date">March 10, 2014</div>

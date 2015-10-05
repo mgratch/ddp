@@ -5,7 +5,7 @@
 			<br>
 
       		<?php print wpautop(get_post_meta(get_option('page_on_front'), 'wpcf-copyright-block', true)); ?>
-      		<a href="http://instagram.com/downtowndetroitpartnership#"><img class="social" src="<?php bloginfo('template_url'); ?>/images/instagram-header2.png" /></a><a href="https://twitter.com/DDPDetroit"><img class="social" src="<?php bloginfo('template_url'); ?>/images/twitter-header2.png" /></a><a href="https://www.facebook.com/DowntownDetroitPartnership"><img class="social" src="<?php bloginfo('template_url'); ?>/images/facebook-header2.png" /></a>
+      		<a href="http://instagram.com/downtowndetroitpartnership#"><img class="social" src="<?php echo get_template_directory_uri(); ?>/images/instagram-header2.png" /></a><a href="https://twitter.com/DDPDetroit"><img class="social" src="<?php echo get_template_directory_uri(); ?>/images/twitter-header2.png" /></a><a href="https://www.facebook.com/DowntownDetroitPartnership"><img class="social" src="<?php echo get_template_directory_uri(); ?>/images/facebook-header2.png" /></a>
       		</div>
       		<div class="col-md-4">
       		<h4>Subscribe to our newsletter</h4>
@@ -55,7 +55,7 @@
     						<div class="responsive-sidebar-nav">
     						<div class="responsive-item explore">
 
-				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/explore-icon.png" /></span>
+				  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/explore-icon.png" /></span>
 
 	    						<h5>Explore Downtown</h5>
 	            				<?php
@@ -83,7 +83,7 @@
     						</div>
     						<div class="responsive-item do-business">
 
-				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/business-icon.png" /></span>
+				  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/business-icon.png" /></span>
 
 	    						<h5>Do Business</h5>
 	            				<?php
@@ -111,7 +111,7 @@
     						</div>
     						<div class="responsive-item live-here">
 
-				  				<span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/live-icon.png" /></span>
+				  				<span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/live-icon.png" /></span>
 
     							<h5>Live Here</h5>
 								<?php
@@ -139,7 +139,7 @@
     						</div>
                 <div class="responsive-item biz-zone">
 
-                  <span class="img-container"><img src="<?php bloginfo('template_url'); ?>/images/biz-icon.png" /></span>
+                  <span class="img-container"><img src="<?php echo get_template_directory_uri(); ?>/images/biz-icon.png" /></span>
 
                   <h5>Business Improvement Zone</h5>
                 <?php
@@ -190,9 +190,9 @@
 							?>
 
 							<div class="social">
-				  				<a href="http://instagram.com/downtowndetroitpartnership#"><img src="<?php bloginfo('template_url'); ?>/images/instagram-header2.png" /></a>
-				  				<a href="https://www.facebook.com/DowntownDetroitPartnership"><img src="<?php bloginfo('template_url'); ?>/images/twitter-header2.png" /></a>
-				  				<a href="https://twitter.com/DDPDetroit"><img src="<?php bloginfo('template_url'); ?>/images/facebook-header2.png" /></a>
+				  				<a href="http://instagram.com/downtowndetroitpartnership#"><img src="<?php echo get_template_directory_uri(); ?>/images/instagram-header2.png" /></a>
+				  				<a href="https://www.facebook.com/DowntownDetroitPartnership"><img src="<?php echo get_template_directory_uri(); ?>/images/twitter-header2.png" /></a>
+				  				<a href="https://twitter.com/DDPDetroit"><img src="<?php echo get_template_directory_uri(); ?>/images/facebook-header2.png" /></a>
 				  			</div>
     	<!--
     	<ul>
@@ -228,12 +228,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
 
-    <script src="<?php bloginfo('template_url'); ?>/javascript/idangerous.swiper.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/javascript/bootstrap.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/javascript/jquery.mobile.custom.min.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/javascript/ddp.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/javascript/jquery.tinysort.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/javascript/pdfobject.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/idangerous.swiper.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/bootstrap.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/jquery.mobile.custom.min.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/ddp.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/jquery.tinysort.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/javascript/pdfobject.js"></script>
 
 
 		<?php wp_footer(); ?>
