@@ -20,6 +20,8 @@ add_action( 'init', 'io_theme_scripts' );
 /**
  * Get contents of an SVG file for inline ouput
  */
-function renderSVG($path) {
-  return file_get_contents($path);
+function renderSVG($path = false) {
+  if ($path) {
+    return file_get_contents($path);
+  }
 }

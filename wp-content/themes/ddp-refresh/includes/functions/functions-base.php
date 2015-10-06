@@ -406,13 +406,13 @@ class ioSitemap
 	{
 		$this->actions();
 	}
-	
+
   protected function actions()
   {
 	  register_nav_menu('sitemap', 'Sitemap Menu');
 	  add_shortcode('iositemap', [$this, 'shortcodeSitemap']);
   }
-  
+
   public function shortcodeSitemap()
   {
 		return wp_nav_menu(
@@ -425,4 +425,56 @@ class ioSitemap
 	    ]
 	  );
   }
+}
+
+/**
+ * Menu modifactions to front-end standards
+ */
+
+// Map menu item class names
+add_filter('nav_menu_css_class', function($classes, $item) {
+  $origClasses = $classes;
+
+  $classes = [
+    'menu__item'
+  ];
+
+  if ($item->current) {
+    $classes[] = 'menu__item-current';
+  }
+
+  if ($item->current_item_ancestor) {
+    $classes[] = 'menu__item—current-item-ancestor';
+  }
+
+  if ($item->current_item_parent) {
+    $classes[] = 'menu__item—current-item-parent';
+  }
+
+  if (in_array('menu-item-has-children', $origClasses)) {
+    $classes[] = 'menu__item-has-children';
+  }
+
+  return $classes;
+}, 10, 2 );
+
+
+// Set sub menu class name
+class IODefaultWalker extends Walker_Nav_Menu
+{
+  /**
+	 * Starts the list before the elements are added.
+	 *
+	 * @see Walker::start_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 */
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul class=\"menu__sub-menu\">\n";
+	}
 }
