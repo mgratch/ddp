@@ -2,41 +2,38 @@
 
 namespace IODD\DDPLegacy;
 
-class DDPLegacy {
+use IODD\DDPLegacy\Plugin\Plugin as Plugin;
+use IODD\DDPLegacy\Config\Config as Config;
+
+class DDPLegacy
+{
   protected $config;
+  protected $plugin;
 
-  protected $container = [];
+  public function __construct()
+  {
+    $this->config = Config::get();
 
-  public function __construct($config) {
-    $this->config = $config;
+    $this->plugin = new Plugin;
+
+    $this->serviceProviders();
+    $this->plugin->run();
   }
 
-  public function addService(ServiceInterface $service)
+  public function serviceProviders()
   {
-    $this->container['services'] = new $service($config);
-  }
-
-  public function setActivator(ActivatorInterface $activator)
-  {
-    $this->container['activators'] = $activator;
-  }
-
-  public function setDeactivator(DeactivatorInterface $deactivator)
-  {
-    $this->container['deactivators'] = $activator;
-  }
-
-  public function activate()
-  {
-    foreach (@$this->container['activators'] as $activator) {
-      $activator::activate();
+    foreach ($this->config['service_providers'] as $service) {
+      $this->plugin->addserviceProvider($service);
     }
   }
 
   public function activate()
   {
-    foreach (@$this->container['deactivators'] as $deactivator) {
-      $activator::activate();
-    }
+    $this->plugin->activate();
+  }
+
+  public function deactivate()
+  {
+    $this->plugin->deactivate();
   }
 }

@@ -1,0 +1,5 @@
+/* Navigation
+----------------------------------------*/
+#menu-main {
+  @include flex-grid( ul, bottom, null, left, false );
+}

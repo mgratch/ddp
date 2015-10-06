@@ -1,0 +1,102 @@
+$fix-mqs: false !default;
+
+@mixin respond-min($width) {
+  @if $fix-mqs {
+    @if $fix-mqs >= $width {
+      @content;
+    }
+  }
+  @else {
+    @media screen and (min-width: $width) {
+      @content;
+    }
+  }
+}
+@mixin respond-max($width) {
+  @if $fix-mqs {
+    @if $fix-mqs <= $width {
+      @content;
+    }
+  }
+  @else {
+    @media screen and (max-width: $width) {
+      @content;
+    }
+  }
+}
+
+$old-ie: false !default;
+
+@mixin old-ie {
+  @if $old-ie {
+    @content;
+  }
+}
+
+@mixin flex-grid($element, $alignment, $font-size, $text-align, $spacer) {
+  font-size: 0.1px;
+  text-align: justify;
+  @if $element == 'ul' {
+    list-style: none;
+  }
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+  }
+
+  & > * {
+    display: inline-block;
+    vertical-align: $alignment;
+    text-align: $text-align;
+    @if $font-size == null {
+      font-size: u(1rem);
+    }
+    @else {
+      font-size: rem($font-size);
+    }
+
+    @if $spacer == true {
+      &.flex-grid-spacer {
+        height: 1px;
+        margin-top: -1px;
+      }
+    }
+  }
+}
+
+// Apply styles within the mixin call just like you would to a selector
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+     @content
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+     @content
+  }
+
+  &:-ms-input-placeholder {
+     @content
+  }
+}
+
+@mixin flex-text($viewport-min, $viewport-max, $font-min, $font-max) {
+  $vmin-val: parseInt(em($viewport-min));
+  $vmax-val: parseInt(em($viewport-max));
+  $fmin-val: parseInt(em($font-min));
+  $fmax-val: parseInt(em($font-max));
+
+  font-size: rem($font-min);
+
+  @media (min-width: em($viewport-min)) and (max-width: em($viewport-max)) {
+    font-size: calc(#{rem($font-min)} + (#{$fmax-val} - #{$fmin-val}) * (100vw - #{rem($viewport-min)}) / (#{$vmax-val} - #{$vmin-val}));
+  }
+  @media (min-width: em($viewport-max)) {
+    font-size: rem($font-max);
+  }
+}

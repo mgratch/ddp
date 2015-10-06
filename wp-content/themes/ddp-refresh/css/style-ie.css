@@ -1,0 +1,524 @@
+/* ! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/* line 5, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* line 12, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+body {
+  margin: 0;
+}
+
+/* line 20, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/* line 38, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* line 48, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/* line 55, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+[hidden],
+template {
+  display: none;
+}
+
+/* line 62, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+a {
+  background-color: transparent;
+}
+
+/* line 67, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* line 74, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/* line 79, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+b,
+strong {
+  font-weight: bold;
+}
+
+/* line 85, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+dfn {
+  font-style: italic;
+}
+
+/* line 90, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* line 96, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/* line 102, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+small {
+  font-size: 80%;
+}
+
+/* line 107, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 114, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 117, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 123, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+img {
+  border: 0;
+}
+
+/* line 128, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* line 134, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+figure {
+  margin: 1em 40px;
+}
+
+/* line 139, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/* line 146, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+pre {
+  overflow: auto;
+}
+
+/* line 151, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+/* line 166, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+/* line 177, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button {
+  overflow: visible;
+}
+
+/* line 185, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button,
+select {
+  text-transform: none;
+}
+
+/* line 193, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+/* line 202, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/* line 208, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* line 215, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+input {
+  line-height: normal;
+}
+
+/* line 224, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* line 231, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/* line 238, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+/* line 247, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/* line 253, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/* line 261, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+legend {
+  border: 0;
+  padding: 0;
+}
+
+/* line 267, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+textarea {
+  overflow: auto;
+}
+
+/* line 273, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+optgroup {
+  font-weight: bold;
+}
+
+/* line 279, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 284, /Users/jeffwinegar/dev/wp-theme/css/sass/vendor/_normalize-3.0.2.scss */
+td,
+th {
+  padding: 0;
+}
+
+/* END normalize v3.0.2 */
+/* HTML5 Base styles - Leave As/Is
+-----------------------------------------*/
+/* line 3, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_base-html5.scss */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 8, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_base-html5.scss */
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 22, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_base-html5.scss */
+html,
+body {
+  height: 100%;
+}
+
+/* Default Styles
+----------------------------------------*/
+/*Site Base*/
+/* line 17, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-base.scss */
+body {
+  font-size: 100%;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #151515;
+}
+
+/* line 27, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-base.scss */
+.xdebug-var-dump {
+  background: white !important;
+  color: black !important;
+}
+
+/* line 32, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-base.scss */
+.wrapper {
+  width: 95%;
+  margin: 0 2.5%;
+  width: 73.125em;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* line 52, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-base.scss */
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Main Header
+----------------------------------------*/
+/* line 4, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-header.scss */
+.site-logo {
+  line-height: 0;
+}
+
+/* Navigation
+----------------------------------------*/
+/* line 3, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-navigation.scss */
+#menu-main {
+  font-size: 0.1px;
+  text-align: justify;
+  list-style: none;
+}
+
+/* line 43, /Users/jeffwinegar/dev/wp-theme/css/sass/modules/_utils.scss */
+#menu-main:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+}
+
+/* line 49, /Users/jeffwinegar/dev/wp-theme/css/sass/modules/_utils.scss */
+#menu-main > * {
+  display: inline-block;
+  vertical-align: bottom;
+  text-align: left;
+  font-size: 16px;
+}
+
+/* Sidebar
+----------------------------------------*/
+/* line 5, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_theme-sidebar.scss */
+aside.main > ul {
+  list-style: none;
+}
+
+/* Footer
+----------------------------------------*/
+/* Helper Classes
+----------------------------------------*/
+/* line 5, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.alignleft {
+  display: inline;
+  float: left;
+  margin-right: 24px;
+}
+
+/* line 10, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.alignright {
+  display: inline;
+  float: right;
+  margin-left: 24px;
+}
+
+/* line 15, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.aligncenter {
+  clear: both;
+  display: block;
+  margin: 0 auto;
+}
+
+/* line 21, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.flex-image, .site-logo img,
+.site-logo svg {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+/* line 26, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+img[src*=svg] {
+  width: 100%\9;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  /* line 26, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+  img[src*=svg] {
+    width: 100%;
+  }
+}
+
+/* line 34, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.flex-container {
+  overflow: hidden;
+}
+
+/* line 38, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+/* line 43, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden;
+}
+
+/* line 54, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.clearfix {
+  *zoom: 1;
+}
+
+/* line 57, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.clearfix:before, .clearfix:after {
+  content: '';
+  display: table;
+}
+
+/* line 62, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-helper-classes.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* Print Styles
+----------------------------------------*/
+@media print {
+  /* line 5, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  /* line 12, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  header.main,
+  aside.main,
+  footer.main {
+    display: none !important;
+  }
+  /* line 18, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  a {
+    text-decoration: underline;
+  }
+  /* line 21, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  a:visited {
+    text-decoration: underline;
+  }
+  /* line 24, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  /* line 30, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: '';
+  }
+  /* line 36, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  /* line 40, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  /* line 46, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  thead {
+    display: table-header-group;
+  }
+  /* line 49, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+  /* line 54, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  img {
+    max-width: 100% !important;
+  }
+  @page {
+    margin: 0.5cm;
+  }
+  /* line 62, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  /* line 68, /Users/jeffwinegar/dev/wp-theme/css/sass/partials/_global-base-print-styles.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+
+/*# sourceMappingURL=style-ie.css.map */

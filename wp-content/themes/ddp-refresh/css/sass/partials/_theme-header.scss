@@ -1,0 +1,11 @@
+/* Main Header
+----------------------------------------*/
+
+.site-logo {
+  line-height: 0;
+
+  img,
+  svg {
+    @extend .flex-image;
+  }
+}

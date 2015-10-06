@@ -1,0 +1,60 @@
+// -- INSTRUCTIONS -----------------------
+// FOR REMS            : Use rem($px) for pixel to rem conversion or u(1rem) for straight rem
+// FOR MEDIA QUERIES   : Use @include respond-min(em($px)) { } for min-width or @include respond-max(em($px)) { } for max-width
+// FOR IE 8 ONLY FIXES : Use @include old-ie { }
+// FOR FLEX GRID ITEMS : Use @include flex-grid($element, $alignment, $font-size, $text-align, $spacer); This menu uses our justify trick **NOTE** If having issues make sure looped elements contain a new line break ."\r\n" (MUST BE CONTAINED IN DOUBLE QUOTES)
+// **** GO TO STYLE-IE.SCSS AND ADD THE .WRAPPER MQ VALUE TO THE FIX-MQS CONFIG ****
+
+// -- THEME VARS -------------------------
+$wrapperWidth  : 1170; // px value
+$wrapperMargin : 2.5;  // % value
+
+$fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
+
+/* Default Styles
+----------------------------------------*/
+/*Site Base*/
+body {
+  font: {
+    // family: $font-main;
+    size: 100%;
+    weight: 400;
+  }
+  line-height: 1.4;
+  color: $color-base;
+}
+
+.xdebug-var-dump {
+  background: white !important;
+  color: black !important;
+}
+
+.wrapper {
+  width: #{100 - ($wrapperMargin * 2)}#{'%'};
+  margin: 0 #{($wrapperMargin)}#{'%'};
+
+  @include respond-min(em($fluidWidth)) {
+    width: em($wrapperWidth);
+    margin: 0 auto;
+    position: relative;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+}
+
+button {
+  -webkit-appearance:none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
