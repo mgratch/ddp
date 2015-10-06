@@ -1,7 +1,8 @@
-		<!-- <div id="footer-push"></div> -->
-		<footer class="main">
+		  <div id="footer-push"></div>
+    </div>
+		<footer class="footer--main">
 			<div class="wrapper">
-				<p>&copy; <?php echo date('Y'); ?> <a href="<?php bloginfo('url'); ?>/" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> </p>
+				<p>&copy; Copyright <?php echo date('Y'); ?> <a href="<?php bloginfo('url'); ?>/" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> </p>
 			</div>
 		</footer>
 		<?php wp_footer(); ?>

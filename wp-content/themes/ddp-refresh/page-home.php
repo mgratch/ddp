@@ -9,9 +9,9 @@ Template Name: Home Page
 		<div class="wrapper">
 			<section class="site-content">
 				<article id="post-<?php the_ID(); ?>">
-					<h1 class="visuallyhidden"><?php bloginfo('name'); ?></h1>
-				
-					<?php the_content('Read more on "'.the_title('', '', false).'" &raquo;'); ?>
+					<h1 class="visually-hidden"><?php bloginfo('name'); ?></h1>
+
+					<?php the_content(); ?>
 				</article>
 			</section><!-- ./SITE-CONTENT -->
 	<?php endwhile; endif; ?>

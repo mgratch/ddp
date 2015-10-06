@@ -16,3 +16,10 @@ add_action( 'init', 'io_theme_scripts' );
 /**
  * Custom Image Sizes
  */
+
+/**
+ * Get contents of an SVG file for inline ouput
+ */
+function renderSVG($path) {
+  return file_get_contents($path);
+}

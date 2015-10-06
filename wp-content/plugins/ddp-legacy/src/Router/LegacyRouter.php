@@ -55,8 +55,11 @@ class LegacyRouter
 
       // Normal Mapping
       if (!is_archive() && ! is_single()) {
-        if ($template = $this->standard($template)) {
+        if ($legacyTemplate = $this->standard($template)) {
+          $template = $legacyTemplate;
           $isLegacy = true;
+        } else {
+          $template = locate_template($template);
         }
       }
 
@@ -125,7 +128,7 @@ class LegacyRouter
       return $legacyTemplate;
     }
 
-    return $template;
+    return false;
   }
 
   public function legacyAssets()

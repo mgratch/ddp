@@ -1,5 +1,9 @@
 /* Navigation
 ----------------------------------------*/
-#menu-main {
+.mobile-button {
+  display: none;
+}
+
+.menu--main {
   @include flex-grid( ul, bottom, null, left, false );
 }

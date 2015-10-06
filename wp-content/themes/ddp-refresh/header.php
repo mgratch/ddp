@@ -38,18 +38,25 @@
 			wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
-			<header class="main">
+		<div class="content-wrap">
+			<header class="header--main js-header-collapse">
 				<div class="wrapper">
-					<div class="site-logo">
-              <a  title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
+					<div class="header--main__item site-logo">
+              <a title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
                 <img src="<?php echo get_template_directory_uri();?>/images/site-logo.svg" onerror="this.src='<?php echo get_template_directory_uri();?>/images/site-logo.png';this.onerror=null;" alt="<?php bloginfo('name'); ?>">
               </a>
 					</div>
 				</div>
-				<nav class="main">
-					<div class="wrapper">
-						<div class="mobile-nav-button">menu</div>
-						<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>false, 'container_class'=>false, 'menu_id'=>'menu-main',)); ?>
-					</div>
+				<nav class="header--main_item">
+					<div class="mobile-button">menu</div>
+					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu--main', 'container_class'=>false, 'menu_id'=>false)); ?>
 				</nav>
+				<div class="header--main_item social-connect">
+					<span class="social-connect__title">Follow Us</span>
+					<ul class="social-connect__items">
+						<li class="social-connect__item"><a href="#"><?php renderSVG(); ?></a></li>
+						<li class="social-connect__item"></li>
+						<li class="social-connect__item"></li>
+					</ul>
+				</div>
 			</header>

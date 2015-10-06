@@ -2,24 +2,28 @@
 ----------------------------------------*/
 
 // FOR STICKY FOOTER (If having issues with height check margins in header and footer)
-  // $footer-height: 50px;
+  $footer-height: 268px;
 
-  // .content-wrap {
-  //   min-height: 100%;
-  // }
+  .content-wrap {
+    min-height: 100%;
+  }
 
-  // #footer-push {
-  //   height: $footer-height;
-  //   clear: both;
-  // }
+  #footer-push {
+    height: $footer-height;
+    clear: both;
+  }
 
-  // footer.main {
-  //   height: $footer-height;
-  //   margin-top: -$footer-height;
+  .footer--main {
+    height: $footer-height;
+    margin-top: -$footer-height;
 
-  //   p {
-  //     margin: 0;
-  //     padding: 1em 0;
-  //   }
-  // }
+    p {
+      margin: 0;
+      padding: 1em 0;
+    }
+  }
 // END OF STICKY FOOTER CODE
+
+.footer--main {
+  background-color: $color-alt-8;
+}

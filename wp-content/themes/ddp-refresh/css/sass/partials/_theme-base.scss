@@ -6,7 +6,7 @@
 // **** GO TO STYLE-IE.SCSS AND ADD THE .WRAPPER MQ VALUE TO THE FIX-MQS CONFIG ****
 
 // -- THEME VARS -------------------------
-$wrapperWidth  : 1170; // px value
+$wrapperWidth  : 1235; // px value
 $wrapperMargin : 2.5;  // % value
 
 $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
