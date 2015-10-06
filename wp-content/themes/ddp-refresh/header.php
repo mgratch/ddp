@@ -39,7 +39,7 @@
 	</head>
 	<body <?php body_class(); ?>>
 		<div class="content-wrap">
-			<header class="header--main js-header-collapse">
+			<header class="header header--main js-header-collapse">
 				<div class="wrapper">
 					<div class="header--main__item site-logo">
               <a title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
@@ -51,12 +51,29 @@
 					<div class="mobile-button">menu</div>
 					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalker)); ?>
 				</nav>
-				<div class="header--main_item social-connect">
-					<span class="social-connect__title">Follow Us</span>
-					<ul class="social-connect__items">
-						<li class="social-connect__item"><a href="#"><?php renderSVG(); ?></a></li>
-						<li class="social-connect__item"></li>
-						<li class="social-connect__item"></li>
-					</ul>
-				</div>
+				<?php
+					$social_urls = ioAdminHelpers::getSocial();
+
+					if (!empty($social_urls)) {
+						$strHtml = '';
+
+						$strHtml .= '<div class="header--main_item social-connect">';
+							$strHtml .= '<span class="social-connect__title">Follow Us</span>';
+							$strHtml .= '<ul class="list social-connect__list">';
+								foreach ($social_urls as $key => $service) {
+									if (!empty($service)) {
+										$strHtml .= '<li class="list__item">';
+											$strHtml .= '<a href="'.$service.'" target="_blank">';
+												$strHtml .= renderSVG(get_template_directory().'/images/logo-'.$key.'.svg');
+											$strHtml .= '</a>';
+										$strHtml .= '</li>';
+									}
+								}
+
+							$strHtml .= '</ul>';
+						$strHtml .= '</div>';
+
+						echo $strHtml;
+					}
+				?>
 			</header>
