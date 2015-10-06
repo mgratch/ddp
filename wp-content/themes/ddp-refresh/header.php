@@ -49,7 +49,7 @@
 				</div>
 				<nav class="header--main_item">
 					<div class="mobile-button">menu</div>
-					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu--main', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalker)); ?>
+					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalker)); ?>
 				</nav>
 				<div class="header--main_item social-connect">
 					<span class="social-connect__title">Follow Us</span>
