@@ -2,7 +2,23 @@
 ----------------------------------------*/
 
 .header--main {
+  display: table;
+  width: 100%;
+  padding: 0 45px;
+  background-color: rgba(white, 0.9);
   border-top: solid 7px $color-alt-1;
+
+  @at-root #{&}__item {
+    display: table-cell;
+    vertical-align: middle;
+
+    &:first-child {
+      width: 155px;
+    }
+    &:last-child {
+      width: 90px;
+    }
+  }
 }
 
 .site-logo {
@@ -12,4 +28,16 @@
   svg {
     @extend .flex-image;
   }
+}
+
+.social-connect__title {
+  display: block;
+  font: {
+    family: $font-accent-medium;
+    size: rem(14px);
+  }
+  line-height: 0.85;
+  text-align: center;
+  color: black;
+  margin-bottom: 8px;
 }

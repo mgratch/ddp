@@ -458,6 +458,12 @@ add_filter('nav_menu_css_class', function($classes, $item) {
   return $classes;
 }, 10, 2 );
 
+add_filter( 'nav_menu_link_attributes', function($atts, $item, $args){
+  $atts['class'] = 'menu__link';
+
+  return $atts;
+}, 10, 3 );
+
 
 // Set sub menu class name
 class IODefaultWalker extends Walker_Nav_Menu
@@ -475,6 +481,6 @@ class IODefaultWalker extends Walker_Nav_Menu
 	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class=\"menu__sub-menu\">\n";
+		$output .= "\n$indent<ul class=\"menu menu--sub-menu\">\n";
 	}
 }

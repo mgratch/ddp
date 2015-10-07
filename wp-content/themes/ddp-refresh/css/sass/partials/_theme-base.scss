@@ -16,12 +16,13 @@ $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wra
 /*Site Base*/
 body {
   font: {
-    // family: $font-main;
+    family: $font-main;
     size: 100%;
     weight: 400;
   }
   line-height: 1.4;
   color: $color-base;
+  background-color: $color-alt-8;
 }
 
 .xdebug-var-dump {

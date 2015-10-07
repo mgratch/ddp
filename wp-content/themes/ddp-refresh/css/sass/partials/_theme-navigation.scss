@@ -5,5 +5,47 @@
 }
 
 .menu--main {
-  @include flex-grid( ul, bottom, null, left, false );
+  display: table;
+  width: 100%;
+  list-style: none;
+  position: relative;
+  font: {
+    family: $font-accent-medium;
+  }
+  padding: 0 10px;
+
+  .menu__link {
+    display: block;
+    text-decoration: none;
+    padding: 3px 10px;
+  }
+
+  & > .menu__item {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 0.85;
+    padding: 43px 0 37px;
+    border-bottom: solid 6px transparent;
+    transition: border-bottom-color 0.25s ease;
+
+    &:hover {
+      border-bottom-color: $color-alt-2;
+    }
+
+    & > .menu__link {
+      color: black;
+      line-height: (18/16);
+    }
+  }
+}
+
+.menu--sub-menu {
+  position: absolute;
+  width: 100%;
+
+  .menu--main > .menu__item > & {
+    background-color: white;
+    border-top: solid 1px;
+  }
 }

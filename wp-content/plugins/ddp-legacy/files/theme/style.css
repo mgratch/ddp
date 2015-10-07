@@ -8,7 +8,7 @@ Author: Rob Ritzenhein
 Author URI:
 */
 
-@font-face {
+/*@font-face {
   font-family: 'Capita-Light';
   src: url('fonts/2AAFCD_0_0.eot');
   src: url('fonts/2AAFCD_0_0.eot?#iefix') format('embedded-opentype'), url('fonts/2AAFCD_0_0.woff') format('woff'), url('fonts/2AAFCD_0_0.ttf') format('truetype'), url('fonts/2AAFCD_0_0.svg#2AAFCD_0_0') format('svg');
@@ -85,7 +85,7 @@ Author URI:
   src: url('fonts/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/museo_slab_500-webfont.woff') format('woff'), url('fonts/museo_slab_500-webfont.ttf') format('truetype'), url('fonts/museo_slab_500-webfont.svg#museo_slab500') format('svg');
   font-weight: normal;
   font-style: normal;
-}
+}*/
 /* Global styles */
 /* ---------------------------------- */
 *,
