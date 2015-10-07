@@ -9,7 +9,7 @@
    *   show: {string} Element to show when triggerd. Default: .js-expand
    *   expandedClass: {string} Class added to child when show element is expanded.
    *     Default: js-is-expanded
-   *     
+   *
    * @return void
    */
   $.fn.ioCollapse = function(args) {
@@ -46,7 +46,7 @@
       }
     });
   }
-  
+
   /**
    * Does a test for mobile device. Returns true for mobile device.
    *
@@ -171,9 +171,42 @@
   }
 
   /**
+   * Collapse Main Menu on scroll
+   *
+   * @return void
+   */
+  function scrollCompressMenu() {
+    var topMenuItemPadding = '43';
+    var bottomMenuItemPadding = '37';
+
+    $('.js-header-compress > .menu__item').css({
+      'padding-top' : topMenuItemPadding + 'px',
+      'padding-bottom' : bottomMenuItemPadding + 'px'
+    });
+
+    $(window).scroll(function() {
+      var trackScroll = $(window).scrollTop();
+      var compressTopPadding = topMenuItemPadding - trackScroll;
+      var compressBottomPadding = bottomMenuItemPadding - trackScroll;
+
+      if(compressTopPadding <= 0) {
+        compressTopPadding = '0';
+        compressBottomPadding = '0';
+      }
+
+      $('.js-header-compress > .menu__item').css({
+        'padding-top' : compressTopPadding + 'px',
+        'padding-bottom' : compressBottomPadding + 'px'
+      });
+    })
+  }
+
+  /**
    * Document Ready Instance
    */
   $(document).ready(function(){
+
+    scrollCompressMenu();
 
     // Mobile test conditionals
     if( $(document).is_mobile() ) {
