@@ -50,12 +50,10 @@ h6 {
 
 }
 
-button {
-  -webkit-appearance:none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-  border-radius: 0;
+.content-wrap {
+  background-color: white;
+  // scroll testing
+    // height: 1500px;
+    background-color: $color-alt-6;
+  // END scroll testing
 }

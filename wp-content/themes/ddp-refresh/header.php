@@ -41,8 +41,9 @@
 		<div class="content-wrap">
 			<header class="header header--main">
 				<div class="header--main__item site-logo">
-            <a title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
+            <a class="site-logo__link" title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
               <img src="<?php echo get_template_directory_uri();?>/images/site-logo.svg" onerror="this.src='<?php echo get_template_directory_uri();?>/images/site-logo.png';this.onerror=null;" alt="<?php bloginfo('name'); ?>">
+							<?php // echo renderSVG(get_template_directory().'/images/site-icon.svg'); ?>
             </a>
 				</div>
 				<nav class="header--main__item nav nav--main">

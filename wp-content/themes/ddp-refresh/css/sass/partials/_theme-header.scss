@@ -24,10 +24,16 @@
 
 .site-logo {
   line-height: 0;
+  overflow: hidden;
 
   img,
   svg {
     @extend .flex-image;
+  }
+
+  @at-root #{&}__link {
+    display: block;
+    transform: translateY(0%);
   }
 }
 
@@ -40,5 +46,5 @@
   line-height: 0.85;
   text-align: center;
   color: black;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }

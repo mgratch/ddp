@@ -13,6 +13,15 @@
 // import global base
 @import "base-html5";
 
+// import lists
+@import "theme-lists";
+
+// import forms
+@import "theme-forms";
+
+// import buttons
+@import "theme-buttons";
+
 // import theme base
 @import "theme-base";
 
@@ -27,9 +36,6 @@
 
 // import main footer
 @import "theme-footer";
-
-// import lists
-@import "theme-lists";
 
 // import global helper classes
 @import "global-helper-classes";

@@ -189,9 +189,9 @@
       var compressTopPadding = topMenuItemPadding - trackScroll;
       var compressBottomPadding = bottomMenuItemPadding - trackScroll;
 
-      if(compressTopPadding <= 0) {
-        compressTopPadding = '0';
-        compressBottomPadding = '0';
+      if(compressTopPadding <= 18) {
+        compressTopPadding = '18';
+        compressBottomPadding = '12';
       }
 
       $('.js-header-compress > .menu__item').css({

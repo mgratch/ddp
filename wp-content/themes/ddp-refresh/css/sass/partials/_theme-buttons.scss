@@ -1,0 +1,23 @@
+.button {
+  -webkit-appearance:none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.button--submit {
+  background-color: $color-alt-4;
+}
+
+.button--plus {
+  width: 36px;
+  height: 36px;
+  background: {
+    image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjAuODc2cHgiIGhlaWdodD0iMjIuNzE2cHgiIHZpZXdCb3g9IjAgMCAyMC44NzYgMjIuNzE2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAyMC44NzYgMjIuNzE2IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMCAxMC4xOThoOS4yMzlWMGgyLjQzOXYxMC4xOThoOS4xOTh2Mi4zMmgtOS4xOTh2MTAuMTk4SDkuMjM5VjEyLjUxOEgwVjEwLjE5OHoiLz48L3N2Zz4=');
+    repeat: no-repeat;
+    position: center center;
+  }
+}
