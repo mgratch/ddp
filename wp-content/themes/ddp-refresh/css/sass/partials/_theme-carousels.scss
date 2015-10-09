@@ -1,0 +1,56 @@
+.bx-prev,
+.bx-next {
+  color: rgba($color-alt-4, 0.5);
+
+  &:hover {
+    color: rgba($color-alt-4, 1);
+  }
+}
+
+.bx-controls-direction {
+
+  & > * {
+    top: calc(50% + 58.5px);
+  }
+
+  .bx-prev {
+    left: 50px;
+  }
+  .bx-next {
+    right: 50px;
+  }
+}
+
+.carousel__slide {
+  position: relative;
+}
+
+.carousel__slide__content {
+  position: absolute;
+  top: calc(50% + 58.5px);
+  transform: translateY(-50%);
+  width: 100%;
+  font: {
+    family: $font-accent-light;
+    size: rem(24px);
+  }
+  @include flex-text(320, 1265, 16, 24);
+  line-height: (26/24);
+  text-align: center;
+  padding: 42px 115px 52px;
+  background-color: rgba(black, 0.45);
+
+  & > * + * {
+    margin-top: 10px;
+  }
+}
+
+.carousel__slide__content__copy {
+  width: 65%;
+  letter-spacing: -0.75px;
+  color: $color-alt-4;
+  margin: {
+    right: auto;
+    left: auto;
+  }
+}

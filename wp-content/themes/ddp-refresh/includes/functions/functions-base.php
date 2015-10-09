@@ -428,6 +428,52 @@ class ioSitemap
 }
 
 /**
+ * Responsive image using srcset
+ */
+
+class IOResponsiveImage
+{
+  protected static $sizes = [];
+
+  public static function setSizes(array $sizes = [])
+  {
+    static::$sizes = $sizes;
+  }
+
+  public static function getImage($mediaID, array $attributes = [])
+  {
+    $sizes = static::$sizes;
+    $src = wp_get_attachment_image_src($mediaID, 'full')[0];
+
+    $srcset = function($mediaID) use ($sizes) {
+      $urls = [];
+
+      foreach ($sizes as $attr => $cropSlug) {
+        $image = wp_get_attachment_image_src($mediaID, $cropSlug);
+
+        if ($image[3]) {
+          $urls[] = $image[0] .' '.$attr;
+        }
+      }
+
+      return implode(', ', $urls);
+    };
+
+    $makeAttributes = function($attributes) {
+      $attrs = [];
+
+      foreach ($attributes as $tag => $value) {
+        $attrs[] = $tag .'="'.$value.'""';
+      }
+
+      return implode(' ', $attrs);
+    };
+
+    return '<img src="'.$src.'" srcset="'.$srcset($mediaID).'" '.$makeAttributes($attributes).' />';
+  }
+}
+
+/**
  * Menu modifactions to front-end standards
  */
 

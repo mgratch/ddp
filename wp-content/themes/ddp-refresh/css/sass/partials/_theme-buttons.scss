@@ -2,14 +2,38 @@
   -webkit-appearance:none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-  border: none;
+  display: inline-block;
+  line-height: 0.85;
+  text-decoration: none;
+  color: white;
   background-color: transparent;
   box-shadow: none;
+  border: none;
   border-radius: 0;
 }
 
-.button--submit {
-  background-color: $color-alt-4;
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .button--color-#{$i} {
+    background-color: $current-color;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: darken($current-color, 5%);
+    }
+  }
+}
+
+.button--shout {
+  text-transform: uppercase;
+}
+
+.button--cta {
+  padding: 13px 10px 12px;
 }
 
 .button--plus {

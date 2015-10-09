@@ -54,13 +54,15 @@
                 </div>
                 <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
                 <input class="visually-hidden" type="text" name="b_44a8ea582b778dc0d652d86ed_669ce34c9c" value="">
-                <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button button--submit button--plus form--single-input__item">
+                <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button button--color-4 button--plus form--single-input__item">
               </form>
             </div>
             <!--End mc_embed_signup-->
           </div>
           <div class="footer--main__content__item">
             <h4 class="footer--main__content__title">Support the Downtown Detroit Partnership</h4>
+            <p>Help us out, this is dummy text but it’s the intro for the Support section and will fill this space.</p>
+            <a class="button button--cta button--color-2 button--shout" href="#">Call To Action</a>
           </div>
         </div>
   			<p class="footer__copyright">&copy; Copyright <?php echo date('Y'); ?> <a class="footer__link" href="<?php bloginfo('url'); ?>/" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> </p>
