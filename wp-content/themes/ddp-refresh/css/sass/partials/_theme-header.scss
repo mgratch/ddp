@@ -1,11 +1,51 @@
 /* Main Header
 ----------------------------------------*/
 
+.header--main {
+  display: table;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  padding: 0 45px;
+  background-color: rgba(white, 0.9);
+  border-top: solid 7px $color-alt-1;
+
+  @at-root #{&}__item {
+    display: table-cell;
+    vertical-align: middle;
+
+    &:first-child {
+      width: 155px;
+    }
+    &:last-child {
+      width: 90px;
+    }
+  }
+}
+
 .site-logo {
   line-height: 0;
+  overflow: hidden;
 
   img,
   svg {
     @extend .flex-image;
   }
+
+  @at-root #{&}__link {
+    display: block;
+    transform: translateY(0%);
+  }
+}
+
+.social-connect__title {
+  display: block;
+  font: {
+    family: $font-accent-medium;
+    size: rem(14px);
+  }
+  line-height: 0.85;
+  text-align: center;
+  color: black;
+  margin-bottom: 6px;
 }

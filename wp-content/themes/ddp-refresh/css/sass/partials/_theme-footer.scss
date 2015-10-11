@@ -2,24 +2,89 @@
 ----------------------------------------*/
 
 // FOR STICKY FOOTER (If having issues with height check margins in header and footer)
-  // $footer-height: 50px;
+  $footer-height: 268px;
 
-  // .content-wrap {
-  //   min-height: 100%;
-  // }
+  .content-wrap {
+    min-height: 100%;
+  }
 
-  // #footer-push {
-  //   height: $footer-height;
-  //   clear: both;
-  // }
+  #footer-push {
+    height: $footer-height;
+    clear: both;
+  }
 
-  // footer.main {
-  //   height: $footer-height;
-  //   margin-top: -$footer-height;
-
-  //   p {
-  //     margin: 0;
-  //     padding: 1em 0;
-  //   }
-  // }
+  .footer--main {
+    height: $footer-height;
+    overflow: hidden;
+    margin-top: -$footer-height;
+  }
 // END OF STICKY FOOTER CODE
+
+.footer--main {
+  padding: 0 15px;
+  background-color: $color-alt-8;
+}
+
+.footer__vert-centered-content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.footer--main__content {
+  display: table;
+  width: calc(100% + 70px);
+  font: {
+    family: $font-accent-light;
+    size: rem(14px);
+  }
+  line-height: (20/14);
+  color: white;
+  margin: 0 -35px;
+}
+
+.footer--main__content__title {
+  font-weight: normal;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: $color-alt-2;
+  padding-bottom: 10px;
+  border-bottom: solid 1px white;
+}
+
+.footer--main__content__item {
+  display: table-cell;
+  width: (1/3)*100%;
+  vertical-align: top;
+  padding: 0 35px;
+
+  & > * + * {
+    margin-top: 15px;
+  }
+}
+
+.footer--main__content__link {
+  color: white;
+}
+
+.footer__link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.footer__copyright {
+  font: {
+    family: $font-accent-light;
+    size: rem(14px);
+  }
+  color: $color-alt-4;
+  margin-top: 10px;
+
+  * {
+    color: $color-alt-4;
+  }
+}

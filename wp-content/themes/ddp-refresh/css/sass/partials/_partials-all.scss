@@ -5,13 +5,28 @@
 @import "theme-fonts";
 
 // import global styles for bxSlider**
-// @import "carousel-global";
+@import "carousel-global";
 //
 // / import Gravity Forms base overrides **Uncomment to override base styles**
 // @import "gform-overrides";
 
 // import global base
 @import "base-html5";
+
+// import headlines
+@import "theme-headlines";
+
+// import lists
+@import "theme-lists";
+
+// import forms
+@import "theme-forms";
+
+// import buttons
+@import "theme-buttons";
+
+// import theme carousels
+@import "theme-carousels";
 
 // import theme base
 @import "theme-base";

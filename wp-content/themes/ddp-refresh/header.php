@@ -38,18 +38,41 @@
 			wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
-			<header class="main">
-				<div class="wrapper">
-					<div class="site-logo">
-              <a  title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
-                <img src="<?php echo get_template_directory_uri();?>/images/site-logo.svg" onerror="this.src='<?php echo get_template_directory_uri();?>/images/site-logo.png';this.onerror=null;" alt="<?php bloginfo('name'); ?>">
-              </a>
-					</div>
+		<div class="content-wrap">
+			<header class="header header--main">
+				<div class="header--main__item site-logo">
+            <a class="site-logo__link" title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
+              <img src="<?php echo get_template_directory_uri();?>/images/site-logo.svg" onerror="this.src='<?php echo get_template_directory_uri();?>/images/site-logo.png';this.onerror=null;" alt="<?php bloginfo('name'); ?>">
+							<?php // echo renderSVG(get_template_directory().'/images/site-icon.svg'); ?>
+            </a>
 				</div>
-				<nav class="main">
-					<div class="wrapper">
-						<div class="mobile-nav-button">menu</div>
-						<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>false, 'container_class'=>false, 'menu_id'=>'menu-main',)); ?>
-					</div>
+				<nav class="header--main__item nav nav--main">
+					<div class="mobile-button">menu</div>
+					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalker)); ?>
 				</nav>
+				<?php
+					$social_urls = ioAdminHelpers::getSocial();
+
+					if (!empty($social_urls)) {
+						$strHtml = '';
+
+						$strHtml .= '<div class="header--main__item social-connect">';
+							$strHtml .= '<span class="social-connect__title">Follow Us</span>';
+							$strHtml .= '<ul class="list social-connect__list">';
+								foreach ($social_urls as $key => $service) {
+									if (!empty($service)) {
+										$strHtml .= '<li class="list__item">';
+											$strHtml .= '<a class="social-connect__link" href="'.$service.'" target="_blank">';
+												$strHtml .= renderSVG(get_template_directory().'/images/logo-'.$key.'.svg');
+											$strHtml .= '</a>';
+										$strHtml .= '</li>'."\r\n";
+									}
+								}
+
+							$strHtml .= '</ul>';
+						$strHtml .= '</div>';
+
+						echo $strHtml;
+					}
+				?>
 			</header>

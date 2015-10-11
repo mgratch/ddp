@@ -6,7 +6,7 @@
 // **** GO TO STYLE-IE.SCSS AND ADD THE .WRAPPER MQ VALUE TO THE FIX-MQS CONFIG ****
 
 // -- THEME VARS -------------------------
-$wrapperWidth  : 1170; // px value
+$wrapperWidth  : 1235; // px value
 $wrapperMargin : 2.5;  // % value
 
 $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
@@ -16,12 +16,13 @@ $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wra
 /*Site Base*/
 body {
   font: {
-    // family: $font-main;
+    family: $font-main;
     size: 100%;
     weight: 400;
   }
   line-height: 1.4;
   color: $color-base;
+  background-color: $color-alt-8;
 }
 
 .xdebug-var-dump {
@@ -40,21 +41,10 @@ body {
   }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-
-}
-
-button {
-  -webkit-appearance:none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-  border-radius: 0;
+.content-wrap {
+  background-color: white;
+  // scroll testing
+    // height: 1500px;
+    background-color: $color-alt-6;
+  // END scroll testing
 }

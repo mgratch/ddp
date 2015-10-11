@@ -1,6 +1,37 @@
 // -- @font-face font imports from sass/fonts --
-// @import "../fonts/font-name";
+
+// Import Capita Light
+@import "../fonts/font-capita-light";
+
+// Import Museo Sans Thin
+@import "../fonts/font-museo-sans-100";
+
+// Import Museo Sans Light
+@import "../fonts/font-museo-sans-300";
+
+// Import Museo Sans Light Italic
+@import "../fonts/font-museo-sans-300-italic";
+
+// Import Museo Sans Medium
+@import "../fonts/font-museo-sans-500";
+
+// Import Museo Slab Thin
+@import "../fonts/font-museo-slab-100";
+
+// Import Museo Slab Light
+@import "../fonts/font-museo-slab-300";
+
+// Import Museo Slab Medium
+@import "../fonts/font-museo-slab-500";
 
 // -- THEME FONTS ------------------------------
-// $font-main   : add main font-family here ;
-// $font-accent : add accent font-family here ;
+$font-main                : 'Capita-Light';
+
+$font-accent-thin         : 'museo_sans100';
+$font-accent-light        : 'museo_sans300';
+$font-accent-light-italic : 'museo_sans300_italic';
+$font-accent-medium       : 'museo_sans500';
+
+$font-alt-thin            : 'museo_slab100';
+$font-alt-light           : 'museo_slab300';
+$font-alt-medium          : 'museo_slab500';

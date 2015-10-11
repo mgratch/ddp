@@ -127,7 +127,13 @@ function read_xls($file){
 		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js');
 		require_once($plugin_path."inc/excel_reader2.php");
 		//print $plugin_path."/xls/data.xls";
-		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+		
+		
+//switch with below for dev		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+		
+		$filename = str_replace("http://devbucket.net/", "/var/www/html/", $file);
+		
+		
 		$data = new Spreadsheet_Excel_Reader($filename, false);
 		$cells = $data->sheets[0]["cells"];
 		array_shift($cells);
