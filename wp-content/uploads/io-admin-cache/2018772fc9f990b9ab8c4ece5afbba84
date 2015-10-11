@@ -1,0 +1,33 @@
+<?php echo $__env->yieldContent( 'styles' ); ?>
+
+<div class="wrap">
+  <div id="icon-options-general" class="icon32"></div>
+  <h2><i class="iodd-iodd-icon"></i> <?php echo isset($page_title) ? $page_title : 'Page Title'; ?></h2>
+  <?php echo ioAdmin\ioAdminPages\ioAdminPages::userMessages(); ?>
+
+  <div id="poststuff">
+    <div id="post-body" class="metabox-holder columns-2">
+
+    <!-- sidebar -->
+      <div id="postbox-container-1" class="postbox-container">
+        <?php $__env->startSection('sidebar'); ?>
+          <div class="postbox">
+              <h3><span>Save Settings</span></h3>
+              <div class="inside">
+                <button type="button" style="width:100%;" class="btn btn-primary btn-block" data-primary-submit>Save Settings</button>
+              </div> <!-- .inside -->
+          </div> <!-- .postbox -->
+        <?php echo $__env->yieldSection(); ?>
+      </div> <!-- #postbox-container-1 .postbox-container -->
+
+      <!-- main content -->
+      <div id="post-body-content">
+        <?php echo $__env->yieldContent( 'content' ); ?>
+      </div> <!-- post-body-content -->
+
+    </div> <!-- #post-body .metabox-holder .columns-2 -->
+    <br class="clear">
+  </div> <!-- #poststuff -->
+</div> <!-- .wrap -->
+
+<?php echo $__env->yieldContent( 'js' ); ?>
