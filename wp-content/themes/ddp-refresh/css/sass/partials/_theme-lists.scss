@@ -1,0 +1,18 @@
+.social-connect__list {
+  @include flex-grid( ul, middle, null, left, false );
+
+  .list__item {
+    line-height: 0;
+  }
+}
+
+.social-connect__link {
+  display: block;
+  height: 24px;
+
+  & > * {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

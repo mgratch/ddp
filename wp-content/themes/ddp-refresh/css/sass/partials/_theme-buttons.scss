@@ -1,0 +1,47 @@
+.button {
+  -webkit-appearance:none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  display: inline-block;
+  line-height: 0.85;
+  text-decoration: none;
+  color: white;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+}
+
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .button--color-#{$i} {
+    background-color: $current-color;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: darken($current-color, 5%);
+    }
+  }
+}
+
+.button--shout {
+  text-transform: uppercase;
+}
+
+.button--cta {
+  padding: 13px 10px 12px;
+}
+
+.button--plus {
+  width: 36px;
+  height: 36px;
+  background: {
+    image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjAuODc2cHgiIGhlaWdodD0iMjIuNzE2cHgiIHZpZXdCb3g9IjAgMCAyMC44NzYgMjIuNzE2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAyMC44NzYgMjIuNzE2IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMCAxMC4xOThoOS4yMzlWMGgyLjQzOXYxMC4xOThoOS4xOTh2Mi4zMmgtOS4xOTh2MTAuMTk4SDkuMjM5VjEyLjUxOEgwVjEwLjE5OHoiLz48L3N2Zz4=');
+    repeat: no-repeat;
+    position: center center;
+  }
+}

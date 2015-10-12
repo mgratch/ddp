@@ -1,0 +1,21 @@
+.form__input {
+  width: 100%;
+  color: black;
+  padding: 10px 10px 11px;
+  border: none;
+}
+
+.form--single-input {
+  display: table;
+  width: 100%;
+}
+
+.form--single-input__item {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.form--single-input__input {
+  width: 100%;
+  padding-right: 5px;
+}

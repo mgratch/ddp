@@ -1,0 +1,13 @@
+.headline {
+  font: {
+    family: $font-accent-medium;
+    weight: normal;
+  }
+  margin: 0;
+
+  @at-root #{&}--carousel {
+    font-size: #{(69/24)}em;
+    letter-spacing: -3px;
+    color: white;
+  }
+}
