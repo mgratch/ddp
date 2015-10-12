@@ -42,19 +42,14 @@ IOResponsiveImage::setSizes([
 //   'alt' => ''
 // ]);
 
-/**
- * Get contents of an SVG file for inline ouput
- */
+//Get contents of an SVG file for inline ouput
 function renderSVG($path = false) {
   if ($path) {
     return file_get_contents($path);
   }
 }
 
-/***
- *  Check URL
-*/
-
+// Check url
 function check_url($url){
 	if(!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url)){
 		$url = 'http://'.$url;

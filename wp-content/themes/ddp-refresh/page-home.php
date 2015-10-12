@@ -4,8 +4,7 @@ Template Name: Home Page
 */
 ?>
 <?php get_header();
-	wp_enqueue_script('bxslider');
-	
+	wp_enqueue_script('bxslider');	
 	
 	// Jeff i started this for you, but something isn't translating the same as your hard coded structure
 	// I am 99% certain, there should be only 1 H1 per page unless you can show me otherwise, for seo
@@ -87,9 +86,6 @@ Template Name: Home Page
 		</li>
 	</ul>
 	</main>
-	
-	
-	
 	
 	
 <?php 
@@ -180,21 +176,7 @@ echo $strTabNav;
 
 echo $strTabHTML;
 
-?>
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-<?php add_action( 'wp_footer', function() { ?>
+add_action( 'wp_footer', function() { ?>
 
 	<script type="text/javascript">
 		jQuery(function($) {
