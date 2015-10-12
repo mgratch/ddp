@@ -37,8 +37,14 @@ if ($post_obj->template == 'page-home.php') {
  * Home Module Content
 */
 
-$widget_colors = array('blue','teal','purple','orange');
-$arrHomeWellTypes = array('map'=>'Interactive Map','multi'=>'Multiple Content Leads');
+$theme_colors = array(
+	'color-1' => 'dark blue',
+	'color-2' => 'light blue',
+	'color-3' => 'teal',
+	'color-4' => 'lemon',
+	'color-5' => 'orange'
+);
+$arrHomeWellTypes = array('map'=>'Interactive Map','multi'=>'Multi-Well Area');
 
 
 $home_module_content = new Super_Custom_Post_Type( 'home-module-content', 'Home Featured Content', 'Home Featured Content', array( 'supports' => array( 'title', 'page-attributes' ), 'has_archive' => false, 'exclude_from_search' => true, 'publicly_queryable' => true, 'show_in_menu' => true ) );
@@ -52,7 +58,7 @@ $home_module_content->add_meta_box( array(
 		'fields' => array(
 			'home_module_type' => array( 'type' => 'select','options'=>$arrHomeWellTypes ,'style' => 'width: 40%', 'label' => 'Home Module Type' ),
 			'home_module_subsets' => array('type' => 'repeat','fields' => array(
-				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$widget_colors ),
+				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$theme_colors ),
 				'home_module_thumb_image' => array('type'=>'media', 'label'=>'Featured Supporting Area Image', 'field_description' => 'Image Size: 536px x 586px' ),
 				'home_module_main_title' => array('type'=>'text', 'label'=>'Main Title', 'style'=>'width:100%' ),
 				'home_module_main_text' => array('type'=>'textarea', 'label'=>'Content', ),
@@ -69,7 +75,7 @@ $home_module_content->add_meta_box( array(
 // 			'title' => 'Home Featured Supporting Area #'.$i,
 // 			'context' => 'normal',
 // 			'fields' => array(
-// 				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$widget_colors ),
+// 				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$theme_colors ),
 // 				'home_module_thumb_image' => array('type'=>'media', 'label'=>'Featured Supporting Area Image', 'field_description' => 'Image Size: 536px x 586px' ),
 // 				'home_module_main_title' => array('type'=>'text', 'label'=>'Main Title', 'style'=>'width:100%' ),
 // 				'home_module_main_text' => array('type'=>'textarea', 'label'=>'Content', ),
@@ -104,7 +110,7 @@ function get_module_content(){
 
 
 
-/* -- Slider -- */
+/* -- Home Carousel -- */
 $home_carousel = new Super_Custom_Post_Type( 'home_carousel', 'Home Slide', 'Home Carousel', array('supports' => array('title', 'page-attributes'), 'acts_like' => 'post', 'has_archive' => false, 'exclude_from_search' => true, 'menu_position' => '81.1') );
 
 $home_carousel->set_icon('F144');

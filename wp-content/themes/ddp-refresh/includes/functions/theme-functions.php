@@ -38,7 +38,7 @@ IOResponsiveImage::setSizes([
 ]);
 
 // echo IOResponsiveImage::getImage(70, [
-//   'classes' => 'u-flex-image card__image',
+//   'class' => 'block__image',
 //   'alt' => ''
 // ]);
 

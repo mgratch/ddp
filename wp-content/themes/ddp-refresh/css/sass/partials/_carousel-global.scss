@@ -11,7 +11,7 @@
 .carousel__slide {
   line-height: 0;
 
-  img {
+  @at-root #{&}__image {
     width: 100%;
     height: auto;
   }

@@ -339,7 +339,7 @@ th {
 }
 
 /* line 14, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_carousel-global.scss */
-.carousel__slide img {
+.carousel__slide__image {
   width: 100%;
   height: auto;
 }
@@ -643,21 +643,27 @@ body {
 /* line 24, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide {
   position: relative;
-  padding-bottom: 9.616%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  padding-bottom: 15.6096%;
 }
 
-@media screen and (min-width: 78.5em) {
+@media screen and (min-width: 79.0625em) {
   /* line 24, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
   .carousel__slide {
-    height: 622px;
     padding-bottom: 0;
+    height: 622px;
   }
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 34, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+.carousel__slide__image {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+/* line 40, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content {
   position: absolute;
   top: calc(50% + 58.5px);
@@ -675,25 +681,25 @@ body {
 }
 
 @media (min-width: 20em) and (max-width: 79.0625em) {
-  /* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+  /* line 40, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
   .carousel__slide__content {
     font-size: calc(1rem  + (1.5 - 1) * (100vw - 20rem ) / (79.0625 - 20));
   }
 }
 
 @media (min-width: 79.0625em) {
-  /* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+  /* line 40, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
   .carousel__slide__content {
     font-size: 1.5rem;
   }
 }
 
-/* line 54, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 55, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content > * + * {
   margin-top: 10px;
 }
 
-/* line 59, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 60, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content__copy {
   width: 65%;
   letter-spacing: -0.75px;

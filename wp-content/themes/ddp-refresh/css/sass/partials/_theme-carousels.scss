@@ -23,17 +23,18 @@
 
 .carousel__slide {
   position: relative;
-  padding-bottom: 9.616%;
-  background: {
-    repeat: no-repeat;
-    position: center center;
-    size: cover;
-  }
+  padding-bottom: 15.6096%;
 
-  @include respond-min(em(1256px)) {
-    height: 622px;
+  @include respond-min(em(1265)) {
     padding-bottom: 0;
+    height: 622px;
   }
+}
+
+.carousel__slide__image {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .carousel__slide__content {
