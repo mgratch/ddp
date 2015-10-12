@@ -11,13 +11,14 @@ $current_post_type = get_current_admin_post_type();
  * Post template: $post_obj->template.
  */
 $post_obj = get_current_admin_post_object();
+
 $pages = new Super_Custom_Post_Meta( 'page' );
 
 
 if ($post_obj->template == 'page-home.php') {
-	
-	
-	
+
+
+
 	for ($i=1; $i <= 3; $i++) {
 		$pages->add_meta_box( array(
 				'id' => 'home-well-'.$i,
@@ -29,7 +30,7 @@ if ($post_obj->template == 'page-home.php') {
 		) );
 	}
 
-	
+
 }
 
 /*
@@ -61,7 +62,7 @@ $home_module_content->add_meta_box( array(
 			)
 		)
 ));
-		
+
 // for ($i=1; $i <= 4; $i++) {
 // 	$pages->add_meta_box( array(
 // 			'id' => 'home-well-'.$i,
@@ -77,8 +78,8 @@ $home_module_content->add_meta_box( array(
 // 			)
 // 	) );
 // }
-		
-		
+
+
 
 
 function get_module_content(){
@@ -104,18 +105,18 @@ function get_module_content(){
 
 
 /* -- Slider -- */
-$home_slider = new Super_Custom_Post_Type( 'home-slider', 'Slide', 'Home Slider', array( 'supports' => array( 'title', 'page-attributes' ), 'menu_position' => 5, 'has_archive' => false ) );
+$home_carousel = new Super_Custom_Post_Type( 'home_carousel', 'Home Slide', 'Home Carousel', array('supports' => array('title', 'page-attributes'), 'acts_like' => 'post', 'has_archive' => false, 'exclude_from_search' => true, 'menu_position' => '81.1') );
 
-$home_slider->set_icon( 'F03E' );
+$home_carousel->set_icon('F144');
 
-$home_slider->add_meta_box( array(
-		'id' => 'home-slider-options',
-		'context' => 'normal',
-		'priority' => 'high',
-		'fields' => array(
-				'home-slider-text' => array( 'type' => 'text', 'label' => 'Slide Text Under Main Title', 'style' => 'width: 100%' ),
-				'home-slider-image' => array( 'type' => 'media', 'label' => 'Slider Image', 'field_description' => 'Optimal image size goes here.', 'preview_size' => 'io-home-slider' ),
-				'home-slider-cta-text' => array( 'type' => 'text', 'label' => 'Slide Text for Call to Action button', 'style' => 'width: 100%' ),
-				'home-slider-cta-url' => array( 'type' => 'url', 'label' => 'Slide Call to Action Link Destination ', 'field_description'=>'Please include http://','style' => 'width: 100%' ),	
-		)
+$home_carousel->add_meta_box( array(
+  'id' => 'home-slide-content',
+  'context' => 'normal',
+  'fields' => array(
+    'home_slide_image' => array('type' => 'media', 'label' => 'Slide Image', 'field_description' => 'Image size: 2500px x 1238px. Image must be at an aspect ratio of 628 : 311 if you do not have an image at the specified dimensions.'),
+    'home_slide_title' => array('type'=>'text', 'label'=>'Slide Title', 'style'=>'width:100%;'),
+    'home_slide_copy' => array('type'=>'textarea', 'label'=>''),
+    'home_slide_cta_text' => array('type'=>'text', 'label'=>'Slide Button Text', 'style'=>'width:100%; max-width:350px;'),
+    'home_slide_link' => array('type'=>'text', 'label'=>'Slide Link URL','field_description'=>'Full url including http://', 'style'=>'width:100%;' ),
+  )
 ) );
