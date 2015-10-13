@@ -54,12 +54,13 @@ $home_module_content->set_icon( 'f1b2' );
 $home_module_content->add_meta_box( array(
 		'id' => 'module-title',
 		'title'=>'Module Main Title',
+		'box_description'=>'NOTE: Only the top 4 subsets will display on the site.',
 		'context' => 'normal',
 		'fields' => array(
 			'home_module_type' => array( 'type' => 'select','options'=>$arrHomeWellTypes ,'style' => 'width: 40%', 'label' => 'Home Module Type' ),
-			'home_module_subsets' => array('type' => 'repeat','fields' => array(
+			'home_module_subsets' => array('type' => 'repeat', 'fields' => array(
 				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$theme_colors ),
-				'home_module_thumb_image' => array('type'=>'media', 'label'=>'Featured Supporting Area Image', 'field_description' => 'Image Size: 536px x 586px' ),
+				'home_module_thumb_image' => array('type'=>'media', 'label'=>'Featured Supporting Area Image', 'field_description' => 'Image Size: 600px x 640px. Image must be at an aspect ratio of 15 : 16 if you do not have an image at the specified dimensions.' ),
 				'home_module_main_title' => array('type'=>'text', 'label'=>'Main Title', 'style'=>'width:100%' ),
 				'home_module_main_text' => array('type'=>'textarea', 'label'=>'Content', ),
 				'home_module_link_text' => array('type'=>'text', 'label'=>'Link Text', 'style'=>'width:100%' ),
@@ -68,25 +69,6 @@ $home_module_content->add_meta_box( array(
 			)
 		)
 ));
-
-// for ($i=1; $i <= 4; $i++) {
-// 	$pages->add_meta_box( array(
-// 			'id' => 'home-well-'.$i,
-// 			'title' => 'Home Featured Supporting Area #'.$i,
-// 			'context' => 'normal',
-// 			'fields' => array(
-// 				'home_module_color' => array('type'=>'select', 'label'=>'Home Area Color', 'options'=>$theme_colors ),
-// 				'home_module_thumb_image' => array('type'=>'media', 'label'=>'Featured Supporting Area Image', 'field_description' => 'Image Size: 536px x 586px' ),
-// 				'home_module_main_title' => array('type'=>'text', 'label'=>'Main Title', 'style'=>'width:100%' ),
-// 				'home_module_main_text' => array('type'=>'textarea', 'label'=>'Content', ),
-// 				'home_module_link_text' => array('type'=>'text', 'label'=>'Link Text', 'style'=>'width:100%' ),
-// 				'home_module_link_url' => array('type'=>'text', 'label'=>'Link URL', 'style'=>'width:100%' ),
-// 			)
-// 	) );
-// }
-
-
-
 
 function get_module_content(){
 	$modules = get_posts(array(

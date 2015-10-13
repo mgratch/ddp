@@ -3,6 +3,7 @@
   -moz-appearance: none !important;
   appearance: none !important;
   display: inline-block;
+  font-family: $font-accent-light;
   line-height: 0.85;
   text-decoration: none;
   color: white;
@@ -10,6 +11,13 @@
   box-shadow: none;
   border: none;
   border-radius: 0;
+
+  .grid--landing & {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 $colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);

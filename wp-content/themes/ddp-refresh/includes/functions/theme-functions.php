@@ -13,8 +13,10 @@
 function io_theme_scripts()
 {
   /* -- Scripts -- */
-  wp_register_script('ioddcommon', get_template_directory_uri().'/javascript/insideout_common.js', array( 'jquery' ), '', true );
+  wp_register_script('ioddcommon', get_template_directory_uri().'/javascript/insideout_common.js', array( 'jquery', 'velocity' ), '', true );
   wp_register_script( 'bxslider', get_template_directory_uri().'/javascript/jquery.bxslider.min.js', array( 'jquery' ), '4.1.2', true );
+  wp_register_script( 'velocity', get_template_directory_uri().'/javascript/velocity.min.js', '', '1.2.3', true );
+  wp_register_script( 'velocity-ui', get_template_directory_uri().'/javascript/velocity.ui.min.js', array('velocity'), '5.0.4', true );
 
   /* -- Initial Localization -- */
   wp_localize_script( 'ioddcommon', 'io_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );

@@ -11,3 +11,14 @@
     color: white;
   }
 }
+
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .headline--color-#{$i} {
+    color: $current-color;
+  }
+}

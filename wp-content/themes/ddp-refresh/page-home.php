@@ -5,6 +5,8 @@ Template Name: Home Page
 ?>
 <?php get_header();
 	wp_enqueue_script('bxslider');
+	wp_enqueue_script('velocity');
+	wp_enqueue_script('velocity-ui');
 ?>
 
 	<main>
@@ -64,8 +66,7 @@ Template Name: Home Page
 				return $module_meta;
 			};
 
-			//do the tabs need colors?
-			$strTabNav = '<ul class="tabs tabs--landing js-tabs">';
+			$strTabNav = '<ul class="tabs tabs--landing">';
 			$strTabHtml = '';
 
 			for ($i=1; $i <= 3; $i++) {
@@ -74,53 +75,61 @@ Template Name: Home Page
 
 					if(!empty($module_meta['home_module_type'])) {
 
-						$strTabNav .= '<li class="tabs__tab js-tab-'.$i.'"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
+						if ($module_meta['home_module_type'] == 'multi' && !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) ) {
+							$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
+						} // else if ($module_meta['home_module_type'] == 'map') {
+						// 	$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
+						// }
 
 						if($module_meta['home_module_type'] == 'map') {
-							$strTabHtml .= '<div class="tab__content js-tab-content-'.$i.'">';
+							// $strTabHtml .= '<div class="tab__content js-tab-content">';
 
 						//We need to turn debug off and get the domain right for the Maps API
 						//	$strTabHtml .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
 
-							$strTabHtml .= '</div>';
+							// $strTabHtml .= '</div>';
 
 						} else {
-							//multiple listings
+							// multiple listings
+							$strTabHtml .= '<div class="tab__content js-tab-content js-tab-content">';
 
-							$strTabHtml .= '<div class="tab__content js-tab-content-'.$i.'">';
+							if( !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) ) {
 
-							if( !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) && !empty($module_meta['home_module_subsets'][0]['home_module_main_text']) ) {
-
-								$strTabHtml .= '<ul>';
+								$strTabHtml .= '<ul class="grid grid--4-items grid--landing">';
 								foreach ($module_meta['home_module_subsets'] as $key => $subset) {
-									// var_dump($subset);
 
 									if( $key < 4 ) { //only show 4
-										$strTabHtml .= '<li>';
-											//Jeff not sure how you need the structure so I'm just outputing it , except for image
+										$strTabHtml .= '<li class="grid__item">';
 											if ( !empty($subset['home_module_thumb_image']) ) {
-												$img_array = wp_get_attachment_image_src($subset['home_module_thumb_image'], 'full');
-												$image = $img_array[0];
+												$image = IOResponsiveImage::getImage($subset['home_module_thumb_image'], [
+												  'class' => 'grid__item__image centering-image',
+												  'alt' => ''
+												]);
 											} else {
-												$image = 'http://placehold.it/268x293';
+												$image = '<img class="grid__item__image centering-image" src="http://placehold.it/600x640">';
 											}
+											$strTabHtml .= '<div class="grid__item__image-container">';
+												$strTabHtml .= $image;
 
-											$strTabHtml .= '<img src="'.$image.'">';
-
-											if (!empty($subset['home_module_link_text']) && !empty($subset['home_module_link_url'])) {
-												$strTabHtml .= '<a class="button button--cta button--" href="'.check_url($subset['home_module_link_url']).'">'.$subset['home_module_link_text'].'</a>';
-											}
+												if (!empty($subset['home_module_link_text']) && !empty($subset['home_module_link_url'])) {
+													$strTabHtml .= '<a class="button button--cta button--'.$subset['home_module_color'].'" href="'.check_url($subset['home_module_link_url']).'">'.$subset['home_module_link_text'].'</a>';
+												}
+											$strTabHtml .= '</div>';
+											$strTabHtml .= '<div class="grid__item__content">';
 
 											if (!empty($subset['home_module_main_title'])) {
-												$strTabHtml .= '<h3 class="well-title">'.$subset['home_module_main_title'].'</h3>';
+												$strTabHtml .= '<h3 class="headline headline--'.$subset['home_module_color'].' grid__item__title">'.$subset['home_module_main_title'].'</h3>';
 											}
 											if (!empty($subset['home_module_main_text'])) {
-												$strTabHtml .= '<div class="well-copy">'.$subset['home_module_main_text'].'</div>';
+												$strTabHtml .= '<p class="grid__item__copy">'.$subset['home_module_main_text'].'</p>';
 											}
-
-										$strTabHtml .= "</li>\n";
+											$strTabHtml .= '</div>';
+										$strTabHtml .= '</li>'."\r\n";
 
 									}
+								}
+								for ($z=1; $z <= 2; $z++) {
+									$strTabHtml .= '<li class="grid__item flex-grid-spacer"></li>'."\r\n";
 								}
 								$strTabHtml .= '</ul>';
 							}
@@ -143,7 +152,32 @@ Template Name: Home Page
 <?php add_action( 'wp_footer', function() { ?>
 
 	<script type="text/javascript">
+
 		jQuery(function($) {
+			/**
+		   * Control tab switching
+		   */
+		  (function tabSwitching() {
+		    $('.js-tab').eq(0).addClass('tab--active');
+		    $('.js-tab-content').not(':eq(0)').hide();
+
+		    $('.js-tab').click(function() {
+
+		      if (!$(this).hasClass('tab--active')) {
+		      	$('.js-tab').removeClass('tab--active');
+		      	$(this).addClass('tab--active');
+
+		      	$('.js-tab-content').hide();
+			      $('.js-tab-content').eq( $(this).index('.js-tab') ).velocity('transition.slideDownIn', {
+			      	duration: 500
+			      });
+		      }
+		    });
+		  })();
+
+			/**
+		   * Landing Carousel
+		   */
     	landingCarousel = $('.carousel').show().bxSlider({
     		slideWidth   : '10000',
         auto         : ($(".carousel--landing .carousel__slide").length > 1) ? true : false,
