@@ -4,12 +4,26 @@
     weight: normal;
   }
   margin: 0;
+}
 
-  @at-root #{&}--carousel {
-    font-size: #{(69/24)}em;
-    letter-spacing: -3px;
-    color: white;
-  }
+.headline--carousel {
+  font-size: #{(69/24)}em;
+  letter-spacing: -3px;
+  color: white;
+}
+
+.headline--light {
+  font-family: $font-accent-light;
+}
+
+.headline--section-divide {
+  width: 100%;
+  font-size: rem(36px);
+  line-height: (38/36);
+  text-align: center;
+  color: white;
+  padding: 9px 15px;
+  background-color: $color-alt-3;
 }
 
 $colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);

@@ -452,34 +452,50 @@ body {
   margin: 0;
 }
 
-/* line 8, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 9, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--carousel {
   font-size: 2.875em;
   letter-spacing: -3px;
   color: white;
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+.headline--light {
+  font-family: "museo_sans300";
+}
+
+/* line 19, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+.headline--section-divide {
+  width: 100%;
+  font-size: 36px;
+  line-height: 1.0555555556;
+  text-align: center;
+  color: white;
+  padding: 9px 15px;
+  background-color: #00a893;
+}
+
+/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--color-1 {
   color: #2a316d;
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--color-2 {
   color: #00b5ef;
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--color-3 {
   color: #00a893;
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--color-4 {
   color: #e0e261;
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
+/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline--color-5 {
   color: #ff7e00;
 }
@@ -827,25 +843,24 @@ body {
 
 /* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__title {
-  font-family: "museo_sans300";
   font-size: 30px;
   letter-spacing: -0.25px;
   line-height: 1.0666666667;
 }
 
-/* line 30, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 27, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__image-container {
   position: relative;
   line-height: 0;
   overflow: hidden;
 }
 
-/* line 35, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 32, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__image-container {
   padding-bottom: 106.666666667%;
 }
 
-/* line 45, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 42, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__image {
   position: absolute;
   top: 50%;
@@ -855,17 +870,17 @@ body {
   height: auto;
 }
 
-/* line 54, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 51, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__content {
-  padding: 0 10px 10px;
+  padding: 0 10px 15px;
 }
 
-/* line 57, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 54, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__content > * + * {
   margin-top: 5px;
 }
 
-/* line 64, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 61, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__copy {
   font-size: 15px;
   line-height: 1.3333333333;

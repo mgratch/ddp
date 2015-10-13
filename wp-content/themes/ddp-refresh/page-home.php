@@ -54,9 +54,7 @@ Template Name: Home Page
 		?>
 
 		<?php
-
 			//Start the Tabs with content area
-
 			$custom_data = clean_meta(get_post_custom());
 			$module_meta = '';
 
@@ -118,7 +116,7 @@ Template Name: Home Page
 											$strTabHtml .= '<div class="grid__item__content">';
 
 											if (!empty($subset['home_module_main_title'])) {
-												$strTabHtml .= '<h3 class="headline headline--'.$subset['home_module_color'].' grid__item__title">'.$subset['home_module_main_title'].'</h3>';
+												$strTabHtml .= '<h3 class="headline headline--'.$subset['home_module_color'].' headline--light grid__item__title">'.$subset['home_module_main_title'].'</h3>';
 											}
 											if (!empty($subset['home_module_main_text'])) {
 												$strTabHtml .= '<p class="grid__item__copy">'.$subset['home_module_main_text'].'</p>';
@@ -143,9 +141,9 @@ Template Name: Home Page
 			$strTabNav .= '</ul>';
 
 			echo $strTabNav;
-
 			echo $strTabHtml;
 		?>
+		<h2 class="headline headline--light headline--section-divide">Connect with us</h2>
 
 	</main>
 
@@ -169,7 +167,7 @@ Template Name: Home Page
 
 		      	$('.js-tab-content').hide();
 			      $('.js-tab-content').eq( $(this).index('.js-tab') ).velocity('transition.slideDownIn', {
-			      	duration: 500
+			      	duration: 450
 			      });
 		      }
 		    });

@@ -18,10 +18,7 @@
 .grid__item__title {
 
   .grid--landing & {
-    font: {
-      family: $font-accent-light;
-      size: rem(30px);
-    }
+    font-size: rem(30px);
     letter-spacing: -0.25px;
     line-height: (32/30);
   }
@@ -52,7 +49,7 @@
 }
 
 .grid__item__content {
-  padding: 0 10px 10px;
+  padding: 0 10px 15px;
 
   & > * + * {
     margin-top: 5px;
