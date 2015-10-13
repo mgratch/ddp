@@ -59,18 +59,14 @@ Template Name: Home Page
 			$module_meta = '';
 
 			function home_module($module_id) {
-				$module_meta = clean_meta(get_post_custom( $module_id ));
+				$module_meta = clean_meta(get_post_custom( $module_id ), array('home_module_subsets'));
 
 				return $module_meta;
 			};
 
-
-			$module_color = array('blue','teal','purple','orange');
-
 			//do the tabs need colors?
-
-			$strTabNav = '<ul>';
-			$strTabHTML = '';
+			$strTabNav = '<ul class="tabs tabs--landing js-tabs">';
+			$strTabHtml = '';
 
 			for ($i=1; $i <= 3; $i++) {
 				if (!empty($custom_data['home_module_id_'.$i])) {
@@ -78,56 +74,58 @@ Template Name: Home Page
 
 					if(!empty($module_meta['home_module_type'])) {
 
-						$strTabNav .= '<li class="home-tab-button-'.$i.'">'.get_the_title($custom_data['home_module_id_'.$i])."</li>\n";
+						$strTabNav .= '<li class="tabs__tab js-tab-'.$i.'"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
 
 						if($module_meta['home_module_type'] == 'map') {
-							$strTabHTML .= '<div class="home-tab-content-'.$i.'">';
+							$strTabHtml .= '<div class="tab__content js-tab-content-'.$i.'">';
 
 						//We need to turn debug off and get the domain right for the Maps API
-						//	$strTabHTML .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
+						//	$strTabHtml .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
 
-							$strTabHTML .= '</div>';
+							$strTabHtml .= '</div>';
 
 						} else {
 							//multiple listings
 
-							$strTabHTML .= '<div class="home-tab-content-'.$i.'">';
+							$strTabHtml .= '<div class="tab__content js-tab-content-'.$i.'">';
 
-							if(!empty($module_meta['home_module_subsets'])) {
-								$strTabHTML .= '<ul>';
-								foreach ($module_meta['home_module_subsets'] as $key=>$subset){
+							if( !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) && !empty($module_meta['home_module_subsets'][0]['home_module_main_text']) ) {
 
-									if($key < 4) { //only show 4
-										$strTabHTML .= '<li>';
+								$strTabHtml .= '<ul>';
+								foreach ($module_meta['home_module_subsets'] as $key => $subset) {
+									// var_dump($subset);
 
+									if( $key < 4 ) { //only show 4
+										$strTabHtml .= '<li>';
+											//Jeff not sure how you need the structure so I'm just outputing it , except for image
+											if ( !empty($subset['home_module_thumb_image']) ) {
+												$img_array = wp_get_attachment_image_src($subset['home_module_thumb_image'], 'full');
+												$image = $img_array[0];
+											} else {
+												$image = 'http://placehold.it/268x293';
+											}
 
-										//Jeff not sure how you need the structure so I'm just outputing it , except for image
-										if (!empty($subset['home_module_thumb_image'])) {
-											$img_array = wp_get_attachment_image_src($subset['home_module_thumb_image'], 'full');
-											$image = $img_array[0];
-										} else {
-											$image = 'http://placehold.it/268x293';
-										}
+											$strTabHtml .= '<img src="'.$image.'">';
 
-										if (!empty($subset['home_module_link_text']) && !empty($subset['home_module_link_url'])) {
-											$strTabHTML .= '<a class="well-button" href="'.check_url($subset['home_module_link_url']).'">'.$subset['home_module_link_text'].'</a>';
-										}
+											if (!empty($subset['home_module_link_text']) && !empty($subset['home_module_link_url'])) {
+												$strTabHtml .= '<a class="button button--cta button--" href="'.check_url($subset['home_module_link_url']).'">'.$subset['home_module_link_text'].'</a>';
+											}
 
-										if (!empty($subset['home_module_main_title'])) {
-											$strTabHTML .= '<h3 class="well-title">'.$subset['home_module_main_title'].'</h3>';
-										}
-										if (!empty($subset['home_module_main_text'])) {
-											$strTabHTML .= '<div class="well-copy">'.$subset['home_module_main_text'].'</div>';
-										}
+											if (!empty($subset['home_module_main_title'])) {
+												$strTabHtml .= '<h3 class="well-title">'.$subset['home_module_main_title'].'</h3>';
+											}
+											if (!empty($subset['home_module_main_text'])) {
+												$strTabHtml .= '<div class="well-copy">'.$subset['home_module_main_text'].'</div>';
+											}
 
-										$strTabHTML .= "</li>\n";
+										$strTabHtml .= "</li>\n";
 
 									}
 								}
-								$strTabHTML .= '</ul>';
+								$strTabHtml .= '</ul>';
 							}
 
-							$strTabHTML .= '</div>';
+							$strTabHtml .= '</div>';
 						}
 					}
 				}
@@ -137,7 +135,7 @@ Template Name: Home Page
 
 			echo $strTabNav;
 
-			echo $strTabHTML;
+			echo $strTabHtml;
 		?>
 
 	</main>
@@ -176,5 +174,5 @@ Template Name: Home Page
 <?php }, 666 ); ?>
 
 <?php get_footer();
-	var_dump($homeSlides);
+	// var_dump($homeSlides);
 ?>

@@ -443,9 +443,10 @@ class IOResponsiveImage
   public static function getImage($mediaID, array $attributes = [])
   {
     $sizes = static::$sizes;
-    $src = wp_get_attachment_image_src($mediaID, 'full')[0];
+    $default = wp_get_attachment_image_src($mediaID, 'full');
+    $src = $default[0];
 
-    $srcset = function($mediaID) use ($sizes) {
+    $srcset = function($mediaID) use ($sizes, $default) {
       $urls = [];
 
       foreach ($sizes as $attr => $cropSlug) {
@@ -455,6 +456,8 @@ class IOResponsiveImage
           $urls[] = $image[0] .' '.$attr;
         }
       }
+
+      $urls[] = $default[0] . ' ' . $default[1] . 'w';
 
       return implode(', ', $urls);
     };

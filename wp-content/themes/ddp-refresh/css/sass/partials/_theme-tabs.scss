@@ -1,0 +1,33 @@
+.tabs {
+  display: table;
+  width: 100%;
+  padding: 10px;
+}
+
+.tabs__tab {
+  display: table-cell;
+  text-align: center;
+  font-family: $font-accent-light;
+  line-height: 0.85;
+  color: white;
+  padding: 0 5px;
+
+  .tabs--landing & {
+    font-size: rem(24px);
+  }
+}
+
+.tab__title {
+  display: block;
+  background-color: $color-alt-7;
+  padding: 12px;
+  cursor: pointer;
+
+  .tab--active & {
+    background-color: $color-alt-2;
+  }
+}
+
+.tab__content:not(:first-child) {
+  /* hide all content except first-child */
+}

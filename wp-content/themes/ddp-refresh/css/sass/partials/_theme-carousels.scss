@@ -33,8 +33,9 @@
 
 .carousel__slide__image {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 0;
+  // top: 50%;
+  // transform: translateY(-50%);
 }
 
 .carousel__slide__content {
