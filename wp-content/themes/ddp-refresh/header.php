@@ -48,7 +48,7 @@
 				</div>
 				<nav class="header--main__item nav nav--main">
 					<div class="mobile-button">menu</div>
-					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalker)); ?>
+					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODefaultWalkerDDP)); ?>
 				</nav>
 				<?php
 					$social_urls = ioAdminHelpers::getSocial();

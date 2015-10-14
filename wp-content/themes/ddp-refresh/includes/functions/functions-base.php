@@ -481,7 +481,9 @@ class IOResponsiveImage
  */
 
 // Map menu item class names
-add_filter('nav_menu_css_class', function($classes, $item) {
+add_filter('nav_menu_css_class', 'io_menu_standards', 10, 2 );
+
+function io_menu_standards($classes, $item) {
   $origClasses = $classes;
 
   $classes = [
@@ -505,14 +507,15 @@ add_filter('nav_menu_css_class', function($classes, $item) {
   }
 
   return $classes;
-}, 10, 2 );
+}
 
-add_filter( 'nav_menu_link_attributes', function($atts, $item, $args){
-  $atts['class'] = 'menu__link';
+add_filter( 'nav_menu_link_attributes', 'io_menu_link_classes', 10, 3 );
 
-  return $atts;
-}, 10, 3 );
+function io_menu_link_classes($atts, $item, $args){
+	$atts['class'] = 'menu__link';
 
+	return $atts;
+}
 
 // Set sub menu class name
 class IODefaultWalker extends Walker_Nav_Menu
@@ -528,8 +531,8 @@ class IODefaultWalker extends Walker_Nav_Menu
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class=\"menu menu--sub-menu\">\n";
-	}
+// 	function start_lvl( &$output, $depth = 0, $args = array() ) {
+// 		$indent = str_repeat("\t", $depth);
+// 		$output .= "\n$indent<ul class=\"menu menu--sub-menu\">\n";
+// 	}
 }
