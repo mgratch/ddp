@@ -4,7 +4,7 @@
       <div class="footer__vert-centered-content">
         <div class="footer--main__content">
           <div class="footer--main__content__item">
-            <h4 class="footer--main__content__title">Get In Touch</h4>
+            <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">Get In Touch</h4>
             <div>
             <?php
               $companyInfo = ioAdminHelpers::getCompany();
@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="footer--main__content__item">
-            <h4 class="footer--main__content__title">Subscribe To Our Newsletter</h4>
+            <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">Subscribe To Our Newsletter</h4>
             <p>Want to stay informed about what's happening in downtown Detroit? Enter your email to join today.</p>
             <!-- Begin MailChimp Signup Form -->
             <div id="mc_embed_signup">
@@ -60,7 +60,7 @@
             <!--End mc_embed_signup-->
           </div>
           <div class="footer--main__content__item">
-            <h4 class="footer--main__content__title">Support the Downtown Detroit Partnership</h4>
+            <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">Support the Downtown Detroit Partnership</h4>
             <p>Help us out, this is dummy text but it’s the intro for the Support section and will fill this space.</p>
             <a class="button button--cta button--color-2 button--shout" href="#">Call To Action</a>
           </div>

@@ -16,6 +16,10 @@
   font-family: $font-accent-light;
 }
 
+.headline--shout {
+  text-transform: uppercase;
+}
+
 .headline--section-divide {
   width: calc(100% - 30px);
   font-size: rem(36px);
