@@ -490,20 +490,24 @@ function io_menu_standards($classes, $item) {
     'menu__item'
   ];
 
+  if (!empty($origClasses[0])) {
+    $classes[] = $origClasses[0];
+  }
+
   if ($item->current) {
-    $classes[] = 'menu__item-current';
+    $classes[] = 'menu__item--current';
   }
 
   if ($item->current_item_ancestor) {
-    $classes[] = 'menu__item—current-item-ancestor';
+    $classes[] = 'menu__item-—current-item-ancestor';
   }
 
   if ($item->current_item_parent) {
-    $classes[] = 'menu__item—current-item-parent';
+    $classes[] = 'menu__item-—current-item-parent';
   }
 
   if (in_array('menu-item-has-children', $origClasses)) {
-    $classes[] = 'menu__item-has-children';
+    $classes[] = 'menu__item--has-children';
   }
 
   return $classes;

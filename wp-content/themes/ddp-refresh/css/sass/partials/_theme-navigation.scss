@@ -4,10 +4,13 @@
   display: none;
 }
 
+.menu {
+  list-style: none;
+}
+
 .menu--main {
   display: table;
   width: 100%;
-  list-style: none;
   position: relative;
   font: {
     family: $font-accent-medium;
@@ -17,7 +20,8 @@
   .menu__link {
     display: block;
     text-decoration: none;
-    padding: 3px 10px;
+    color: $color-base;
+    padding: 10px 10px 9px;
   }
 
   & > .menu__item {
@@ -25,27 +29,105 @@
     vertical-align: middle;
     text-align: center;
     line-height: 0.85;
-    padding: 43px 0 37px;
     border-bottom: solid 6px transparent;
     transition: border-bottom-color 0.25s ease;
-
-    &:hover {
-      border-bottom-color: $color-alt-2;
-    }
 
     & > .menu__link {
       color: black;
       line-height: (18/16);
+      padding: 43px 0 37px;
+    }
+  }
+}
+
+.menu__flyout {
+  position: absolute;
+  width: calc(100% - 40px);
+  text-align: left;
+  margin-top: 6px;
+
+  .menu--main & {
+    background-color: rgba(white, 0.9);
+    border-top: solid 1px;
+  }
+
+  .menu__item {
+    border-bottom: solid 1px $color-alt-7;
+  }
+}
+
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .menu__item--color-#{$i} {
+
+    &:hover {
+      border-bottom-color: $current-color;
+    }
+
+    .menu__flyout {
+      border-top-color: $current-color;
+    }
+
+    .menu__item__description {
+      color: $current-color;
+    }
+
+    .menu--sub-menu__toggle:before {
+      border-left-color: lighten($current-color, 25%);
+      transition: border-left-color 0.2s ease;
+    }
+    .menu--sub-menu__toggle:hover:before {
+      border-left-color: $current-color;
     }
   }
 }
 
 .menu--sub-menu {
-  position: absolute;
-  width: 100%;
+  font-size: #{(17/16)}em;
+  line-height: 1;
 
-  .menu--main > .menu__item > & {
-    background-color: white;
-    border-top: solid 1px;
+  .menu__item--has-children {
+    position: relative;
+
+    .menu__link {
+      padding-right: 40px;
+    }
   }
+}
+
+.menu--sub-menu__toggle {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border: {
+      top: solid 5px transparent;
+      bottom: solid 5px transparent;
+      left: solid 8px;
+    }
+  }
+}
+
+.menu__item__description {
+  font: {
+    family: $font-alt-medium;
+    size: rem(17px);
+  }
+  line-height: (22/17);
+  padding: 0 30px 25px;
 }

@@ -181,7 +181,7 @@
     var logoWidth = $('.site-logo').width();
     var iconWidth = $('.site-logo__icon')[0].getBoundingClientRect().width;
 
-    $('.js-header-compress > .menu__item').css({
+    $('.js-header-compress > .menu__item > .menu__link').css({
       'padding-top' : topMenuItemPadding + 'px',
       'padding-bottom' : bottomMenuItemPadding + 'px'
     });
@@ -204,7 +204,7 @@
         shrinkIcon = '26.125';
       };
 
-      $('.js-header-compress > .menu__item').css({
+      $('.js-header-compress > .menu__item > .menu__link').css({
         'padding-top' : compressTopPadding + 'px',
         'padding-bottom' : compressBottomPadding + 'px'
       });
@@ -227,11 +227,19 @@
   }
 
   /**
+   * Adds menu toggle to sub-menu items with children
+   */
+  function addMenuToggle() {
+    $('<span class="menu--sub-menu__toggle"></span>').appendTo('.menu--sub-menu > .menu__item--has-children');
+  }
+
+  /**
    * Document Ready Instance
    */
   $(document).ready(function(){
 
     scrollCompressMenu();
+    addMenuToggle();
 
     // Mobile test conditionals
     if( $(document).is_mobile() ) {

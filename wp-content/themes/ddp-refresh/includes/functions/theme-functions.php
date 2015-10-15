@@ -78,7 +78,7 @@ class IODDPWalker extends IODefaultWalker
 	 */
 // 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 // 		$indent = str_repeat("\t", $depth);
-// 		$output .= "\n$indent<ul class=\"menu menu--sub-menu menu--split-column\">\n";
+// 		$output .= "\n$indent<ul class=\"menu menu--sub-menu menu--columned\">\n";
 // 	}
 
 
@@ -107,46 +107,44 @@ class IODDPWalker extends IODefaultWalker
 
 		}
 		//$split = ceil(count($menu_elements)/2);
-		$strHTML = '';
+		$strHtml = '';
 
 		foreach($menu_elements as  $item){
 
 // 			if($key == $split) {
-// 				$strHTML .= '</ul><ul class="right-side-menu">';
+// 				$strHtml .= '</ul><ul class="right-side-menu">';
 // 			}
 // echo '<pre>';
 // 			var_dump($item);
 // 			echo '</pre>';
 			$classes = join(' ',io_menu_standards($item->classes,$item));
-			$strHTML .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'"><a href="'.$item->url.'" class="menu__link">'.$item->title.'</a>';
+			$strHtml .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'">';
+				$strHtml .= '<a href="'.$item->url.'" class="menu__link">'.$item->title.'</a>';
 
-			if (isset($childItems[$item->db_id])) {
+				if (isset($childItems[$item->db_id])) {
+					$strHtml .= '<div class="menu__flyout">';
+						$strHtml .= '<div class="content-columned content-columned--2-items">';
+							$strHtml .= '<ul class="menu menu--sub-menu content-columned__item">';
+								foreach($childItems[$item->db_id] as $key=>$subitem){
+									$split = ceil(count($childItems[$item->db_id])/2);
+									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
 
-				$strHTML .= '<div class="menu__flyout"><ul class="menu menu--sub-menu menu--split-column">'."\r\n";
-				foreach($childItems[$item->db_id] as $key=>$subitem){
-					$split = ceil(count($childItems[$item->db_id])/2);
-					if($key == $split) {
-						 $strHTML .= '</ul><ul class="menu menu--sub-menu menu--split-column">';
-					}
-					$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
-					$strHTML .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.' class="menu__link">'.$subitem->title.'</a></li>';
+									if($key == $split) {
+										 $strHtml .= '</ul><ul class="menu menu--sub-menu content-columned__item">';
+									}
+									$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a></li>';
+								}
+							$strHtml .= '</ul>';
+						$strHtml .= '</div>';
+						if($item->menu_item_parent == 0 && !empty($item->description))	{
+							$strHtml .= '<p class="menu__item__description">'.$item->description.'</p>';
+						}
+					$strHtml .= '</div>';
 				}
-				$strHTML .= '</ul>'."\r\n";
-
-				if($item->menu_item_parent == 0 && !empty($item->description))	{
-					$strHTML .= '<p>'.$item->description.'</p>';
-
-				}
-
-				$strHTML .= '</div>';
-
-			}
-
-			$strHTML .= '</li>';
-
+			$strHtml .= '</li>';
 		}
 
-		return $strHTML;
+		return $strHtml;
 	}
 
 }

@@ -44,3 +44,31 @@ body {
 .content-wrap {
   background-color: white;
 }
+
+.content-columned {
+  display: table;
+  width: 100%;
+
+  .menu--main & {
+    padding-bottom: 20px;
+  }
+}
+
+.content-columned__item {
+  display: table-cell;
+
+  .content-columned--2-items & {
+    width: 50%;
+  }
+
+  .menu--main & {
+    padding: 0 30px;
+
+    &:first-child {
+      padding-right: 15px;
+    }
+    &:last-child {
+      padding-left: 15px;
+    }
+  }
+}
