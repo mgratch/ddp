@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: DDP Interactive Map
-Plugin URI: 
+Plugin URI:
 Description: Custom interactive map for DDP.
 Author: Octane Design
 Version: 1.0
@@ -24,18 +24,18 @@ function print_map($atts){
 		'show_table' => null
 
 	), $atts ) );
-	
-	
+
+
 	$data = read_xls($file);
 	if($data !== false){
 		$html = '';
-		
-		
+
+
 		if($show_table != null){
-			$html .= '<ul class="nav nav-tabs">';	 
+			$html .= '<ul class="nav nav-tabs">';
 			$html .= '<li class="active"><a href="#int-map" data-toggle="tab">Map</a></li>';
-			$html .= '<li><a href="#data" data-toggle="tab">Data</a></li>'; 	 
-			$html .= '</ul>';	 	 
+			$html .= '<li><a href="#data" data-toggle="tab">Data</a></li>';
+			$html .= '</ul>';
 			$html .= '<div class="tab-content">';
 			$html .= '<div id="int-map" class="tab-pane active fade in">';
 		}
@@ -48,11 +48,11 @@ function print_map($atts){
 
 		$html .= 'var dataObj = {
 			';
-		
+
 		if( $category == "Food &amp; Bars" ) {
 			$category = 'Food & Bars';
 		}
-		
+
 		foreach($data as $k => $array){
 			if($category == 'all'){
 				$html .= get_location($k, $array);
@@ -65,8 +65,8 @@ function print_map($atts){
 			}
 
 		}
-		
-		
+
+
 
 		$html .= '}';
 
@@ -74,7 +74,7 @@ function print_map($atts){
 		jQuery(document).ready(function($){
 		    google.maps.event.addDomListener(window, "load", initialize("'.$plugin_url.'",'.$zoom.'));
 		});
-	      
+
 	    </script>';
 
 	    if($show_table != null){
@@ -104,7 +104,7 @@ function print_map($atts){
 			}
 
 			$html .= '</table>';
-			$html .= '</div>'; 	 
+			$html .= '</div>';
 			$html .= '</div>';
 	    }
 
@@ -122,18 +122,18 @@ function read_xls($file){
 		///usr/home/downtowndetroit/public_html/downtowndetroit.org
 		//$usr = "constructor";
 		$usr = "downtowndetroit";
-		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key=AIzaSyDjC8OjHMmiox7fqIcuwfXtmnBiLjFLkZ0&sensor=false');
+		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY']);
 		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
 		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js');
 		require_once($plugin_path."inc/excel_reader2.php");
 		//print $plugin_path."/xls/data.xls";
-		
-		
+
+
 //switch with below for dev		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
-		
+
 		$filename = str_replace("http://devbucket.net/", "/var/www/html/", $file);
-		
-		
+
+
 		$data = new Spreadsheet_Excel_Reader($filename, false);
 		$cells = $data->sheets[0]["cells"];
 		array_shift($cells);
