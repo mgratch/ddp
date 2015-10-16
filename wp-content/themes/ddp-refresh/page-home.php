@@ -75,17 +75,17 @@ Template Name: Home Page
 
 						if ($module_meta['home_module_type'] == 'multi' && !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) ) {
 							$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
-						} // else if ($module_meta['home_module_type'] == 'map') {
-						// 	$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
-						// }
+						}  else if ($module_meta['home_module_type'] == 'map') {
+							$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
+						 }
 
 						if($module_meta['home_module_type'] == 'map') {
-							// $strTabHtml .= '<div class="tab__content js-tab-content">';
+							$strTabHtml .= '<div class="tab__content js-tab-content">';
 
 						//We need to turn debug off and get the domain right for the Maps API
-						//	$strTabHtml .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
+							$strTabHtml .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
 
-							// $strTabHtml .= '</div>';
+							$strTabHtml .= '</div>';
 
 						} else {
 							// multiple listings
