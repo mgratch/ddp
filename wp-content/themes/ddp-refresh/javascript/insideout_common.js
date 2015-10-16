@@ -193,7 +193,7 @@
       var trackScroll = $(window).scrollTop();
       var compressTopPadding = topMenuItemPadding - trackScroll;
       var compressBottomPadding = bottomMenuItemPadding - trackScroll;
-      var shrinkIcon = iconWidth - trackScroll;
+      var shrinkIcon = iconWidth - (trackScroll / 0.875);
 
 
       if (compressTopPadding <= 18) {
@@ -230,14 +230,17 @@
    * Adds menu toggle to sub-menu items with children
    */
   function addMenuToggle() {
-    $('<span class="menu--sub-menu__toggle"></span>').appendTo('.menu--sub-menu > .menu__item--has-children');
+    $toggle = $('<span class="menu--sub-menu__toggle"></span>');
+    $toggle.appendTo('.menu--sub-menu > .menu__item--has-children');
+    $('.menu--sub-sub-menu').hide();
 
     $('.menu--sub-menu__toggle').click(function() {
       if (!$(this).parent().hasClass('menu__item--toggle-open')) {
-        $('.menu--sub-menu__toggle').parent().removeClass('menu__item--toggle-open');
         $(this).parent().addClass('menu__item--toggle-open');
+        $(this).prev('.menu--sub-sub-menu').slideDown(250);
       } else {
         $(this).parent().removeClass('menu__item--toggle-open');
+        $(this).prev('.menu--sub-sub-menu').slideUp(250);
       };
     });
   }

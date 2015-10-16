@@ -30,7 +30,11 @@
     text-align: center;
     line-height: 0.85;
     border-bottom: solid 6px transparent;
-    transition: border-bottom-color 0.25s ease;
+    transition: border-bottom-color 0.15s ease;
+
+    &:hover .menu__flyout {
+      display: block;
+    }
 
     & > .menu__link {
       color: black;
@@ -41,10 +45,12 @@
 }
 
 .menu__flyout {
+  display: none;
   position: absolute;
+  top: 100%;
   width: calc(100% - 40px);
   text-align: left;
-  margin-top: 6px;
+  margin-top: -1px;
 
   .menu--main & {
     background-color: rgba(white, 0.9);
@@ -56,6 +62,34 @@
   }
 }
 
+.menu--sub-sub-menu {
+  font-size: #{(16/17)}em;
+  border-top: solid 1px;
+  padding: 0 10px;
+
+  .menu__item {
+    border-bottom-color: $color-base;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .menu__link {
+      position: relative;
+      padding-left: 16px;
+
+      &:before {
+        content: '\0002b';
+        display: block;
+        position: absolute;
+        top: 0.55em;
+        left: 2px;
+        color: $color-alt-2;
+      }
+    }
+  }
+}
+
 $colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
 $current-color: ();
 
@@ -64,11 +98,13 @@ $current-color: ();
 
   .menu__item--color-#{$i} {
 
+    // .menu--sub-sub-menu .menu__item,
     &:hover {
       border-bottom-color: $current-color;
     }
 
-    .menu__flyout {
+    .menu__flyout,
+    .menu--sub-sub-menu {
       border-top-color: $current-color;
     }
 
@@ -94,7 +130,7 @@ $current-color: ();
   .menu__item--has-children {
     position: relative;
 
-    .menu__link {
+    & > .menu__link {
       width: calc(100% - 36px);
     }
   }
