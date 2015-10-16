@@ -69,16 +69,16 @@
   text-decoration: none;
 }
 .map-container .info-overlay .links a#Attractions{
-  background:url("../../plugins/ddp-interactive-map/images/pushpin-attractions.png") no-repeat;
+  background:url("../images/pushpin-attractions.png") no-repeat;
 }
 .map-container .info-overlay .links a#FoodBars{
-  background:url("../../plugins/ddp-interactive-map/images/pushpin-foodbars.png") no-repeat;
+  background:url("../images/pushpin-foodbars.png") no-repeat;
 }
 .map-container .info-overlay .links a#Lighthouse{
-  background:url("../../plugins/ddp-interactive-map/images/pushpin-lighthouse.png") no-repeat;
+  background:url("../images/pushpin-lighthouse.png") no-repeat;
 }
 .map-container .info-overlay .links a#Shopping{
-  background:url("../../plugins/ddp-interactive-map/images/pushpin-shopping.png") no-repeat;
+  background:url("../images/pushpin-shopping.png") no-repeat;
 }
 .map-container .info-overlay .links a.active{
   padding-bottom:0px;
@@ -102,7 +102,7 @@
   color:#fff;
   width:244px;
   height:209px;
-  background:url("images/infobox_bknd.png") no-repeat 50% 50%;
+  background:url("../images/infobox_bknd.png") no-repeat 50% 50%;
   padding:18px 20px 20px 20px;
   font-size:14px;
   font-family: 'museo_sans100';
