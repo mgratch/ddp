@@ -8,9 +8,14 @@ class LegacyRouter
 {
   protected $legacyThemePath;
   protected $legacyThemeUri;
+  protected $originalThemePath;
+  protected $originalThemeUri;
 
   public function __construct()
   {
+    $this->originalThemePath = get_template_directory();
+    $this->originalThemeUri = get_template_directory_uri();
+
     $this->legacyThemePath = Config::get('legacy_theme_path');
     $this->legacyThemeUri = Config::get('legacy_theme_uri');
 
@@ -68,9 +73,20 @@ class LegacyRouter
 
         // If it is a legacy template we need to get change the template
         // directory reference so we can find the files.
-        add_filter('template_directory_uri', function() {
-          return $this->legacyThemeUri;
-        });
+
+        add_action('loop_start', function() {
+          add_filter('template_directory_uri', function() {
+            return $this->legacyThemeUri;
+          });
+        }, 0);
+
+
+        add_action('get_footer', function() {
+          add_filter('template_directory_uri', function() {
+            return $this->originalThemeUri;
+          });
+        }, 0);
+
 
         // Its a legacy file, we need to snag the css and js.
         $this->legacyAssets();
