@@ -57,6 +57,7 @@ Template Name: Home Page
 			//Start the Tabs with content area
 			$custom_data = clean_meta(get_post_custom());
 			$module_meta = '';
+			$map = do_shortcode('[interactive-map width="100%" height="100%" file="/2014/04/data.xls"]');
 
 			function home_module($module_id) {
 				$module_meta = clean_meta(get_post_custom( $module_id ), array('home_module_subsets'));
@@ -82,10 +83,10 @@ Template Name: Home Page
 						if($module_meta['home_module_type'] == 'map') {
 							$strTabHtml .= '<div class="tab__content js-tab-content">';
 
-						//We need to turn debug off and get the domain right for the Maps API
-							$strTabHtml .= do_shortcode('[interactive-map width="100%" height="100%" file="http://devbucket.net/sites/ddp/dev/wp-content/uploads/2014/04/data.xls"]');
+	 							// We need to turn debug off and get the domain right for the Maps API
+								$strTabHtml .= $map;
 
-							$strTabHtml .= '</div>';
+							$strTabHtml .= '</div><span></span>';
 
 						} else {
 							// multiple listings

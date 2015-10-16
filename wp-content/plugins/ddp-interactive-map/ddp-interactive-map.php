@@ -43,7 +43,7 @@ function print_map($atts){
 		if($category == 'all'){
 			$html .= '<div class="info-overlay"><div class="links"><a href="#" class="active" id="Attractions">Attractions</a><a href="#" class="active" id="FoodBars">Food &amp; Bars</a><a href="#" class="active" id="Lighthouse">Project Lighthouse</a><a href="#" class="active" id="Shopping">Shopping</a></div>';
 		}
-		$html .= '</div>';
+		$html .= '</div></div>';
 		$html .= '<script type="text/javascript">';
 
 		$html .= 'var dataObj = {
@@ -125,15 +125,16 @@ function read_xls($file){
 		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY']);
 		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
 		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js');
-		
+
 		wp_enqueue_style( 'gmap-custom-css', $plugin_url.'css/ddp-interactive-map.css');
 		require_once($plugin_path."inc/excel_reader2.php");
 		//print $plugin_path."/xls/data.xls";
 
 
 //switch with below for dev		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
-
-		$filename = str_replace("http://devbucket.net/", "/var/www/html/", $file);
+		$upload_dir = wp_upload_dir();
+		// var_dump($upload_dir['basedir']);
+		$filename =  $upload_dir['basedir'].$file;
 
 
 		$data = new Spreadsheet_Excel_Reader($filename, false);
