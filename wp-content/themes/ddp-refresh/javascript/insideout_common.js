@@ -231,6 +231,15 @@
    */
   function addMenuToggle() {
     $('<span class="menu--sub-menu__toggle"></span>').appendTo('.menu--sub-menu > .menu__item--has-children');
+
+    $('.menu--sub-menu__toggle').click(function() {
+      if (!$(this).parent().hasClass('menu__item--toggle-open')) {
+        $('.menu--sub-menu__toggle').parent().removeClass('menu__item--toggle-open');
+        $(this).parent().addClass('menu__item--toggle-open');
+      } else {
+        $(this).parent().removeClass('menu__item--toggle-open');
+      };
+    });
   }
 
   /**
