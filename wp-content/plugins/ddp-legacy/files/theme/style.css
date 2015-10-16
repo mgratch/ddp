@@ -88,7 +88,7 @@ Author URI:
 }*/
 /* Global styles */
 /* ---------------------------------- */
-*,
+/**,
 *:after,
 *:before {
   box-sizing: border-box;
@@ -99,7 +99,7 @@ Author URI:
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   -webkit-font-smoothing: antialiased;
-}
+}*/
 .map-container,
 .map-container *,
 .map-container *:after,
@@ -117,12 +117,12 @@ a:hover, a:focus {
   color: #1790AA;
   text-decoration: underline;
 }
-body {
+/*body {
   font-family: 'museo_sans300';
   position: relative;
   background-color: #262626;
   font-size: 16px;
-}
+}*/
 body .row {
   margin: 0;
 }
@@ -327,7 +327,7 @@ body #about-menu .social a {
 /* Header */
 /* ---------------------------------- */
 
-body header {
+/*body header {
   position: fixed;
   top: 0px;
   width: 100%;
@@ -345,7 +345,7 @@ body.touch-device header{
 }
 body.logged-in.admin-bar header {
 	top: 32px !important;
-}
+}*/
 body header .brand {
   width: 200px;
   height: 120px;
@@ -602,7 +602,7 @@ body header.min .main-nav .big-three li .img-container {
 body header.min .main-nav .big-three li .img-container img {
   margin-left: -100px;
 }
-body .header {
+/*body .header {
   height: 75px;
   text-align: center;
   font-family: 'museo_sans100';
@@ -611,11 +611,11 @@ body .header {
   color: #fff;
   display: block;
   margin-bottom: 15px;
-}
+}*/
 
-body header {
+/*body header {
 	overflow: visible !important;
-}
+}*/
 
 /* Header - Dropdowns */
 /* ---------------------------------- */
