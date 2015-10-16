@@ -55,6 +55,7 @@
 
 .site-logo__icon {
   position: relative;
+  opacity: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 55.129px;
@@ -62,6 +63,7 @@
   margin-top: 50%;
 
   .site-logo--icon-only & {
+    opacity: 1;
     margin-top: 0;
   }
 }
