@@ -33,10 +33,6 @@ Config::add(array(
   )
 ));
 
-
-// Project Config
-Config::set('api_keys.gmaps', 'AIzaSyBqliL3bXMUi1hgjx5m0s4rIbfiDppOjCY');
-
 Config::add(array(
   'scripts' => array(
     'ddpLiveInteractive.js' => array(
@@ -50,11 +46,11 @@ Config::add(array(
       'ajax_obj_name' => 'ddpPropertiesObj'
     ),
     'ddpLiveGoogleMapsAPI' => array(
-      'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),
+      'src' => 'https://maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY'],
       'footer' => true
     ),
     'ddpLiveGoogleMapsAPIAdmin' => array(
-      'src' => 'https://maps.googleapis.com/maps/api/js?key='.Config::get('api_keys.gmaps'),
+      'src' => 'https://maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY'],
       'footer' => true,
       'admin' => true
     ),
