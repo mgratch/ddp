@@ -1,3 +1,4 @@
+		<?php do_action('legacy_asset_end'); ?>
 		  <div id="footer-push"></div>
     </div>
 		<footer class="footer footer--main">

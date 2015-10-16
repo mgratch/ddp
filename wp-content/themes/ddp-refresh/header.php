@@ -76,3 +76,6 @@
 					}
 				?>
 			</header>
+			<?php
+				do_action('legacy_asset_start'); 
+			?>

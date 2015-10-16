@@ -74,14 +74,14 @@ class LegacyRouter
         // If it is a legacy template we need to get change the template
         // directory reference so we can find the files.
 
-        add_action('loop_start', function() {
+        add_action('legacy_asset_start', function() {
           add_filter('template_directory_uri', function() {
             return $this->legacyThemeUri;
           });
         }, 0);
 
 
-        add_action('get_footer', function() {
+        add_action('legacy_asset_end', function() {
           add_filter('template_directory_uri', function() {
             return $this->originalThemeUri;
           });
