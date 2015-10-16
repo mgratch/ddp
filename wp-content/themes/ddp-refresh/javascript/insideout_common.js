@@ -245,6 +245,34 @@
     });
   }
 
+  // For ddp interactive map by the one and only ritz
+  function setup_cat_nav(){
+    $(".map-container .info-overlay .links a").bind('click', function(e){
+      e.preventDefault();
+
+      var slug = $(this).attr("id");
+      $(this).toggleClass("active");
+
+      if($(this).hasClass("active")){
+        toggle_markers(slug, true);
+      }else{
+        toggle_markers(slug, false);
+      }
+
+
+    });
+  }
+
+  // For ddp interactive map by the one and only ritz
+  function toggle_markers(slug, state){
+		for(var key in gmarkers){
+			var marker = gmarkers[key];
+			if(marker.category == slug){
+				marker.setVisible(state);
+			}
+		}
+	}
+
   /**
    * Document Ready Instance
    */
@@ -252,6 +280,7 @@
 
     scrollCompressMenu();
     addMenuToggle();
+    setup_cat_nav();
 
     // Mobile test conditionals
     if( $(document).is_mobile() ) {
