@@ -1436,7 +1436,7 @@ body {
 /* Sidebar
 ----------------------------------------*/
 /* line 5, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-sidebar.scss */
-aside.main > ul {
+.aside > ul {
   list-style: none;
 }
 
@@ -1547,15 +1547,14 @@ aside.main > ul {
   width: 100%;
   line-height: 1.4;
   padding: 30px 0 35px;
-  background-color: rgba(0, 179, 238, 0.9);
 }
 
-/* line 21, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 19, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content .headline {
   color: white;
 }
 
-/* line 26, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 24, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__image {
   position: absolute;
   bottom: 0;
@@ -1563,29 +1562,29 @@ aside.main > ul {
   height: auto;
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 37, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content--color-1 {
-  background-color: #2a316c;
+  background-color: rgba(42, 49, 108, 0.9);
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 37, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content--color-2 {
-  background-color: #00b3ee;
+  background-color: rgba(0, 179, 238, 0.9);
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 37, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content--color-3 {
-  background-color: #00a892;
+  background-color: rgba(0, 168, 146, 0.9);
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 37, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content--color-4 {
-  background-color: #e0e060;
+  background-color: rgba(224, 224, 96, 0.9);
 }
 
-/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+/* line 37, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__content--color-5 {
-  background-color: #ff7e00;
+  background-color: rgba(255, 126, 0, 0.9);
 }
 
 /* Helper Classes
