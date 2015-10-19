@@ -146,6 +146,18 @@ Template Name: Home Page
 		?>
 		<h2 class="headline headline--light headline--section-divide">Connect with us</h2>
 
+			<div>
+				<a class="twitter-timeline" href="https://twitter.com/DDPDetroit" data-widget-id="656190436634025984">Tweets by @DDPDetroit</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</div>
+
+			<div>
+				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="350" data-height="225" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
+			</div>
+
+			<div>
+				// Instagram //
+			</div>
 	</main>
 
 <?php add_action( 'wp_footer', function() { ?>
