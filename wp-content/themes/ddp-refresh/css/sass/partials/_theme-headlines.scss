@@ -12,6 +12,16 @@
   color: white;
 }
 
+.headline--page-main {
+  // font-size: #{(48/16)}em;
+  @include flex-text(320, 1265, 18, 48);
+}
+
+.headline--page-sub {
+  // font-size: #{(18/16)}em;
+  @include flex-text(320, 1265, 16, 18);
+}
+
 .headline--light {
   font-family: $font-accent-light;
 }

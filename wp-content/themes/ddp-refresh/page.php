@@ -1,10 +1,12 @@
 <?php get_header(); ?>
 	<main>
-		<?php if (have_posts()) : while (have_posts()) : the_post();?>
+		<?php if (have_posts()) : while (have_posts()) : the_post();
+			$customMeta = clean_meta( get_post_custom($post->ID) );
+		?>
 			<section class="hero hero--with-content">
 				<div class="hero__content">
-					<h1 class="headline headline--light"><?php the_title(); ?></h1>
-					<div class="headline headline--sub-headline headline--emphasis"><?php echo get_post_meta($post->ID, 'wpcf-subhead', true); ?></div>
+					<h1 class="headline headline--light headline--page-main"><?php the_title(); ?></h1>
+					<div class="headline headline--page-sub headline--emphasis"><?php echo get_post_meta($post->ID, 'wpcf-subhead', true); ?></div>
 				</div>
 				<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
 			</section>
