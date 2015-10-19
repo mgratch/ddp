@@ -122,9 +122,9 @@ function read_xls($file){
 		///usr/home/downtowndetroit/public_html/downtowndetroit.org
 		//$usr = "constructor";
 		$usr = "downtowndetroit";
-		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY']);
-		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
-		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js');
+		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY'], null, null, true);
+		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js', null, null, true);
+		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js', null, null, true);
 
 		wp_enqueue_style( 'gmap-custom-css', $plugin_url.'css/ddp-interactive-map.css');
 		require_once($plugin_path."inc/excel_reader2.php");
