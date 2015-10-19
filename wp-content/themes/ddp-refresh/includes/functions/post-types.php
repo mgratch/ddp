@@ -14,10 +14,29 @@ $post_obj = get_current_admin_post_object();
 
 $pages = new Super_Custom_Post_Meta( 'page' );
 
+$theme_colors = array(
+	'color-1' => 'dark blue',
+	'color-2' => 'light blue',
+	'color-3' => 'teal',
+	'color-4' => 'lemon',
+	'color-5' => 'orange'
+);
+
+
+
+if ($pages->type == 'page') {
+
+	$pages->add_meta_box( array(
+		'id' => 'page-colors',
+		'title' => 'Page Theme Color',
+		'context' => 'side',
+		'fields' => array(
+			'page_color' => array('type'=>'select', 'label'=>'', 'options'=>$theme_colors, 'field_description'=>'If left empty, page will get its top parent\'s page color.' ),
+		)
+	) );
+}
 
 if ($post_obj->template == 'page-home.php') {
-
-
 
 	for ($i=1; $i <= 3; $i++) {
 		$pages->add_meta_box( array(
@@ -29,21 +48,11 @@ if ($post_obj->template == 'page-home.php') {
 				)
 		) );
 	}
-
-
 }
 
 /*
  * Home Module Content
 */
-
-$theme_colors = array(
-	'color-1' => 'dark blue',
-	'color-2' => 'light blue',
-	'color-3' => 'teal',
-	'color-4' => 'lemon',
-	'color-5' => 'orange'
-);
 $arrHomeWellTypes = array('map'=>'Interactive Map','multi'=>'Multi-Well Area');
 
 

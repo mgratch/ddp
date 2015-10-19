@@ -60,6 +60,7 @@
 
   .menu__item {
     border-bottom: solid 1px $color-alt-7;
+    transition: border-bottom-color 0.25s ease;
   }
 }
 
@@ -99,7 +100,7 @@ $current-color: ();
 
   .menu__item--color-#{$i} {
 
-    // .menu--sub-sub-menu .menu__item,
+    .menu--sub-menu > .menu__item:hover,
     &:hover {
       border-bottom-color: $current-color;
     }
@@ -109,6 +110,7 @@ $current-color: ();
       border-top-color: $current-color;
     }
 
+    .menu--sub-menu .menu__link:hover,
     .menu__item__description {
       color: $current-color;
     }
@@ -127,6 +129,10 @@ $current-color: ();
 .menu--sub-menu {
   font-size: #{(17/16)}em;
   line-height: 1;
+
+  .menu__link {
+    transition: color 0.25s ease;
+  }
 
   .menu__item--has-children {
     position: relative;

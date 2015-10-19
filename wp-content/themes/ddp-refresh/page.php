@@ -1,16 +1,20 @@
 <?php get_header(); ?>
-	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-	<section class="<?php echo 'main '.$post->post_type.'-'.$post->post_name; ?>">
-		<div class="wrapper">
+	<main>
+		<?php if (have_posts()) : while (have_posts()) : the_post();?>
+			<section class="hero hero--with-content">
+				<div class="hero__content">
+					<h1 class="headline headline--light"><?php the_title(); ?></h1>
+					<div class="headline headline--sub-headline headline--emphasis"><?php echo get_post_meta($post->ID, 'wpcf-subhead', true); ?></div>
+				</div>
+				<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
+			</section>
+
+			<?php get_sidebar(); ?>
 			<section class="site-content">
 				<article id="post-<?php the_ID(); ?>">
-					<h1><?php the_title(); ?></h1>
-				
-					<?php the_content('Read more on "'.the_title('', '', false).'" &raquo;'); ?>
+					<?php the_content(); ?>
 				</article>
 			</section><!-- ./SITE-CONTENT -->
-	<?php endwhile; endif; ?>
-<?php get_sidebar(); ?>
-		</div><!-- ./WRAPPER -->
-	</section><!-- ./SECTION-MAIN -->
+		<?php endwhile; endif; ?>
+	</main>
 <?php get_footer(); ?>

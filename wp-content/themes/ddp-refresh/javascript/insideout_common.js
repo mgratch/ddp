@@ -226,6 +226,27 @@
     })
   }
 
+  function heroContentPosition() {
+    var headerHeight = $('.header--main')[0].getBoundingClientRect().height;
+
+    $('.hero__content').css({
+      'top' : headerHeight + 'px',
+    });
+
+    $(window).scroll(function() {
+      var headerHeight = $('.header--main')[0].getBoundingClientRect().height;
+      var headerTrack = headerHeight + $(window).scrollTop();
+
+      if (headerHeight == 61) {
+        headerTrack = '86';
+      }
+
+      $('.hero__content').css({
+        'top' : headerTrack + 'px',
+      });
+    });
+  }
+
   /**
    * Adds menu toggle to sub-menu items with children
    */
@@ -279,6 +300,7 @@
   $(document).ready(function(){
 
     scrollCompressMenu();
+    heroContentPosition();
     addMenuToggle();
     setup_cat_nav();
 

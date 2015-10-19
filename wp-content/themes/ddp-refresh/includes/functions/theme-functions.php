@@ -13,7 +13,7 @@
 function io_theme_scripts()
 {
   /* -- Scripts -- */
-  wp_register_script('ioddcommon', get_template_directory_uri().'/javascript/insideout_common.js', array( 'jquery', 'velocity' ), '', true );
+  wp_register_script('ioddcommon', get_template_directory_uri().'/javascript/insideout_common.js', array( 'jquery' ), '', true );
   wp_register_script( 'bxslider', get_template_directory_uri().'/javascript/jquery.bxslider.min.js', array( 'jquery' ), '4.1.2', true );
   wp_register_script( 'velocity', get_template_directory_uri().'/javascript/velocity.min.js', '', '1.2.3', true );
   wp_register_script( 'velocity-ui', get_template_directory_uri().'/javascript/velocity.ui.min.js', array('velocity'), '5.0.4', true );
@@ -98,11 +98,11 @@ class IODDPWalker extends Walker_Nav_Menu
 					$childItems[$element->menu_item_parent]['sub'][$element->db_id] = $children_items;
 				}
 				//$menu_elements[] = $element;
-				
+
 			}
 
 		}
-		
+
 		//var_dump($childItems);
 		//$split = ceil(count($menu_elements)/2);
 		$strHtml = '';
@@ -116,8 +116,8 @@ class IODDPWalker extends Walker_Nav_Menu
 // 			var_dump($item);
 // 			echo '</pre>';
 
-			
-			
+
+
 			$classes = join(' ',io_menu_standards($item->classes,$item));
 			$strHtml .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'">';
 				$strHtml .= '<a href="'.$item->url.'" class="menu__link">'.$item->title.'</a>';
@@ -126,11 +126,11 @@ class IODDPWalker extends Walker_Nav_Menu
 					$strHtml .= '<div class="menu__flyout">';
 						$strHtml .= '<div class="content-columned content-columned--2-items">';
 							$strHtml .= '<ul class="menu menu--sub-menu content-columned__item">';
-		
-							
+
+
 							$strSubHtml = '';
 							foreach($childItems[$item->db_id] as $key=>$subitem){
-						
+
 								if($key !== 'sub'){
 									$split = ceil(count($childItems[$item->db_id])/2);
 									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
@@ -139,23 +139,23 @@ class IODDPWalker extends Walker_Nav_Menu
 										 $strHtml .= '</ul><ul class="menu menu--sub-menu content-columned__item">';
 									}
 									$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a>';
-								
+
 									if (!empty($childItems[$item->db_id]['sub'][$subitem->db_id])) {
-										
+
 										$strHtml .= '<ul class="menu menu--sub-sub-menu">';
 										foreach($childItems[$item->db_id]['sub'][$subitem->db_id] as $key2=>$subitem2){
 											$classes = join(' ',io_menu_standards($subitem2->classes,$subitem2));
-												
+
 											$strHtml .= '<li id="menu-'.$subitem2->db_id.'" class="'.$classes.'"><a href="'.$subitem2->url.'" class="menu__link">'.$subitem2->title.'</a></li>';
 										}
 										$strHtml .= '</ul>';
 									}
-							
+
 								}
 
 								$strHtml .= '</li>';
 							}
-	
+
 							$strHtml .= '</ul>';
 						$strHtml .= '</div>';
 						if($item->menu_item_parent == 0 && !empty($item->description))	{
