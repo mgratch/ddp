@@ -2,6 +2,16 @@
 	<main>
 		<?php if (have_posts()) : while (have_posts()) : the_post();
 			$customMeta = clean_meta( get_post_custom($post->ID) );
+			
+			$topParentPostMeta = $customMeta;
+			$topParentPostID = $post->ID;
+			$topParentTitle = get_the_title();
+			
+			if($post->post_parent != 0){
+				$topParentPostID = get_top_parent_id($post);
+				$topParentPostMeta =  clean_meta( $topParentPostID);
+				$topParentTitle = get_the_title($topParentPostMeta->ID);
+			} 
 		?>
 			<section class="hero hero--with-content">
 				<div class="hero__content">

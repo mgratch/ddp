@@ -66,8 +66,6 @@ function check_url($url){
 class IODDPWalker extends Walker_Nav_Menu
 {
 
-
-
 	function walk( $elements, $max_depth) {
 
 		$menu_elements = array();
@@ -103,18 +101,9 @@ class IODDPWalker extends Walker_Nav_Menu
 
 		}
 
-		//var_dump($childItems);
-		//$split = ceil(count($menu_elements)/2);
 		$strHtml = '';
 
 		foreach($menu_elements as  $item){
-
-// 			if($key == $split) {
-// 				$strHtml .= '</ul><ul class="right-side-menu">';
-// 			}
-// echo '<pre>';
-// 			var_dump($item);
-// 			echo '</pre>';
 
 
 
@@ -168,5 +157,63 @@ class IODDPWalker extends Walker_Nav_Menu
 
 		return $strHtml;
 	}
+
+}
+
+
+
+/**
+ * Function: get_top_parent_id
+ */
+
+function get_top_parent_id($current_page) {
+	
+	$ancestors = get_ancestors( $current_page->ID, 'page' );
+	$top_parent_id = null;
+	
+	
+	if(!empty($ancestors)){
+		//last entry in the array is the top parent
+		$top_parent_id = $ancestors[(count($ancestors)-1)];
+	}
+	
+	return $top_parent_id;
+	
+}
+
+
+/**
+ * Function: get_submenu
+ */
+
+function get_submenu($parent_page_id) {
+   //find menu item that correlates to this page id
+	$items = wp_get_nav_menu_items( 'main' );
+	$strHtml = '';
+	
+	if(!empty($items)){
+		$strHtml .= '<ul>';
+		$menu_top_parent = 0;
+		//var_dump($items);
+		foreach($items as $menu_item){
+			
+			if($menu_item->menu_item_parent == '0' && $menu_item->object_id == $parent_page_id) {
+				$menu_top_parent = $menu_item->ID; 
+			}
+			
+			if($menu_item->menu_item_parent == $menu_top_parent) {
+				$strHtml .= '<li><a href="'.$menu_item->url.'" class="menu__link">'.$menu_item->title.'</a>';
+				$strHtml .= '</li>';
+				
+				
+			}
+			
+		}
+		
+		$strHtml .= '</ul>';
+	}
+   //return the menu listing for this branch
+	
+	return $strHtml ;
 
 }
