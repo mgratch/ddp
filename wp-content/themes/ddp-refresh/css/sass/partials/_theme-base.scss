@@ -56,9 +56,18 @@ body {
 
 .content-columned__item {
   display: table-cell;
+  vertical-align: top;
 
   .content-columned--2-items & {
     width: 50%;
+  }
+
+  .content-columned--3-items & {
+    width: (1/3)*100%;
+    padding: {
+      right: 15px;
+      left: 15px;
+    }
   }
 
   .menu--main & {
@@ -71,4 +80,8 @@ body {
       padding-left: 15px;
     }
   }
+}
+
+.social-widget {
+  padding-bottom: 30px;
 }

@@ -2,14 +2,25 @@
   position: relative;
   line-height: 0;
   padding-bottom: (526/1265)*100%;
+
+  @include respond-min(em(1265px)) {
+    height: 526px;
+    padding-bottom: 0;
+  }
 }
 
 .hero__content {
   position: absolute;
-  z-index: 1;  left: 0;
+  z-index: 1;
+  left: 0;
   width: 100%;
-  line-height: normal;
-  background-color: rgba(white, 0.9);
+  line-height: 1.4;
+  padding: 30px 0 35px;
+  background-color: rgba($color-alt-2, 0.9);
+
+  .headline {
+    color: white;
+  }
 }
 
 .hero__image {

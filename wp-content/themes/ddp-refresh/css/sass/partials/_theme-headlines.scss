@@ -12,13 +12,25 @@
   color: white;
 }
 
+.headline--social-widget {
+  font-size: rem(20px);
+  letter-spacing: -0.5px;
+  margin: 20px 0 5px;
+}
+
 .headline--page-main {
-  // font-size: #{(48/16)}em;
-  @include flex-text(320, 1265, 18, 48);
+  @include flex-text(320, 1265, 28, 48);
+  line-height: 1;
+  margin-right: 15px;
+
+  &:first-child:not(:last-child) {
+    padding-bottom: 15px;
+    border-bottom: solid 1px;
+    margin-bottom: 25px;
+  }
 }
 
 .headline--page-sub {
-  // font-size: #{(18/16)}em;
   @include flex-text(320, 1265, 16, 18);
 }
 
@@ -32,6 +44,15 @@
 
 .headline--shout {
   text-transform: uppercase;
+}
+
+.headline--with-icon {
+
+  img,
+  svg {
+    vertical-align: text-top;
+    margin-right: 5px;
+  }
 }
 
 .headline--section-divide {
