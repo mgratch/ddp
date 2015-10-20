@@ -11,11 +11,10 @@ implements PluginBootableInterface
 {
   public function boot()
   {
-    // if (empty($this->app()->config['instagram_feed'])) {
-    //   throw new \Exception("Instagram config is missing", 1);
-    // }
+    if (empty($this->app()->config['iodd_instagram'])) {
+      throw new \Exception("Instagram config is missing", 1);
+    }
 
-    // $twitter = new TwitterFeed(TwitterAPIExchange::class, $this->app()->config['twitter_feed']);
-    $this->app()->share('InstagramFeed', new InstagramFeed);
+    $this->app()->share('InstagramFeed', new InstagramFeed($this->app()->config['iodd_instagram']));
   }
 }

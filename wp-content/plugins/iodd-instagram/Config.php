@@ -12,6 +12,12 @@ return [
     IODD\Instagram\InstagramFeed\InstagramFeedServiceProvider::class
   ],
 
-  'cache_dir' => wp_upload_dir()['basedir'].'/instagram-cache'
+  'cache_dir' => wp_upload_dir()['basedir'].'/instagram-cache',
+
+  'iodd_instagram' => [
+    'user_id' => '483209569',
+    'client_id' => '29dbc5f67b2b4dc0b5ff25849cdb2051',
+    'client_secret' => '04d49cf6b11a49ec9d4d0ad174c65748'
+  ],
 
 ];
