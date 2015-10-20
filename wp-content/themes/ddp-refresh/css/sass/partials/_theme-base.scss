@@ -73,6 +73,11 @@ strong {
       color: darken($color-alt-2, 5%);
     }
   }
+
+  ol,
+  ul {
+    padding-left: 25px;
+  }
 }
 
 .content-columned {
