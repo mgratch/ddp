@@ -62,66 +62,31 @@
     border-bottom: solid 1px $color-alt-7;
     transition: border-bottom-color 0.25s ease;
   }
-}
 
-.menu--sub-sub-menu {
-  font-size: #{(16/17)}em;
-  border-top: solid 1px;
-  padding: 0 10px;
+  .menu--sub-sub-menu {
+    font-size: #{(16/17)}em;
+    border-top: solid 1px;
+    padding: 0 10px;
 
-  .menu__item {
-    border-bottom-color: $color-base;
+    .menu__item {
+      border-bottom-color: $color-base;
 
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .menu__link {
-      position: relative;
-      padding-left: 16px;
-
-      &:before {
-        content: '\0002b';
-        display: block;
-        position: absolute;
-        top: 0.55em;
-        left: 2px;
+      &:last-child {
+        border-bottom: none;
       }
-    }
-  }
-}
 
-$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
-$current-color: ();
+      .menu__link {
+        position: relative;
+        padding-left: 16px;
 
-@each $current-color in $colors-list {
-  $i: index($colors-list, $current-color);
-
-  .menu__item--color-#{$i} {
-
-    .menu--sub-menu > .menu__item:hover,
-    &:hover {
-      border-bottom-color: $current-color;
-    }
-
-    .menu__flyout,
-    .menu--sub-sub-menu {
-      border-top-color: $current-color;
-    }
-
-    .menu--sub-menu .menu__link:hover,
-    .menu--sub-sub-menu .menu__link:before,
-    .menu__item__description {
-      color: $current-color;
-    }
-
-    .menu--sub-menu__toggle:before {
-      border-left-color: lighten($current-color, 15%);
-      transition: border-left-color 0.15s ease, transform 0.25s ease;
-    }
-    .menu__item--toggle-open .menu--sub-menu__toggle:before,
-    .menu--sub-menu__toggle:hover:before {
-      border-left-color: $current-color;
+        &:before {
+          content: '\0002b';
+          display: block;
+          position: absolute;
+          top: 0.55em;
+          left: 2px;
+        }
+      }
     }
   }
 }
@@ -179,4 +144,75 @@ $current-color: ();
   }
   line-height: (22/17);
   padding: 0 30px 25px;
+}
+
+.menu--side {
+  padding: 10px 10px 10px 45px;
+
+  .menu__item {
+    font: {
+      family: $font-accent-light;
+      size: rem(14px);
+    }
+  }
+
+  .menu__link {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: {
+      top: 7px;
+      bottom: 8px;
+    }
+    transition: color 0.25s ease;
+  }
+
+  .menu--sub-sub-menu .menu__link:before {
+    content: '\02014\0020';
+  }
+}
+
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .menu__item--color-#{$i} {
+
+    .menu--sub-menu > .menu__item:hover,
+    .menu--main > &.menu__item--current-item-ancestor,
+    &:hover {
+      border-bottom-color: $current-color;
+    }
+
+    .menu__flyout,
+    .menu--sub-sub-menu {
+      border-top-color: $current-color;
+    }
+
+    .menu--sub-menu .menu__link:hover,
+    .menu--sub-sub-menu .menu__link:before,
+    .menu__item--current > .menu__link,
+    .menu__item__description {
+      color: $current-color;
+    }
+
+    .menu--sub-menu__toggle:before {
+      border-left-color: lighten($current-color, 15%);
+      transition: border-left-color 0.15s ease, transform 0.25s ease;
+    }
+    .menu__item--toggle-open .menu--sub-menu__toggle:before,
+    .menu--sub-menu__toggle:hover:before {
+      border-left-color: $current-color;
+    }
+  }
+
+  .widget--color-#{$i} {
+
+    .menu__item--current > .menu__link,
+    .menu__link:hover {
+      color: $current-color;
+    }
+  }
 }

@@ -252,8 +252,8 @@
    */
   function addMenuToggle() {
     $toggle = $('<span class="menu--sub-menu__toggle"></span>');
-    $toggle.appendTo('.menu--sub-menu > .menu__item--has-children');
-    $('.menu--sub-sub-menu').hide();
+    $toggle.appendTo('.menu--main .menu--sub-menu > .menu__item--has-children');
+    $('.menu--main .menu--sub-sub-menu').hide();
 
     $('.menu--sub-menu__toggle').click(function() {
       if (!$(this).parent().hasClass('menu__item--toggle-open')) {

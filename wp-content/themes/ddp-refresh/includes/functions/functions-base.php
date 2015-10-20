@@ -499,11 +499,11 @@ function io_menu_standards($classes, $item) {
   }
 
   if ($item->current_item_ancestor) {
-    $classes[] = 'menu__item-—current-item-ancestor';
+    $classes[] = 'menu__item--current-item-ancestor';
   }
 
   if ($item->current_item_parent) {
-    $classes[] = 'menu__item-—current-item-parent';
+    $classes[] = 'menu__item--current-item-parent';
   }
 
   if (in_array('menu-item-has-children', $origClasses)) {

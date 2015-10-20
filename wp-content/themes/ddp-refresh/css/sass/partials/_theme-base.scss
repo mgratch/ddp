@@ -30,6 +30,15 @@ body {
   color: black !important;
 }
 
+strong {
+  font: {
+    family: $font-alt-medium;
+    size: #{(15/16)}em;
+    weight: normal;
+  }
+
+}
+
 .wrapper {
   width: #{100 - ($wrapperMargin * 2)}#{'%'};
   margin: 0 #{($wrapperMargin)}#{'%'};
@@ -43,6 +52,27 @@ body {
 
 .content-wrap {
   background-color: white;
+  overflow: hidden;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 745px;
+  padding-right: 45px;
+
+  & > * + * {
+    margin-top: #{(15/16)}em;
+  }
+
+  a {
+    color: $color-alt-2;
+    transition: color 0.25s ease;
+
+    &:hover,
+    &:focus {
+      color: darken($color-alt-2, 5%);
+    }
+  }
 }
 
 .content-columned {
@@ -52,6 +82,14 @@ body {
   .menu--main & {
     padding-bottom: 20px;
   }
+}
+
+.content-columned--with-aside {
+  position: relative;
+}
+
+.content-columned--top-offset {
+   margin-top: -35px;
 }
 
 .content-columned__item {
@@ -67,6 +105,42 @@ body {
     padding: {
       right: 15px;
       left: 15px;
+    }
+  }
+
+  .content-columned--with-aside & {
+
+    &:first-child {
+      width: (325/1265)*100%;
+    }
+    &:last-child {
+      width: (940/1265)*100%;
+      padding: {
+        right: 15px;
+        left: 15px;
+      }
+    }
+  }
+
+  .content-columned--top-offset & {
+    position: relative;
+
+    &:first-child {
+      padding-top: 45px;
+    }
+    &:last-child {
+      padding: 15px;
+      background-color: $color-alt-6;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 10000px;
+        background-color: $color-alt-6;
+      }
     }
   }
 

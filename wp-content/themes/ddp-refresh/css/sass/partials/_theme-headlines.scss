@@ -21,7 +21,6 @@
 .headline--page-main {
   @include flex-text(320, 1265, 28, 48);
   line-height: 1;
-  margin-right: 15px;
 
   &:first-child:not(:last-child) {
     padding-bottom: 15px;
@@ -40,6 +39,10 @@
 
 .headline--emphasis {
   font-family: $font-accent-light-italic;
+}
+
+.headline--slab {
+  font-family: $font-alt-light;
 }
 
 .headline--shout {

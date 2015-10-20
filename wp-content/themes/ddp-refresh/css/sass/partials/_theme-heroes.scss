@@ -2,6 +2,7 @@
   position: relative;
   line-height: 0;
   padding-bottom: (526/1265)*100%;
+  overflow: hidden;
 
   @include respond-min(em(1265px)) {
     height: 526px;
@@ -23,7 +24,8 @@
 
 .hero__image {
   position: absolute;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 100%;
   height: auto;
 }
