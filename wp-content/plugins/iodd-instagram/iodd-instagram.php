@@ -69,7 +69,14 @@ class Instagram
 
   public function getFeed()
   {
-    return json_decode($this->cache->get('instagram-feed.json'));
+    $feed = $this->cache->get('instagram-feed.json');
+
+    if (!$feed) {
+      do_action('iodd_instagram_update_feed');
+      $feed = $this->cache->get('instagram-feed.json');
+    }
+
+    return json_decode($feed);
   }
 
 }
