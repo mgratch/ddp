@@ -154,12 +154,28 @@ Template Name: Home Page
 		<div class="content-columned content-columned--3-items">
 			<div class="social-widget content-columned__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-instagram.svg'); ?> Instagram</h4>
-				// Instagram //
+					<?php
+						$strHtml = '';
+
+						$strHtml .= '<ul class="grid grid--instagram">';
+							foreach ($instagramFeed->data as $key => $ipost) {
+								if ($key < 6) {
+									$strHtml .= '<li class="grid__item">';
+										$strHtml .= '<a href="'.$ipost->link.'" target="_blank">';
+											$strHtml .= '<img class="grid__item__image" src="'.$ipost->images->thumbnail->url.'">';
+										$strHtml .= '</a>';
+									$strHtml .= '</li>';
+								}
+							}
+						$strHtml .= '</ul>';
+
+						echo $strHtml;
+					?>
 			</div>
 
 			<div class="social-widget content-columned__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-facebook.svg'); ?> Facebook</h4>
-				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="350" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
+				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="100%" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
 			</div>
 
 			<div class="social-widget content-columned__item">
@@ -229,5 +245,5 @@ Template Name: Home Page
 <?php }, 666 ); ?>
 
 <?php get_footer();
-	// var_dump($homeSlides);
+	// var_dump($instagramFeed);
 ?>

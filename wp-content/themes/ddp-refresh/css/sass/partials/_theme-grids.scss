@@ -3,11 +3,23 @@
   margin: -5px -5px 0;
 }
 
+.grid--instagram {
+  max-width: 375px;
+  margin: -1px -1px 0;
+}
+
 .grid__item {
   padding: 5px;
+  position: relative;
 
   .grid--4-items & {
     width: (1/4)*100% - 0.1%;
+  }
+
+  .grid--instagram & {
+    width: (1/3)*100%;
+    line-height: 0;
+    padding: 1px;
   }
 
   & > * + * {
@@ -47,6 +59,10 @@
   left: 0;
   width: 100%;
   height: auto;
+
+  .grid--instagram & {
+    position: relative;
+  }
 }
 
 .grid__item__content {

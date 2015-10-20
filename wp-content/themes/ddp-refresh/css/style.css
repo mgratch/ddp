@@ -980,48 +980,62 @@ body {
 }
 
 /* line 6, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
-.grid__item {
-  padding: 5px;
+.grid--instagram {
+  max-width: 375px;
+  margin: -1px -1px 0;
 }
 
-/* line 9, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 11, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+.grid__item {
+  padding: 5px;
+  position: relative;
+}
+
+/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--4-items .grid__item {
   width: 24.9%;
 }
 
-/* line 13, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 19, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+.grid--instagram .grid__item {
+  width: 33.3333333333%;
+  line-height: 0;
+  padding: 1px;
+}
+
+/* line 25, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item > * + * {
   margin-top: 15px;
 }
 
-/* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 32, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__title {
   font-size: 1.875rem;
   letter-spacing: -0.25px;
   line-height: 1.0666666667;
 }
 
-/* line 27, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__image-container {
   position: relative;
   line-height: 0;
   overflow: hidden;
 }
 
-/* line 32, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 44, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__image-container {
   padding-bottom: 106.666666667%;
 }
 
 @media screen and (min-width: 79.0625em) {
-  /* line 32, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+  /* line 44, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
   .grid--landing .grid__item__image-container {
     height: 320px;
     padding-bottom: 0;
   }
 }
 
-/* line 42, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 54, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__image {
   position: absolute;
   bottom: 0;
@@ -1030,17 +1044,22 @@ body {
   height: auto;
 }
 
-/* line 52, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 63, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+.grid--instagram .grid__item__image {
+  position: relative;
+}
+
+/* line 68, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__content {
   padding: 0 10px 15px;
 }
 
-/* line 55, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 71, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid__item__content > * + * {
   margin-top: 5px;
 }
 
-/* line 62, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
+/* line 78, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-grids.scss */
 .grid--landing .grid__item__copy {
   font-size: 0.9375rem;
   line-height: 1.3333333333;
