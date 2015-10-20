@@ -66,8 +66,6 @@ function check_url($url){
 class IODDPWalker extends Walker_Nav_Menu
 {
 
-
-
 	function walk( $elements, $max_depth) {
 
 		$menu_elements = array();
@@ -103,20 +101,9 @@ class IODDPWalker extends Walker_Nav_Menu
 
 		}
 
-		//var_dump($childItems);
-		//$split = ceil(count($menu_elements)/2);
 		$strHtml = '';
 
 		foreach($menu_elements as  $item){
-
-// 			if($key == $split) {
-// 				$strHtml .= '</ul><ul class="right-side-menu">';
-// 			}
-// echo '<pre>';
-// 			var_dump($item);
-// 			echo '</pre>';
-
-
 
 			$classes = join(' ',io_menu_standards($item->classes,$item));
 			$strHtml .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'">';
@@ -164,6 +151,134 @@ class IODDPWalker extends Walker_Nav_Menu
 					$strHtml .= '</div>';
 				}
 			$strHtml .= '</li>';
+		}
+
+		return $strHtml;
+	}
+
+}
+
+
+
+/**
+ * Function: get_top_parent_id
+ */
+
+function get_top_parent_id($current_page) {
+	
+	$ancestors = get_ancestors( $current_page->ID, 'page' );
+	$top_parent_id = $current_page->ID;
+	
+	
+	if(!empty($ancestors)){
+		//last entry in the array is the top parent
+		$top_parent_id = $ancestors[(count($ancestors)-1)];
+	} 
+	
+	return $top_parent_id;
+	
+}
+
+
+/**
+ * Function: get_submenu
+ */
+
+function get_submenu($parent_page_id) {
+	//calling walker function to show menu
+	return wp_nav_menu(array('echo'=>false,'theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--side js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODDPSubWalker)); 
+
+
+}
+
+
+// Set sub menu class name
+class IODDPSubWalker extends Walker_Nav_Menu
+{
+
+	function walk( $elements, $max_depth) {
+		global $post;
+		
+		$parent_page_id = get_top_parent_id($post);
+		$menu_elements = array();
+		foreach ($elements as $element) {
+
+			if( $element->menu_item_parent == 0 ){
+
+				$children_items = array();
+				foreach ($elements as $s_element) {
+					if( $element->db_id == $s_element->menu_item_parent){
+						$children_items[] = $s_element;
+					}
+				}
+
+				if(count($children_items) > 0 ){
+					$childItems[$element->db_id] = $children_items;
+				}
+				$menu_elements[] = $element;
+			} else {
+				$children_items = array();
+				foreach ($elements as $s_element) {
+					if( $element->db_id == $s_element->menu_item_parent){
+						$children_items[] = $s_element;
+					}
+				}
+				
+				if(count($children_items) > 0 ){
+					$childItems[$element->menu_item_parent]['sub'][$element->db_id] = $children_items;
+				}
+				
+
+			}
+
+		}
+
+		$strHtml = '';
+
+		foreach($menu_elements as  $item){
+			//only show selected parent tree
+
+			if($item->object_id == $parent_page_id) {
+				$classes = join(' ',io_menu_standards($item->classes,$item));
+				$strHtml .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'">';
+				//hide top parent link
+				//$strHtml .= '<a href="'.$item->url.'" class="menu__link">'.$item->title.'</a>';
+	
+				if (isset($childItems[$item->db_id])) {
+					
+					$strHtml .= '<ul class="menu menu--sub-menu">';
+	
+	
+					$strSubHtml = '';
+					foreach($childItems[$item->db_id] as $key=>$subitem){
+	
+						if($key !== 'sub'){
+							$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
+	
+							
+							$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a>';
+	
+							if (!empty($childItems[$item->db_id]['sub'][$subitem->db_id])) {
+	
+								$strHtml .= '<ul class="menu menu--sub-sub-menu">';
+								foreach($childItems[$item->db_id]['sub'][$subitem->db_id] as $key2=>$subitem2){
+									$classes = join(' ',io_menu_standards($subitem2->classes,$subitem2));
+	
+									$strHtml .= '<li id="menu-'.$subitem2->db_id.'" class="'.$classes.'"><a href="'.$subitem2->url.'" class="menu__link">'.$subitem2->title.'</a></li>';
+								}
+								$strHtml .= '</ul>';
+							}
+	
+						}
+	
+						$strHtml .= '</li>';
+					}
+	
+					$strHtml .= '</ul>';
+					
+				}
+				$strHtml .= '</li>';
+			}
 		}
 
 		return $strHtml;

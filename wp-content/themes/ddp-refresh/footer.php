@@ -1,5 +1,6 @@
 		<?php do_action('legacy_asset_end'); ?>
 		  <div id="footer-push"></div>
+    </main>
     </div>
 		<footer class="footer footer--main">
       <div class="footer__vert-centered-content">
