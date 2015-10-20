@@ -86,7 +86,6 @@
         position: absolute;
         top: 0.55em;
         left: 2px;
-        color: $color-alt-2;
       }
     }
   }
@@ -111,12 +110,13 @@ $current-color: ();
     }
 
     .menu--sub-menu .menu__link:hover,
+    .menu--sub-sub-menu .menu__link:before,
     .menu__item__description {
       color: $current-color;
     }
 
     .menu--sub-menu__toggle:before {
-      border-left-color: lighten($current-color, 25%);
+      border-left-color: lighten($current-color, 15%);
       transition: border-left-color 0.15s ease, transform 0.25s ease;
     }
     .menu__item--toggle-open .menu--sub-menu__toggle:before,
