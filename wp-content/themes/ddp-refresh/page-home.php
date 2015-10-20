@@ -7,6 +7,12 @@ Template Name: Home Page
 	wp_enqueue_script('bxslider');
 	wp_enqueue_script('velocity');
 	wp_enqueue_script('velocity-ui');
+
+	$instagramFeed = [];
+
+	if (class_exists(IODD\Instagram\Instagram::class)) {
+		$instagramFeed = IODD\Instagram\Instagram::load()->getFeed();
+	}
 ?>
 
 	<main>
