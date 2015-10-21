@@ -28,9 +28,9 @@ Template Name: Live Here Interactive
 	<main>
 	  <section class="hero hero--with-content">
 			<div class="<?php echo 'hero__content hero__content--'.$topParentPostMeta['page_color']; ?>">
-				<div class="content-columned content-columned--with-aside">
-					<div class="content-columned__item"></div>
-					<div class="content-columned__item">
+				<div class="table table--with-aside">
+					<div class="table__item"></div>
+					<div class="table__item">
 						<div class="page-content">
 							<h1 class="headline headline--light headline--page-main"><?php the_title(); ?></h1>
 							<?php if (!empty($customMeta['wpcf-subhead'])) {
@@ -42,9 +42,9 @@ Template Name: Live Here Interactive
 			</div>
 			<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
 		</section>
-		<div class="content-columned content-columned--with-aside">
+		<div class="table table--with-aside">
 			<?php// get_sidebar(); ?>
-			<section class="content-columned__item content-columned__item--no-padding">
+			<section class="table__item table__item--no-padding">
 				<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
 			</section><!-- ./SITE-CONTENT -->
 		</div>

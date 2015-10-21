@@ -264,6 +264,18 @@
         $(this).prev('.menu--sub-sub-menu').slideUp(250);
       };
     });
+
+    $('.js-menu-toggle > .menu__link').click(function(e) {
+      e.preventDefault();
+
+      if (!$(this).parent().hasClass('menu__item--toggle-open')) {
+        $(this).parent().addClass('menu__item--toggle-open');
+        $(this).next('.menu--sub-sub-menu').slideDown(250);
+      } else {
+        $(this).parent().removeClass('menu__item--toggle-open');
+        $(this).next('.menu--sub-sub-menu').slideUp(250);
+      };
+    });
   }
 
   // For ddp interactive map by the one and only ritz

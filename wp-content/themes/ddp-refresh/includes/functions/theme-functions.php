@@ -170,8 +170,8 @@ class IODDPWalker extends Walker_Nav_Menu
 
 				if (isset($childItems[$item->db_id])) {
 					$strHtml .= '<div class="menu__flyout">';
-						$strHtml .= '<div class="content-columned content-columned--2-items">';
-							$strHtml .= '<ul class="menu menu--sub-menu content-columned__item">';
+						$strHtml .= '<div class="table table--2-items">';
+							$strHtml .= '<ul class="menu menu--sub-menu table__item">';
 
 
 							$strSubHtml = '';
@@ -182,7 +182,7 @@ class IODDPWalker extends Walker_Nav_Menu
 									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
 
 									if($key == $split) {
-										 $strHtml .= '</ul><ul class="menu menu--sub-menu content-columned__item">';
+										 $strHtml .= '</ul><ul class="menu menu--sub-menu table__item">';
 									}
 									$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a>';
 

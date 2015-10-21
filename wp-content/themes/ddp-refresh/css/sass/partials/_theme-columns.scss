@@ -1,0 +1,13 @@
+.columned-content {
+  list-style: none;
+  padding-left: 0;
+  column-gap: 20px;
+}
+
+.columned-content--2-column {
+  column-count: 2;
+}
+
+.columned-content--3-column {
+  column-count: 3;
+}

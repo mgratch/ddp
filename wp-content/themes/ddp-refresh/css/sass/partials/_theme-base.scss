@@ -36,7 +36,6 @@ strong {
     size: #{(15/16)}em;
     weight: normal;
   }
-
 }
 
 .wrapper {
@@ -77,92 +76,6 @@ strong {
   ol,
   ul {
     padding-left: 25px;
-  }
-}
-
-.content-columned {
-  display: table;
-  width: 100%;
-
-  .menu--main & {
-    padding-bottom: 20px;
-  }
-}
-
-.content-columned--with-aside {
-  position: relative;
-}
-
-.content-columned--top-offset {
-   margin-top: -35px;
-}
-
-.content-columned__item {
-  display: table-cell;
-  vertical-align: top;
-
-  .content-columned--2-items & {
-    width: 50%;
-  }
-
-  .content-columned--3-items & {
-    width: (1/3)*100%;
-    padding: {
-      right: 15px;
-      left: 15px;
-    }
-  }
-
-  .content-columned--with-aside & {
-
-    &:first-child:not(:last-child) {
-      width: (325/1265)*100%;
-    }
-    &:last-child:not(:first-child) {
-      width: (940/1265)*100%;
-      padding: {
-        right: 15px;
-        left: 15px;
-      }
-    }
-    &:first-child:last-child {
-      width: 100%;
-    }
-  }
-
-  .content-columned--top-offset & {
-    position: relative;
-
-    &:first-child:not(:last-child) {
-      padding-top: 45px;
-    }
-    &:last-child {
-      background-color: $color-alt-6;
-
-      &:after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        height: 10000px;
-        background-color: $color-alt-6;
-      }
-    }
-    &:last-child:not(.content-columned__item--no-padding) {
-      padding: 15px;
-    }
-  }
-
-  .menu--main & {
-    padding: 0 30px;
-
-    &:first-child {
-      padding-right: 15px;
-    }
-    &:last-child {
-      padding-left: 15px;
-    }
   }
 }
 
