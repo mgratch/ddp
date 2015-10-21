@@ -28,6 +28,10 @@ class LegacyRouter
       global $post;
       $isLegacy = false;
 
+      if (@$_ENV['DDP_LEGACY_ROUTING'] === false) {
+        return $template;
+      }
+
       // We loose all the incoming template names when we removed the templates
       // from the theme so we do some mapping below.
 
