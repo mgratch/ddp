@@ -51,6 +51,8 @@ function renderSVG($path = false) {
   }
 }
 
+$_ENV['DDP_LEGACY_ROUTING'] = false;
+
 /*
   Plugin Name: Gravity Forms: Add Class To Submit Button
   Plugin URI: http://wordpress.org/extend/plugins/gravityforms-add-class-to-submit/
