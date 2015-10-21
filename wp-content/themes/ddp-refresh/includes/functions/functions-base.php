@@ -94,12 +94,6 @@ function displayNumberedPagination($pagination){
   return $strHTML;
 }
 
-// Allows RoyalSlider to auto update on post save for post sliders *MUST ADD CORRECT SLIDER NUMBER TO TRANSIENT BELOW*
-function rs_clear_cache() {
-  delete_transient( 'new-royalslider-posts-1' );
-}
-add_action( 'save_post', 'rs_clear_cache' );
-
 // Custom excerpt displaying full paragraphs and read more link *user defined number of paragraphs*
 function custom_excerpt_paragraphs($strText, $intParagraphs, $postId){
   preg_match_all('#<p>(.*)</p>#Us', wpautop($strText), $arrPara);
