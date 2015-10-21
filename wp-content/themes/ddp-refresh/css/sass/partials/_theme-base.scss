@@ -115,26 +115,28 @@ strong {
 
   .content-columned--with-aside & {
 
-    &:first-child {
+    &:first-child:not(:last-child) {
       width: (325/1265)*100%;
     }
-    &:last-child {
+    &:last-child:not(:first-child) {
       width: (940/1265)*100%;
       padding: {
         right: 15px;
         left: 15px;
       }
     }
+    &:first-child:last-child {
+      width: 100%;
+    }
   }
 
   .content-columned--top-offset & {
     position: relative;
 
-    &:first-child {
+    &:first-child:not(:last-child) {
       padding-top: 45px;
     }
     &:last-child {
-      padding: 15px;
       background-color: $color-alt-6;
 
       &:after {
@@ -146,6 +148,9 @@ strong {
         height: 10000px;
         background-color: $color-alt-6;
       }
+    }
+    &:last-child:not(.content-columned__item--no-padding) {
+      padding: 15px;
     }
   }
 

@@ -31,7 +31,7 @@
 		</section>
 		<div class="content-columned content-columned--with-aside content-columned--top-offset">
 			<?php get_sidebar(); ?>
-			<section class="content-columned__item site-content">
+			<section class="content-columned__item">
 				<article class="page-content">
 					<?php the_content(); ?>
 				</article>
