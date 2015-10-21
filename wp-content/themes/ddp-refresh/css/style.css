@@ -415,6 +415,74 @@ th {
   border-color: #434040;
 }
 
+/* Grvity Forms Global Overrides
+----------------------------------------*/
+/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_anchor {
+  display: inline;
+}
+
+/* line 24, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper select,
+body .gform_wrapper .ginput_complex select,
+body .gform_wrapper .ginput_complex .ginput_right select,
+body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
+  width: 100% !important;
+  font-size: 1em;
+}
+
+/* line 28, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
+  line-height: 1;
+  padding: 0;
+  border: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+/* line 36, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex {
+  font-size: 0.1px;
+}
+
+/* line 39, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > * {
+  width: 49.9% !important;
+  font-size: 1rem;
+  margin: 0 !important;
+}
+
+/* line 44, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > *:first-of-type {
+  padding-right: 10px;
+}
+
+/* line 47, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > *:last-of-type {
+  padding-left: 10px;
+}
+
+/* line 53, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_footer {
+  padding: 0;
+  margin: 0;
+}
+
+/* line 57, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_footer input.button,
+body .gform_wrapper .gform_footer input[type="submit"] {
+  -webkit-appearance: none;
+  transition: background-color 0.25s ease;
+  border-radius: 0;
+}
+
 /* HTML5 Base styles - Leave As/Is
 -----------------------------------------*/
 /* line 3, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_base-html5.scss */

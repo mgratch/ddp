@@ -51,6 +51,34 @@ function renderSVG($path = false) {
   }
 }
 
+/*
+  Plugin Name: Gravity Forms: Add Class To Submit Button
+  Plugin URI: http://wordpress.org/extend/plugins/gravityforms-add-class-to-submit/
+  Description: Adds a Field to Gravity Forms' Form Settings that lets you add a collection of CSS classes
+  Author: poweredbycoffee
+  Version: 1.0
+  Author URI: http://poweredbycoffee.co.uk
+ */
+add_filter("gform_form_settings", "pbc_gf_add_class_to_button_ui", 10, 2);
+function pbc_gf_add_class_to_button_ui($form_settings, $form){
+
+    $form_settings["Form Button"]["button_class"] = '
+    <tr id="form_button_text_setting" class="child_setting_row" style="' . $text_style_display . '">
+            <th>
+                ' .
+      __( 'Button Class', 'gravityforms' ) . ' ' .
+      gform_tooltip( 'form_button_class', '', true ) .
+      '
+    </th>
+    <td>
+      <input type="text" id="form_button_text_class" name="form_button_text_class" class="fieldwidth-3" value="' . esc_attr( rgars( $form, 'button/class' ) ) . '" />
+            </td>
+        </tr>';
+
+    return $form_settings;
+
+}
+
 // Check url
 function check_url($url){
 	if(!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url)){
@@ -59,8 +87,6 @@ function check_url($url){
 
 	return $url;
 }
-
-
 
 // Set sub menu class name
 class IODDPWalker extends Walker_Nav_Menu
@@ -189,7 +215,6 @@ function get_submenu($parent_page_id) {
 	return wp_nav_menu(array('echo'=>false,'theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--side', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODDPSubWalker));
 }
 
-
 // Set sub menu class name
 class IODDPSubWalker extends Walker_Nav_Menu
 {
@@ -225,10 +250,7 @@ class IODDPSubWalker extends Walker_Nav_Menu
 				if(count($children_items) > 0 ){
 					$childItems[$element->menu_item_parent]['sub'][$element->db_id] = $children_items;
 				}
-
-
 			}
-
 		}
 
 		$strHtml = '';
@@ -268,5 +290,4 @@ class IODDPSubWalker extends Walker_Nav_Menu
 
 		return $strHtml;
 	}
-
 }
