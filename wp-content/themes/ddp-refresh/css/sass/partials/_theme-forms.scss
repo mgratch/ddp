@@ -19,3 +19,23 @@
   width: 100%;
   padding-right: 5px;
 }
+
+body .gform_wrapper {
+
+  #{$fields} {
+    @extend .form__input;
+  }
+
+  .gfield_label {
+    font: {
+      family: $font-accent-medium;
+      size: rem(14px);
+      weight: normal !important;
+    }
+    margin-bottom: 0 !important;
+  }
+
+  .gform_footer {
+    margin-top: 0.625em;
+  }
+}

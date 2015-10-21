@@ -181,7 +181,6 @@ $current-color: ();
   .menu__item--color-#{$i} {
 
     .menu--sub-menu > .menu__item:hover,
-    .menu--main > &.menu__item--current-item-ancestor,
     &:hover {
       border-bottom-color: $current-color;
     }
