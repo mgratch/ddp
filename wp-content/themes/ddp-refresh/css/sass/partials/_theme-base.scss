@@ -73,9 +73,9 @@ strong {
     }
   }
 
-  ol,
-  ul {
-    padding-left: 25px;
+  ol:not(.columned-content),
+  ul:not(.columned-content) {
+    padding-left: 15px;
   }
 }
 

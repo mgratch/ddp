@@ -857,15 +857,22 @@ body {
 .columned-content {
   list-style: none;
   padding-left: 0;
-  column-gap: 20px;
+  column-gap: 30px;
 }
 
-/* line 7, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
+/* line 6, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
+.columned-content > * {
+  break-inside: avoid;
+  line-height: 1.2;
+  padding: 6px 0;
+}
+
+/* line 13, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
 .columned-content--2-column {
   column-count: 2;
 }
 
-/* line 11, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
+/* line 17, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
 .columned-content--3-column {
   column-count: 3;
 }
@@ -1308,9 +1315,9 @@ strong {
 }
 
 /* line 76, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
-.page-content ol,
-.page-content ul {
-  padding-left: 25px;
+.page-content ol:not(.columned-content),
+.page-content ul:not(.columned-content) {
+  padding-left: 15px;
 }
 
 /* line 82, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
