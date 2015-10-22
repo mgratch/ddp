@@ -252,9 +252,17 @@
    */
   function addMenuToggle() {
     var $toggle = $('<span class="menu--sub-menu__toggle"></span>');
+    var $current = $('.menu--sub-sub-menu > .menu__item--current');
+    var $currentParent = $current.parents('.menu__item--current-item-parent');
+    var $currentMenu = $currentParent.find('.menu--sub-sub-menu');
 
-    $toggle.appendTo('.menu--main .menu--sub-menu > .menu__item--has-children');
-    $('.menu--main .menu--sub-sub-menu').hide();
+    $toggle.appendTo('.menu--sub-menu > .menu__item--has-children, .menu--side > .menu__item--has-children');
+    $('.menu--sub-sub-menu').hide();
+
+    if (Boolean($current.length)) {
+      $currentParent.addClass('menu__item--toggle-open');
+      $currentMenu.show();
+    };
 
     $('.js-menu-toggle > .menu__link, .menu--sub-menu__toggle').click(function(e) {
       e.preventDefault();

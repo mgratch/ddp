@@ -82,3 +82,24 @@ strong {
 .social-widget {
   padding-bottom: 30px;
 }
+
+// Tribe Events Overrides
+  .tribe-events-page-title {
+    width: 100%;
+    font-size: rem(28px) !important;
+    line-height: (38/36);
+    text-align: left !important;
+    color: white;
+    padding: 9px;
+    background-color: $color-alt-5;
+  }
+
+  .tribe-events-loop .tribe-events-event-meta {
+    font: {
+      family: $font-alt-medium;
+      size: rem(15px) !important;
+      weight: normal !important;
+    }
+  }
+
+// END Tribe Events Overrides
