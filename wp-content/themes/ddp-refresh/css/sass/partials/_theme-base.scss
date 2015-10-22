@@ -38,6 +38,20 @@ strong {
   }
 }
 
+.link {
+  color: $color-alt-2;
+  transition: color 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: darken($color-alt-2, 5%);
+  }
+}
+
+.link--no-underline {
+  text-decoration: none;
+}
+
 .wrapper {
   width: #{100 - ($wrapperMargin * 2)}#{'%'};
   margin: 0 #{($wrapperMargin)}#{'%'};
@@ -55,26 +69,23 @@ strong {
 }
 
 .page-content {
-  width: 100%;
-  max-width: 745px;
-  padding-right: 45px;
 
-  & > * + * {
+  & > *:not(.tabs):not(.tab__content) {
+    width: 100%;
+    max-width: 745px;
+    padding-right: 45px;
+  }
+
+  & > * + *:not(.post-meta):not(.tab__content) {
     margin-top: #{(15/16)}em;
   }
 
   a {
-    color: $color-alt-2;
-    transition: color 0.25s ease;
-
-    &:hover,
-    &:focus {
-      color: darken($color-alt-2, 5%);
-    }
+    @extend .link;
   }
 
-  ol:not(.columned-content),
-  ul:not(.columned-content) {
+  ol:not(.columned-content):not(.tabs):not(.tab__content),
+  ul:not(.columned-content):not(.tabs):not(.tab__content) {
     padding-left: 15px;
   }
 }
@@ -83,7 +94,16 @@ strong {
   padding-bottom: 30px;
 }
 
+.post-meta {
+  margin-top: 5px;
+}
+
 // Tribe Events Overrides
+  #tribe-events-pg-template {
+    max-width: 745px !important;
+    margin: 0 !important;
+  }
+
   .tribe-events-page-title {
     width: 100%;
     font-size: rem(28px) !important;
@@ -94,12 +114,44 @@ strong {
     background-color: $color-alt-5;
   }
 
+  .tribe-events-list-separator-month {
+    font: {
+      family: $font-alt-medium;
+      size: u(1rem) !important;
+      weight: normal !important;
+    }
+    color: $color-alt-7;
+    padding-left: 0 !important;
+    background-color: transparent !important;
+    border-bottom: solid 1px $color-alt-7;
+  }
+
+  .tribe-events-list .type-tribe_events {
+    padding-top: 15px !important;
+  }
+  .tribe-events-list .type-tribe_events:not(:last-child) {
+    padding-bottom: 0 !important;
+  }
+
+  .tribe-events-list-event-title {
+    font: {
+      family: $font-alt-medium;
+      size: rem(26px) !important;
+      weight: normal !important;
+    }
+  }
+
   .tribe-events-loop .tribe-events-event-meta {
     font: {
       family: $font-alt-medium;
       size: rem(15px) !important;
       weight: normal !important;
     }
+  }
+
+  .tribe-events-single-event-title,
+  .tribe-events-schedule h3 {
+    font-weight: normal;
   }
 
 // END Tribe Events Overrides

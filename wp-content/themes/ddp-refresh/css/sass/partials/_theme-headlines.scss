@@ -1,36 +1,11 @@
 .headline {
-  font: {
-    family: $font-accent-medium;
-    weight: normal;
-  }
+  font-weight: normal;
+  line-height: (33/30);
   margin: 0;
 }
 
-.headline--carousel {
-  font-size: #{(69/24)}em;
-  letter-spacing: -3px;
-  color: white;
-}
-
-.headline--social-widget {
-  font-size: rem(20px);
-  letter-spacing: -0.5px;
-  margin: 20px 0 5px;
-}
-
-.headline--page-main {
-  @include flex-text(320, 1265, 28, 48);
-  line-height: 1;
-
-  &:first-child:not(:last-child) {
-    padding-bottom: 15px;
-    border-bottom: solid 1px;
-    margin-bottom: 25px;
-  }
-}
-
-.headline--page-sub {
-  @include flex-text(320, 1265, 16, 18);
+.headline:not(.headline--light):not(.headline--emphasis):not( .headline--slab):not(.headline--slab-light) {
+  font-family: $font-accent-medium;
 }
 
 .headline--light {
@@ -60,6 +35,57 @@
     vertical-align: text-top;
     margin-right: 5px;
   }
+}
+
+.headline--size-x-large {
+  font-size: rem(36px);
+}
+
+.headline--size-large {
+  font-size: rem(30px);
+}
+
+.headline--size-medium {
+  font-size: rem(26px);
+}
+
+.headline--size-small {
+  font-size: rem(20px);
+}
+
+.headline--size-x-small {
+  font-size: rem(15px);
+}
+
+.headline--size-xx-small {
+  font-size: rem(12px);
+}
+
+.headline--carousel {
+  font-size: #{(69/24)}em;
+  letter-spacing: -3px;
+  color: white;
+}
+
+.headline--social-widget {
+  font-size: rem(20px);
+  letter-spacing: -0.5px;
+  margin: 20px 0 5px;
+}
+
+.headline--page-main {
+  @include flex-text(320, 1265, 28, 48);
+  line-height: 1;
+
+  &:first-child:not(:last-child) {
+    padding-bottom: 15px;
+    border-bottom: solid 1px;
+    margin-bottom: 25px;
+  }
+}
+
+.headline--page-sub {
+  @include flex-text(320, 1265, 16, 18);
 }
 
 .headline--section-divide {

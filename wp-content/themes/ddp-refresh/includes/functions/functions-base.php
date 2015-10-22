@@ -99,7 +99,7 @@ function custom_excerpt_paragraphs($strText, $intParagraphs, $postId){
   preg_match_all('#<p>(.*)</p>#Us', wpautop($strText), $arrPara);
   $arrShown = array_slice($arrPara[0], 0, ($intParagraphs));
 //For ...more inline directly after paragraph
-  $arrShown[count($arrShown)-1] = str_replace("</p>","<a href='".get_permalink($postId). "' class='custom_excerpt_read_more'> …more</a></p>" , $arrShown[count($arrShown)-1]);
+  $arrShown[count($arrShown)-1] = str_replace("</p>"," <a href='".get_permalink($postId). "' class='custom_excerpt_read_more'>…more</a></p>" , $arrShown[count($arrShown)-1]);
 //For Read more in a new paragraph after paragraph
   //$arrShown[count($arrShown)-1] = str_replace("</p>","</p><a class='read-more-link' href='".get_permalink($postId). "'>Read more</a>" , $arrShown[count($arrShown)-1]);
   return implode("", $arrShown);
@@ -125,7 +125,7 @@ function get_custom_excerpt( $post, $limit, $read_more_text = 'Read More' )
   $excerpt = preg_replace('`\[[^\]]*\]`','',$excerpt);
 
   if( $read_more_text ) {
-    $excerpt .= '<a class="read-more" href="'.get_permalink().'">'.$read_more_text.'</a>';
+    $excerpt .= ' <a class="read-more link link--no-underline" href="'.get_permalink().'">'.$read_more_text.'</a>';
   }
 
   return apply_filters('the_content',$excerpt);
@@ -139,7 +139,7 @@ add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
 // Default excerpt read more link
 function new_excerpt_more( $more ) {
-  return '<a href="'. get_permalink() . '"> …more</a>';
+  return ' <a class="link link--no-underline" href="'. get_permalink() . '">[&hellip;]</a>';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 

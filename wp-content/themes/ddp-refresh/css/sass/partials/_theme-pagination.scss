@@ -1,0 +1,16 @@
+.pagination-links {
+  padding: 20px 0;
+
+  a {
+    text-decoration: none;
+  }
+
+  .page-numbers {
+    padding: 0 7px;
+
+    &.current {
+      color: $color-alt-2;
+      text-decoration: underline;
+    }
+  }
+}
