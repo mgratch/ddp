@@ -1,56 +1,79 @@
-<?php get_header(); ?>
+<?php get_header();
+	$customMeta = clean_meta( get_post_custom($post->ID) );
 
-	<section class="main">
-		<div class="wrapper">
-				<section class="site-content">
-				<?php if (have_posts()) : ?>
+	$topParentPostMeta = $customMeta;
+	$topParentPostID = $post->ID;
+	$topParentTitle = get_the_title();
 
-				<?php $post = $posts[0]; // hack: set $post so that the_date() works ?>
-				<?php if (is_category()) { ?>
-				<h1>Archive for the &ldquo;<?php single_cat_title(); ?>&rdquo; Category</h1>
+	if($post->post_parent != 0){
+		$topParentPostID = get_top_parent_id($post);
+		$topParentPostMeta =  clean_meta(get_post_custom($topParentPostID));
+		$topParentTitle = get_the_title($topParentPostID);
+	}
+?>
 
-				<?php } elseif(is_tag()) { ?>
-				<h1>Posts Tagged &ldquo;<?php single_tag_title(); ?>&rdquo;</h1>
+	<main>
+		<?php if (have_posts()) : ?>
+			<section class="hero hero--with-content">
+				<div class="<?php echo 'hero__content hero__content--'.$topParentPostMeta['page_color']; ?>">
+					<div class="table table--with-aside">
+						<div class="table__item"></div>
+						<div class="table__item">
+							<div class="page-content">
+								<?php $post = $posts[0]; // hack: set $post so that the_date() works ?>
+								<?php if (is_category()) { ?>
+									<h1 class="headline headline--light headline--page-main"><?php single_cat_title(); ?></h1>
 
-				<?php } elseif (is_day()) { ?>
-				<h1>Archive for <?php the_time('F jS, Y'); ?></h1>
+								<?php } elseif(is_tag()) { ?>
+									<h1>Posts Tagged &ldquo;<?php single_tag_title(); ?>&rdquo;</h1>
 
-				<?php } elseif (is_month()) { ?>
-				<h1>Archive for <?php the_time('F, Y'); ?></h1>
+								<?php } elseif (is_day()) { ?>
+									<h1 class="headline headline--light headline--page-main">Archive for <?php the_time('F jS, Y'); ?></h1>
 
-				<?php } elseif (is_year()) { ?>
-				<h1>Archive for <?php the_time('Y'); ?></h1>
+								<?php } elseif (is_month()) { ?>
+									<h1 class="headline headline--light headline--page-main">Archive for <?php the_time('F, Y'); ?></h1>
 
-				<?php } elseif (is_author()) { ?>
-				<h1>Author Archive</h1>
+								<?php } elseif (is_year()) { ?>
+									<h1 class="headline headline--light headline--page-main">Archive for <?php the_time('Y'); ?></h1>
 
-				<?php } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-				<h1>Blog Archives</h1>
+								<?php } elseif (is_author()) { ?>
+									<h1 class="headline headline--light headline--page-main">Author Archive</h1>
 
-			<?php } ?>
-			<?php while (have_posts()) : the_post(); ?>
+								<?php } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
+									<h1 class="headline headline--light headline--page-main">Blog Archives</h1>
 
-				<article id="post-<?php the_ID(); ?>">
-					<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-						<p>Posted on <?php the_time('F jS, Y'); ?> by <?php the_author(); ?></p>
-					
-						<?php the_excerpt(); ?>
+								<?php } ?>
+								<?php if (!empty($customMeta['wpcf-subhead'])) {
+									echo '<div class="headline headline--page-sub headline--emphasis">'.$customMeta['wpcf-subhead'].'</div>';
+								} ?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
+			</section>
 
-						<p><?php the_tags('Tags: ', ', ', '<br>'); ?> Posted in <?php the_category(', '); ?> &bull; <?php edit_post_link('Edit', '', ' &bull; '); ?> <?php comments_popup_link('Respond to this post &raquo;', '1 Response &raquo;', '% Responses &raquo;'); ?></p>
-				</article>
+			<div class="table table--with-aside table--top-offset">
+				<?php get_sidebar(); ?>
+				<section class="table__item">
+					<?php while (have_posts()) : the_post(); ?>
+						<article id="post-<?php the_ID(); ?>" class="page-content">
+							<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+							<p>Posted on <?php the_time('F jS, Y'); ?></p>
 
-				<?php endwhile; ?>
+							<?php the_excerpt(); ?>
 
-				<?php else : ?>
-
-				<article>
-					<h1>Not Found</h1>
-					<p>Sorry, but the requested resource was not found on this site.</p>
-					<?php get_search_form(); ?>
-				</article>
-				<?php endif; ?>
-			</section><!-- ./SITE-CONTENT -->
-<?php get_sidebar(); ?>
-		</div><!-- ./WRAPPER -->
-	</section><!-- ./SECTION-MAIN -->
+							<p><?php the_tags('Tags: ', ', ', '<br>'); ?> Posted in <?php the_category(', '); ?> &bull; <?php edit_post_link('Edit', '', ' &bull; '); ?> <?php comments_popup_link('Respond to this post &raquo;', '1 Response &raquo;', '% Responses &raquo;'); ?></p>
+						</article>
+					<?php endwhile; ?>
+					<?php else : ?>
+									<article>
+								<h1>Not Found</h1>
+								<p>Sorry, but the requested resource was not found on this site.</p>
+								<?php get_search_form(); ?>
+							</article>
+					</section><!-- ./SITE-CONTENT -->
+				</div>
+		<?php endif; ?>
+	</main><!-- ./SECTION-MAIN -->
 <?php get_footer(); ?>

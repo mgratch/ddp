@@ -42,7 +42,7 @@ Template Name: Live Here Interactive
 			</div>
 			<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
 		</section>
-		<div class="table table--with-aside">
+		<div class="table table--with-aside table--top-offset">
 			<?php// get_sidebar(); ?>
 			<section class="table__item table__item--no-padding">
 				<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
