@@ -230,17 +230,12 @@ function get_top_parent_id($current_page) {
 	$ancestors = get_ancestors( $current_page->ID, 'page' );
 	$top_parent_id = $current_page->ID;
 
-
 	if(!empty($ancestors)){
 		//last entry in the array is the top parent
 		$top_parent_id = $ancestors[(count($ancestors)-1)];
 	}
 
-
-
-
 	return $top_parent_id;
-
 }
 
 
@@ -336,3 +331,98 @@ class IODDPSubWalker extends Walker_Nav_Menu
 		return $strHtml;
 	}
 }
+
+class ContentHeadingShortcodes
+{
+  protected $sizes = [
+    [
+      'code' => 'x-large',
+      'element' => 'h1'
+    ],
+    [
+      'code' => 'large',
+      'element' => 'h2'
+    ],
+    [
+      'code' => 'medium',
+      'element' => 'h3'
+    ],
+    [
+      'code' => 'small',
+      'element' => 'h4'
+    ],
+    [
+      'code' => 'x-small',
+      'element' => 'h5'
+    ],
+    [
+      'code' => 'xx-small',
+      'element' => 'h6'
+    ],
+  ];
+
+  protected $colors = [
+    'dark-blue'  => 'color-1',
+    'light-blue' => 'color-2',
+    'teal'       => 'color-3',
+    'lemon'      => 'color-4',
+    'orange'     => 'color-5',
+  ];
+
+  public function __construct()
+  {
+    $this->actions();
+  }
+
+  public function actions()
+  {
+    $this->registerShortcodes();
+  }
+
+  public function getHigestAncestorID($postID, $postType = 'page')
+  {
+    $ancestors = get_ancestors($postID, $postType);
+
+  	if (!empty($ancestors)) {
+  		//last entry in the array is the top parent
+  		$postID = $ancestors[(count($ancestors)-1)];
+  	}
+
+  	return $postID;
+  }
+
+  public function registerShortcodes()
+  {
+    foreach ($this->sizes as $size) {
+      add_shortcode($size['code'], function($atts = [], $content = null) use ($size) {
+        // need to make sure atts is an array (default is empty string)
+        $atts = ($atts == '' ? [] : $atts);
+
+        // set defaults
+        $atts = array_merge([
+          'element' => $size['element']
+        ], $atts);
+
+        global $post;
+
+        // Setup color class to reference the top level parent meta
+        $colorClass = null;
+        $ancestor = $this->getHigestAncestorID($post->ID);
+        $ancestorMeta = get_post_custom($ancestor);
+
+        if (!empty($ancestorMeta['page_color'][0])) {
+          $colorClass = 'headline--'. $ancestorMeta['page_color'][0];
+        }
+
+        // Process color override
+        if (!empty($atts['color']) && array_key_exists($atts['color'], $this->colors)) {
+          $colorClass = 'headline--'. $this->colors[$atts['color']];
+        }
+
+        return '<'.$atts['element'].' class="headline headline--slab headline--size-'.$size['code'].' '.$colorClass.'">'.$content.'</'.$atts['element'].'>';
+      });
+    }
+  }
+}
+
+new ContentHeadingShortcodes;
