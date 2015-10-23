@@ -178,6 +178,7 @@
 
   .menu__link {
     display: inline-block;
+    position: relative;
     text-decoration: none;
     color: black;
     padding: {
@@ -188,8 +189,14 @@
     margin-left: 34px;
   }
 
-  .menu--sub-sub-menu .menu__link:before {
-    content: '\02014\0020';
+  .menu--sub-sub-menu .menu__link {
+    padding-left: 1.2em;
+
+    &:before {
+      content: '\02014';
+      position: absolute;
+      left: 0;
+    }
   }
 }
 

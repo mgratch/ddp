@@ -70,10 +70,9 @@ strong {
 
 .page-content {
 
-  & > *:not(.tabs):not(.tab__content) {
+  & > *:not(.tabs):not(.tab__content):not(.map-container) {
     width: 100%;
-    max-width: 745px;
-    padding-right: 45px;
+    max-width: 700px;
   }
 
   & > * + *:not(.post-meta):not(.tab__content) {
@@ -84,10 +83,21 @@ strong {
     @extend .link;
   }
 
-  ol:not(.columned-content):not(.tabs):not(.tab__content),
-  ul:not(.columned-content):not(.tabs):not(.tab__content) {
-    padding-left: 15px;
+  ol:not(.columned-content):not(.tabs):not(.tab__content) {
+    padding-left: 20px;
   }
+
+  ul:not(.columned-content):not(.tabs):not(.tab__content):not(.gform_fields) {
+    padding-left: 16px;
+  }
+}
+
+.photo-credit {
+  font: {
+    family: $font-accent-light-italic;
+    size: rem(12px);
+  }
+  color: $color-alt-7;
 }
 
 .social-widget {
@@ -97,6 +107,39 @@ strong {
 .post-meta {
   margin-top: 5px;
 }
+
+// Legacy Hacks
+  .landing-page-listing {
+    @extend .clearfix;
+    padding-bottom: 15px;
+
+    *:not(.landing-page-listing) + & {
+      padding-top: 15px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $color-alt-7;
+    }
+
+    & > *:first-child {
+      float: left;
+      line-height: 0;
+      margin-right: 20px;
+    }
+    & > *:not(:first-child) {
+      overflow: hidden;
+    }
+
+    h5 {
+      @extend .headline--slab-light, .headline--size-small;
+      font-weight: normal;
+
+      a {
+        @extend .link--no-underline;
+      }
+    }
+  }
+// END Legacy Hacks
 
 // Tribe Events Overrides
   #tribe-events-pg-template {
