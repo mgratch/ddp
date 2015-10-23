@@ -1,0 +1,13 @@
+{
+    "name": "iodd/commands",
+    "require": {
+        "nategood/commando": "^0.2.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TJ Miller",
+            "email": "tjmiller@evolveinsideout.com"
+        }
+    ]
+}
