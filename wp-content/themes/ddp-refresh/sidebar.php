@@ -1,4 +1,4 @@
-<aside class="aside aside--main content-columned__item">
+<aside class="aside aside--main table__item">
 	<ul>
     <?php
       global $topParentTitle, $topParentPostID, $topParentPostMeta;

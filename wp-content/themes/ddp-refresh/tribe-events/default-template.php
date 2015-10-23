@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
  get_header(); ?>
-	<?php 
+	<?php
 	//have to spoof the events
 	$eventParentData = get_content_by_slug('events-placeholder',true);
-	
+
 	if (!empty($eventParentData)){
 
 
@@ -34,9 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<main>
 		<section class="hero hero--with-content">
 			<div class="<?php echo 'hero__content hero__content--'.$topParentPostMeta['page_color']; ?>">
-				<div class="content-columned content-columned--with-aside">
-					<div class="content-columned__item"></div>
-					<div class="content-columned__item">
+				<div class="table table--with-aside">
+					<div class="table__item"></div>
+					<div class="table__item">
 						<div class="page-content">
 							<h1 class="headline headline--light headline--page-main"><?php echo $topParentTitle; ?></h1>
 							<?php if (!empty($customMeta['wpcf-subhead'])) {
@@ -48,9 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<?php echo wp_get_attachment_image( get_post_thumbnail_id($topParentPostID), 'full', '', array('class'=>'hero__image')); ?>
 		</section>
-		<div class="content-columned content-columned--with-aside content-columned--top-offset">
+		<div class="table table--with-aside table--top-offset">
 			<?php get_sidebar(); ?>
-			<section class="content-columned__item site-content">
+			<section class="table__item site-content">
 				<article class="page-content">
 	 			<div id="tribe-events-pg-template">
 
@@ -64,5 +64,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</main>
 	<?php } ?>
 <?php get_footer();
-	
+
 ?>

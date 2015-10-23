@@ -112,8 +112,6 @@
   display: block;
   position: absolute;
   top: 0;
-  right: 0;
-  padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
   cursor: pointer;
 
   &:before {
@@ -125,10 +123,31 @@
     transform: translate(-50%, -50%) rotate(0deg);
     width: 0;
     height: 0;
-    border: {
-      top: solid 5px transparent;
-      bottom: solid 5px transparent;
-      left: solid 8px;
+  }
+
+  .menu--main & {
+    right: 0;
+    padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
+
+    &:before {
+      border: {
+        top: solid 5px transparent;
+        bottom: solid 5px transparent;
+        left: solid 8px;
+      }
+    }
+  }
+
+  .menu--side & {
+    left: 0;
+    padding: #{(19.44/16)}em #{(19.44/16)}em;
+
+    &:before {
+      border: {
+        top: solid 4px transparent;
+        bottom: solid 4px transparent;
+        left: solid 6px;
+      }
     }
   }
 
@@ -147,9 +166,10 @@
 }
 
 .menu--side {
-  padding: 10px 10px 10px 45px;
+  padding: 10px 10px 10px 12px;
 
   .menu__item {
+    position: relative;
     font: {
       family: $font-accent-light;
       size: rem(14px);
@@ -157,7 +177,8 @@
   }
 
   .menu__link {
-    display: block;
+    display: inline-block;
+    position: relative;
     text-decoration: none;
     color: black;
     padding: {
@@ -165,10 +186,17 @@
       bottom: 8px;
     }
     transition: color 0.25s ease;
+    margin-left: 34px;
   }
 
-  .menu--sub-sub-menu .menu__link:before {
-    content: '\02014\0020';
+  .menu--sub-sub-menu .menu__link {
+    padding-left: 1.2em;
+
+    &:before {
+      content: '\02014';
+      position: absolute;
+      left: 0;
+    }
   }
 }
 
@@ -213,5 +241,17 @@ $current-color: ();
     .menu__link:hover {
       color: $current-color;
     }
+
+    .menu--sub-menu__toggle:before {
+      border-left-color: lighten($current-color, 15%);
+      transition: border-left-color 0.15s ease, transform 0.25s ease;
+    }
+    .menu__item--toggle-open .menu--sub-menu__toggle:before,
+    .menu--sub-menu__toggle:hover:before {
+      border-left-color: $current-color;
+    }
   }
 }
+
+
+

@@ -14,6 +14,10 @@ $plugin_url = plugin_dir_url( __FILE__ );
 function print_map($atts){
 	global $plugin_path, $plugin_url;
 
+	wp_enqueue_script('velocity');
+	wp_enqueue_script('velocity-ui');
+	
+	
 	extract( shortcode_atts( array(
 		'width' => '800px',
 		'height' => '650px',
@@ -32,18 +36,21 @@ function print_map($atts){
 
 
 		if($show_table != null){
-			$html .= '<ul class="nav nav-tabs">';
-			$html .= '<li class="active"><a href="#int-map" data-toggle="tab">Map</a></li>';
-			$html .= '<li><a href="#data" data-toggle="tab">Data</a></li>';
+			$html .= '<ul class="tabs tabs--landing">';
+			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Map</span></li>\n";
+			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Data</span></li>\n";
 			$html .= '</ul>';
-			$html .= '<div class="tab-content">';
-			$html .= '<div id="int-map" class="tab-pane active fade in">';
+		//	$html .= '<div class="tab-content">';
+			$html .= '<div id="int-map" class="tab__content js-tab-content">';
 		}
 		$html .= '<div class="map-container"><div class="map-wrapper"><div id="map-canvas" style="width:'.$width.'; height:'.$height.';"></div></div>';
 		if($category == 'all'){
 			$html .= '<div class="info-overlay"><div class="links"><a href="#" class="active" id="Attractions">Attractions</a><a href="#" class="active" id="FoodBars">Food &amp; Bars</a><a href="#" class="active" id="Lighthouse">Project Lighthouse</a><a href="#" class="active" id="Shopping">Shopping</a></div>';
 		}
-		$html .= '</div></div>';
+		//$html .= '</div></div>';
+		$html .= '</div>';
+		
+		
 		$html .= '<script type="text/javascript">';
 
 		$html .= 'var dataObj = {
@@ -76,10 +83,10 @@ function print_map($atts){
 		});
 
 	    </script>';
-
+		$html .= '</div>';
 	    if($show_table != null){
-	    	$html .= '</div>';
-			$html .= '<div id="data" class="tab-pane fade">';
+	    	
+			$html .= '<div id="data" class="tab__content js-tab-content">';
 
 			$html .= '<table class="map-table">';
 			$html .= '<thead><tr>';
@@ -105,8 +112,40 @@ function print_map($atts){
 
 			$html .= '</table>';
 			$html .= '</div>';
-			$html .= '</div>';
+			//$html .= '</div>';
 	    }
+	    
+	    add_action( 'wp_footer', function() { ?>
+	    
+	    	<script type="text/javascript">
+	    
+	    		jQuery(function($) {
+	    			/**
+	    		   * Control tab switching
+	    		   */
+	    		  (function tabSwitching() {
+	    		    $('.js-tab').eq(0).addClass('tab--active');
+	    		    $('.js-tab-content').not(':eq(0)').hide();
+	    
+	    		    $('.js-tab').click(function() {
+	    
+	    		      if (!$(this).hasClass('tab--active')) {
+	    		      	$('.js-tab').removeClass('tab--active');
+	    		      	$(this).addClass('tab--active');
+	    
+	    		      	$('.js-tab-content').hide();
+	    			      $('.js-tab-content').eq( $(this).index('.js-tab') ).velocity('transition.slideDownIn', {
+	    			      	duration: 450
+	    			      });
+	    		      }
+	    		    });
+	    		  })();
+	    
+	    		
+	      	});
+	    	</script>
+	    
+	    <?php }, 666 ); 
 
 	    return $html;
 	}else{

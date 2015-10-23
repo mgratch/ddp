@@ -51,6 +51,8 @@ function renderSVG($path = false) {
   }
 }
 
+$_ENV['DDP_LEGACY_ROUTING'] = false;
+
 /*
   Plugin Name: Gravity Forms: Add Class To Submit Button
   Plugin URI: http://wordpress.org/extend/plugins/gravityforms-add-class-to-submit/
@@ -170,8 +172,8 @@ class IODDPWalker extends Walker_Nav_Menu
 
 				if (isset($childItems[$item->db_id])) {
 					$strHtml .= '<div class="menu__flyout">';
-						$strHtml .= '<div class="content-columned content-columned--2-items">';
-							$strHtml .= '<ul class="menu menu--sub-menu content-columned__item">';
+						$strHtml .= '<div class="table table--2-items">';
+							$strHtml .= '<ul class="menu menu--sub-menu table__item">';
 
 
 							$strSubHtml = '';
@@ -182,7 +184,7 @@ class IODDPWalker extends Walker_Nav_Menu
 									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
 
 									if($key == $split) {
-										 $strHtml .= '</ul><ul class="menu menu--sub-menu content-columned__item">';
+										 $strHtml .= '</ul><ul class="menu menu--sub-menu table__item">';
 									}
 									$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a>';
 
@@ -234,6 +236,9 @@ function get_top_parent_id($current_page) {
 		$top_parent_id = $ancestors[(count($ancestors)-1)];
 	}
 
+	
+		
+	
 	return $top_parent_id;
 
 }
@@ -253,9 +258,16 @@ class IODDPSubWalker extends Walker_Nav_Menu
 {
 
 	function walk( $elements, $max_depth) {
-		global $post;
+		global $post,$topParentTitle;
 
+		
 		$parent_page_id = get_top_parent_id($post);
+	
+		//crappy solution for Events side menu
+		$strEventParentTitle = 'Events';
+		$strEventParentMenuTitle = 'Upcoming Events';
+	
+		
 		$menu_elements = array();
 		foreach ($elements as $element) {
 
@@ -290,8 +302,8 @@ class IODDPSubWalker extends Walker_Nav_Menu
 
 		foreach($menu_elements as  $item){
 			//only show selected parent tree
-
-			if($item->object_id == $parent_page_id) {
+			
+			if($item->object_id == $parent_page_id || ($topParentTitle == $strEventParentTitle && $item->title == $strEventParentMenuTitle) ) {
 				$classes = join(' ',io_menu_standards($item->classes,$item));
 
 				if (isset($childItems[$item->db_id])) {

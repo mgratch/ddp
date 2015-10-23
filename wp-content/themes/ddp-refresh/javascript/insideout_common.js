@@ -251,17 +251,31 @@
    * Adds menu toggle to sub-menu items with children
    */
   function addMenuToggle() {
-    $toggle = $('<span class="menu--sub-menu__toggle"></span>');
-    $toggle.appendTo('.menu--main .menu--sub-menu > .menu__item--has-children');
-    $('.menu--main .menu--sub-sub-menu').hide();
+    var $toggle = $('<span class="menu--sub-menu__toggle"></span>');
+    var $current = $('.menu--sub-sub-menu > .menu__item--current');
+    var $currentParent = $current.parents('.menu__item--current-item-parent');
+    var $currentMenu = $currentParent.find('.menu--sub-sub-menu');
 
-    $('.menu--sub-menu__toggle').click(function() {
-      if (!$(this).parent().hasClass('menu__item--toggle-open')) {
-        $(this).parent().addClass('menu__item--toggle-open');
-        $(this).prev('.menu--sub-sub-menu').slideDown(250);
+    $toggle.appendTo('.menu--sub-menu > .menu__item--has-children, .menu--side > .menu__item--has-children');
+    $('.menu--sub-sub-menu').hide();
+
+    if (Boolean($current.length)) {
+      $currentParent.addClass('menu__item--toggle-open');
+      $currentMenu.show();
+    };
+
+    $('.js-menu-toggle > .menu__link, .menu--sub-menu__toggle').click(function(e) {
+      e.preventDefault();
+      var $el = $(this);
+      var $parent = $el.parent();
+      var $menu = $parent.find('.menu--sub-sub-menu');
+
+      if (!$parent.hasClass('menu__item--toggle-open')) {
+        $parent.addClass('menu__item--toggle-open');
+        $menu.slideDown(250);
       } else {
-        $(this).parent().removeClass('menu__item--toggle-open');
-        $(this).prev('.menu--sub-sub-menu').slideUp(250);
+        $parent.removeClass('menu__item--toggle-open');
+        $menu.slideUp(250);
       };
     });
   }

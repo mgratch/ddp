@@ -1,56 +1,110 @@
-<?php get_header(); ?>
+<?php get_header();
+	$postParentData = get_content_by_slug('about-ddp',true);
 
-	<section class="main">
-		<div class="wrapper">
-				<section class="site-content">
-				<?php if (have_posts()) : ?>
+	if (!empty($postParentData)) {
+		$customMeta = clean_meta($postParentData->post_custom );
 
-				<?php $post = $posts[0]; // hack: set $post so that the_date() works ?>
-				<?php if (is_category()) { ?>
-				<h1>Archive for the &ldquo;<?php single_cat_title(); ?>&rdquo; Category</h1>
+		$topParentPostMeta = $customMeta;
+		$topParentPostID = $postParentData->ID;
+		$topParentTitle = get_the_title($postParentData->ID);
+	}
+?>
 
-				<?php } elseif(is_tag()) { ?>
-				<h1>Posts Tagged &ldquo;<?php single_tag_title(); ?>&rdquo;</h1>
+	<main>
+		<?php if (have_posts()) : ?>
 
-				<?php } elseif (is_day()) { ?>
-				<h1>Archive for <?php the_time('F jS, Y'); ?></h1>
+			<?php function archiveTitles() {
+				$post = $posts[0]; // hack: set $post so that the_date() works
+				$archiveTitle = '';
 
-				<?php } elseif (is_month()) { ?>
-				<h1>Archive for <?php the_time('F, Y'); ?></h1>
+					switch ($archiveTitle) {
+						case is_category():
+							return '<h1 class="headline headline--light headline--page-main">'.single_cat_title('', false).'</h1>';
+							break;
+						case is_tag():
+							return '<h1 class="headline headline--light headline--page-main">'.single_tag_title('', false).'</h1>';
+							break;
+						case is_day():
+							return '<h1 class="headline headline--light headline--page-main">'.get_the_time('F jS, Y').'</h1>';
+							break;
+						case is_month():
+							return '<h1 class="headline headline--light headline--page-main">'.get_the_time('F, Y').'</h1>';
+							break;
+						case is_year():
+							return '<h1 class="headline headline--light headline--page-main">'.get_the_time('Y').'</h1>';
+							break;
+					}
+				} ?>
 
-				<?php } elseif (is_year()) { ?>
-				<h1>Archive for <?php the_time('Y'); ?></h1>
+			<section class="hero hero--with-content">
+				<div class="<?php echo 'hero__content hero__content--'.$topParentPostMeta['page_color']; ?>">
+					<div class="table table--with-aside">
+						<div class="table__item"></div>
+						<div class="table__item">
+							<div class="page-content">
+								<?php echo archiveTitles(); ?>
+								<?php if (!empty($customMeta['wpcf-subhead'])) {
+									echo '<div class="headline headline--page-sub headline--emphasis">'.$customMeta['wpcf-subhead'].'</div>';
+								} ?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php echo wp_get_attachment_image( get_post_thumbnail_id($id), 'full', '', array('class'=>'hero__image')); ?>
+			</section>
 
-				<?php } elseif (is_author()) { ?>
-				<h1>Author Archive</h1>
+			<div class="table table--with-aside table--top-offset">
+				<?php get_sidebar(); ?>
+				<section class="table__item">
+					<div class="page-content list">
+						<?php while (have_posts()) : the_post(); ?>
+							<article id="post-<?php the_ID(); ?>" class="list__item">
+								<h2 class="headline headline--slab headline--size-small"><a class="link--no-underline" href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+								<p class="post-meta">Posted on <?php the_time('F jS, Y'); ?></p>
+								<?php the_excerpt(); ?>
+							</article>
+						<?php endwhile; ?>
+							<nav class="pagination">
+								<?php
+									global $wp_query;
 
-				<?php } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-				<h1>Blog Archives</h1>
+									//pagination logic
+									$big = 999999999; // need an unlikely integer
 
-			<?php } ?>
-			<?php while (have_posts()) : the_post(); ?>
+									$boolHideFirst = true;
+									$boolHideLast = true;
+									if($paged < 5){
+										$mid = 4;
 
-				<article id="post-<?php the_ID(); ?>">
-					<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-						<p>Posted on <?php the_time('F jS, Y'); ?> by <?php the_author(); ?></p>
-					
-						<?php the_excerpt(); ?>
+									} else {
+										$mid = 2;
+									}
 
-						<p><?php the_tags('Tags: ', ', ', '<br>'); ?> Posted in <?php the_category(', '); ?> &bull; <?php edit_post_link('Edit', '', ' &bull; '); ?> <?php comments_popup_link('Respond to this post &raquo;', '1 Response &raquo;', '% Responses &raquo;'); ?></p>
-				</article>
-
-				<?php endwhile; ?>
-
-				<?php else : ?>
-
-				<article>
-					<h1>Not Found</h1>
-					<p>Sorry, but the requested resource was not found on this site.</p>
-					<?php get_search_form(); ?>
-				</article>
-				<?php endif; ?>
-			</section><!-- ./SITE-CONTENT -->
-<?php get_sidebar(); ?>
-		</div><!-- ./WRAPPER -->
-	</section><!-- ./SECTION-MAIN -->
-<?php get_footer(); ?>
+									$pagination =  paginate_links( array(
+											'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+											'format' => '?paged=%#%',
+											'current' => max( 1, $paged ),
+											'total' => $wp_query->max_num_pages,
+											'type'=>'array',
+											'end_size'=>0,
+											'mid_size'=>$mid,
+											'prev_text' => __('Newer'),
+											'next_text' => __('Older'),
+									) );
+								?>
+								<div class="pagination-links"><?php echo displayNumberedPagination($pagination);?></div>
+							</nav>
+						<?php else : ?>
+							<article class="list__item">
+								<h1>Not Found</h1>
+								<p>Sorry, but the requested resource was not found on this site.</p>
+								<?php get_search_form(); ?>
+							</article>
+					</div>
+				</section><!-- ./SITE-CONTENT -->
+			</div>
+		<?php endif; ?>
+	</main><!-- ./SECTION-MAIN -->
+<?php get_footer();
+	// var_dump($postParentData);
+?>

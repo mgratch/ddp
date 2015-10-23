@@ -36,7 +36,20 @@ strong {
     size: #{(15/16)}em;
     weight: normal;
   }
+}
 
+.link {
+  color: $color-alt-2;
+  transition: color 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: darken($color-alt-2, 5%);
+  }
+}
+
+.link--no-underline {
+  text-decoration: none;
 }
 
 .wrapper {
@@ -56,116 +69,132 @@ strong {
 }
 
 .page-content {
-  width: 100%;
-  max-width: 745px;
-  padding-right: 45px;
 
-  & > * + * {
+  & > *:not(.tabs):not(.tab__content):not(.map-container) {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  & > * + *:not(.post-meta):not(.tab__content) {
     margin-top: #{(15/16)}em;
   }
 
   a {
-    color: $color-alt-2;
-    transition: color 0.25s ease;
-
-    &:hover,
-    &:focus {
-      color: darken($color-alt-2, 5%);
-    }
+    @extend .link;
   }
 
-  ol,
-  ul {
-    padding-left: 25px;
+  ol:not(.columned-content):not(.tabs):not(.tab__content) {
+    padding-left: 20px;
+  }
+
+  ul:not(.columned-content):not(.tabs):not(.tab__content):not(.gform_fields) {
+    padding-left: 16px;
   }
 }
 
-.content-columned {
-  display: table;
-  width: 100%;
-
-  .menu--main & {
-    padding-bottom: 20px;
+.photo-credit {
+  font: {
+    family: $font-accent-light-italic;
+    size: rem(12px);
   }
-}
-
-.content-columned--with-aside {
-  position: relative;
-}
-
-.content-columned--top-offset {
-   margin-top: -35px;
-}
-
-.content-columned__item {
-  display: table-cell;
-  vertical-align: top;
-
-  .content-columned--2-items & {
-    width: 50%;
-  }
-
-  .content-columned--3-items & {
-    width: (1/3)*100%;
-    padding: {
-      right: 15px;
-      left: 15px;
-    }
-  }
-
-  .content-columned--with-aside & {
-
-    &:first-child:not(:last-child) {
-      width: (325/1265)*100%;
-    }
-    &:last-child:not(:first-child) {
-      width: (940/1265)*100%;
-      padding: {
-        right: 15px;
-        left: 15px;
-      }
-    }
-    &:first-child:last-child {
-      width: 100%;
-    }
-  }
-
-  .content-columned--top-offset & {
-    position: relative;
-
-    &:first-child:not(:last-child) {
-      padding-top: 45px;
-    }
-    &:last-child {
-      background-color: $color-alt-6;
-
-      &:after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        height: 10000px;
-        background-color: $color-alt-6;
-      }
-    }
-    &:last-child:not(.content-columned__item--no-padding) {
-      padding: 15px;
-    }
-  }
-
-  .menu--main & {
-    padding: 0 30px;
-
-    &:first-child {
-      padding-right: 15px;
-    }
-    &:last-child {
-      padding-left: 15px;
-    }
-  }
+  color: $color-alt-7;
 }
 
 .social-widget {
   padding-bottom: 30px;
 }
+
+.post-meta {
+  margin-top: 5px;
+}
+
+// Legacy Hacks
+  .landing-page-listing {
+    @extend .clearfix;
+    padding-bottom: 15px;
+
+    *:not(.landing-page-listing) + & {
+      padding-top: 15px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $color-alt-7;
+    }
+
+    & > *:first-child {
+      float: left;
+      line-height: 0;
+      margin-right: 20px;
+    }
+    & > *:not(:first-child) {
+      overflow: hidden;
+    }
+
+    h5 {
+      @extend .headline--slab-light, .headline--size-small;
+      font-weight: normal;
+
+      a {
+        @extend .link--no-underline;
+      }
+    }
+  }
+// END Legacy Hacks
+
+// Tribe Events Overrides
+  #tribe-events-pg-template {
+    max-width: 745px !important;
+    margin: 0 !important;
+  }
+
+  .tribe-events-page-title {
+    width: 100%;
+    font-size: rem(28px) !important;
+    line-height: (38/36);
+    text-align: left !important;
+    color: white;
+    padding: 9px;
+    background-color: $color-alt-5;
+  }
+
+  .tribe-events-list-separator-month {
+    font: {
+      family: $font-alt-medium;
+      size: u(1rem) !important;
+      weight: normal !important;
+    }
+    color: $color-alt-7;
+    padding-left: 0 !important;
+    background-color: transparent !important;
+    border-bottom: solid 1px $color-alt-7;
+  }
+
+  .tribe-events-list .type-tribe_events {
+    padding-top: 15px !important;
+  }
+  .tribe-events-list .type-tribe_events:not(:last-child) {
+    padding-bottom: 0 !important;
+  }
+
+  .tribe-events-list-event-title {
+    font: {
+      family: $font-alt-medium;
+      size: rem(26px) !important;
+      weight: normal !important;
+    }
+  }
+
+  .tribe-events-loop .tribe-events-event-meta {
+    font: {
+      family: $font-alt-medium;
+      size: rem(15px) !important;
+      weight: normal !important;
+    }
+  }
+
+  .tribe-events-single-event-title,
+  .tribe-events-schedule h3 {
+    font-weight: normal;
+  }
+
+// END Tribe Events Overrides

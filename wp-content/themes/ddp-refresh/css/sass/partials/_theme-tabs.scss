@@ -4,6 +4,16 @@
   z-index: 1;
   width: 100%;
   padding: 10px;
+
+  .page-content & {
+    width: calc(100% + 10px);
+    max-width: 745px;
+    padding: 10px 45px 10px 0;
+    margin: {
+      right: -5px;
+      left: -5px;
+    }
+  }
 }
 
 .tabs__tab {
@@ -39,4 +49,8 @@
 
 .tab__content {
   padding: 0 15px;
+
+  .page-content & {
+    padding: 0;
+  }
 }

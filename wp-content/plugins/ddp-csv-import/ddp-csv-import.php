@@ -47,7 +47,7 @@ function process_csv($atts){
 		// print_r($even);
 
 		$html = '';
-		$html .= '<ul class="members-container">';
+		$html .= '<ul class="columned-content columned-content--3-column columned-content--alt-bkgn">';
 		foreach($cells as $k => $v){
 			if( $v[2] == "") {
 				$html .= '<li>'.$v[1].'</li>';
