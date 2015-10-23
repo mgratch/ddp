@@ -236,9 +236,9 @@ function get_top_parent_id($current_page) {
 		$top_parent_id = $ancestors[(count($ancestors)-1)];
 	}
 
-	
-		
-	
+
+
+
 	return $top_parent_id;
 
 }
@@ -260,14 +260,14 @@ class IODDPSubWalker extends Walker_Nav_Menu
 	function walk( $elements, $max_depth) {
 		global $post,$topParentTitle;
 
-		
+
 		$parent_page_id = get_top_parent_id($post);
-	
+
 		//crappy solution for Events side menu
 		$strEventParentTitle = 'Events';
 		$strEventParentMenuTitle = 'Upcoming Events';
-	
-		
+
+
 		$menu_elements = array();
 		foreach ($elements as $element) {
 
@@ -302,7 +302,7 @@ class IODDPSubWalker extends Walker_Nav_Menu
 
 		foreach($menu_elements as  $item){
 			//only show selected parent tree
-			
+
 			if($item->object_id == $parent_page_id || ($topParentTitle == $strEventParentTitle && $item->title == $strEventParentMenuTitle) ) {
 				$classes = join(' ',io_menu_standards($item->classes,$item));
 

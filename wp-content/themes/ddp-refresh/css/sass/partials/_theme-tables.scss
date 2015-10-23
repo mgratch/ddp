@@ -2,8 +2,10 @@
   display: table;
   width: 100%;
 
-  .menu--main & {
-    padding-bottom: 20px;
+  @include respond-min(em(825px)) {
+    .menu--main & {
+      padding-bottom: 20px;
+    }
   }
 }
 
@@ -73,13 +75,29 @@
   }
 
   .menu--main & {
-    padding: 0 30px;
 
-    &:first-child {
-      padding-right: 15px;
+    @include respond-min(em(825px)) {
+      padding: 0 30px;
     }
-    &:last-child {
-      padding-left: 15px;
+
+    @include respond-min(em(875px)) {
+
+      &:first-child {
+        padding: {
+          right: 15px;
+          left: 30px;
+        }
+      }
+      &:last-child {
+        padding: {
+          right: 30px;
+          left: 15px;
+        }
+      }
+    }
+    @include respond-max(em(874px)) {
+      display: block;
+      width: 100%;
     }
   }
 }

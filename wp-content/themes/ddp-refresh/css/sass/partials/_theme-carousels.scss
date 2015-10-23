@@ -47,11 +47,18 @@
   @include flex-text(320, 1265, 16, 24);
   line-height: (26/24);
   text-align: center;
-  padding: 42px 115px 52px;
+  padding: 42px (115/1265)*100% 52px;
   background-color: rgba(black, 0.45);
 
   & > * + * {
     margin-top: 10px;
+  }
+
+  @include respond-min(em(1265px)) {
+    padding: {
+      right: 115px;
+      left: 115px;
+    }
   }
 }
 

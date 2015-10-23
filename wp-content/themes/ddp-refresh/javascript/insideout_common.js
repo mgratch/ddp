@@ -167,11 +167,11 @@
    * @return void
    */
   function mobileMenu(){
-    $('#menu-main').slideToggle();
+    $('.nav--main').slideToggle(250);
   }
 
   /**
-   * Collapse Main Menu on scroll
+   * Compress Main Menu on scroll
    *
    * @return void
    */
@@ -313,23 +313,24 @@
    */
   $(document).ready(function(){
 
-    scrollCompressMenu();
     heroContentPosition();
     addMenuToggle();
     setup_cat_nav();
 
     // Mobile test conditionals
     if( $(document).is_mobile() ) {
-       $('.mobile-nav-button').bind({
+      $('.mobile-button').bind({
         'touchend': function(){
-                mobileMenu();
-              }
+          mobileMenu();
+        }
       });
     }  else {
-      $('.mobile-nav-button').bind({
+      scrollCompressMenu();
+
+      $('.mobile-button').bind({
         'click':  function(){
-                mobileMenu();
-              }
+          mobileMenu();
+        }
       });
     }
   });

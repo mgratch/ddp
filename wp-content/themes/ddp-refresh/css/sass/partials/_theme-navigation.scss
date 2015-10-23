@@ -1,7 +1,24 @@
 /* Navigation
 ----------------------------------------*/
 .mobile-button {
-  display: none;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  font: {
+    family: $font-accent-medium;
+    size: rem(12px);
+  }
+  text-transform: uppercase;
+  color: $color-alt-2;
+  padding: 10px;
+  background-color: white;
+  border: solid 1px $color-alt-2;
+
+  @include respond-min(em(825px)) {
+    display: none;
+  }
 }
 
 .menu {
@@ -9,28 +26,24 @@
 }
 
 .menu--main {
-  display: table;
   width: 100%;
-  position: relative;
   font: {
     family: $font-accent-medium;
   }
-  padding: 0 20px;
 
   .menu__link {
     display: block;
     text-decoration: none;
     color: $color-base;
-    padding: 10px 10px 9px;
+    padding: 14px 10px 12px;
+
+    @include respond-min(em(825px)) {
+      padding: 10px 10px 9px;
+    }
   }
 
   & > .menu__item {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
     line-height: 0.85;
-    border-bottom: solid 6px transparent;
-    transition: border-bottom-color 0.15s ease;
 
     &:hover .menu__flyout {
       display: block;
@@ -39,21 +52,34 @@
     & > .menu__link {
       color: black;
       line-height: (18/16);
+    }
+
+    @include respond-min(em(825px)) {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      border-bottom: solid 6px transparent;
+      transition: border-bottom-color 0.15s ease;
+    }
+  }
+
+  @include respond-min(em(825px)) {
+    display: table;
+    position: relative;
+    padding: 0 20px;
+    background-color: transparent;
+    margin-left: 0;
+
+    & > .menu__link {
       padding: 43px 10px 37px;
     }
   }
 }
 
 .menu__flyout {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 20px;
-  width: calc(100% - 40px);
-  text-align: left;
-  margin-top: -1px;
 
   .menu--main & {
+    overflow: hidden;
     background-color: rgba(white, 0.9);
     border-top: solid 1px;
   }
@@ -88,6 +114,16 @@
         }
       }
     }
+  }
+
+  @include respond-min(em(825px)) {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    width: calc(100% - 40px);
+    text-align: left;
+    margin-top: -1px;
   }
 }
 
@@ -157,12 +193,17 @@
 }
 
 .menu__item__description {
-  font: {
-    family: $font-alt-medium;
-    size: rem(17px);
+  display: none;
+
+  @include respond-min(em(825px)) {
+    display: block;
+    font: {
+      family: $font-alt-medium;
+      size: rem(17px);
+    }
+    line-height: (22/17);
+    padding: 0 30px 25px;
   }
-  line-height: (22/17);
-  padding: 0 30px 25px;
 }
 
 .menu--side {

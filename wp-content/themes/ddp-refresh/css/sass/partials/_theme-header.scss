@@ -2,69 +2,119 @@
 ----------------------------------------*/
 
 .header--main {
-  display: table;
   position: fixed;
   z-index: 100;
   width: 100%;
-  padding: 0 45px;
+  padding: 0 (45/825)*100%;
   background-color: rgba(white, 0.9);
   border-top: solid 7px $color-alt-1;
+
+  @include respond-min(em(825px)) {
+    display: table;
+    padding: {
+      right: 45px;
+      left: 45px;
+    }
+  }
 }
 
 .header--main__item {
-  display: table-cell;
-  vertical-align: middle;
 
-  &:first-child {
-    width: 155px;
-  }
-  &:last-child {
-    width: 90px;
+  @include respond-min(em(825px)) {
+    display: table-cell;
+    vertical-align: middle;
+
+    &:first-child {
+      width: 155px;
+    }
   }
 }
 
 .site-logo {
   position: relative;
   line-height: 0;
+  margin: 10px 0;
   overflow: hidden;
 
-  img {
-    @extend .flex-image;
+  @include respond-max(em(824px)) {
+    display: inline-block;
+  }
+
+  @include respond-min(em(825px)) {
+    margin: 0;
   }
 }
 
 .site-logo__link {
   display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 100%;
   text-decoration: none;
+
+  @include respond-min(em(825px)) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .site-logo__image {
+  width: auto;
+  max-width: 100%;
+  height: auto;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
 
   .site-logo--icon-only & {
     display: none;
+  }
+
+  @include respond-min(em(825px)) {
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
 .site-logo__icon {
   position: relative;
   opacity: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 55.129px;
-  height: auto;
-  margin-top: 50%;
 
   .site-logo--icon-only & {
     opacity: 1;
     margin-top: 0;
+  }
+
+  @include respond-min(em(825px)) {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55.129px;
+    height: auto;
+    margin-top: 50%;
+  }
+}
+
+.nav--main {
+
+  @include respond-max(em(824px)) {
+    display: none;
+    position: absolute;
+    right: (45/825)*100%;
+    width: 100%;
+    max-width: 400px;
+    max-height: calc(100vh - 111px);
+    background-color: white;
+    margin: 0 #{-(45/825)*100%};
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+}
+
+.social-connect {
+  padding: 20px (45/825)*100%;
+
+  @include respond-min(em(825px)) {
+    width: 90px;
+    padding: 0;
   }
 }
 
