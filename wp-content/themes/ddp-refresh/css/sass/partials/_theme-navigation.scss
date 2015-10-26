@@ -38,7 +38,7 @@
     padding: 14px 10px 12px;
 
     @include respond-min(em($mobile-menu-flip-min)) {
-      padding: 10px 10px 9px;
+      padding: 8px 10px 3px;
     }
   }
 

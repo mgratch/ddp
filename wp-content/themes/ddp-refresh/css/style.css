@@ -1839,7 +1839,7 @@ body .gform_wrapper .gform_footer {
 @media screen and (min-width: 53.4375em) {
   /* line 34, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-navigation.scss */
   .menu--main .menu__link {
-    padding: 10px 10px 9px;
+    padding: 8px 10px 3px;
   }
 }
 
