@@ -61,32 +61,38 @@
 				</div>
 				<div class="mobile-button">menu</div>
 				<nav class="header--main__item nav nav--main">
-					<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODDPWalker)); ?>
-					<?php
-						$social_urls = ioAdminHelpers::getSocial();
+					<div class="table table--2-items-flex-first">
+						<div class="table__item">
+						<?php wp_nav_menu(array('theme_location'=>'main', 'container'=>false, 'menu_class'=>'menu menu--main js-header-compress', 'container_class'=>false, 'menu_id'=>false, 'walker' => new IODDPWalker)); ?>
+						</div>
+						<div class="table__item">
+						<?php
+							$social_urls = ioAdminHelpers::getSocial();
 
-						if (!empty($social_urls)) {
-							$strHtml = '';
+							if (!empty($social_urls)) {
+								$strHtml = '';
 
-							$strHtml .= '<div class="social-connect">';
-								$strHtml .= '<span class="social-connect__title">Follow Us</span>';
-								$strHtml .= '<ul class="list social-connect__list">';
-									foreach ($social_urls as $key => $service) {
-										if (!empty($service)) {
-											$strHtml .= '<li class="list__item">';
-												$strHtml .= '<a class="social-connect__link" href="'.$service.'" target="_blank">';
-													$strHtml .= renderSVG(get_template_directory().'/images/logo-'.$key.'.svg');
-												$strHtml .= '</a>';
-											$strHtml .= '</li>'."\r\n";
+								$strHtml .= '<div class="social-connect">';
+									$strHtml .= '<span class="social-connect__title">Follow Us</span>';
+									$strHtml .= '<ul class="list social-connect__list">';
+										foreach ($social_urls as $key => $service) {
+											if (!empty($service)) {
+												$strHtml .= '<li class="list__item">';
+													$strHtml .= '<a class="social-connect__link" href="'.$service.'" target="_blank">';
+														$strHtml .= renderSVG(get_template_directory().'/images/logo-'.$key.'.svg');
+													$strHtml .= '</a>';
+												$strHtml .= '</li>'."\r\n";
+											}
 										}
-									}
 
-								$strHtml .= '</ul>';
-							$strHtml .= '</div>';
+									$strHtml .= '</ul>';
+								$strHtml .= '</div>';
 
-							echo $strHtml;
-						}
-					?>
+								echo $strHtml;
+							}
+						?>
+						</div>
+					</div>
 				</nav>
 			</header>
 			<?php

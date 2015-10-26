@@ -11,6 +11,9 @@ $wrapperMargin : 2.5;  // % value
 
 $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
 
+$mobile-menu-flip-min : 855px;
+$mobile-menu-flip-max : $mobile-menu-flip-min - 1px;
+
 /* Default Styles
 ----------------------------------------*/
 /*Site Base*/

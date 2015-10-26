@@ -325,7 +325,14 @@
         }
       });
     }  else {
-      scrollCompressMenu();
+      if ($(window).width()>= 855) {
+        scrollCompressMenu();
+      };
+      $(window).resize(function() {
+        if ($(window).width()>= 855) {
+          scrollCompressMenu();
+        };
+      });
 
       $('.mobile-button').bind({
         'click':  function(){

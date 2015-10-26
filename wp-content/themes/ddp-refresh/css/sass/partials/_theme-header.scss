@@ -9,7 +9,7 @@
   background-color: rgba(white, 0.9);
   border-top: solid 7px $color-alt-1;
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: table;
     padding: {
       right: 45px;
@@ -20,7 +20,7 @@
 
 .header--main__item {
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: table-cell;
     vertical-align: middle;
 
@@ -36,11 +36,11 @@
   margin: 10px 0;
   overflow: hidden;
 
-  @include respond-max(em(824px)) {
+  @include respond-max(em($mobile-menu-flip-max)) {
     display: inline-block;
   }
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     margin: 0;
   }
 }
@@ -49,7 +49,7 @@
   display: block;
   text-decoration: none;
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -68,7 +68,7 @@
     display: none;
   }
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     width: 100%;
     top: 50%;
     transform: translateY(-50%);
@@ -84,7 +84,7 @@
     margin-top: 0;
   }
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     top: 50%;
     transform: translateY(-50%);
     width: 55.129px;
@@ -95,7 +95,7 @@
 
 .nav--main {
 
-  @include respond-max(em(824px)) {
+  @include respond-max(em($mobile-menu-flip-max)) {
     display: none;
     position: absolute;
     right: (45/825)*100%;
@@ -112,7 +112,7 @@
 .social-connect {
   padding: 20px (45/825)*100%;
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     width: 90px;
     padding: 0;
   }

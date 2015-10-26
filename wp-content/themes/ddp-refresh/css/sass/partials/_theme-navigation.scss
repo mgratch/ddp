@@ -16,7 +16,7 @@
   background-color: white;
   border: solid 1px $color-alt-2;
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: none;
   }
 }
@@ -37,7 +37,7 @@
     color: $color-base;
     padding: 14px 10px 12px;
 
-    @include respond-min(em(825px)) {
+    @include respond-min(em($mobile-menu-flip-min)) {
       padding: 10px 10px 9px;
     }
   }
@@ -54,7 +54,7 @@
       line-height: (18/16);
     }
 
-    @include respond-min(em(825px)) {
+    @include respond-min(em($mobile-menu-flip-min)) {
       display: table-cell;
       vertical-align: middle;
       text-align: center;
@@ -63,7 +63,7 @@
     }
   }
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: table;
     position: relative;
     padding: 0 20px;
@@ -116,7 +116,7 @@
     }
   }
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: none;
     position: absolute;
     top: 100%;
@@ -195,7 +195,7 @@
 .menu__item__description {
   display: none;
 
-  @include respond-min(em(825px)) {
+  @include respond-min(em($mobile-menu-flip-min)) {
     display: block;
     font: {
       family: $font-alt-medium;
