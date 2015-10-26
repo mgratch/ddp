@@ -8,6 +8,16 @@
   padding: 0 (45/825)*100%;
   background-color: rgba(white, 0.9);
   border-top: solid 7px $color-alt-1;
+  transition: background-color 0s linear 250ms;
+
+  &.mobile-menu-open {
+    background-color: white;
+    transition: background-color 0s linear;
+  }
+
+  @include respond-max(em($mobile-menu-flip-max)) {
+    line-height: 0;
+  }
 
   @include respond-min(em($mobile-menu-flip-min)) {
     display: table;
@@ -103,6 +113,7 @@
     max-width: 400px;
     max-height: calc(100vh - 111px);
     background-color: white;
+    border-top: solid 1px $color-alt-7;
     margin: 0 #{-(45/825)*100%};
     overflow: hidden;
     overflow-y: scroll;

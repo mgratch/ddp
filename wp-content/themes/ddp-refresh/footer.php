@@ -43,7 +43,7 @@
             <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">Subscribe To Our Newsletter</h4>
             <p>Want to stay informed about what's happening in downtown Detroit? Enter your email to join today.</p>
             <!-- Begin MailChimp Signup Form -->
-            <div id="mc_embed_signup">
+            <div id="mc_embed_signup" class="newsletter-signup-form">
               <form class="form form--single-input" action="//downtowndetroit.us6.list-manage.com/subscribe/post?u=44a8ea582b778dc0d652d86ed&amp;id=fd850cfc79" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                 <div class="mc-field-group form--single-input__item form--single-input__input">
                   <label class="visually-hidden" for="mce-EMAIL"></label>

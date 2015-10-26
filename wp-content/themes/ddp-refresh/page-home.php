@@ -38,17 +38,19 @@ Template Name: Home Page
 							]);
 
 							$strHtml .= '<li class="carousel__slide">';
+								$strHtml .= '<div class="carousel__slide__container">';
 								$strHtml .= $slideImage;
-								$strHtml .= '<div class="carousel__slide__content">';
-									if (!empty($slide->meta['home_slide_title'])) {
-										$strHtml .= '<h2 class="headline headline--carousel">'.$slide->meta['home_slide_title'].'</h2>';
-									}
-									if (!empty($slide->meta['home_slide_copy'])) {
-										$strHtml .= '<p class="carousel__slide__content__copy">'.$slide->meta['home_slide_copy'].'</p>';
-									}
-									if (!empty($slide->meta['home_slide_cta_text']) && !empty($slide->meta['home_slide_link'])) {
-										$strHtml .= '<a class="button button--cta button--color-2" href="'.$slide->meta['home_slide_link'].'">'.$slide->meta['home_slide_cta_text'].'</a>';
-									}
+									$strHtml .= '<div class="carousel__slide__content">';
+										if (!empty($slide->meta['home_slide_title'])) {
+											$strHtml .= '<h2 class="headline headline--carousel">'.$slide->meta['home_slide_title'].'</h2>';
+										}
+										if (!empty($slide->meta['home_slide_copy'])) {
+											$strHtml .= '<p class="carousel__slide__content__copy">'.$slide->meta['home_slide_copy'].'</p>';
+										}
+										if (!empty($slide->meta['home_slide_cta_text']) && !empty($slide->meta['home_slide_link'])) {
+											$strHtml .= '<a class="button button--cta button--color-2" href="'.$slide->meta['home_slide_link'].'">'.$slide->meta['home_slide_cta_text'].'</a>';
+										}
+									$strHtml .= '</div>';
 								$strHtml .= '</div>';
 							$strHtml .= '</li>';
 						}

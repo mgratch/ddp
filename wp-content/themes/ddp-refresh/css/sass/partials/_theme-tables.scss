@@ -49,6 +49,11 @@
 
     &:first-child:not(:last-child) {
       width: (325/1265)*100%;
+      min-width: 220px;
+
+      @include respond-max(em(700px)) {
+        display: none;
+      }
     }
     &:last-child:not(:first-child) {
       width: (940/1265)*100%;
@@ -64,6 +69,7 @@
 
   .table--top-offset > & {
     position: relative;
+    z-index: 1;
 
     &:first-child:not(:last-child) {
       padding-top: 45px;

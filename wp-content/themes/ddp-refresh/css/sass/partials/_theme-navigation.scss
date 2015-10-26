@@ -12,7 +12,7 @@
   }
   text-transform: uppercase;
   color: $color-alt-2;
-  padding: 10px;
+  padding: 15px 10px;
   background-color: white;
   border: solid 1px $color-alt-2;
 
@@ -109,7 +109,6 @@
           content: '\0002b';
           display: block;
           position: absolute;
-          top: 0.55em;
           left: 2px;
         }
       }
