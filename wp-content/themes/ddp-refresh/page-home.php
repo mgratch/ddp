@@ -92,7 +92,7 @@ Template Name: Home Page
 							$strTabHtml .= '<div class="tab__content js-tab-content">';
 
 	 							// We need to turn debug off and get the domain right for the Maps API
-								// $strTabHtml .= $map;
+								$strTabHtml .= $map;
 
 							$strTabHtml .= '</div><span></span>';
 
