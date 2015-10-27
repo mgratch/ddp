@@ -606,7 +606,7 @@ strong {
 }
 
 /* line 54, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
-.link--no-underline, .landing-page-listing h5 a {
+.link--no-underline {
   text-decoration: none;
 }
 
@@ -696,11 +696,6 @@ strong {
   overflow: hidden;
 }
 
-/* line 136, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
-.landing-page-listing h5 {
-  font-weight: normal;
-}
-
 /* line 1, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
 .headline {
   font-weight: normal;
@@ -729,7 +724,7 @@ strong {
 }
 
 /* line 23, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
-.headline--slab-light, .landing-page-listing h5 {
+.headline--slab-light {
   font-family: "museo_slab300";
 }
 
@@ -761,7 +756,7 @@ strong {
 }
 
 /* line 52, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-headlines.scss */
-.headline--size-small, .landing-page-listing h5 {
+.headline--size-small {
   font-size: 1.25rem;
 }
 
@@ -1192,7 +1187,17 @@ strong {
   padding-right: 5px;
 }
 
-/* line 29, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 23, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+body .gform_wrapper {
+  border: none !important;
+}
+
+/* line 26, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
+  border: solid 1px #d4d4d4;
+}
+
+/* line 31, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gfield_label {
   font-family: "museo_sans500";
   font-size: 0.875rem;
@@ -1200,7 +1205,7 @@ body .gform_wrapper .gfield_label {
   margin-bottom: 0 !important;
 }
 
-/* line 38, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 40, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gform_footer {
   margin-top: 0.625em;
 }
@@ -1839,7 +1844,7 @@ body .gform_wrapper .gform_footer {
 @media screen and (min-width: 53.4375em) {
   /* line 34, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-navigation.scss */
   .menu--main .menu__link {
-    padding: 8px 10px 3px;
+    padding: 10px 10px 9px;
   }
 }
 

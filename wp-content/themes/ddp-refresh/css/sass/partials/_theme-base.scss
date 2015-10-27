@@ -132,14 +132,5 @@ strong {
     & > *:not(:first-child) {
       overflow: hidden;
     }
-
-    h5 {
-      @extend .headline--slab-light, .headline--size-small;
-      font-weight: normal;
-
-      a {
-        @extend .link--no-underline;
-      }
-    }
   }
 // END Legacy Hacks

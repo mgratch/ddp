@@ -21,9 +21,11 @@
 }
 
 body .gform_wrapper {
+  border: none !important;
 
   #{$fields} {
     @extend .form__input;
+    border: solid 1px darken($color-alt-6, 10%);
   }
 
   .gfield_label {
