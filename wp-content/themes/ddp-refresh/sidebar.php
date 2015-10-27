@@ -1,5 +1,5 @@
 <aside class="aside aside--main table__item">
-	<ul>
+	<ul class="widgets">
     <?php
       global $topParentTitle, $topParentPostID, $topParentPostMeta;
       $strHtml = '';
