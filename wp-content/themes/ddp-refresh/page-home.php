@@ -94,7 +94,7 @@ Template Name: Home Page
 	 							// We need to turn debug off and get the domain right for the Maps API
 								$strTabHtml .= $map;
 
-							$strTabHtml .= '</div><span></span>';
+							$strTabHtml .= '</div>';
 
 						} else {
 							// multiple listings
@@ -150,7 +150,7 @@ Template Name: Home Page
 			$strTabNav .= '</ul>';
 
 			echo $strTabNav;
-			echo $strTabHtml;
+			echo '<div class="js-tab-content-container">'.$strTabHtml.'</div>';
 		?>
 		<h2 class="headline headline--light headline--section-divide">Connect with us</h2>
 		<div class="table table--3-items">
@@ -197,10 +197,21 @@ Template Name: Home Page
 		   * Control tab switching
 		   */
 		  (function tabSwitching() {
+		  	var $contentHeight = $('.js-tab-content').eq(0).height();
+
 		    $('.js-tab').eq(0).addClass('tab--active');
 		    $('.js-tab-content').not(':eq(0)').hide();
 
+		    $('.js-tab-content-container').css({
+      		'min-height' : $contentHeight + 'px'
+      	});
+
 		    $('.js-tab').click(function() {
+		    	$contentHeight = $('.js-tab-content').eq( $(this).index('.js-tab') ).height();
+
+		    	$('.js-tab-content-container').css({
+	      		'min-height' : $contentHeight + 'px'
+	      	});
 
 		      if (!$(this).hasClass('tab--active')) {
 		      	$('.js-tab').removeClass('tab--active');

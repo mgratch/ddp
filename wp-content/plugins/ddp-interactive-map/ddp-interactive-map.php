@@ -16,8 +16,8 @@ function print_map($atts){
 
 	wp_enqueue_script('velocity');
 	wp_enqueue_script('velocity-ui');
-	
-	
+
+
 	extract( shortcode_atts( array(
 		'width' => '800px',
 		'height' => '650px',
@@ -36,7 +36,7 @@ function print_map($atts){
 
 
 		if($show_table != null){
-			$html .= '<ul class="tabs tabs--landing">';
+			$html .= '<ul class="tabs">';
 			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Map</span></li>\n";
 			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Data</span></li>\n";
 			$html .= '</ul>';
@@ -49,8 +49,8 @@ function print_map($atts){
 		}
 		//$html .= '</div></div>';
 		$html .= '</div>';
-		
-		
+
+
 		$html .= '<script type="text/javascript">';
 
 		$html .= 'var dataObj = {
@@ -85,7 +85,7 @@ function print_map($atts){
 	    </script>';
 		$html .= '</div>';
 	    if($show_table != null){
-	    	
+
 			$html .= '<div id="data" class="tab__content js-tab-content">';
 
 			$html .= '<table class="map-table">';
@@ -114,11 +114,11 @@ function print_map($atts){
 			$html .= '</div>';
 			//$html .= '</div>';
 	    }
-	    
+
 	    add_action( 'wp_footer', function() { ?>
-	    
+
 	    	<script type="text/javascript">
-	    
+
 	    		jQuery(function($) {
 	    			/**
 	    		   * Control tab switching
@@ -126,13 +126,13 @@ function print_map($atts){
 	    		  (function tabSwitching() {
 	    		    $('.js-tab').eq(0).addClass('tab--active');
 	    		    $('.js-tab-content').not(':eq(0)').hide();
-	    
+
 	    		    $('.js-tab').click(function() {
-	    
+
 	    		      if (!$(this).hasClass('tab--active')) {
 	    		      	$('.js-tab').removeClass('tab--active');
 	    		      	$(this).addClass('tab--active');
-	    
+
 	    		      	$('.js-tab-content').hide();
 	    			      $('.js-tab-content').eq( $(this).index('.js-tab') ).velocity('transition.slideDownIn', {
 	    			      	duration: 450
@@ -140,12 +140,12 @@ function print_map($atts){
 	    		      }
 	    		    });
 	    		  })();
-	    
-	    		
+
+
 	      	});
 	    	</script>
-	    
-	    <?php }, 666 ); 
+
+	    <?php }, 666 );
 
 	    return $html;
 	}else{

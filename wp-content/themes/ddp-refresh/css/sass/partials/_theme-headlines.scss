@@ -62,7 +62,7 @@
 }
 
 .headline--carousel {
-  font-size: #{(69/24)}em;
+  @include flex-text(320, 1265, 36, 69);
   letter-spacing: -3px;
   color: white;
 }
