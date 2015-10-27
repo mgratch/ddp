@@ -177,18 +177,14 @@
    * @return void
    */
   function scrollCompressMenu() {
-    // var topMenuItemPadding = '43';
-    // var bottomMenuItemPadding = '37';
-    var headerHeight = 118;
+    var topMenuItemPadding = '43';
+    var bottomMenuItemPadding = topMenuItemPadding - '6';
     var logoWidth = $('.site-logo').width();
     var iconWidth = $('.site-logo__icon')[0].getBoundingClientRect().width;
 
-    // $('.js-header-compress > .menu__item > .menu__link').css({
-    //   'padding-top' : topMenuItemPadding + 'px',
-    //   'padding-bottom' : bottomMenuItemPadding + 'px'
-    // });
-    $('.js-main-header').css({
-      'height' : headerHeight + 'px'
+    $('.js-header-compress > .menu__item > .menu__link').css({
+      'padding-top' : topMenuItemPadding + 'px',
+      'padding-bottom' : bottomMenuItemPadding + 'px'
     });
     $('.site-logo').css({
       'width' : logoWidth + 'px'
@@ -196,54 +192,24 @@
 
     $(window).scroll(function() {
       var trackScroll = $(window).scrollTop();
-      // var compressTopPadding = topMenuItemPadding - trackScroll;
-      // var compressBottomPadding = bottomMenuItemPadding - trackScroll;
-      var compressHeader = headerHeight - trackScroll;
-      // var shrinkIcon = iconWidth - (trackScroll / 0.875);
-      var shrinkIcon = iconWidth - (trackScroll / 1.975);
+      var compressTopPadding = topMenuItemPadding - trackScroll;
+      var compressBottomPadding = bottomMenuItemPadding - trackScroll;
+      var shrinkIcon = iconWidth - (trackScroll / 0.875);
 
-      console.log(compressHeader, headerHeight);
-
-      if (compressHeader <= 60) {
-        compressHeader = 60;
-      };
+      if (compressTopPadding <= 18) {
+        compressTopPadding = '18';
+        compressBottomPadding = '12';
+      }
       if (shrinkIcon <= 26.125) {
-        shrinkIcon = 26.125;
+        shrinkIcon = '26.125';
       };
 
-      // if (compressTopPadding <= 18) {
-      //   compressTopPadding = '18';
-      //   compressBottomPadding = '12';
-      // }
-      // if (shrinkIcon <= 26.125) {
-      //   shrinkIcon = '26.125';
-      // };
-
-      // $('.js-header-compress > .menu__item > .menu__link').css({
-      //   'padding-top' : compressTopPadding + 'px',
-      //   'padding-bottom' : compressBottomPadding + 'px'
-      // });
-
-      // if (compressTopPadding < topMenuItemPadding && !$('.site-logo').hasClass('.site-logo--icon-only')) {
-      //   $('.site-logo').addClass('site-logo--icon-only');
-      //   $('.site-logo').css({
-      //     'width' : shrinkIcon + 'px'
-      //   });
-      //   $('.site-logo__icon').css({
-      //     'width' : shrinkIcon + 'px'
-      //   });
-      // } else {
-      //   $('.site-logo').removeClass('site-logo--icon-only');
-      //   $('.site-logo').css({
-      //     'width' : logoWidth + 'px'
-      //   });
-      // };
-
-      $('.js-main-header').css({
-        'height' : compressHeader + 'px'
+      $('.js-header-compress > .menu__item > .menu__link').css({
+        'padding-top' : compressTopPadding + 'px',
+        'padding-bottom' : compressBottomPadding + 'px'
       });
 
-      if (compressHeader < headerHeight && !$('.site-logo').hasClass('.site-logo--icon-only')) {
+      if (compressTopPadding < topMenuItemPadding && !$('.site-logo').hasClass('.site-logo--icon-only')) {
         $('.site-logo').addClass('site-logo--icon-only');
         $('.site-logo').css({
           'width' : shrinkIcon + 'px'
@@ -257,15 +223,11 @@
           'width' : logoWidth + 'px'
         });
       };
-
-      console.log(compressHeader, headerHeight, shrinkIcon);
-    })
+    });
   }
 
   function heroContentPosition() {
     var headerHeight = $('.header--main')[0].getBoundingClientRect().height;
-
-    // console.log(headerHeight);
 
     $('.hero__content').css({
       'top' : headerHeight + 'px',
@@ -275,10 +237,8 @@
       var headerHeight = $('.header--main')[0].getBoundingClientRect().height;
       var headerTrack = headerHeight + $(window).scrollTop();
 
-      // console.log(headerHeight);
-
-      if (headerHeight == 60) {
-        headerTrack = '118';
+      if (headerHeight == 61) {
+        headerTrack = '86';
       }
 
       $('.hero__content').css({
