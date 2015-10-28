@@ -303,10 +303,10 @@
         });
 
         $content.velocity('transition.slideUpOut', {
-          duration: 100,
+          duration: 175,
           complete: function () {
             $content.eq( $el.index('.js-tab') ).velocity('transition.slideDownIn', {
-              duration: 100,
+              duration: 250,
               complete: function () {
                 $container.removeAttr('style');
               }

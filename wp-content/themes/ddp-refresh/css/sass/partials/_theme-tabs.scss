@@ -1,4 +1,5 @@
 .tabs {
+  list-style: none;
   display: table;
   position: relative;
   z-index: 1;
@@ -27,11 +28,11 @@
 
   .tabs--landing & {
     font-size: rem(24px);
+  }
 
-    @include respond-min(em(575px)) {
-      display: table-cell;
-      padding: 0 5px;
-    }
+  @include respond-min(em(575px)) {
+    display: table-cell;
+    padding: 0 5px;
   }
 }
 

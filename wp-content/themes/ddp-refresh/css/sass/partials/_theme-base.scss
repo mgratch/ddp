@@ -19,7 +19,7 @@ $mobile-menu-flip-max : $mobile-menu-flip-min - 1px;
 /*Site Base*/
 body {
   font: {
-    family: $font-main;
+    family: $font-accent-light;
     size: 100%;
     weight: 400;
   }
@@ -35,8 +35,7 @@ body {
 
 strong {
   font: {
-    family: $font-alt-medium;
-    size: #{(15/16)}em;
+    family: $font-accent-medium;
     weight: normal;
   }
 }
