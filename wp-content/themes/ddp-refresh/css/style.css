@@ -1177,41 +1177,43 @@ strong {
 
 /* line 1, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form__input, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"] {
+  -webkit-appearance: none;
   width: 100%;
   color: black;
   padding: 10px 10px 11px;
   border: none;
+  border-radius: 0;
 }
 
-/* line 8, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 10, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input {
   display: table;
   width: 100%;
 }
 
-/* line 13, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input__item {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 18, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input__input {
   width: 100%;
   padding-right: 5px;
 }
 
-/* line 23, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 25, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper {
   border: none !important;
 }
 
-/* line 26, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 28, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
   border: solid 1px #d4d4d4;
 }
 
-/* line 31, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 33, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gfield_label {
   font-family: "museo_sans500";
   font-size: 0.875rem;
@@ -1219,7 +1221,7 @@ body .gform_wrapper .gfield_label {
   margin-bottom: 0 !important;
 }
 
-/* line 40, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 42, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gform_footer {
   margin-top: 0.625em;
 }

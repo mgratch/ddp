@@ -280,21 +280,56 @@
     });
   }
 
+  /**
+   * Control tab switching
+   */
+  function tabSwitching() {
+    var $tab = $('.js-tab');
+    var $content = $('.js-tab-content');
+
+    $tab.eq(0).addClass('tab--active');
+    $content.not(':eq(0)').hide();
+
+    $tab.click(function() {
+      var $el = $(this);
+      var $container = $('.js-tab-content-container');
+
+      if (!$el.hasClass('tab--active')) {
+        $tab.removeClass('tab--active');
+        $el.addClass('tab--active');
+
+        $container.css({
+          'min-height' : $container.height() + 'px'
+        });
+
+        $content.velocity('transition.slideUpOut', {
+          duration: 100,
+          complete: function () {
+            $content.eq( $el.index('.js-tab') ).velocity('transition.slideDownIn', {
+              duration: 100,
+              complete: function () {
+                $container.removeAttr('style');
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
   // For ddp interactive map by the one and only ritz
-  function setup_cat_nav(){
-    $(".map-container .info-overlay .links a").bind('click', function(e){
+  function setup_cat_nav() {
+    $(".map-container .info-overlay .links a").bind('click', function(e) {
       e.preventDefault();
 
       var slug = $(this).attr("id");
       $(this).toggleClass("active");
 
-      if($(this).hasClass("active")){
+      if ($(this).hasClass("active")) {
         toggle_markers(slug, true);
-      }else{
+      } else {
         toggle_markers(slug, false);
       }
-
-
     });
   }
 
@@ -315,6 +350,7 @@
 
     scrollCompressMenu();
     heroContentPosition();
+    tabSwitching();
     addMenuToggle();
     setup_cat_nav();
 

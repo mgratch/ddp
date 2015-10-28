@@ -1,8 +1,10 @@
 .form__input {
+  -webkit-appearance: none;
   width: 100%;
   color: black;
   padding: 10px 10px 11px;
   border: none;
+  border-radius: 0;
 }
 
 .form--single-input {

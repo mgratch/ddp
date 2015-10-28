@@ -115,38 +115,6 @@ function print_map($atts){
 			//$html .= '</div>';
 	    }
 
-	    add_action( 'wp_footer', function() { ?>
-
-	    	<script type="text/javascript">
-
-	    		jQuery(function($) {
-	    			/**
-	    		   * Control tab switching
-	    		   */
-	    		  (function tabSwitching() {
-	    		    $('.js-tab').eq(0).addClass('tab--active');
-	    		    $('.js-tab-content').not(':eq(0)').hide();
-
-	    		    $('.js-tab').click(function() {
-
-	    		      if (!$(this).hasClass('tab--active')) {
-	    		      	$('.js-tab').removeClass('tab--active');
-	    		      	$(this).addClass('tab--active');
-
-	    		      	$('.js-tab-content').hide();
-	    			      $('.js-tab-content').eq( $(this).index('.js-tab') ).velocity('transition.slideDownIn', {
-	    			      	duration: 450
-	    			      });
-	    		      }
-	    		    });
-	    		  })();
-
-
-	      	});
-	    	</script>
-
-	    <?php }, 666 );
-
 	    return $html;
 	}else{
 		print "<!-- map failed to load: data false -->";
