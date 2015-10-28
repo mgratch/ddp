@@ -119,5 +119,24 @@
     }
   }
 
+  .social-feeds & {
+    max-width: 370px;
+    text-align: left;
 
+    @include respond-max(em(959px)) {
+      display: inline-block;
+      width: (1/2)*100% - 0.1%;
+    }
+
+    @include respond-max(em(639px)) {
+      width: 100%;
+    }
+  }
 }
+
+.social-feeds {
+  max-width: 1111px;
+  text-align: center;
+  margin: 0 auto;
+}
+

@@ -153,7 +153,7 @@ Template Name: Home Page
 			echo '<div class="js-tab-content-container">'.$strTabHtml.'</div>';
 		?>
 		<h2 class="headline headline--light headline--section-divide">Connect with us</h2>
-		<div class="table table--3-items">
+		<div class="table table--3-items social-feeds">
 			<div class="social-widget table__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-instagram.svg'); ?> Instagram</h4>
 					<?php
@@ -161,13 +161,16 @@ Template Name: Home Page
 
 						$strHtml .= '<ul class="grid grid--instagram">';
 							foreach ($instagramFeed->data as $key => $ipost) {
-								if ($key < 6) {
+								if ($key < 9) {
 									$strHtml .= '<li class="grid__item">';
 										$strHtml .= '<a href="'.$ipost->link.'" target="_blank">';
 											$strHtml .= '<img class="grid__item__image" src="'.$ipost->images->thumbnail->url.'">';
 										$strHtml .= '</a>';
 									$strHtml .= '</li>';
 								}
+							}
+							for ($i = 1; $i <= 1; $i++) {
+								$strHtml .= '<li class="grid__item flex-grid-spacer"></li>';
 							}
 						$strHtml .= '</ul>';
 
@@ -177,12 +180,12 @@ Template Name: Home Page
 
 			<div class="social-widget table__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-facebook.svg'); ?> Facebook</h4>
-				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="100%" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
+				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="100%" data-height="342" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
 			</div>
 
 			<div class="social-widget table__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-twitter.svg'); ?> Twitter</h4>
-				<a class="twitter-timeline" href="https://twitter.com/DDPDetroit" data-widget-id="656204151580323840">Tweets by @DDPDetroit</a>
+				<a class="twitter-timeline" href="https://twitter.com/DDPDetroit" data-widget-id="656204151580323840" data-width="823" data-height="342">Tweets by @DDPDetroit</a>
 				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 			</div>
 		</div>
