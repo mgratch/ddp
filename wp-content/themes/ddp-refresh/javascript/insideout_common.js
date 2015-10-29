@@ -198,8 +198,8 @@
         });
       } else if ($topMenuItemLinkCopy.height() == 36) {
         $topMenuItemLink.css({
-          'padding-top' : ($topMenuItemPadding / 2) + 'px',
-          'padding-bottom' : ($bottomMenuItemPadding / 2) + 'px'
+          'padding-top' : ($topMenuItemPadding - 9) + 'px',
+          'padding-bottom' : ($bottomMenuItemPadding - 9) + 'px'
         });
       };
     });
@@ -227,8 +227,6 @@
         $shrinkIconWidth = 26.125;
       }
 
-      console.log($shrinkIconWidth, $shrinkIconHeight);
-
       $topMenuItem.each(function() {
         var $el = $(this);
         var $topMenuItemLink = $el.children('.menu__link');
@@ -241,8 +239,8 @@
           });
         } else if ($topMenuItemLinkCopy.height() == 36) {
           $topMenuItemLink.css({
-            'padding-top' : ($compressTopPadding / 2) + 'px',
-            'padding-bottom' : ($compressBottomPadding / 2) + 'px'
+            'padding-top' : ($compressTopPadding - 9) + 'px',
+            'padding-bottom' : ($compressBottomPadding - 9) + 'px'
           });
         };
       });
