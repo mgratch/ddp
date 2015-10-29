@@ -209,6 +209,28 @@
       'height' : $logo.parent().height() + 'px'
     });
 
+    $(window).resize(function() {
+      $topMenuItem.each(function() {
+        var $el = $(this);
+        var $topMenuItemLink = $el.children('.menu__link');
+        var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+
+        console.log($topMenuItemLinkCopy.height());
+
+        if ($topMenuItemLinkCopy.height() == 18) {
+          $topMenuItemLink.css({
+            'padding-top' : $topMenuItemPadding + 'px',
+            'padding-bottom' : $bottomMenuItemPadding + 'px'
+          });
+        } else if ($topMenuItemLinkCopy.height() == 36) {
+          $topMenuItemLink.css({
+            'padding-top' : ($topMenuItemPadding - 9) + 'px',
+            'padding-bottom' : ($bottomMenuItemPadding - 9) + 'px'
+          });
+        };
+      });
+    });
+
     $(window).scroll(function() {
       var $trackScroll = $(window).scrollTop();
       var $compressTopPadding = $topMenuItemPadding - $trackScroll;
