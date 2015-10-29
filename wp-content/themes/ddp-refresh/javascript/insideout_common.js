@@ -177,50 +177,89 @@
    * @return void
    */
   function scrollCompressMenu() {
-    var topMenuItemPadding = '43';
-    var bottomMenuItemPadding = topMenuItemPadding - '6';
-    var logoWidth = $('.site-logo').width();
-    var iconWidth = $('.site-logo__icon')[0].getBoundingClientRect().width;
+    var $topMenuItemPadding = 43;
+    var $bottomMenuItemPadding = $topMenuItemPadding - '6';
+    var $logo = $('.site-logo');
+    var $icon = $('.site-logo__icon');
+    var $iconWidth = $icon[0].getBoundingClientRect().width;
+    var $topMenuItem = $('.menu--main > .menu__item');
 
-    $('.js-header-compress > .menu__item > .menu__link').css({
-      'padding-top' : topMenuItemPadding + 'px',
-      'padding-bottom' : bottomMenuItemPadding + 'px'
+    $topMenuItem.each(function() {
+      var $el = $(this);
+      var $topMenuItemLink = $el.children('.menu__link');
+      var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+
+      console.log($topMenuItemLinkCopy.height());
+
+      if ($topMenuItemLinkCopy.height() == 18) {
+        $topMenuItemLink.css({
+          'padding-top' : $topMenuItemPadding + 'px',
+          'padding-bottom' : $bottomMenuItemPadding + 'px'
+        });
+      } else if ($topMenuItemLinkCopy.height() == 36) {
+        $topMenuItemLink.css({
+          'padding-top' : ($topMenuItemPadding / 2) + 'px',
+          'padding-bottom' : ($bottomMenuItemPadding / 2) + 'px'
+        });
+      };
     });
-    $('.site-logo').css({
-      'width' : logoWidth + 'px'
+
+    $logo.css({
+      'width'  : $logo.width() + 'px',
+      'height' : $logo.parent().height() + 'px'
     });
 
     $(window).scroll(function() {
-      var trackScroll = $(window).scrollTop();
-      var compressTopPadding = topMenuItemPadding - trackScroll;
-      var compressBottomPadding = bottomMenuItemPadding - trackScroll;
-      var shrinkIcon = iconWidth - (trackScroll / 0.875);
+      var $trackScroll = $(window).scrollTop();
+      var $compressTopPadding = $topMenuItemPadding - $trackScroll;
+      var $compressBottomPadding = $bottomMenuItemPadding - $trackScroll;
+      var $shrinkIconHeight = $topMenuItem.height();
+      var $shrinkIconWidth = $iconWidth - ($trackScroll / 0.875);
 
-      if (compressTopPadding <= 18) {
-        compressTopPadding = '18';
-        compressBottomPadding = '12';
+      if ($compressTopPadding <= 18) {
+        $compressTopPadding = 18;
+        $compressBottomPadding = 12;
       }
-      if (shrinkIcon <= 26.125) {
-        shrinkIcon = '26.125';
+      if ($shrinkIconHeight <= 54) {
+        $shrinkIconHeight = 54;
       };
+      if ($shrinkIconWidth <= 26.125) {
+        $shrinkIconWidth = 26.125;
+      }
 
-      $('.js-header-compress > .menu__item > .menu__link').css({
-        'padding-top' : compressTopPadding + 'px',
-        'padding-bottom' : compressBottomPadding + 'px'
+      console.log($shrinkIconWidth, $shrinkIconHeight);
+
+      $topMenuItem.each(function() {
+        var $el = $(this);
+        var $topMenuItemLink = $el.children('.menu__link');
+        var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+
+        if ($topMenuItemLinkCopy.height() == 18) {
+          $topMenuItemLink.css({
+            'padding-top' : $compressTopPadding + 'px',
+            'padding-bottom' : $compressBottomPadding + 'px'
+          });
+        } else if ($topMenuItemLinkCopy.height() == 36) {
+          $topMenuItemLink.css({
+            'padding-top' : ($compressTopPadding / 2) + 'px',
+            'padding-bottom' : ($compressBottomPadding / 2) + 'px'
+          });
+        };
       });
 
-      if (compressTopPadding < topMenuItemPadding && !$('.site-logo').hasClass('.site-logo--icon-only')) {
-        $('.site-logo').addClass('site-logo--icon-only');
-        $('.site-logo').css({
-          'width' : shrinkIcon + 'px'
+      if ($compressTopPadding < $topMenuItemPadding && !$logo.hasClass('.site-logo--icon-only')) {
+        $logo.addClass('site-logo--icon-only');
+        $logo.css({
+          'height' : $shrinkIconHeight + 'px'
         });
-        $('.site-logo__icon').css({
-          'width' : shrinkIcon + 'px'
+        $icon.css({
+          'width' : $shrinkIconWidth + 'px'
         });
       } else {
-        $('.site-logo').removeClass('site-logo--icon-only');
-        $('.site-logo').css({
-          'width' : logoWidth + 'px'
+        $logo.removeClass('site-logo--icon-only');
+        $logo.css({
+          'width' : $logo.parent().width() + 'px',
+          'height' : $logo.parent().height() + 'px'
         });
       };
     });

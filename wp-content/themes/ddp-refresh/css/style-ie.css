@@ -1643,14 +1643,14 @@ body .gform_wrapper .gform_footer {
 .site-logo__icon {
   position: relative;
   opacity: 0;
-  top: 50%;
-  transform: translateY(-50%);
   width: 55.129px;
   height: auto;
+  top: 50%;
+  transform: translateY(-50%);
   margin-top: 50%;
 }
 
-/* line 92, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 94, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo--icon-only .site-logo__icon {
   opacity: 1;
   margin-top: 0;

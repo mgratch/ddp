@@ -168,7 +168,7 @@ class IODDPWalker extends Walker_Nav_Menu
 
 			$classes = join(' ',io_menu_standards($item->classes,$item));
 			$strHtml .= '<li id="menu-'.$item->db_id.'" class="'.$classes.'">';
-				$strHtml .= '<a href="'.$item->url.'" class="menu__link">'.$item->title.'</a>';
+				$strHtml .= '<a href="'.$item->url.'" class="menu__link"><span class="js-link-copy">'.$item->title.'</span></a>';
 
 				if (isset($childItems[$item->db_id])) {
 					$strHtml .= '<div class="menu__flyout">';

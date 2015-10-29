@@ -53,11 +53,13 @@
 
 		<div class="content-wrap">
 			<header class="header header--main js-main-header">
-				<div class="header--main__item site-logo">
+				<div class="header--main__item">
+					<div class="site-logo">
             <a class="site-logo__link" title="<?php bloginfo('name'); ?> - Home" href="<?php echo home_url('/'); ?>">
               <img class="site-logo__image" src="<?php echo get_template_directory_uri();?>/images/site-logo.svg" onerror="this.src='<?php echo get_template_directory_uri();?>/images/site-logo.png';this.onerror=null;" alt="<?php bloginfo('name'); ?>">
 							<?php echo renderSVG(get_template_directory().'/images/site-icon.svg'); ?>
             </a>
+          </div>
 				</div>
 				<div class="mobile-button">menu</div>
 				<nav class="header--main__item nav nav--main">

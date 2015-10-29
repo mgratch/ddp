@@ -88,6 +88,8 @@
 .site-logo__icon {
   position: relative;
   opacity: 0;
+  width: 55.129px;
+  height: auto;
 
   .site-logo--icon-only & {
     opacity: 1;
@@ -97,8 +99,6 @@
   @include respond-min(em($mobile-menu-flip-min)) {
     top: 50%;
     transform: translateY(-50%);
-    width: 55.129px;
-    height: auto;
     margin-top: 50%;
   }
 }
