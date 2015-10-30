@@ -296,6 +296,7 @@
       var $trackScroll = $viewport.scrollTop();
       var $currentTopPadding = $topMenuItemPadding - $trackScroll;
       var $currentBottomPadding = $bottomMenuItemPadding - $trackScroll;
+      var $currentHeaderHeight = $('.header--main').height();
 
       if ($currentTopPadding <= 18) {
         $currentTopPadding = 18;
@@ -319,6 +320,18 @@
               'padding-bottom' : ($currentBottomPadding - 9) + 'px'
             });
           };
+        });
+      };
+
+      if ($viewport.width() >= $mobileSwitch) {
+        $logo.css({
+          'width'  : $logo.width() + 'px',
+          'height' : $logo.parent().height() + 'px'
+        });
+      } else {
+        $logo.css({
+          'width'  : $logo.width() + 'px',
+          'height' : $currentHeaderHeight + 'px'
         });
       };
     });
