@@ -1128,12 +1128,12 @@ strong {
 
 /* line 13, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
 .columned-content--2-column {
-  column-count: 2;
+  column-width: 225px;
 }
 
 /* line 17, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-columns.scss */
 .columned-content--3-column {
-  column-count: 3;
+  column-width: 175px;
 }
 
 /* line 1, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
@@ -1323,13 +1323,13 @@ body .gform_wrapper .gform_footer {
 /* line 36, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__image {
   position: absolute;
-  bottom: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   min-width: 990px;
 }
 
-/* line 46, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 44, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content {
   position: absolute;
   top: calc(50% + 58.5px);
@@ -1342,12 +1342,12 @@ body .gform_wrapper .gform_footer {
   background-color: rgba(0, 0, 0, 0.45);
 }
 
-/* line 57, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 55, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content > * + * {
   margin-top: 10px;
 }
 
-/* line 69, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+/* line 67, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
 .carousel__slide__content__copy {
   width: 100%;
   max-width: 672.75px;
@@ -1359,14 +1359,14 @@ body .gform_wrapper .gform_footer {
 }
 
 @media (min-width: 20em) and (max-width: 79.0625em) {
-  /* line 69, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+  /* line 67, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
   .carousel__slide__content__copy {
     font-size: calc(18px  + (1.5 - 1.125) * (100vw - 320px ) / (79.0625 - 20));
   }
 }
 
 @media (min-width: 79.0625em) {
-  /* line 69, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
+  /* line 67, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-carousels.scss */
   .carousel__slide__content__copy {
     font-size: 24px;
   }
@@ -2306,9 +2306,9 @@ body .gform_wrapper .gform_footer {
 /* line 26, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
 .hero__image {
   position: absolute;
-  bottom: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: 100%;
   min-width: 990px;
   height: auto;
