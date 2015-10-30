@@ -1,5 +1,6 @@
 .hero {
   position: relative;
+  min-height: 414.563px;
   line-height: 0;
   padding-bottom: (526/1265)*100%;
   overflow: hidden;
@@ -24,9 +25,11 @@
 
 .hero__image {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  min-width: 990px;
   height: auto;
 }
 
