@@ -177,6 +177,8 @@
    * @return void
    */
   function scrollCompressMenu() {
+    var $viewport = $(window);
+    var $mobileSwitch = 855;
     var $topMenuItemPadding = 43;
     var $bottomMenuItemPadding = $topMenuItemPadding - '6';
     var $logo = $('.site-logo');
@@ -184,34 +186,44 @@
     var $iconWidth = $icon[0].getBoundingClientRect().width;
     var $topMenuItem = $('.menu--main > .menu__item');
 
-    $topMenuItem.each(function() {
-      var $el = $(this);
-      var $topMenuItemLink = $el.children('.menu__link');
-      var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+    if ($viewport.width() >= $mobileSwitch) {
+      $topMenuItem.each(function() {
+        var $el = $(this);
+        var $topMenuItemLink = $el.children('.menu__link');
+        var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-      if ($topMenuItemLinkCopy.height() == 18) {
-        $topMenuItemLink.css({
-          'padding-top' : $topMenuItemPadding + 'px',
-          'padding-bottom' : $bottomMenuItemPadding + 'px'
-        });
-      } else if ($topMenuItemLinkCopy.height() == 36) {
-        $topMenuItemLink.css({
-          'padding-top' : ($topMenuItemPadding - 9) + 'px',
-          'padding-bottom' : ($bottomMenuItemPadding - 9) + 'px'
-        });
-      };
-    });
+        if ($topMenuItemLinkCopy.height() == 18) {
+          $topMenuItemLink.css({
+            'padding-top' : $topMenuItemPadding + 'px',
+            'padding-bottom' : $bottomMenuItemPadding + 'px'
+          });
+        } else if ($topMenuItemLinkCopy.height() == 36) {
+          $topMenuItemLink.css({
+            'padding-top' : ($topMenuItemPadding - 9) + 'px',
+            'padding-bottom' : ($bottomMenuItemPadding - 9) + 'px'
+          });
+        };
+      });
+    };
 
-    $logo.css({
-      'width'  : $logo.width() + 'px',
-      'height' : $logo.parent().height() + 'px'
-    });
+    if ($viewport.width() >= $mobileSwitch) {
+      $logo.css({
+        'width'  : $logo.width() + 'px',
+        'height' : $logo.parent().height() + 'px'
+      });
+    } else{
+      $logo.css({
+        'width'  : $logo.width() + 'px',
+        'height' : '104px'
+      });
+    };
 
-    $(window).scroll(function() {
-      var $trackScroll = $(window).scrollTop();
+    $viewport.scroll(function() {
+      var $trackScroll = $viewport.scrollTop();
       var $compressTopPadding = $topMenuItemPadding - $trackScroll;
       var $compressBottomPadding = $bottomMenuItemPadding - $trackScroll;
       var $shrinkIconHeight = $topMenuItem.height();
+      var $shrinkIconMobileHeight = 104 - ($trackScroll / 0.5);
       var $shrinkIconWidth = $iconWidth - ($trackScroll / 0.875);
 
       if ($compressTopPadding <= 18) {
@@ -221,47 +233,67 @@
       if ($shrinkIconHeight <= 54) {
         $shrinkIconHeight = 54;
       };
+      if ($shrinkIconMobileHeight <= 54) {
+        $shrinkIconMobileHeight = 54;
+      };
       if ($shrinkIconWidth <= 26.125) {
         $shrinkIconWidth = 26.125;
       }
 
-      $topMenuItem.each(function() {
-        var $el = $(this);
-        var $topMenuItemLink = $el.children('.menu__link');
-        var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+      if ($viewport.width() >= $mobileSwitch) {
+        $topMenuItem.each(function() {
+          var $el = $(this);
+          var $topMenuItemLink = $el.children('.menu__link');
+          var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-        if ($topMenuItemLinkCopy.height() == 18) {
-          $topMenuItemLink.css({
-            'padding-top' : $compressTopPadding + 'px',
-            'padding-bottom' : $compressBottomPadding + 'px'
-          });
-        } else if ($topMenuItemLinkCopy.height() == 36) {
-          $topMenuItemLink.css({
-            'padding-top' : ($compressTopPadding - 9) + 'px',
-            'padding-bottom' : ($compressBottomPadding - 9) + 'px'
-          });
-        };
-      });
+          if ($topMenuItemLinkCopy.height() == 18) {
+            $topMenuItemLink.css({
+              'padding-top' : $compressTopPadding + 'px',
+              'padding-bottom' : $compressBottomPadding + 'px'
+            });
+          } else if ($topMenuItemLinkCopy.height() == 36) {
+            $topMenuItemLink.css({
+              'padding-top' : ($compressTopPadding - 9) + 'px',
+              'padding-bottom' : ($compressBottomPadding - 9) + 'px'
+            });
+          };
+        });
+      };
 
       if ($compressTopPadding < $topMenuItemPadding && !$logo.hasClass('.site-logo--icon-only')) {
         $logo.addClass('site-logo--icon-only');
-        $logo.css({
-          'height' : $shrinkIconHeight + 'px'
-        });
+
         $icon.css({
           'width' : $shrinkIconWidth + 'px'
         });
+        if ($viewport.width() >= $mobileSwitch) {
+          $logo.css({
+            'height' : $shrinkIconHeight + 'px'
+          });
+        } else {
+          $logo.css({
+            'height' : $shrinkIconMobileHeight + 'px'
+          });
+        };
       } else {
         $logo.removeClass('site-logo--icon-only');
-        $logo.css({
-          'width' : $logo.parent().width() + 'px',
-          'height' : $logo.parent().height() + 'px'
-        });
+
+        if ($viewport.width() >= $mobileSwitch) {
+          $logo.css({
+            'width' : $logo.parent().width() + 'px',
+            'height' : $logo.parent().height() + 'px'
+          });
+        } else {
+          $logo.css({
+            'width' : $logo.parent().width() + 'px',
+            'height' : '104px'
+          });
+        };
       };
     });
 
-    $(window).resize(function() {
-      var $trackScroll = $(window).scrollTop();
+    $viewport.resize(function() {
+      var $trackScroll = $viewport.scrollTop();
       var $currentTopPadding = $topMenuItemPadding - $trackScroll;
       var $currentBottomPadding = $bottomMenuItemPadding - $trackScroll;
 
@@ -270,23 +302,25 @@
         $currentBottomPadding = 12;
       }
 
-      $topMenuItem.each(function() {
-        var $el = $(this);
-        var $topMenuItemLink = $el.children('.menu__link');
-        var $topMenuItemLinkCopy = $el.find('.js-link-copy');
+      if ($viewport.width() >= $mobileSwitch) {
+        $topMenuItem.each(function() {
+          var $el = $(this);
+          var $topMenuItemLink = $el.children('.menu__link');
+          var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-        if ($topMenuItemLinkCopy.height() == 18) {
-          $topMenuItemLink.css({
-            'padding-top' : $currentTopPadding + 'px',
-            'padding-bottom' : $currentBottomPadding + 'px'
-          });
-        } else if ($topMenuItemLinkCopy.height() == 36) {
-          $topMenuItemLink.css({
-            'padding-top' : ($currentTopPadding - 9) + 'px',
-            'padding-bottom' : ($currentBottomPadding - 9) + 'px'
-          });
-        };
-      });
+          if ($topMenuItemLinkCopy.height() == 18) {
+            $topMenuItemLink.css({
+              'padding-top' : $currentTopPadding + 'px',
+              'padding-bottom' : $currentBottomPadding + 'px'
+            });
+          } else if ($topMenuItemLinkCopy.height() == 36) {
+            $topMenuItemLink.css({
+              'padding-top' : ($currentTopPadding - 9) + 'px',
+              'padding-bottom' : ($currentBottomPadding - 9) + 'px'
+            });
+          };
+        });
+      };
     });
   }
 
