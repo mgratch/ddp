@@ -185,6 +185,8 @@
     var $icon = $('.site-logo__icon');
     var $iconWidth = $icon[0].getBoundingClientRect().width;
     var $topMenuItem = $('.menu--main > .menu__item');
+    var $nav = $('.nav--main');
+    var $header = $('.header--main');
 
     if ($viewport.width() >= $mobileSwitch) {
       $topMenuItem.each(function() {
@@ -211,10 +213,13 @@
         'width'  : $logo.width() + 'px',
         'height' : $logo.parent().height() + 'px'
       });
-    } else{
+    } else {
       $logo.css({
         'width'  : $logo.width() + 'px',
         'height' : '104px'
+      });
+      $nav.css({
+        'max-height' : 'calc( 100vh - 111px )'
       });
     };
 
@@ -257,6 +262,10 @@
               'padding-bottom' : ($compressBottomPadding - 9) + 'px'
             });
           };
+        });
+      } else {
+        $nav.css({
+          'max-height' : 'calc( 100vh - ' + $shrinkIconMobileHeight + 'px )'
         });
       };
 
@@ -320,6 +329,13 @@
               'padding-bottom' : ($currentBottomPadding - 9) + 'px'
             });
           };
+        });
+        $nav.css({
+          'max-height' : ''
+        });
+      } else {
+        $nav.css({
+          'max-height' : 'calc( 100vh - ' + $currentHeaderHeight + 'px )'
         });
       };
 
