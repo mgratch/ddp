@@ -623,13 +623,13 @@ strong {
 }
 
 /* line 75, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
-.page-content > *:not(.tabs):not(.tab__content):not(.map-container) {
+.page-content > *:not(.tabs):not(.tab__content):not(.map-container):not(.js-tab-content-container) {
   width: 100%;
   max-width: 700px;
 }
 
 /* line 80, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-base.scss */
-.page-content > * + *:not(.post-meta):not(.tab__content) {
+.page-content > * + *:not(.post-meta):not(.js-tab-content-container) {
   margin-top: 0.9375em;
 }
 

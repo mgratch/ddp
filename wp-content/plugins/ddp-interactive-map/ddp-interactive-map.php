@@ -41,6 +41,7 @@ function print_map($atts){
 			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Data</span></li>\n";
 			$html .= '</ul>';
 		//	$html .= '<div class="tab-content">';
+			$html .= '<div class="js-tab-content-container">';
 			$html .= '<div id="int-map" class="tab__content js-tab-content">';
 		}
 		$html .= '<div class="map-container"><div class="map-wrapper"><div id="map-canvas" style="width:'.$width.'; height:'.$height.';"></div></div>';
@@ -112,7 +113,7 @@ function print_map($atts){
 
 			$html .= '</table>';
 			$html .= '</div>';
-			//$html .= '</div>';
+			$html .= '</div>';
 	    }
 
 	    return $html;

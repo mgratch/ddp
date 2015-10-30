@@ -72,12 +72,12 @@ strong {
 
 .page-content {
 
-  & > *:not(.tabs):not(.tab__content):not(.map-container) {
+  & > *:not(.tabs):not(.tab__content):not(.map-container):not(.js-tab-content-container) {
     width: 100%;
     max-width: 700px;
   }
 
-  & > * + *:not(.post-meta):not(.tab__content) {
+  & > * + *:not(.post-meta):not(.js-tab-content-container) {
     margin-top: #{(15/16)}em;
   }
 
