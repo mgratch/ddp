@@ -337,6 +337,7 @@
         $nav.css({
           'max-height' : 'calc( 100vh - ' + $currentHeaderHeight + 'px )'
         });
+        $('.menu__link').removeAttr('style');
       };
 
       if ($viewport.width() >= $mobileSwitch) {

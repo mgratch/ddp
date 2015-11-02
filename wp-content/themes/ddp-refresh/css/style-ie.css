@@ -1140,41 +1140,49 @@ strong {
 .form__input, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"] {
   -webkit-appearance: none;
   width: 100%;
+  line-height: 1.0714285714;
   color: black;
-  padding: 10px 10px 11px;
+  padding: 11px 10px 10px;
   border: none;
   border-radius: 0;
 }
 
-/* line 10, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 3) {
+  /* line 1, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+  .form__input, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"] {
+    padding: 10px 10px 9px;
+  }
+}
+
+/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input {
   display: table;
   width: 100%;
 }
 
-/* line 15, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input__item {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 20, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 25, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 .form--single-input__input {
   width: 100%;
   padding-right: 5px;
 }
 
-/* line 25, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 30, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper {
   border: none !important;
 }
 
-/* line 28, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 33, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
   border: solid 1px #d4d4d4;
 }
 
-/* line 33, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 38, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gfield_label {
   font-family: "museo_sans500";
   font-size: 14px;
@@ -1182,7 +1190,7 @@ body .gform_wrapper .gfield_label {
   margin-bottom: 0 !important;
 }
 
-/* line 42, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
+/* line 47, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gform_footer {
   margin-top: 0.625em;
 }
@@ -1606,11 +1614,12 @@ body .gform_wrapper .gform_footer {
 /* line 42, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo {
   position: relative;
+  max-height: 104px;
   line-height: 0;
   overflow: hidden;
 }
 
-/* line 52, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 53, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo__link {
   display: block;
   height: 100%;
@@ -1622,7 +1631,7 @@ body .gform_wrapper .gform_footer {
   height: 100%;
 }
 
-/* line 66, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 67, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo__image {
   position: relative;
   width: 100%;
@@ -1631,12 +1640,12 @@ body .gform_wrapper .gform_footer {
   height: 100%;
 }
 
-/* line 73, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 74, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo--icon-only .site-logo__image {
   display: none;
 }
 
-/* line 78, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 79, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo__icon {
   position: relative;
   opacity: 0;
@@ -1647,20 +1656,20 @@ body .gform_wrapper .gform_footer {
   margin-top: 50%;
 }
 
-/* line 87, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 88, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .site-logo--icon-only .site-logo__icon {
   opacity: 1;
   margin-top: 0;
 }
 
-/* line 110, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 111, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .social-connect {
   padding: 20px 5.4545454545%;
   width: 90px;
   padding: 0;
 }
 
-/* line 119, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 120, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .social-connect__title {
   display: block;
   font-family: "museo_sans500";
