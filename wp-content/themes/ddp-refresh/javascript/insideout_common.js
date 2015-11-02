@@ -417,7 +417,7 @@
 
     $tab.eq(0).addClass('tab--active');
     // $content.not(':eq(0)').hide();
-    $content.not(':eq(0)').velocity('transition.slideUpOut', { duration: 1 } );
+    $content.not(':eq(0)').velocity('transition.slideUpOut', { duration: 50 } );
 
     $tab.click(function() {
       var $el = $(this);
