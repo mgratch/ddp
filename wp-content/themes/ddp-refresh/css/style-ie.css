@@ -1628,7 +1628,7 @@ body .gform_wrapper .gform_footer {
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
-  height: auto;
+  height: 100%;
 }
 
 /* line 73, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
@@ -1643,7 +1643,7 @@ body .gform_wrapper .gform_footer {
   top: 50%;
   transform: translateY(-50%);
   width: 55.129px;
-  height: auto;
+  height: 100%;
   margin-top: 50%;
 }
 
