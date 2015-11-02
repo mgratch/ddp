@@ -330,9 +330,7 @@
             });
           };
         });
-        $nav.css({
-          'max-height' : ''
-        });
+        $nav.removeAttr('style');
       } else {
         $nav.css({
           'max-height' : 'calc( 100vh - ' + $currentHeaderHeight + 'px )'

@@ -105,6 +105,7 @@
     overflow: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
   }
 }
 

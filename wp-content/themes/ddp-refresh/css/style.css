@@ -1819,23 +1819,24 @@ body .gform_wrapper .gform_footer {
     overflow: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
   }
 }
 
-/* line 111, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 112, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .social-connect {
   padding: 20px 5.4545454545%;
 }
 
 @media screen and (min-width: 53.4375em) {
-  /* line 111, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+  /* line 112, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
   .social-connect {
     width: 90px;
     padding: 0;
   }
 }
 
-/* line 120, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
+/* line 121, /Users/jeffwinegar/dev/ddp/wp-content/themes/ddp-refresh/css/sass/partials/_theme-header.scss */
 .social-connect__title {
   display: block;
   font-family: "museo_sans500";
