@@ -180,7 +180,7 @@
     var $viewport = $(window);
     var $mobileSwitch = 855;
     var $topMenuItemPadding = 43;
-    var $bottomMenuItemPadding = $topMenuItemPadding - '6';
+    var $bottomMenuItemPadding = $topMenuItemPadding - 6;
     var $logo = $('.site-logo');
     var $icon = $('.site-logo__icon');
     var $iconWidth = $icon[0].getBoundingClientRect().width;
@@ -194,12 +194,12 @@
         var $topMenuItemLink = $el.children('.menu__link');
         var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-        if ($topMenuItemLinkCopy.height() == 18) {
+        if ($topMenuItemLinkCopy.height() < 35 ) {
           $topMenuItemLink.css({
             'padding-top' : $topMenuItemPadding + 'px',
             'padding-bottom' : $bottomMenuItemPadding + 'px'
           });
-        } else if ($topMenuItemLinkCopy.height() == 36) {
+        } else {
           $topMenuItemLink.css({
             'padding-top' : ($topMenuItemPadding - 9) + 'px',
             'padding-bottom' : ($bottomMenuItemPadding - 9) + 'px'
@@ -251,12 +251,12 @@
           var $topMenuItemLink = $el.children('.menu__link');
           var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-          if ($topMenuItemLinkCopy.height() == 18) {
+          if ($topMenuItemLinkCopy.height() < 35 ) {
             $topMenuItemLink.css({
               'padding-top' : $compressTopPadding + 'px',
               'padding-bottom' : $compressBottomPadding + 'px'
             });
-          } else if ($topMenuItemLinkCopy.height() == 36) {
+          } else {
             $topMenuItemLink.css({
               'padding-top' : ($compressTopPadding - 9) + 'px',
               'padding-bottom' : ($compressBottomPadding - 9) + 'px'
@@ -318,12 +318,12 @@
           var $topMenuItemLink = $el.children('.menu__link');
           var $topMenuItemLinkCopy = $el.find('.js-link-copy');
 
-          if ($topMenuItemLinkCopy.height() == 18) {
+          if ($topMenuItemLinkCopy.height() < 35 ) {
             $topMenuItemLink.css({
               'padding-top' : $currentTopPadding + 'px',
               'padding-bottom' : $currentBottomPadding + 'px'
             });
-          } else if ($topMenuItemLinkCopy.height() == 36) {
+          } else {
             $topMenuItemLink.css({
               'padding-top' : ($currentTopPadding - 9) + 'px',
               'padding-bottom' : ($currentBottomPadding - 9) + 'px'
@@ -416,7 +416,8 @@
     var $content = $('.js-tab-content');
 
     $tab.eq(0).addClass('tab--active');
-    $content.not(':eq(0)').hide();
+    // $content.not(':eq(0)').hide();
+    $content.not(':eq(0)').velocity('transition.slideUpOut', { duration: 1 } );
 
     $tab.click(function() {
       var $el = $(this);
