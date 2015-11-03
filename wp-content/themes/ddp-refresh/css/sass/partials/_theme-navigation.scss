@@ -162,7 +162,7 @@
 
   .menu--main & {
     right: 0;
-    padding: calc(#{(22.125/16)}em - 2px) calc(#{(22.125/16)}em - 2px);
+    padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
 
     &:before {
       border: {
@@ -170,10 +170,6 @@
         bottom: solid 5px transparent;
         left: solid 8px;
       }
-    }
-
-    @include respond-min(em($mobile-menu-flip-min)) {
-      padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
     }
   }
 
