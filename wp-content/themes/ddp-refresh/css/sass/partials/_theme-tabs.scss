@@ -18,21 +18,22 @@
 }
 
 .tabs__tab {
+  display: table-cell;
   vertical-align: bottom;
   text-align: center;
   font-family: $font-accent-light;
   line-height: 0.85;
   letter-spacing: -0.5px;
   color: white;
-  padding: 5px;
+  padding: 0 5px;
 
   .tabs--landing & {
     font-size: rem(24px);
-  }
 
-  @include respond-min(em(575px)) {
-    display: table-cell;
-    padding: 0 5px;
+    @include respond-max(em(574px)) {
+      display: block;
+      padding: 5px;
+    }
   }
 }
 

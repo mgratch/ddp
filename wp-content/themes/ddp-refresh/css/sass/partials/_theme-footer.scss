@@ -103,6 +103,10 @@
 
 .newsletter-signup-form {
   max-width: 350px;
+
+  .form__input {
+    max-height: 36px;
+  }
 }
 
 .footer--main__content__link {
