@@ -45,14 +45,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         '$v@;aWml0&y9u,(&D-@L`I>:qP?Y:Awna#^C+8;cT}`y!szFd3sksv-r;;6(1}i?');
-define('SECURE_AUTH_KEY',  'R7Ik^v^0cSEq?y?W-WT*>m1^O]sgnl:mT_2[Em70k>x8$6*P[lsix4;`}T?:+Xuu');
-define('LOGGED_IN_KEY',    '+hAVe}D|&0KE|57p&&jF5dy3lp(DsJ0k|.wqLd`uLUB!}r|;;;D6rEPptwL>`3R.');
-define('NONCE_KEY',        'xL)n;]]+p,O(bFT$1z3]w!b=k7Clas!J%<rYHPsH]E)6Kw&;>9$Qwrga:+mUdb-u');
-define('AUTH_SALT',        'ZW|U_&SqI3YeSSiz?/&U|2/.LHb|]NE D<l6,@b!}#/_-9#@8+Axm6s3:`+14c$a');
+define('AUTH_KEY', '$v@;aWml0&y9u,(&D-@L`I>:qP?Y:Awna#^C+8;cT}`y!szFd3sksv-r;;6(1}i?');
+define('SECURE_AUTH_KEY', 'R7Ik^v^0cSEq?y?W-WT*>m1^O]sgnl:mT_2[Em70k>x8$6*P[lsix4;`}T?:+Xuu');
+define('LOGGED_IN_KEY', '+hAVe}D|&0KE|57p&&jF5dy3lp(DsJ0k|.wqLd`uLUB!}r|;;;D6rEPptwL>`3R.');
+define('NONCE_KEY', 'xL)n;]]+p,O(bFT$1z3]w!b=k7Clas!J%<rYHPsH]E)6Kw&;>9$Qwrga:+mUdb-u');
+define('AUTH_SALT', 'ZW|U_&SqI3YeSSiz?/&U|2/.LHb|]NE D<l6,@b!}#/_-9#@8+Axm6s3:`+14c$a');
 define('SECURE_AUTH_SALT', '+kZ5=-k(cYW]sk.J{OxC.B3[lPjY28EHwfxmC$~oY5R=fZnphSc-q#-vM~^Tx6r?');
-define('LOGGED_IN_SALT',   'D  :xNI~=O&YP+hUo|y`x::<L3]uyhRyq4;@]Db}c|QN^da^6C6PD)k4|fS0$nD>');
-define('NONCE_SALT',       '29{z06P$Pu#L;C_O@T20AczWGrn.H_|?wi;vJL<X-8U8W0)ihw,rKb~o<234f2x;');
+define('LOGGED_IN_SALT', 'D  :xNI~=O&YP+hUo|y`x::<L3]uyhRyq4;@]Db}c|QN^da^6C6PD)k4|fS0$nD>');
+define('NONCE_SALT', '29{z06P$Pu#L;C_O@T20AczWGrn.H_|?wi;vJL<X-8U8W0)ihw,rKb~o<234f2x;');
 
 /**#@-*/
 
@@ -62,7 +62,7 @@ define('NONCE_SALT',       '29{z06P$Pu#L;C_O@T20AczWGrn.H_|?wi;vJL<X-8U8W0)ihw,r
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = $_ENV['TABLE_PREFIX'];
+$table_prefix = $_ENV['TABLE_PREFIX'];
 
 /**
  * For developers: WordPress debugging mode.
@@ -75,7 +75,7 @@ $table_prefix  = $_ENV['TABLE_PREFIX'];
 $debug = false;
 
 if ($_ENV['DEBUG'] == 'true') {
-  $debug = true;
+    $debug = true;
 }
 
 define('WP_DEBUG', $debug);
@@ -83,8 +83,9 @@ define('WP_DEBUG', $debug);
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+if (!defined('ABSPATH')) {
+    define('ABSPATH', dirname(__FILE__) . '/');
+}
 
 /** Sets up WordPress vars and included files. */
-require_once(ABSPATH . 'wp-settings.php');
+require_once ABSPATH . 'wp-settings.php';
