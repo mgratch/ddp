@@ -180,7 +180,7 @@ Template Name: Home Page
 
 			<div class="social-widget table__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-facebook.svg'); ?> Facebook</h4>
-				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-width="100%" data-height="342" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Downtown Detroit Partnership</a></blockquote></div></div>
+				<div class="fb-page" data-href="https://www.facebook.com/DowntownDetroitPartnership" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/DowntownDetroitPartnership"><a href="https://www.facebook.com/DowntownDetroitPartnership">Facebook</a></blockquote></div></div>
 			</div>
 
 			<div class="social-widget table__item">
