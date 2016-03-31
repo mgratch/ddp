@@ -198,10 +198,8 @@ class IODDPWalker extends Walker_Nav_Menu
 										}
 										$strHtml .= '</ul>';
 									}
-
+                  $strHtml .= '</li>';
 								}
-
-								$strHtml .= '</li>';
 							}
 
 							$strHtml .= '</ul>';
