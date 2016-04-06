@@ -61,9 +61,9 @@
             <!--End mc_embed_signup-->
           </div>
           <div class="footer--main__content__item">
-            <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">Support the Downtown Detroit Partnership</h4>
-            <p>Help us out, this is dummy text but it’s the intro for the Support section and will fill this space.</p>
-            <a class="button button--cta button--color-2 button--shout" href="#">Call To Action</a>
+            <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">JOIN THE DOWNTOWN DETROIT PARTNERSHIP</h4>
+            <p>Be informed, develop connections and have your voice heard.</p>
+            <a class="button button--cta button--color-2 button--shout" href="http://devbucket.net/sites/ddp/dev/about-ddp/become-a-member/">Learn More</a>
           </div>
         </div>
   			<p class="footer__copyright">&copy; Copyright <?php echo date('Y'); ?> <a class="footer__link" href="<?php bloginfo('url'); ?>/" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> </p>
