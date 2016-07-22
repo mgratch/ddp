@@ -8,7 +8,7 @@
  * @since 1.0.0
  */
 
-// Prohibit direct script loading
+// Prohibit direct script loading.
 defined( 'ABSPATH' ) || die( 'No direct script access allowed!' );
 
 /**
@@ -21,19 +21,19 @@ defined( 'ABSPATH' ) || die( 'No direct script access allowed!' );
 class TablePress_Options_View extends TablePress_View {
 
 	/**
-	 * Set up the view with data and do things that are specific for this view
+	 * Set up the view with data and do things that are specific for this view.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $action Action for this view
-	 * @param array $data Data for this view
+	 * @param string $action Action for this view.
+	 * @param array  $data   Data for this view.
 	 */
 	public function setup( $action, array $data ) {
 		parent::setup( $action, $data );
 
 		$this->admin_page->enqueue_style( 'codemirror' );
-		$this->admin_page->enqueue_script( 'codemirror', array(), false, true );
-		$this->admin_page->enqueue_script( 'options', array( 'jquery', 'tablepress-codemirror' ), array(
+		$this->admin_page->enqueue_script( 'codemirror', array(), array(), true );
+		$this->admin_page->enqueue_script( 'options', array( 'jquery-core', 'tablepress-codemirror', 'jquery-ui-resizable' ), array(
 			'strings' => array(
 				'uninstall_warning_1' => __( 'Do you really want to uninstall TablePress and delete ALL data?', 'tablepress' ),
 				'uninstall_warning_2' => __( 'Are you really sure?', 'tablepress' ),
@@ -60,11 +60,14 @@ class TablePress_Options_View extends TablePress_View {
 	}
 
 	/**
-	 * Print the screen head text
+	 * Print the screen head text.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $data Data for this screen.
+	 * @param array $box  Information about the text box.
 	 */
-	public function textbox_head( $data, $box ) {
+	public function textbox_head( array $data, array $box ) {
 		?>
 		<p>
 			<?php _e( 'TablePress has several options which affect the plugin&#8217;s behavior in different areas.', 'tablepress' ); ?>
@@ -75,18 +78,21 @@ class TablePress_Options_View extends TablePress_View {
 					_e( 'Frontend Options influence the styling of tables in pages, posts, or text widgets, by defining which CSS code shall be loaded.', 'tablepress' );
 					echo '<br />';
 				}
-				_e( 'In the User Options, every TablePress user can choose the position of the plugin in his WordPress admin menu, and his desired plugin language.', 'tablepress' );
+				_e( 'In the User Options, every TablePress user can choose the position of the plugin in his WordPress admin menu.', 'tablepress' );
 			?>
 		</p>
 		<?php
 	}
 
 	/**
-	 * Print the content of the "Frontend Options" post meta box
+	 * Print the content of the "Frontend Options" post meta box.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $data Data for this screen.
+	 * @param array $box  Information about the meta box.
 	 */
-	public function postbox_frontend_options( $data, $box ) {
+	public function postbox_frontend_options( array $data, array $box ) {
 ?>
 <table class="tablepress-postbox-table fixed">
 <tbody>
@@ -100,11 +106,11 @@ class TablePress_Options_View extends TablePress_View {
 		<td class="column-2">
 			<textarea name="options[custom_css]" id="option-custom-css" class="large-text" rows="8"><?php echo esc_textarea( $data['frontend_options']['custom_css'] ); ?></textarea>
 			<p class="description"><?php
-				printf( __( '&#8220;Custom CSS&#8221; (<a href="%s">Cascading Style Sheets</a>) can be used to change the styling or layout of a table.', 'tablepress' ), 'http://www.htmldog.com/guides/cssbeginner/' );
+				printf( __( '&#8220;Custom CSS&#8221; (<a href="%s">Cascading Style Sheets</a>) can be used to change the styling or layout of a table.', 'tablepress' ), 'http://www.htmldog.com/guides/css/beginner/' );
 				echo ' ';
-				printf( __( 'You can get styling examples from the <a href="%s">FAQ</a>.', 'tablepress' ), 'http://tablepress.org/faq/' );
+				printf( __( 'You can get styling examples from the <a href="%s">FAQ</a>.', 'tablepress' ), 'https://tablepress.org/faq/' );
 				echo ' ';
-				printf( __( 'Information on available CSS selectors can be found in the <a href="%s">documentation</a>.', 'tablepress' ), 'http://tablepress.org/documentation/' );
+				printf( __( 'Information on available CSS selectors can be found in the <a href="%s">documentation</a>.', 'tablepress' ), 'https://tablepress.org/documentation/' );
 				echo ' ';
 				_e( 'Please note that invalid CSS code will be stripped, if it can not be corrected automatically.', 'tablepress' );
 			?></p>
@@ -116,16 +122,19 @@ class TablePress_Options_View extends TablePress_View {
 	}
 
 	/**
-	 * Print the content of the "User Options" post meta box
+	 * Print the content of the "User Options" post meta box.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $data Data for this screen.
+	 * @param array $box  Information about the meta box.
 	 */
-	public function postbox_user_options( $data, $box ) {
+	public function postbox_user_options( array $data, array $box ) {
 		?>
 <table class="tablepress-postbox-table fixed">
 <tbody>
 		<?php
-		// get list of current admin menu entries
+		// Get list of current admin menu entries.
 		$entries = array();
 		foreach ( $GLOBALS['menu'] as $entry ) {
 			if ( false !== strpos( $entry[2], '.php' ) ) {
@@ -133,7 +142,7 @@ class TablePress_Options_View extends TablePress_View {
 			}
 		}
 
-		// remove <span> elements with notification bubbles (e.g. update or comment count)
+		// Remove <span> elements with notification bubbles (e.g. update or comment count).
 		if ( isset( $entries['plugins.php'] ) ) {
 			$entries['plugins.php'] = preg_replace( '/ <span.*span>/', '', $entries['plugins.php'] );
 		}
@@ -141,7 +150,7 @@ class TablePress_Options_View extends TablePress_View {
 			$entries['edit-comments.php'] = preg_replace( '/ <span.*span>/', '', $entries['edit-comments.php'] );
 		}
 
-		// add separator and generic positions
+		// Add separator and generic positions.
 		$entries['-'] = '---';
 		$entries['top'] = __( 'Top-Level (top)', 'tablepress' );
 		$entries['middle'] = __( 'Top-Level (middle)', 'tablepress' );
@@ -153,22 +162,9 @@ class TablePress_Options_View extends TablePress_View {
 		}
 		$select_box .= "</select>\n";
 		?>
-	<tr class="bottom-border">
+	<tr>
 		<th class="column-1" scope="row"><label for="option-admin-menu-parent-page"><?php _e( 'Admin menu entry', 'tablepress' ); ?>:</label></th>
 		<td class="column-2"><?php printf( __( 'TablePress shall be shown in this section of my admin menu: %s', 'tablepress' ), $select_box ); ?></td>
-	</tr>
-		<?php
-		$select_box = '<select id="option-plugin-language" name="options[plugin_language]">' . "\n";
-		$select_box .= '<option' . selected( $data['user_options']['plugin_language'], 'auto', false ) . ' value="auto">' . sprintf( __( 'WordPress Default (currently %s)', 'tablepress' ), get_locale() ) . "</option>\n";
-		$select_box .= '<option value="-" disabled="disabled">---</option>' . "\n";
-		foreach ( $data['user_options']['plugin_languages'] as $lang_abbr => $language ) {
-			$select_box .= '<option' . selected( $data['user_options']['plugin_language'], $lang_abbr, false ) . ' value="' . $lang_abbr . '">' . "{$language['name']} ({$lang_abbr})</option>\n";
-		}
-		$select_box .= "</select>\n";
-		?>
-	<tr class="top-border">
-		<th class="column-1" scope="row"><label for="option-plugin-language"><?php _e( 'Plugin Language', 'tablepress' ); ?>:</label></th>
-		<td class="column-2"><?php printf( __( 'I want to use TablePress in this language: %s', 'tablepress' ), $select_box ); ?></td>
 	</tr>
 </tbody>
 </table>
@@ -176,13 +172,16 @@ class TablePress_Options_View extends TablePress_View {
 	}
 
 	/**
-	 * Print the content of the "Admin Options" post meta box
+	 * Print the content of the "Admin Options" post meta box.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $data Data for this screen.
+	 * @param array $box  Information about the text box.
 	 */
-	public function textbox_uninstall_tablepress( $data, $box ) {
+	public function textbox_uninstall_tablepress( array $data, array $box ) {
 		?>
-		<h2 style="margin-top:40px;"><?php _e( 'Uninstall TablePress', 'tablepress' ); ?></h2>
+		<h1 style="margin-top:40px;"><?php _e( 'Uninstall TablePress', 'tablepress' ); ?></h1>
 		<p><?php
 			echo __( 'Uninstalling <strong>will permanently delete</strong> all TablePress tables and options from the database.', 'tablepress' ) . '<br />'
 				. __( 'It is recommended that you create a backup of the tables (by exporting the tables in the JSON format), in case you later change your mind.', 'tablepress' ) . '<br />'

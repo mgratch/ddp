@@ -455,6 +455,7 @@ class wfCache {
 			$contents = $code . "\n" . $contents;
 		}
 		ftruncate($fh, 0);
+		fflush($fh);
 		fseek($fh, 0, SEEK_SET);
 		fwrite($fh, $contents);
 		flock($fh, LOCK_UN);
@@ -512,7 +513,7 @@ class wfCache {
 		$excludedURLs = "";
 		if(wfConfig::get('bannedURLs', false)){
 			foreach(explode(',', wfConfig::get('bannedURLs', false)) as $URL){
-				$excludedURLs .= "RewriteCond  %{REQUEST_URI} !^" .  self::regexSpaceFix(preg_quote(trim($URL))) . "$\n\t";
+				$excludedURLs .= "RewriteCond %{REQUEST_URI} !" .  wfUtils::patternToRegex($URL, '', '') . "\n\t";
 			}
 		}
 
@@ -608,6 +609,7 @@ EOT;
 			$contents = preg_replace('/#WFIPBLOCKS.*WFIPBLOCKS[r\s\n\t]*/s', '', $contents);
 
 			ftruncate($fh, 0);
+			fflush($fh);
 			fseek($fh, 0, SEEK_SET);
 			@fwrite($fh, $contents);
 			flock($fh, LOCK_UN);
@@ -703,6 +705,7 @@ EOT;
 		$contents = preg_replace('/#WFIPBLOCKS.*WFIPBLOCKS[r\s\n\t]*/s', '', $contents);
 		$contents = $blockCode . $contents;
 		ftruncate($fh, 0);
+		fflush($fh);
 		fseek($fh, 0, SEEK_SET);
 		@fwrite($fh, $contents);
 		flock($fh, LOCK_UN);
@@ -710,14 +713,14 @@ EOT;
 		return false;
 	}
 	public static function getHtaccessPath(){
-		if(file_exists(ABSPATH . '/.htaccess')){
-			return ABSPATH . '/.htaccess';
+		if (!function_exists('get_home_path')) {
+			include_once ABSPATH . 'wp-admin/includes/file.php';
 		}
-		if(preg_match('/^https?:\/\/[^\/]+\/?$/i', home_url()) && preg_match('/^https?:\/\/[^\/]+\/.+/i', site_url())){
-			$path = realpath(ABSPATH . '/../.htaccess');
-			if(file_exists($path)){
-				return $path;
-			}
+
+		$homePath = get_home_path();
+		$htaccessFile = $homePath.'.htaccess';
+		if (file_exists($htaccessFile)) {
+			return $htaccessFile;
 		}
 		return false;
 	}

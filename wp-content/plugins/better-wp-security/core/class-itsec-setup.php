@@ -24,25 +24,29 @@ class ITSEC_Setup {
 		global $itsec_globals;
 
 		$this->defaults = array(
-			'notification_email'       => array( get_option( 'admin_email' ) ),
-			'backup_email'             => array( get_option( 'admin_email' ) ),
-			'lockout_message'          => __( 'error', 'it-l10n-better-wp-security' ),
-			'user_lockout_message'     => __( 'You have been locked out due to too many login attempts.', 'it-l10n-better-wp-security' ),
-			'blacklist'                => true,
-			'blacklist_count'          => 3,
-			'blacklist_period'         => 7,
-			'email_notifications'      => true,
-			'lockout_period'           => 15,
-			'lockout_white_list'       => array(),
-			'log_rotation'             => 30,
-			'log_type'                 => 0,
-			'log_location'             => $itsec_globals['ithemes_log_dir'],
-			'allow_tracking'           => false,
-			'write_files'              => false,
-			'nginx_file'               => ABSPATH . 'nginx.conf',
-			'infinitewp_compatibility' => false,
-			'did_upgrade'              => false,
-			'lock_file' => false,
+			'notification_email'        => array( get_option( 'admin_email' ) ),
+			'backup_email'              => array( get_option( 'admin_email' ) ),
+			'lockout_message'           => __( 'error', 'better-wp-security' ),
+			'user_lockout_message'      => __( 'You have been locked out due to too many invalid login attempts.', 'better-wp-security' ),
+			'community_lockout_message' => __( "Your IP address has been flagged as a threat by the iThemes Security network.", 'better-wp-security' ),
+			'blacklist'                 => true,
+			'blacklist_count'           => 3,
+			'blacklist_period'          => 7,
+			'email_notifications'       => true,
+			'lockout_period'            => 15,
+			'lockout_white_list'        => array(),
+			'log_rotation'              => 14,
+			'log_type'                  => 0,
+			'log_location'              => $itsec_globals['ithemes_log_dir'],
+			'allow_tracking'            => false,
+			'write_files'               => false,
+			'nginx_file'                => ABSPATH . 'nginx.conf',
+			'infinitewp_compatibility'  => false,
+			'did_upgrade'               => false,
+			'lock_file'                 => false,
+			'digest_email'              => false,
+			'proxy_override'            => false,
+			'hide_admin_bar'            => false,
 		);
 
 		if ( ! $case ) {
@@ -64,31 +68,7 @@ class ITSEC_Setup {
 				break;
 
 			case 'uninstall': //uninstall plugin
-
-				//Don't run the uninstall script if another version of the plugin is active
-				$free_base = 'better-wp-security/better-wp-security.php';
-				$pro_base  = 'ithemes-security-pro/ithemes-security-pro.php';
-
-				if ( $pro_base == $itsec_globals['plugin_base'] ) {
-					$plugin = $free_base;
-				} else {
-					$plugin = $pro_base;
-				}
-
-				if ( is_multisite() ) {
-
-					$active = is_plugin_active_for_network( $plugin );
-
-				} else {
-
-					$active = is_plugin_active( $plugin );
-
-				}
-
-				if ( $active === false ) {
-					$this->uninstall_execute();
-				}
-
+				$this->uninstall_execute();
 				break;
 
 		}
@@ -101,34 +81,8 @@ class ITSEC_Setup {
 	 * @return void
 	 */
 	function do_modules() {
-
-		global $itsec_globals;
-
-		$free_modules_folder = $itsec_globals['plugin_dir'] . 'modules/free';
-		$pro_modules_folder  = $itsec_globals['plugin_dir'] . 'modules/pro';
-
-		$has_pro = is_dir( $pro_modules_folder );
-
-		if ( $has_pro ) {
-
-			foreach ( $itsec_globals['pro_modules'] as $module => $info ) {
-
-				if ( file_exists( $pro_modules_folder . '/' . $module . '/setup.php' ) ) {
-					require( $pro_modules_folder . '/' . $module . '/setup.php' );
-				}
-
-			}
-
-		}
-
-		foreach ( $itsec_globals['free_modules'] as $module => $info ) {
-
-			if ( ( $has_pro === false || ! in_array( $module, $itsec_globals['pro_modules'] ) ) && file_exists( $free_modules_folder . '/' . $module . '/setup.php' ) ) {
-				require( $free_modules_folder . '/' . $module . '/setup.php' );
-			}
-
-		}
-
+		$itsec_modules = ITSEC_Modules::get_instance();
+		$itsec_modules->run_activation();
 	}
 
 	/**
@@ -198,7 +152,7 @@ class ITSEC_Setup {
 		//if this is multisite make sure they're network activating or die
 		if ( defined( 'ITSEC_DO_ACTIVATION' ) && ITSEC_DO_ACTIVATION == true && is_multisite() && ! strpos( $_SERVER['REQUEST_URI'], 'wp-admin/network/plugins.php' ) ) {
 
-			die ( __( '<strong>ERROR</strong>: You must activate this plugin from the network dashboard.', 'it-l10n-better-wp-security' ) );
+			die ( __( '<strong>ERROR</strong>: You must activate this plugin from the network dashboard.', 'better-wp-security' ) );
 
 		}
 
@@ -215,6 +169,10 @@ class ITSEC_Setup {
 		if ( ! is_dir( $itsec_globals['ithemes_log_dir'] ) ) {
 
 			@mkdir( $itsec_globals['ithemes_log_dir'] );
+			// Make sure we have an index file to block directory listing
+			if ( ! file_exists( path_join( $itsec_globals['ithemes_log_dir'], 'index.php' ) ) ) {
+				file_put_contents( path_join( $itsec_globals['ithemes_log_dir'], 'index.php' ), "<?php\n// Silence is golden." );
+			}
 			$handle = @fopen( $itsec_globals['ithemes_log_dir'] . '/.htaccess', 'w+' );
 			@fwrite( $handle, 'Deny from all' );
 			@fclose( $handle );
@@ -224,6 +182,10 @@ class ITSEC_Setup {
 		if ( ! is_dir( $itsec_globals['ithemes_backup_dir'] ) ) {
 
 			@mkdir( $itsec_globals['ithemes_backup_dir'] );
+			// Make sure we have an index file to block directory listing
+			if ( ! file_exists( path_join( $itsec_globals['ithemes_backup_dir'], 'index.php' ) ) ) {
+				file_put_contents( path_join( $itsec_globals['ithemes_backup_dir'], 'index.php' ), "<?php\n// Silence is golden." );
+			}
 			$handle = @fopen( $itsec_globals['ithemes_backup_dir'] . '/.htaccess', 'w+' );
 			@fwrite( $handle, 'Deny from all' );
 			@fclose( $handle );
@@ -238,11 +200,15 @@ class ITSEC_Setup {
 			add_site_option( 'itsec_initials', array(), false );
 		}
 
+		if ( get_site_option( 'itsec_api_nag' ) === false ) { //show the nag to activate an API key
+			add_site_option( 'itsec_api_nag', true, false );
+		}
+
 		$options = get_site_option( 'itsec_global' );
 
 		if ( $options === false || ( isset( $options['log_info'] ) && sizeof( $options ) <= 2 ) ) {
 
-			$this->defaults['log_info'] = substr( sanitize_title( get_bloginfo( 'name' ) ), 0, 20 ) . '-' . ITSEC_Lib::get_random( mt_rand( 0, 10 ) );
+			$this->defaults['log_info'] = substr( sanitize_title( get_bloginfo( 'name' ) ), 0, 20 ) . '-' . wp_generate_password( 30, false );
 
 			$itsec_globals['settings'] = $this->defaults;
 
@@ -252,7 +218,7 @@ class ITSEC_Setup {
 
 		//load utility functions
 		if ( ! class_exists( 'ITSEC_Lib' ) ) {
-			require( $itsec_globals['plugin_dir'] . 'core/class-itsec-lib.php' );
+			require( trailingslashit( $itsec_globals['plugin_dir'] ) . 'core/class-itsec-lib.php' );
 		}
 
 		ITSEC_Lib::create_database_tables();
@@ -272,7 +238,8 @@ class ITSEC_Setup {
 	 */
 	private function upgrade_execute( $upgrade = false ) {
 
-		global $itsec_old_version, $itsec_globals, $wpdb, $itsec_files, $itsec_setup_action;
+		global $itsec_old_version, $itsec_globals, $wpdb, $itsec_setup_action;
+		$tables_updated = false;
 
 		$itsec_setup_action = 'upgrade';
 		$itsec_old_version  = $upgrade;
@@ -372,8 +339,79 @@ class ITSEC_Setup {
 		if ( $itsec_old_version < 4030 ) {
 
 			ITSEC_Lib::create_database_tables(); //adds username field to lockouts and temp
+			$tables_updated = true;
 			add_site_option( 'itsec_rewrites_changed', true );
 
+		}
+
+		if ( $itsec_old_version < 4031 ) {
+
+			$banned_option = get_site_option( 'itsec_ban_users' );
+
+			if ( isset( $banned_option['white_list'] ) ) {
+
+				$banned_white_list = $banned_option['white_list'];
+				$options           = get_site_option( 'itsec_global' );
+				$white_list        = isset( $options['lockout_white_list'] ) ? $options['lockout_white_list'] : array();
+
+				if ( ! is_array( $white_list ) ) {
+					$white_list = explode( PHP_EOL, $white_list );
+				}
+
+				if ( ! is_array( $banned_white_list ) ) {
+					$banned_white_list = explode( PHP_EOL, $banned_white_list );
+				}
+
+				$new_white_list = array_merge( $white_list, $banned_white_list );
+
+				$options['lockout_white_list'] = $new_white_list;
+
+				update_site_option( 'itsec_global', $options );
+
+			}
+
+		}
+
+		if ( $itsec_old_version < 4033 ) {
+
+			if ( get_site_option( 'itsec_api_nag' ) === false ) { //show the nag to activate an API key
+				add_site_option( 'itsec_api_nag', true, false );
+			}
+
+		}
+
+		//IPv6 support was added in 4039
+		if ( $itsec_old_version < 4039 && ! $tables_updated ) {
+			ITSEC_Lib::create_database_tables();
+			$tables_updated = true;
+		}
+
+		if ( $itsec_old_version < 4040 ) {
+			$options = get_site_option( 'itsec_global' );
+
+			if ( $options['log_info'] ) {
+				$new_log_info = substr( sanitize_title( get_bloginfo( 'name' ) ), 0, 20 ) . '-' . wp_generate_password( 30, false );
+				$old_file = path_join( $options['log_location'], 'event-log-' . $options['log_info'] . '.log' );
+				$new_file = path_join( $options['log_location'], 'event-log-' . $new_log_info . '.log' );
+
+				// If the file exists already, don't update the location unless we successfully move it.
+				if ( file_exists( $old_file ) && rename( $old_file, $new_file ) ) {
+					$options['log_info'] = $new_log_info;
+				}
+			}
+
+			// Make sure we have an index files to block directory listing in logs directory
+			if ( is_dir( $options['log_location'] ) && ! file_exists( path_join( $options['log_location'], 'index.php' ) ) ) {
+				file_put_contents( path_join( $options['log_location'], 'index.php' ), "<?php\n// Silence is golden." );
+			}
+
+			$backup_options = get_site_option( 'itsec_backup' );
+			// Make sure we have an index files to block directory listing in backups directory
+			if ( is_dir( $backup_options['location'] ) && ! file_exists( path_join( $backup_options['location'], 'index.php' ) ) ) {
+				file_put_contents( path_join( $backup_options['location'], 'index.php' ), "<?php\n// Silence is golden." );
+			}
+
+			update_site_option( 'itsec_global', $options );
 		}
 
 	}
@@ -387,11 +425,13 @@ class ITSEC_Setup {
 	 * */
 	private function deactivate_execute() {
 
-		global $itsec_files;
+		global $itsec_globals, $itsec_files, $wpdb;
 
 		wp_clear_scheduled_hook( 'itsec_purge_lockouts' );
 
-		$this->do_modules();
+		require_once( trailingslashit( $itsec_globals['plugin_dir'] ) . 'core/class-itsec-modules.php' );
+		$itsec_modules = ITSEC_Modules::get_instance();
+		$itsec_modules->run_deactivation();
 
 		$itsec_files->do_deactivate();
 
@@ -402,8 +442,12 @@ class ITSEC_Setup {
 		delete_site_option( 'itsec_had_other_version' );
 		delete_site_option( 'itsec_no_file_lock_release' );
 		delete_site_option( 'itsec_clear_login' );
+		delete_site_option( 'itsec_temp_whitelist_ip' );
+		delete_site_option( 'itsec_api_nag' );
 		delete_site_transient( 'ITSEC_SHOW_WRITE_FILES_TOOLTIP' );
 		delete_site_transient( 'itsec_upload_dir' );
+		delete_site_transient( 'itsec_notification_running' );
+		wp_clear_scheduled_hook( 'itsec_digest_email' );
 
 		$htaccess = ITSEC_Lib::get_htaccess();
 
@@ -438,12 +482,16 @@ class ITSEC_Setup {
 
 		$this->deactivate_execute();
 
+		require_once( trailingslashit( $itsec_globals['plugin_dir'] ) . 'core/class-itsec-modules.php' );
+		ITSEC_Modules::run_uninstall();
+
 		$itsec_files->do_deactivate();
 
 		delete_site_option( 'itsec_global' );
 		delete_site_option( 'itsec_data' );
 		delete_site_option( 'itsec_initials' );
 		delete_site_option( 'itsec_jquery_version' );
+		delete_site_option( 'itsec_message_queue' );
 
 		$wpdb->query( "DROP TABLE IF EXISTS " . $wpdb->base_prefix . "itsec_log;" );
 		$wpdb->query( "DROP TABLE IF EXISTS " . $wpdb->base_prefix . "itsec_lockouts;" );
@@ -454,7 +502,6 @@ class ITSEC_Setup {
 		}
 
 		ITSEC_Lib::clear_caches();
-
 	}
 
 	/**

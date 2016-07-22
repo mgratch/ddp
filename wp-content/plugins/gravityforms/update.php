@@ -4,6 +4,11 @@ if ( ! class_exists( 'GFForms' ) ) {
 	die();
 }
 
+/**
+ * Class GFUpdate
+ *
+ * Handles Gravity Forms updates
+ */
 class GFUpdate {
 	public static function update_page() {
 		if ( ! GFCommon::current_user_can_any( 'gravityforms_view_updates' ) ) {
@@ -23,13 +28,19 @@ class GFUpdate {
 
 		?>
 
-		<link rel="stylesheet" href="<?php echo GFCommon::get_base_url() . "/css/admin{$min}.css" ?>" />
+		<link rel="stylesheet" href="<?php echo GFCommon::get_base_url() . "/css/admin{$min}.css?ver=" . GFForms::$version ?>" />
 
 		<div class="wrap <?php echo GFCommon::get_browser_class() ?>">
-			<h2><?php esc_html( 'Gravity Forms Updates', 'gravityforms' ) ?></h2>
+			<h2><?php esc_html_e( 'Gravity Forms Updates', 'gravityforms' ) ?></h2>
+
+			<?php GFCommon::display_dismissible_message(); ?>
 			<?php
 
 			$version_info = GFCommon::get_version_info( false );
+
+			/**
+			 * Fires after Gravity Forms checks for a new version
+			 */
 			do_action( 'gform_after_check_update' );
 
 			if ( version_compare( GFCommon::$version, $version_info['version'], '<' ) ) {
@@ -64,6 +75,9 @@ class GFUpdate {
 			<?php
 			}
 
+			/**
+			 * Fires after the notifications that signal that Gravity Forms has an update/license key has expired or is needed
+			 */
 			do_action( 'gform_updates' );
 			?>
 

@@ -2,14 +2,12 @@
 
 class WPMDB extends WPMDB_Base {
 	protected $fp;
-	protected $absolute_root_file_path;
 	protected $form_defaults;
 	protected $accepted_fields;
 	protected $default_profile;
 	protected $maximum_chunk_size;
 	protected $current_chunk = '';
 	protected $connection_details;
-	protected $form_data;
 	protected $max_insert_string_len;
 	protected $row_tracker;
 	protected $rows_per_segment = 100;
@@ -37,21 +35,16 @@ class WPMDB extends WPMDB_Base {
 		// internal AJAX handlers
 		add_action( 'wp_ajax_wpmdb_delete_migration_profile', array( $this, 'ajax_delete_migration_profile' ) );
 		add_action( 'wp_ajax_wpmdb_save_profile', array( $this, 'ajax_save_profile' ) );
+		add_action( 'wp_ajax_wpmdb_save_setting', array( $this, 'ajax_save_setting' ) );
 		add_action( 'wp_ajax_wpmdb_initiate_migration', array( $this, 'ajax_initiate_migration' ) );
 		add_action( 'wp_ajax_wpmdb_migrate_table', array( $this, 'ajax_migrate_table' ) );
-		add_action( 'wp_ajax_wpmdb_finalize_migration', array( $this, 'ajax_finalize_migration' ) );
-		add_action( 'wp_ajax_wpmdb_flush', array( $this, 'ajax_flush' ) );
-		add_action( 'wp_ajax_nopriv_wpmdb_flush', array( $this, 'ajax_nopriv_flush' ) ); // Required for Pull if user tables being updated.
 		add_action( 'wp_ajax_wpmdb_clear_log', array( $this, 'ajax_clear_log' ) );
 		add_action( 'wp_ajax_wpmdb_get_log', array( $this, 'ajax_get_log' ) );
-		add_action( 'wp_ajax_wpmdb_fire_migration_complete', array( $this, 'fire_migration_complete' ) );
 		add_action( 'wp_ajax_wpmdb_plugin_compatibility', array( $this, 'ajax_plugin_compatibility' ) );
 		add_action( 'wp_ajax_wpmdb_blacklist_plugins', array( $this, 'ajax_blacklist_plugins' ) );
 		add_action( 'wp_ajax_wpmdb_update_max_request_size', array( $this, 'ajax_update_max_request_size' ) );
 		add_action( 'wp_ajax_wpmdb_update_delay_between_requests', array( $this, 'ajax_update_delay_between_requests' ) );
 		add_action( 'wp_ajax_wpmdb_cancel_migration', array( $this, 'ajax_cancel_migration' ) );
-
-		$this->absolute_root_file_path = $this->get_absolute_root_file_path();
 
 		$this->accepted_fields = array(
 			'action',
@@ -103,17 +96,16 @@ class WPMDB extends WPMDB_Base {
 			'keep_active_plugins'       => '0',
 			'create_backup'             => '0',
 			'exclude_post_types'        => '0',
+			'exclude_transients'        => '0',
 			'compatibility_older_mysql' => '0',
 		);
 
 		$this->plugin_tabs = array(
 			'<a href="#" class="nav-tab nav-tab-active js-action-link migrate" data-div-name="migrate-tab">' . esc_html( _x( 'Migrate', 'Configure a migration or export', 'wp-migrate-db' ) ) . '</a>',
 			'<a href="#" class="nav-tab js-action-link settings" data-div-name="settings-tab">' . esc_html( _x( 'Settings', 'Plugin configuration and preferences', 'wp-migrate-db' ) ) . '</a>',
+			'<a href="#" class="nav-tab js-action-link addons" data-div-name="addons-tab">' . esc_html( _x( 'Addons', 'Plugin extensions', 'wp-migrate-db' ) ) . '</a>',
 			'<a href="#" class="nav-tab js-action-link help" data-div-name="help-tab">' . esc_html( _x( 'Help', 'Get help or contact support', 'wp-migrate-db' ) ) . '</a>',
 		);
-
-		// automatically deactivate WPMDB Pro / Free if the other is already active
-		add_action( 'activated_plugin', array( $this, 'deactivate_other_instances' ) );
 
 		// display a notice when either WP Migrate DB or WP Migrate DB Pro is automatically deactivated
 		add_action( 'pre_current_active_plugins', array( $this, 'plugin_deactivated_notice' ) );
@@ -126,6 +118,7 @@ class WPMDB extends WPMDB_Base {
 
 		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'network_admin_menu' ) );
+			add_action( 'admin_menu', array( $this, 'network_tools_admin_menu' ) );
 			/*
 			 * The URL find & replace is locked down (delete & reorder disabled) on multisite installations as we require the URL
 			 * of the remote site for export migrations. This URL is parsed into its various components and
@@ -158,16 +151,12 @@ class WPMDB extends WPMDB_Base {
 		return $this->create_alter_table_query;
 	}
 
-	function get_short_uploads_dir() {
-		$short_path = str_replace( $this->absolute_root_file_path, '', $this->get_upload_info( 'path' ) );
-
-		return trailingslashit( substr( str_replace( '\\', '/', $short_path ), 1 ) );
-	}
-
 	/**
 	 * Handler for ajax request to turn on or off Compatibility Mode.
 	 */
 	function ajax_plugin_compatibility() {
+		$this->check_ajax_referer( 'plugin_compatibility' );
+
 		$key_rules = array(
 			'action'  => 'key',
 			'install' => 'numeric',
@@ -183,13 +172,13 @@ class WPMDB extends WPMDB_Base {
 				exit;
 			}
 
-			if ( ! copy( $source, $dest ) ) {
+			if ( ! @copy( $source, $dest ) ) {
 				printf( esc_html__( 'Could not copy the compatibility plugin from %1$s to %2$s', 'wp-migrate-db' ), $source, $dest );
 				exit;
 			}
 		} else { // uninstall MU plugin
 			// TODO: Use WP_Filesystem API.
-			if ( file_exists( $dest ) && ! unlink( $dest ) ) {
+			if ( file_exists( $dest ) && ! @unlink( $dest ) ) {
 				printf( esc_html__( 'Could not remove the compatibility plugin from %s', 'wp-migrate-db' ), $dest );
 				exit;
 			}
@@ -201,6 +190,8 @@ class WPMDB extends WPMDB_Base {
 	 * Handler for updating the plugins that are not to be loaded during a request (Compatibility Mode).
 	 */
 	function ajax_blacklist_plugins() {
+		$this->check_ajax_referer( 'blacklist_plugins' );
+
 		$key_rules = array(
 			'action'            => 'key',
 			'blacklist_plugins' => 'array',
@@ -252,7 +243,7 @@ class WPMDB extends WPMDB_Base {
 		$this->end_ajax( $result );
 	}
 
-	function is_json( $string, $strict = false ) {
+	static function is_json( $string, $strict = false ) {
 		$json = @json_decode( $string, true );
 		if ( $strict == true && ! is_array( $json ) ) {
 			return false;
@@ -280,12 +271,8 @@ class WPMDB extends WPMDB_Base {
 	 * @return array|string
 	 */
 	function parse_migration_form_data( $data ) {
-		parse_str( $data, $form_data );
-		// As the magic_quotes_gpc setting affects the output of parse_str() we may need to remove any quote escaping.
-		// (it uses the same mechanism that PHP > uses to populate the $_GET, $_POST, etc. variables)
-		if ( get_magic_quotes_gpc() ) {
-			$form_data = wp_unslash( $form_data );
-		}
+		$form_data = parent::parse_migration_form_data( $data );
+
 		$this->accepted_fields = apply_filters( 'wpmdb_accepted_profile_fields', $this->accepted_fields );
 		$form_data             = array_intersect_key( $form_data, array_flip( $this->accepted_fields ) );
 		unset( $form_data['replace_old'][0] );
@@ -306,21 +293,6 @@ class WPMDB extends WPMDB_Base {
 		}
 
 		return $form_data;
-	}
-
-	/**
-	 * Returns the profile value for a given key.
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	function profile_value( $key ) {
-		if ( ! empty( $key ) && ! empty( $this->form_data ) && isset( $this->form_data[ $key ] ) ) {
-			return $this->form_data[ $key ];
-		}
-
-		return null;
 	}
 
 	/**
@@ -383,8 +355,8 @@ class WPMDB extends WPMDB_Base {
 	 * @return void
 	 */
 	function output_diagnostic_info() {
-		global $table_prefix;
 		global $wpdb;
+		$table_prefix = $wpdb->base_prefix;
 
 		echo 'site_url(): ';
 		echo esc_html( site_url() );
@@ -531,12 +503,30 @@ class WPMDB extends WPMDB_Base {
 		} else {
 			echo 'No';
 		}
+		echo "\r\n";
+
+		echo 'Delay Between Requests: ';
+		$delay_between_requests = $this->settings['delay_between_requests'];
+		$delay_between_requests = $delay_between_requests > 0 ? $delay_between_requests / 1000 : $delay_between_requests;
+		echo esc_html( $delay_between_requests ) . ' s';
 		echo "\r\n\r\n";
 
 		do_action( 'wpmdb_diagnostic_info' );
 		if ( has_action( 'wpmdb_diagnostic_info' ) ) {
 			echo "\r\n";
 		}
+
+		$theme_info = wp_get_theme();
+		echo "Active Theme Name: " . esc_html( $theme_info->Name ) . "\r\n";
+		echo "Active Theme Folder: " . esc_html( basename( $theme_info->get_stylesheet_directory() ) ) . "\r\n";
+		if ( $theme_info->get( 'Template' ) ) {
+			echo "Parent Theme Folder: " . esc_html( $theme_info->get( 'Template' ) ) . "\r\n";
+		}
+		if ( ! file_exists( $theme_info->get_stylesheet_directory() ) ) {
+			echo "WARNING: Active Theme Folder Not Found\r\n";
+		}
+
+		echo "\r\n";
 
 		echo "Active Plugins:\r\n";
 
@@ -597,6 +587,9 @@ class WPMDB extends WPMDB_Base {
 		$alter_table_name = $this->get_alter_table_name();
 		$sql              = '';
 		$alter_queries    = $wpdb->get_results( "SELECT * FROM `{$alter_table_name}`", ARRAY_A );
+
+		$alter_queries = apply_filters( 'wpmdb_get_alter_queries', $alter_queries );
+
 		if ( ! empty( $alter_queries ) ) {
 			foreach ( $alter_queries as $alter_query ) {
 				$sql .= $alter_query['query'] . "\n";
@@ -669,27 +662,20 @@ class WPMDB extends WPMDB_Base {
 
 		// checks if we're performing a backup, if so, continue with the backup and exit immediately after
 		if ( $this->state_data['stage'] == 'backup' && $this->state_data['intent'] != 'savefile' ) {
-			if ( empty( $this->state_data['dumpfile_created'] ) ) {
-				$this->state_data['dumpfile_created'] = true;
-				$this->save_migration_state( $this->state_data );
-			}
-
 			// if performing a push we need to backup the REMOTE machine's DB
 			if ( $this->state_data['intent'] == 'push' ) {
-				$data           = $this->filter_post_elements(
+				$data = $this->filter_post_elements(
 					$this->state_data,
 					array(
 						'action',
-						'intent',
+						'remote_state_id',
 						'url',
-						'key',
 						'table',
 						'form_data',
 						'stage',
 						'bottleneck',
 						'prefix',
 						'current_row',
-						'dump_filename',
 						'last_table',
 						'gzip',
 						'primary_keys',
@@ -697,11 +683,13 @@ class WPMDB extends WPMDB_Base {
 						'domain_current_site',
 					)
 				);
-				$data['action'] = 'wpmdb_backup_remote_table';
-				$data['intent'] = 'pull';
-				$ajax_url       = $this->ajax_url();
-				$data['sig']    = $this->create_signature( $data, $data['key'] );
-				$response       = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
+
+				$data['action']       = 'wpmdb_backup_remote_table';
+				$data['intent']       = 'pull';
+				$data['sig']          = $this->create_signature( $data, $this->state_data['key'] );
+				$data['primary_keys'] = addslashes( $data['primary_keys'] );
+				$ajax_url             = $this->ajax_url();
+				$response             = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 				ob_start();
 				$this->display_errors();
 				$maybe_errors = ob_get_clean();
@@ -742,12 +730,12 @@ class WPMDB extends WPMDB_Base {
 
 				if ( 'push' == $this->state_data['intent'] ) {
 					// $db_version has been set to remote database's version.
-					add_filter( 'wpmdb_create_table_query', array( $this, 'mysql_compat_filter' ), 10, 3 );
+					add_filter( 'wpmdb_create_table_query', array( $this, 'mysql_compat_filter' ), 10, 5 );
 				} elseif ( 'savefile' == $this->state_data['intent'] && ! empty( $this->form_data['compatibility_older_mysql'] ) ) {
 					// compatibility_older_mysql is currently a checkbox meaning pre-5.5 compatibility (we play safe and target 5.1),
 					// this may change in the future to be a dropdown or radiobox returning the version to be compatible with.
 					$db_version = '5.1';
-					add_filter( 'wpmdb_create_table_query', array( $this, 'mysql_compat_filter' ), 10, 3 );
+					add_filter( 'wpmdb_create_table_query', array( $this, 'mysql_compat_filter' ), 10, 5 );
 				}
 			}
 
@@ -773,7 +761,25 @@ class WPMDB extends WPMDB_Base {
 
 			return $result;
 		} else {
-			$data               = $this->filter_post_elements( $this->state_data, array( 'action', 'intent', 'url', 'key', 'table', 'form_data', 'stage', 'bottleneck', 'prefix', 'current_row', 'dump_filename', 'pull_limit', 'last_table', 'gzip', 'primary_keys', 'path_current_site', 'domain_current_site', 'site_url', 'find_replace_pairs' ) );
+			$data = $this->filter_post_elements(
+				$this->state_data,
+				array(
+					'remote_state_id',
+					'intent',
+					'url',
+					'table',
+					'form_data',
+					'stage',
+					'bottleneck',
+					'current_row',
+					'last_table',
+					'gzip',
+					'primary_keys',
+					'site_url',
+					'find_replace_pairs',
+				)
+			);
+
 			$data['action']     = 'wpmdb_process_pull_request';
 			$data['pull_limit'] = $this->get_sensible_pull_limit();
 			$data['db_version'] = $wpdb->db_version();
@@ -783,18 +789,20 @@ class WPMDB extends WPMDB_Base {
 				$data['domain_current_site'] = $this->get_domain_current_site();
 			}
 
-			$data['prefix'] = $wpdb->prefix;
-
-			if ( isset( $data['sig'] ) ) {
-				unset( $data['sig'] );
-			}
+			$data['prefix'] = $wpdb->base_prefix;
 
 			if ( isset( $data['find_replace_pairs'] ) ) {
 				$data['find_replace_pairs'] = serialize( $data['find_replace_pairs'] );
 			}
 
-			$ajax_url    = $this->ajax_url();
-			$data['sig'] = $this->create_signature( $data, $data['key'] );
+			if ( isset( $data['sig'] ) ) {
+				unset( $data['sig'] );
+			}
+
+			$data['sig']                = $this->create_signature( $data, $this->state_data['key'] );
+			$data['primary_keys']       = addslashes( $data['primary_keys'] );
+			$data['find_replace_pairs'] = addslashes( $data['find_replace_pairs'] );
+			$ajax_url                   = $this->ajax_url();
 
 			$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 			ob_start();
@@ -853,14 +861,16 @@ class WPMDB extends WPMDB_Base {
 		$this->check_ajax_referer( 'initiate-migration' );
 
 		$key_rules = array(
-			'action'      => 'key',
-			'intent'      => 'key',
-			'url'         => 'url',
-			'key'         => 'string',
-			'form_data'   => 'string',
-			'stage'       => 'key',
-			'nonce'       => 'key',
-			'temp_prefix' => 'string',
+			'action'       => 'key',
+			'intent'       => 'key',
+			'url'          => 'url',
+			'key'          => 'string',
+			'form_data'    => 'string',
+			'stage'        => 'key',
+			'nonce'        => 'key',
+			'temp_prefix'  => 'string',
+			'site_details' => 'json_array',
+			'export_dest'  => 'string',
 		);
 		$this->set_post_data( $key_rules );
 
@@ -879,7 +889,7 @@ class WPMDB extends WPMDB_Base {
 			$return['dump_path']        = $this->get_sql_dump_info( 'migrate', 'path' );
 			$return['dump_filename']    = basename( $return['dump_path'] );
 			$return['dump_url']         = $this->get_sql_dump_info( 'migrate', 'url' );
-			$dump_filename_no_extension = substr( $return['dump_filename'], 0, - 4 );
+			$dump_filename_no_extension = substr( $return['dump_filename'], 0, -4 );
 
 			$create_alter_table_query = $this->get_create_alter_table_query();
 			// sets up our table to store 'ALTER' queries
@@ -904,14 +914,18 @@ class WPMDB extends WPMDB_Base {
 			$return['dump_filename'] = $dump_filename_no_extension;
 		} else { // does one last check that our verification string is valid
 			$data = array(
-				'action'    => 'wpmdb_remote_initiate_migration',
-				'intent'    => $this->state_data['intent'],
-				'form_data' => $this->state_data['form_data'],
+				'action'       => 'wpmdb_remote_initiate_migration',
+				'intent'       => $this->state_data['intent'],
+				'form_data'    => $this->state_data['form_data'],
+				'site_details' => $this->state_data['site_details'],
 			);
 
-			$data['sig'] = $this->create_signature( $data, $this->state_data['key'] );
-			$ajax_url    = $this->ajax_url();
-			$response    = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
+			$data['site_details'] = serialize( $data['site_details'] );
+
+			$data['sig']          = $this->create_signature( $data, $this->state_data['key'] );
+			$data['site_details'] = addslashes( $data['site_details'] );
+			$ajax_url             = $this->ajax_url();
+			$response             = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 
 			if ( false === $response ) {
 				$return = array( 'wpmdb_error' => 1, 'body' => $this->error );
@@ -920,7 +934,7 @@ class WPMDB extends WPMDB_Base {
 				return $result;
 			}
 
-			$return = @unserialize( trim( $response ) );
+			$return = WPMDB_Utils::unserialize( $response, __METHOD__ );
 
 			if ( false === $return ) {
 				$error_msg = __( 'Failed attempting to unserialize the response from the remote server. Please contact support.', 'wp-migrate-db' );
@@ -951,7 +965,7 @@ class WPMDB extends WPMDB_Base {
 
 			if ( ! empty( $this->form_data['create_backup'] ) && $this->state_data['intent'] == 'pull' ) {
 				$return['dump_filename'] = basename( $this->get_sql_dump_info( 'backup', 'path' ) );
-				$return['dump_filename'] = substr( $return['dump_filename'], 0, - 4 );
+				$return['dump_filename'] = substr( $return['dump_filename'], 0, -4 );
 				$return['dump_url']      = $this->get_sql_dump_info( 'backup', 'url' );
 			}
 		}
@@ -1032,7 +1046,7 @@ class WPMDB extends WPMDB_Base {
 		$this->set_post_data( $key_rules );
 
 		$key = absint( $this->state_data['profile_id'] );
-		-- $key;
+		--$key;
 		$return = '';
 
 		if ( isset( $this->settings['profiles'][ $key ] ) ) {
@@ -1043,6 +1057,29 @@ class WPMDB extends WPMDB_Base {
 		}
 
 		$result = $this->end_ajax( $return );
+
+		return $result;
+	}
+
+	/**
+	 * Handler for ajax request to save a setting, e.g. accept pull/push requests setting.
+	 *
+	 * @return bool|null
+	 */
+	function ajax_save_setting() {
+		$this->check_ajax_referer( 'save-setting' );
+
+		$key_rules = array(
+			'action'  => 'key',
+			'checked' => 'bool',
+			'setting' => 'key',
+			'nonce'   => 'key',
+		);
+		$this->set_post_data( $key_rules );
+
+		$this->settings[ $this->state_data['setting'] ] = ( $this->state_data['checked'] == 'false' ) ? false : true;
+		update_site_option( 'wpmdb_settings', $this->settings );
+		$result = $this->end_ajax();
 
 		return $result;
 	}
@@ -1062,23 +1099,23 @@ class WPMDB extends WPMDB_Base {
 		global $wpdb;
 
 		if ( is_multisite() ) {
-			$tables         = $this->get_tables();
-			$sql            = "SELECT `post_type` FROM `{$wpdb->prefix}posts` ";
-			$prefix_escaped = preg_quote( $wpdb->prefix, '/' );
+			$tables         = $this->get_tables( 'prefix' );
+			$sql            = "SELECT `post_type` FROM `{$wpdb->base_prefix}posts` ";
+			$prefix_escaped = preg_quote( $wpdb->base_prefix, '/' );
 
 			foreach ( $tables as $table ) {
 				if ( 0 == preg_match( '/' . $prefix_escaped . '[0-9]+_posts/', $table ) ) {
 					continue;
 				}
-				$blog_id = str_replace( array( $wpdb->prefix, '_posts' ), array( '', '' ), $table );
-				$sql .= "UNION SELECT `post_type` FROM `{$wpdb->prefix}" . $blog_id . '_posts` ';
+				$blog_id = str_replace( array( $wpdb->base_prefix, '_posts' ), array( '', '' ), $table );
+				$sql .= "UNION SELECT `post_type` FROM `{$wpdb->base_prefix}" . $blog_id . '_posts` ';
 			}
 			$sql .= ';';
 			$post_types = $wpdb->get_results( $sql, ARRAY_A );
 		} else {
 			$post_types = $wpdb->get_results(
 				"SELECT DISTINCT `post_type`
-				FROM `{$wpdb->prefix}posts`
+				FROM `{$wpdb->base_prefix}posts`
 				WHERE 1;",
 				ARRAY_A
 			);
@@ -1095,7 +1132,7 @@ class WPMDB extends WPMDB_Base {
 
 	// Retrieves the specified profile, if -1, returns the default profile
 	function get_profile( $profile_id ) {
-		-- $profile_id;
+		--$profile_id;
 
 		if ( $profile_id == '-1' || ! isset( $this->settings['profiles'][ $profile_id ] ) ) {
 			return $this->default_profile;
@@ -1185,6 +1222,14 @@ class WPMDB extends WPMDB_Base {
 	function options_page() {
 		$this->template( 'options' );
 	}
+	
+	/**
+	 * Load Tools HTML template for tools menu on sites in a Network to help users find WPMDB in Multisite
+	 *
+	 */
+	function subsite_tools_options_page() {
+		$this->template( 'options-tools-subsite' );
+	}
 
 	/**
 	 * Get the remote site's base domain for subdomain multisite search/replace.
@@ -1199,7 +1244,7 @@ class WPMDB extends WPMDB_Base {
 				$this->domain_replace = $this->state_data['domain_current_site'];
 			} elseif ( is_multisite() && ! empty( $this->form_data['replace_new'][1] ) ) {
 				$url = $this->form_data['replace_new'][1];
-				$url = parse_url( $url );
+				$url = $this->parse_url( $url );
 
 				if ( isset( $url['host'] ) ) {
 					$this->domain_replace = $url['host'];
@@ -1236,7 +1281,7 @@ class WPMDB extends WPMDB_Base {
 			$sql_count = count( $sql_lines );
 
 			// lets find first line with constraints
-			for ( $i = 0; $i < $sql_count; $i ++ ) {
+			for ( $i = 0; $i < $sql_count; $i++ ) {
 				if ( preg_match(
 					'@^[\s]*(CONSTRAINT|FOREIGN[\s]+KEY)@',
 					$sql_lines[ $i ]
@@ -1258,7 +1303,7 @@ class WPMDB extends WPMDB_Base {
 				$sql_constraints_query .= 'ALTER TABLE ' . $this->backquote( $table ) . $crlf;
 
 				$first = true;
-				for ( $j = $i; $j < $sql_count; $j ++ ) {
+				for ( $j = $i; $j < $sql_count; $j++ ) {
 					if ( preg_match(
 						'@CONSTRAINT|FOREIGN[\s]+KEY@',
 						$sql_lines[ $j ]
@@ -1332,8 +1377,7 @@ class WPMDB extends WPMDB_Base {
 			$this->form_data = $this->parse_migration_form_data( $this->state_data['form_data'] );
 		}
 
-		$temp_prefix   = ( isset( $this->state_data['temp_prefix'] ) ? $this->state_data['temp_prefix'] : $this->temp_prefix );
-		$remote_prefix = ( isset( $this->state_data['prefix'] ) ? $this->state_data['prefix'] : $wpdb->prefix );
+		$temp_prefix = ( isset( $this->state_data['temp_prefix'] ) ? $this->state_data['temp_prefix'] : $this->temp_prefix );
 
 		$table_structure = $wpdb->get_results( 'DESCRIBE ' . $this->backquote( $table ) );
 
@@ -1343,14 +1387,16 @@ class WPMDB extends WPMDB_Base {
 			return false;
 		}
 
-		$table_name = $table;
-		$table_name = apply_filters( 'wpmdb_target_table_name', $table_name, $this->form_data['action'], $this->state_data['stage'] );
+		$table_name        = $table;
+		$site_details      = empty( $this->state_data['site_details'] ) ? array() : $this->state_data['site_details'];
+		$target_table_name = apply_filters( 'wpmdb_target_table_name', $table_name, $this->form_data['action'], $this->state_data['stage'], $site_details );
+		$table_name        = $target_table_name;
 
 		if ( 'savefile' !== $this->form_data['action'] && 'backup' !== $this->state_data['stage'] ) {
-			$table_name = $temp_prefix . $table;
+			$table_name = $temp_prefix . $table_name;
 		}
 
-		$current_row = - 1;
+		$current_row = -1;
 
 		if ( ! empty( $this->state_data['current_row'] ) ) {
 			$temp_current_row = trim( $this->state_data['current_row'] );
@@ -1359,25 +1405,28 @@ class WPMDB extends WPMDB_Base {
 			}
 		}
 
-		if ( $current_row == - 1 ) {
+		if ( $current_row == -1 ) {
+			// Don't stow data until after `wpmdb_create_table_query` filter is applied as mysql_compat_filter() can return an error
+			$stow = '';
+
 			// Add SQL statement to drop existing table
 			if ( $this->form_data['action'] == 'savefile' || $this->state_data['stage'] == 'backup' ) {
-				$this->stow( "\n\n" );
-				$this->stow( "#\n" );
-				$this->stow( '# ' . sprintf( __( 'Delete any existing table %s', 'wp-migrate-db' ), $this->backquote( $table_name ) ) . "\n" );
-				$this->stow( "#\n" );
-				$this->stow( "\n" );
+				$stow .= ( "\n\n" );
+				$stow .= ( "#\n" );
+				$stow .= ( '# ' . sprintf( __( 'Delete any existing table %s', 'wp-migrate-db' ), $this->backquote( $table_name ) ) . "\n" );
+				$stow .= ( "#\n" );
+				$stow .= ( "\n" );
 			}
-			$this->stow( 'DROP TABLE IF EXISTS ' . $this->backquote( $table_name ) . ";\n" );
+			$stow .= ( 'DROP TABLE IF EXISTS ' . $this->backquote( $table_name ) . ";\n" );
 
 			// Table structure
 			// Comment in SQL-file
 			if ( $this->form_data['action'] == 'savefile' || $this->state_data['stage'] == 'backup' ) {
-				$this->stow( "\n\n" );
-				$this->stow( "#\n" );
-				$this->stow( '# ' . sprintf( __( 'Table structure of table %s', 'wp-migrate-db' ), $this->backquote( $table_name ) ) . "\n" );
-				$this->stow( "#\n" );
-				$this->stow( "\n" );
+				$stow .= ( "\n\n" );
+				$stow .= ( "#\n" );
+				$stow .= ( '# ' . sprintf( __( 'Table structure of table %s', 'wp-migrate-db' ), $this->backquote( $table_name ) ) . "\n" );
+				$stow .= ( "#\n" );
+				$stow .= ( "\n" );
 			}
 
 			$create_table = $wpdb->get_results( 'SHOW CREATE TABLE ' . $this->backquote( $table ), ARRAY_N );
@@ -1392,11 +1441,12 @@ class WPMDB extends WPMDB_Base {
 			$create_table[0][1] = str_replace( 'TYPE=', 'ENGINE=', $create_table[0][1] );
 
 			$alter_table_query  = '';
-			$create_table[0][1] = $this->process_sql_constraint( $create_table[0][1], $table_name, $alter_table_query );
+			$create_table[0][1] = $this->process_sql_constraint( $create_table[0][1], $target_table_name, $alter_table_query );
 
-			$create_table[0][1] = apply_filters( 'wpmdb_create_table_query', $create_table[0][1], $table_name, $db_version );
+			$create_table[0][1] = apply_filters( 'wpmdb_create_table_query', $create_table[0][1], $table_name, $db_version, $this->form_data['action'], $this->state_data['stage'] );
+			$stow .= ( $create_table[0][1] . ";\n" );
 
-			$this->stow( $create_table[0][1] . ";\n" );
+			$this->stow( $stow );
 
 			if ( ! empty( $alter_table_query ) ) {
 				$alter_table_name = $this->get_alter_table_name();
@@ -1447,6 +1497,8 @@ class WPMDB extends WPMDB_Base {
 		// $ints = holds a list of the possible integer types so as to not wrap them in quotation marks later in the insert statements
 		$defs = array();
 		$ints = array();
+		$bins = array();
+		$bits = array();
 		foreach ( $table_structure as $struct ) {
 			if ( ( 0 === strpos( $struct->Type, 'tinyint' ) ) ||
 			     ( 0 === strpos( strtolower( $struct->Type ), 'smallint' ) ) ||
@@ -1456,6 +1508,10 @@ class WPMDB extends WPMDB_Base {
 			) {
 				$defs[ strtolower( $struct->Field ) ] = ( null === $struct->Default ) ? 'NULL' : $struct->Default;
 				$ints[ strtolower( $struct->Field ) ] = '1';
+			} elseif ( 0 === strpos( $struct->Type, 'binary' ) ) {
+				$bins[ strtolower( $struct->Field ) ] = '1';
+			} elseif ( 0 === strpos( $struct->Type, 'bit' ) ) {
+				$bits[ strtolower( $struct->Field ) ] = '1';
 			}
 		}
 
@@ -1463,7 +1519,7 @@ class WPMDB extends WPMDB_Base {
 
 		$row_inc   = $this->rows_per_segment;
 		$row_start = 0;
-		if ( $current_row != - 1 ) {
+		if ( $current_row != -1 ) {
 			$row_start = $current_row;
 		}
 
@@ -1494,8 +1550,8 @@ class WPMDB extends WPMDB_Base {
 		$first_select = true;
 		if ( ! empty( $this->state_data['primary_keys'] ) ) {
 			$this->state_data['primary_keys'] = trim( $this->state_data['primary_keys'] );
-			if ( ! empty( $this->state_data['primary_keys'] ) && is_serialized( $this->state_data['primary_keys'] ) ) {
-				$this->primary_keys = unserialize( $this->state_data['primary_keys'] );
+			$this->primary_keys = WPMDB_Utils::unserialize( stripslashes( $this->state_data['primary_keys'] ), __METHOD__ );
+			if ( false !== $this->primary_keys && ! empty( $this->state_data['primary_keys'] ) ) {
 				$first_select       = false;
 			}
 		}
@@ -1582,7 +1638,7 @@ class WPMDB extends WPMDB_Base {
 					// build a list of clauses, iteratively reducing the number of fields compared in the compound key
 					// e.g. (a = 1 AND b = 2 AND c > 3) OR (a = 1 AND b > 2) OR (a > 1)
 					$clauses = array();
-					for ( $j = 0; $j < $primary_key_count; $j ++ ) {
+					for ( $j = 0; $j < $primary_key_count; $j++ ) {
 						// build a subclause for each field in the compound index
 						$subclauses = array();
 						$i          = 0;
@@ -1590,7 +1646,7 @@ class WPMDB extends WPMDB_Base {
 							// only the last field in the key should be different in this subclause
 							$operator     = ( count( $temp_primary_keys ) - 1 == $i ? '>' : '=' );
 							$subclauses[] = sprintf( '%s %s %s', $this->backquote( $primary_key ), $operator, $wpdb->prepare( '%s', $value ) );
-							++ $i;
+							++$i;
 						}
 
 						// remove last field from array to reduce fields in next clause
@@ -1608,13 +1664,26 @@ class WPMDB extends WPMDB_Base {
 				$first_select = false;
 			}
 
+			$sel = $this->backquote( $table ) . '.*';
+			if ( ! empty( $bins ) ) {
+				foreach ( $bins as $key => $bin ) {
+					$hex_key = strtolower( $key ) . '__hex';
+					$sel .= ', HEX(' . $this->backquote( $key ) . ') as ' . $this->backquote( $hex_key );
+				}
+			}
+			if ( ! empty( $bits ) ) {
+				foreach ( $bits as $key => $bit ) {
+					$bit_key = strtolower( $key ) . '__bit';
+					$sel .= ', ' . $this->backquote( $key ) . '+0 as ' . $this->backquote( $bit_key );
+				}
+			}
 			$join     = implode( ' ', array_unique( $join ) );
 			$join     = apply_filters( 'wpmdb_rows_join', $join, $table );
 			$where    = apply_filters( 'wpmdb_rows_where', $where, $table );
 			$order_by = apply_filters( 'wpmdb_rows_order_by', $order_by, $table );
 			$limit    = apply_filters( 'wpmdb_rows_limit', $limit, $table );
 
-			$sql = 'SELECT ' . $this->backquote( $table ) . '.* FROM ' . $this->backquote( $table ) . " $join $where $order_by $limit";
+			$sql = 'SELECT ' . $sel . ' FROM ' . $this->backquote( $table ) . " $join $where $order_by $limit";
 			$sql = apply_filters( 'wpmdb_rows_sql', $sql, $table );
 
 			$table_data = $wpdb->get_results( $sql );
@@ -1656,6 +1725,24 @@ class WPMDB extends WPMDB_Base {
 
 							if ( null === $value ) {
 								$values[] = 'NULL';
+								continue;
+							}
+
+							// If we have binary data, substitute in hex encoded version and remove hex encoded version from row.
+							$hex_key = strtolower( $key ) . '__hex';
+							if ( isset( $bins[ strtolower( $key ) ] ) && $bins[ strtolower( $key ) ] && isset( $row->$hex_key ) ) {
+								$value    = "UNHEX('" . $row->$hex_key . "')";
+								$values[] = $value;
+								unset( $row->$hex_key );
+								continue;
+							}
+
+							// If we have bit data, substitute in properly bit encoded version.
+							$bit_key = strtolower( $key ) . '__bit';
+							if ( isset( $bits[ strtolower( $key ) ] ) && $bits[ strtolower( $key ) ] && isset( $row->$bit_key ) ) {
+								$value    = "b'" . $row->$bit_key . "'";
+								$values[] = $value;
+								unset( $row->$bit_key );
 								continue;
 							}
 
@@ -1718,7 +1805,7 @@ class WPMDB extends WPMDB_Base {
 						if ( $insert_buffer == $insert_query_template ) {
 							$insert_buffer .= $insert_line;
 
-							++ $this->row_tracker;
+							++$this->row_tracker;
 
 							if ( ! empty( $this->primary_keys ) ) {
 								foreach ( $this->primary_keys as $primary_key => $value ) {
@@ -1747,7 +1834,7 @@ class WPMDB extends WPMDB_Base {
 					$insert_buffer .= $insert_line;
 					$query_size += strlen( $insert_line );
 
-					++ $this->row_tracker;
+					++$this->row_tracker;
 
 					if ( ! empty( $this->primary_keys ) ) {
 						foreach ( $this->primary_keys as $primary_key => $value ) {
@@ -1798,7 +1885,7 @@ class WPMDB extends WPMDB_Base {
 			}
 		}
 
-		$this->row_tracker = - 1;
+		$this->row_tracker = -1;
 
 		return $this->transfer_chunk();
 	} // end export_table()
@@ -1820,9 +1907,9 @@ class WPMDB extends WPMDB_Base {
 	 *
 	 * @param string $desired_table Can be empty to match on tables from scopes other than 'table'.
 	 * @param string $given_table
-	 * @param string $scope Optional type of table to match against, default is 'table'.
-	 * @param string $new_prefix Optional new prefix already added to $given_table.
-	 * @param int $blog_id Optional Only used with 'blog' scope to test against a specific subsite's tables other than current for $wpdb.
+	 * @param string $scope         Optional type of table to match against, default is 'table'.
+	 * @param string $new_prefix    Optional new prefix already added to $given_table.
+	 * @param int    $blog_id       Optional Only used with 'blog' scope to test against a specific subsite's tables other than current for $wpdb.
 	 *
 	 * @return boolean
 	 */
@@ -1840,11 +1927,11 @@ class WPMDB extends WPMDB_Base {
 		}
 
 		if ( ! empty( $new_prefix ) && 0 === stripos( $given_table, $new_prefix ) ) {
-			$given_table = substr_replace( $given_table, $wpdb->prefix, 0, strlen( $new_prefix ) );
+			$given_table = substr_replace( $given_table, $wpdb->base_prefix, 0, strlen( $new_prefix ) );
 		}
 
 		$match                 = false;
-		$prefix_escaped        = preg_quote( $wpdb->prefix, '/' );
+		$prefix_escaped        = preg_quote( $wpdb->base_prefix, '/' );
 		$desired_table_escaped = preg_quote( $desired_table, '/' );
 
 		if ( 'table' === $scope ) {
@@ -1881,7 +1968,7 @@ class WPMDB extends WPMDB_Base {
 	 * Return multisite-compatible names for requested
 	 * tables, based on queried table name
 	 *
-	 * @param array $tables List of table names required
+	 * @param array  $tables        List of table names required
 	 * @param string $queried_table Name of table from which to derive the blog ID
 	 *
 	 * @return array List of table names altered for multisite compatibility
@@ -1890,7 +1977,7 @@ class WPMDB extends WPMDB_Base {
 		global $wpdb;
 
 		// default table prefix
-		$prefix         = $wpdb->prefix;
+		$prefix         = $wpdb->base_prefix;
 		$prefix_escaped = preg_quote( $prefix, '/' );
 
 		// if multisite, extract blog ID from queried table name and add to prefix
@@ -1999,7 +2086,7 @@ class WPMDB extends WPMDB_Base {
 
 			$result = array(
 				'current_row'  => $this->row_tracker,
-				'primary_keys' => serialize( $this->primary_keys )
+				'primary_keys' => serialize( $this->primary_keys ),
 			);
 
 			if ( $this->state_data['intent'] == 'savefile' && $this->state_data['last_table'] == '1' ) {
@@ -2025,10 +2112,11 @@ class WPMDB extends WPMDB_Base {
 		}
 
 		$data = array(
-			'action'        => 'wpmdb_process_chunk',
-			'table'         => $this->state_data['table'],
-			'chunk_gzipped' => $chunk_gzipped,
-			'chunk'         => $this->current_chunk,
+			'action'          => 'wpmdb_process_chunk',
+			'remote_state_id' => $this->state_data['remote_state_id'],
+			'table'           => $this->state_data['table'],
+			'chunk_gzipped'   => $chunk_gzipped,
+			'chunk'           => $this->current_chunk,
 			// NEEDS TO BE the last element in this array because of adding it back into the array in ajax_process_chunk()
 		);
 
@@ -2058,7 +2146,7 @@ class WPMDB extends WPMDB_Base {
 		$result = $this->end_ajax( json_encode(
 			array(
 				'current_row'  => $this->row_tracker,
-				'primary_keys' => serialize( $this->primary_keys )
+				'primary_keys' => serialize( $this->primary_keys ),
 			)
 		) );
 
@@ -2096,7 +2184,7 @@ class WPMDB extends WPMDB_Base {
 	 * Taken from phpMyAdmin.
 	 *
 	 * @param string $a_string
-	 * @param bool $is_like
+	 * @param bool   $is_like
 	 *
 	 * @return mixed
 	 */
@@ -2119,6 +2207,20 @@ class WPMDB extends WPMDB_Base {
 			$this->core_slug,
 			array( $this, 'options_page' ) );
 		$this->after_admin_menu( $hook_suffix );
+	}
+	
+	/**
+	 * Add a tools menu item to sites on a Multisite network
+	 *
+	 */
+	function network_tools_admin_menu() {
+		add_management_page( 
+			$this->get_plugin_title(),
+			$this->get_plugin_title(),
+			'manage_network_options',
+			$this->core_slug,
+			array( $this, 'subsite_tools_options_page' ) 
+		);
 	}
 
 	function admin_menu() {
@@ -2276,21 +2378,25 @@ class WPMDB extends WPMDB_Base {
 
 		$plugins_url = trailingslashit( plugins_url( $this->plugin_folder_name ) );
 		$version     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
+		$ver_string  = '-' . str_replace( '.', '', $this->plugin_version );
 		$min         = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		$src = $plugins_url . 'asset/css/styles.css';
+		$src = $plugins_url . 'asset/dist/css/styles.css';
 		wp_enqueue_style( 'wp-migrate-db-pro-styles', $src, array(), $version );
 
-		$src = $plugins_url . "asset/js/common$min.js";
+		$src = $plugins_url . "asset/dist/js/common{$ver_string}{$min}.js";
 		wp_enqueue_script( 'wp-migrate-db-pro-common', $src, null, $version, true );
 
-		$src = $plugins_url . "asset/js/hook$min.js";
+		$src = $plugins_url . "asset/dist/js/hook{$ver_string}{$min}.js";
 		wp_enqueue_script( 'wp-migrate-db-pro-hook', $src, null, $version, true );
+
+		$src = $plugins_url . "asset/dist/js/multisite{$ver_string}{$min}.js";
+		wp_enqueue_script( 'wp-migrate-db-pro-multisite', $src, array( 'jquery' ), $version, true );
 
 		do_action( 'wpmdb_load_assets' );
 
-		$src = $plugins_url . "asset/js/script$min.js";
-		wp_enqueue_script( 'wp-migrate-db-pro-script', $src, array( 'jquery' ), $version, true );
+		$src = $plugins_url . "asset/dist/js/script{$ver_string}{$min}.js";
+		wp_enqueue_script( 'wp-migrate-db-pro-script', $src, array( 'jquery', 'backbone' ), $version, true );
 
 		wp_localize_script( 'wp-migrate-db-pro-script',
 			'wpmdb_strings',
@@ -2302,21 +2408,22 @@ class WPMDB extends WPMDB_Base {
 				'enter_license_key'                     => __( 'Please enter your license key.', 'wp-migrate-db' ),
 				'register_license_problem'              => __( 'A problem occurred when trying to register the license, please try again.', 'wp-migrate-db' ),
 				'license_registered'                    => __( 'Your license has been activated. You will now receive automatic updates and access to email support.', 'wp-migrate-db' ),
-				'fetching_license'                      => __( 'Fetching license details, please wait...', 'wp-migrate-db' ),
+				'fetching_license'                      => __( 'Fetching license details, please wait…', 'wp-migrate-db' ),
 				'clear_log_problem'                     => __( 'An error occurred when trying to clear the debug log. Please contact support. (#132)', 'wp-migrate-db' ),
 				'update_log_problem'                    => __( 'An error occurred when trying to update the debug log. Please contact support. (#133)', 'wp-migrate-db' ),
-				'migrate_db_save'                       => _x( 'Migrate & Save Profile', 'Copy data between servers and save migration profile', 'wp-migrate-db' ),
-				'migrate_db'                            => _x( 'Migrate', 'Copy data between servers', 'wp-migrate-db' ),
 				'please_select_one_table'               => __( 'Please select at least one table to migrate.', 'wp-migrate-db' ),
+				'please_select_one_table_backup'        => __( 'Please select at least one table for backup.', 'wp-migrate-db' ),
 				'enter_name_for_profile'                => __( 'Please enter a name for your migration profile.', 'wp-migrate-db' ),
 				'save_profile_problem'                  => __( 'An error occurred when attempting to save the migration profile. Please see the Help tab for details on how to request support. (#118)', 'wp-migrate-db' ),
-				'exporting_complete'                    => _x( 'Exporting complete', 'Data has been successfully exported', 'wp-migrate-db' ),
-				'exporting_please_wait'                 => __( 'Exporting, please wait...', 'wp-migrate-db' ),
-				'please_wait'                           => __( 'please wait...', 'wp-migrate-db' ),
+				'exporting_complete'                    => _x( 'Export complete', 'Data has been successfully exported', 'wp-migrate-db' ),
+				'exporting_please_wait'                 => __( 'Exporting, please wait…', 'wp-migrate-db' ),
+				'please_wait'                           => __( 'please wait…', 'wp-migrate-db' ),
 				'complete'                              => _x( 'complete', 'Finished successfully', 'wp-migrate-db' ),
 				'migration_failed'                      => _x( 'Migration failed', 'Copy of data between servers did not complete', 'wp-migrate-db' ),
 				'backing_up'                            => _x( 'Backing up', 'Saving a copy of the data before import', 'wp-migrate-db' ),
+				'queued'                                => _x( 'Queued', 'In line to be processed', 'wp-migrate-db' ),
 				'migrating'                             => _x( 'Migrating', 'Copying data between servers', 'wp-migrate-db' ),
+				'running'                               => _x( 'Running', 'Process is active', 'wp-migrate-db'),
 				'status'                                => _x( 'Status', 'Current request status', 'wp-migrate-db' ),
 				'response'                              => _x( 'Response', 'The message the server responded with', 'wp-migrate-db' ),
 				'table_process_problem'                 => __( 'A problem occurred when attempting to process the following table (#113)', 'wp-migrate-db' ),
@@ -2336,7 +2443,7 @@ class WPMDB extends WPMDB_Base {
 				'connection_info_missing'               => __( 'The connection information appears to be missing, please enter it to continue.', 'wp-migrate-db' ),
 				'connection_info_incorrect'             => __( "The connection information appears to be incorrect, it should consist of two lines. The first being the remote server's URL and the second being the secret key.", 'wp-migrate-db' ),
 				'connection_info_url_invalid'           => __( 'The URL on the first line appears to be invalid, please check it and try again.', 'wp-migrate-db' ),
-				'connection_info_key_invalid'           => __( 'The secret key on the second line appears to be invalid. It should be a 32 character string that consists of letters, numbers and special characters only.', 'wp-migrate-db' ),
+				'connection_info_key_invalid'           => __( 'The secret key on the second line appears to be invalid. It should be a 40 character string that consists of letters, numbers and special characters only.', 'wp-migrate-db' ),
 				'connection_info_local_url'             => __( "It appears you've entered the URL for this website, you need to provide the URL of the remote website instead.", 'wp-migrate-db' ),
 				'connection_info_local_key'             => __( 'Looks like your remote secret key is the same as the secret key for this site. To fix this, go to the <a href="#settings">Settings tab</a> and click "Reset Secret Key"', 'wp-migrate-db' ),
 				'time_elapsed'                          => __( 'Time Elapsed:', 'wp-migrate-db' ),
@@ -2346,6 +2453,7 @@ class WPMDB extends WPMDB_Base {
 				'completing_current_request'            => __( 'Completing current request', 'wp-migrate-db' ),
 				'cancelling_migration'                  => _x( 'Cancelling migration', 'The migration is being cancelled', 'wp-migrate-db' ),
 				'paused'                                => _x( 'Paused', 'The migration has been temporarily stopped', 'wp-migrate-db' ),
+				'paused_before_finalize'                => __( 'Automatically paused before migrated tables are replaced. Click "Resume" or "Cancel" when ready.', 'wp-migrate-db' ),
 				'removing_local_sql'                    => __( 'Removing the local MySQL export file', 'wp-migrate-db' ),
 				'removing_local_backup'                 => __( 'Removing the local backup MySQL export file', 'wp-migrate-db' ),
 				'removing_local_temp_tables'            => __( 'Removing the local temporary tables', 'wp-migrate-db' ),
@@ -2354,6 +2462,7 @@ class WPMDB extends WPMDB_Base {
 				'migration_cancellation_failed'         => __( 'Migration cancellation failed', 'wp-migrate-db' ),
 				'manually_remove_temp_files'            => __( 'A problem occurred while cancelling the migration, you may have to manually delete some temporary files / tables.', 'wp-migrate-db' ),
 				'migration_cancelled'                   => _x( 'Migration cancelled', 'The migration has been cancelled', 'wp-migrate-db' ),
+				'migration_cancelled_success'           => __( 'The migration has been stopped and all temporary files and data have been cleaned up.', 'wp-migrate-db' ),
 				'migration_complete'                    => _x( 'Migration complete', 'The migration completed successfully', 'wp-migrate-db' ),
 				'finalizing_migration'                  => _x( 'Finalizing migration', 'The migration is in the last stages', 'wp-migrate-db' ),
 				'flushing'                              => _x( 'Flushing caches and rewrite rules', 'The caches and rewrite rules for the target are being flushed', 'wp-migrate-db' ),
@@ -2361,13 +2470,13 @@ class WPMDB extends WPMDB_Base {
 				'mu_plugin_confirmation'                => __( "If confirmed we will install an additional WordPress 'Must Use' plugin. This plugin will allow us to control which plugins are loaded during WP Migrate DB Pro specific operations. Do you wish to continue?", 'wp-migrate-db' ),
 				'plugin_compatibility_settings_problem' => __( 'A problem occurred when trying to change the plugin compatibility setting.', 'wp-migrate-db' ),
 				'sure'                                  => _x( 'Sure?', 'Confirmation required', 'wp-migrate-db' ),
-				'pull_migration_label_migrating'        => __( 'Pulling from %s, please wait...', 'wp-migrate-db' ),
-				'pull_migration_label_completed'        => __( 'Pulling from %s complete', 'wp-migrate-db' ),
-				'push_migration_label_migrating'        => __( 'Pushing to %s, please wait...', 'wp-migrate-db' ),
-				'push_migration_label_completed'        => __( 'Pushing to %s complete', 'wp-migrate-db' ),
+				'pull_migration_label_migrating'        => __( 'Pulling from %s…', 'wp-migrate-db' ),
+				'pull_migration_label_completed'        => __( 'Pull from %s complete', 'wp-migrate-db' ),
+				'push_migration_label_migrating'        => __( 'Pushing to %s…', 'wp-migrate-db' ),
+				'push_migration_label_completed'        => __( 'Push to %s complete', 'wp-migrate-db' ),
 				'copying_license'                       => __( 'Copying license to the remote site, please wait', 'wp-migrate-db' ),
-				'attempting_to_activate_licence'        => __( 'Attempting to activate your license, please wait...', 'wp-migrate-db' ),
-				'licence_reactivated'                   => __( 'License successfully activated, please wait...', 'wp-migrate-db' ),
+				'attempting_to_activate_licence'        => __( 'Attempting to activate your license, please wait…', 'wp-migrate-db' ),
+				'licence_reactivated'                   => __( 'License successfully activated, please wait…', 'wp-migrate-db' ),
 				'activate_licence_problem'              => __( 'An error occurred when trying to reactivate your license. Please provide the following information when requesting support:', 'wp-migrate-db' ),
 				'temporarily_activated_licence'         => __( "<strong>We've temporarily activated your licence and will complete the activation once the Delicious Brains API is available again.</strong><br />Please refresh this page to continue.", 'wp-migrate-db' ),
 				'ajax_json_message'                     => __( 'JSON Decoding Failure', 'wp-migrate-db' ),
@@ -2376,6 +2485,28 @@ class WPMDB extends WPMDB_Base {
 				'delaying_next_request'                 => __( 'Waiting %s seconds before executing next step', 'wp-migrate-db' ),
 				'delay_between_requests_problem'        => __( 'A problem occurred when trying to change the delay between requests, please try again.', 'wp-migrate-db' ),
 				'flush_problem'                         => __( 'A problem occurred when flushing caches and rewrite rules. (#145)', 'wp-migrate-db' ),
+				'migrate_button_push'                   => _x( 'Push', 'Transfer this database to the remote site', 'wp-migrate-db' ),
+				'migrate_button_push_save'              => _x( 'Push &amp; Save', 'Transfer this database to the remote site and save migration profile', 'wp-migrate-db' ),
+				'migrate_button_pull'                   => _x( 'Pull', 'Transfer the remote database to this site', 'wp-migrate-db' ),
+				'migrate_button_pull_save'              => _x( 'Pull &amp; Save', 'Transfer the remote database to this site and save migration profile', 'wp-migrate-db' ),
+				'migrate_button_export'                 => _x( 'Export', 'Download a copy of the database', 'wp-migrate-db' ),
+				'migrate_button_export_save'            => _x( 'Export &amp; Save', 'Download a copy of the database and save migration profile', 'wp-migrate-db' ),
+				'tables'                                => _x( 'Tables', 'database tables', 'wp-migrate-db'),
+				'files'                                 => __( 'Files', 'wp-migrate-db'),
+				'migrated'                              => _x( 'Migrated', 'Transferred', 'wp-migrate-db' ),
+				'backed_up'                             => __( 'Backed Up', 'wp-migrate-db' ),
+				'hide'                                  => _x( 'Hide', 'Obscure from view', 'wp-migrate-db' ),
+				'show'                                  => _x( 'Show', 'Reveal', 'wp-migrate-db' ),
+				'welcome_title'                         => __( 'Welcome to WP Migrate DB Pro! &#127881;', 'wp-migrate-db' ),
+				'welcome_text'                          => __( 'Hey, this is the first time activating your license, nice! Your migrations are about to get awesome! If you haven’t already, you should check out our <a href="%1$s">Quick Start Guide</a> and <a href="%2$s">Videos</a>. If you run into any trouble at all, use the <strong>Help tab</strong> above to submit a support request.', 'wp-migrate-db' ),
+				'title_progress'                        => __( '%1$s Stage %2$s of %3$s', 'wp-migrate-db' ),
+				'title_paused'                          => __( 'Paused', 'wp-migrate-db' ),
+				'title_cancelling'                      => __( 'Cancelling', 'wp-migrate-db' ),
+				'title_cancelled'                       => __( 'Cancelled', 'wp-migrate-db' ),
+				'title_finalizing'                      => __( 'Finalizing', 'wp-migrate-db' ),
+				'title_complete'                        => __( 'Complete', 'wp-migrate-db' ),
+				'title_error'                           => __( 'Failed', 'wp-migrate-db' ),
+				'progress_items_truncated_msg'          => __( '%1$s items are not shown to maintain browser performance', 'wp-migrate-db' ),
 			)
 		);
 
@@ -2421,7 +2552,7 @@ class WPMDB extends WPMDB_Base {
 	 * @return void
 	 */
 	function admin_head_connection_info() {
-		global $table_prefix;
+		$site_details = $this->site_details();
 
 		$nonces = apply_filters( 'wpmdb_nonces', array(
 			'update_max_request_size'          => wp_create_nonce( 'update-max-request-size' ),
@@ -2442,27 +2573,36 @@ class WPMDB extends WPMDB_Base {
 			'reactivate_licence'               => wp_create_nonce( 'reactivate-licence' ),
 			'process_notice_link'              => wp_create_nonce( 'process-notice-link' ),
 			'flush'                            => wp_create_nonce( 'flush' ),
+			'plugin_compatibility'             => wp_create_nonce( 'plugin_compatibility' ),
+			'blacklist_plugins'                => wp_create_nonce( 'blacklist_plugins' ),
+			'cancel_migration'                 => wp_create_nonce( 'cancel_migration' )
 		) );
 
 		$data = apply_filters( 'wpmdb_data', array(
 			'connection_info'        => array( site_url( '', 'https' ), $this->settings['key'] ),
 			'this_url'               => esc_html( addslashes( home_url() ) ),
-			'this_path'              => esc_html( addslashes( $this->absolute_root_file_path ) ),
+			'this_path'              => esc_html( addslashes( $this->get_absolute_root_file_path() ) ),
 			'this_domain'            => esc_html( $this->get_domain_current_site() ),
 			'this_tables'            => $this->get_tables(),
 			'this_prefixed_tables'   => $this->get_tables( 'prefix' ),
 			'this_table_sizes'       => $this->get_table_sizes(),
+			'this_table_sizes_hr'    => array_map( array( $this, 'format_table_sizes' ), $this->get_table_sizes() ),
 			'this_table_rows'        => $this->get_table_row_count(),
 			'this_upload_url'        => esc_html( addslashes( trailingslashit( $this->get_upload_info( 'url' ) ) ) ),
 			'this_upload_dir_long'   => esc_html( addslashes( trailingslashit( $this->get_upload_info( 'path' ) ) ) ),
-			'this_uploads_dir'       => esc_html( addslashes( $this->get_short_uploads_dir() ) ),
+			'this_uploads_dir'       => $site_details['uploads_dir'], // TODO: Remove backwards compatibility.
+			'this_plugin_url'        => trailingslashit( plugins_url( $this->plugin_folder_name ) ),
 			'this_website_name'      => sanitize_title_with_dashes( DB_NAME ),
 			'this_download_url'      => network_admin_url( $this->plugin_base . '&download=' ),
-			'this_prefix'            => esc_html( $table_prefix ),
-			'is_multisite'           => esc_html( is_multisite() ? 'true' : 'false' ),
+			'this_prefix'            => $site_details['prefix'], // TODO: Remove backwards compatibility.
+			'this_temp_prefix'       => $this->temp_prefix,
+			'this_plugin_base'       => esc_html( $this->plugin_base ),
+			'is_multisite'           => $site_details['is_multisite'], // TODO: Remove backwards compatibility.
 			'openssl_available'      => esc_html( $this->open_ssl_enabled() ? 'true' : 'false' ),
 			'max_request'            => esc_html( $this->settings['max_request'] ),
 			'delay_between_requests' => esc_html( $this->settings['delay_between_requests'] ),
+			'prog_tables_hidden'     => ( bool ) $this->settings['prog_tables_hidden'],
+			'pause_before_finalize'  => ( bool ) $this->settings['pause_before_finalize'],
 			'bottleneck'             => esc_html( $this->get_bottleneck( 'max' ) ),
 			'has_licence'            => esc_html( $this->get_licence_key() == '' ? '0' : '1' ),
 			// TODO: Use WP_Filesystem API.
@@ -2472,6 +2612,8 @@ class WPMDB extends WPMDB_Base {
 			'profile'                => isset( $_GET['wpmdb-profile'] ) ? $_GET['wpmdb-profile'] : '-1',
 			'is_pro'                 => esc_html( ( $this->is_pro ) ? 'true' : 'false' ),
 			'lower_case_table_names' => esc_html( $this->get_lower_case_table_names_setting() ),
+			'subsites'               => $site_details['subsites'], // TODO: Remove backwards compatibility.
+			'site_details'           => $this->site_details(),
 		) );
 
 		wp_localize_script( 'wp-migrate-db-pro-script', 'wpmdb_data', $data );
@@ -2518,6 +2660,11 @@ class WPMDB extends WPMDB_Base {
 		return $current_site->path;
 	}
 
+	/**
+	 * Get the domain for the current site.
+	 *
+	 * @return string
+	 */
 	function get_domain_current_site() {
 		if ( ! is_multisite() ) {
 			return '';
@@ -2528,14 +2675,12 @@ class WPMDB extends WPMDB_Base {
 		return $current_site->domain;
 	}
 
-	function maybe_checked( $option ) {
-		echo esc_html( ( isset( $option ) && $option == '1' ) ? ' checked="checked"' : '' );
-	}
-
 	/**
 	 * Called to cancel an in-progress migration.
 	 */
 	function ajax_cancel_migration() {
+		$this->check_ajax_referer( 'cancel_migration' );
+
 		$key_rules = array(
 			'action'             => 'key',
 			'migration_state_id' => 'key',
@@ -2549,11 +2694,22 @@ class WPMDB extends WPMDB_Base {
 				$this->delete_export_file( $this->state_data['dump_filename'], false );
 				break;
 			case 'push' :
-				$data                     = $this->filter_post_elements( $this->state_data, array( 'action', 'intent', 'url', 'key', 'form_data', 'dump_filename', 'temp_prefix', 'stage' ) );
-				$data['dumpfile_created'] = empty( $this->state_data['dumpfile_created'] ) ? 0 : 1;
-				$data['action']           = 'wpmdb_process_push_migration_cancellation';
-				$ajax_url                 = $this->ajax_url();
-				$data['sig']              = $this->create_signature( $data, $data['key'] );
+				$data = $this->filter_post_elements(
+					$this->state_data,
+					array(
+						'remote_state_id',
+						'intent',
+						'url',
+						'form_data',
+						'temp_prefix',
+						'stage',
+						'dump_filename',
+					)
+				);
+
+				$data['action'] = 'wpmdb_process_push_migration_cancellation';
+				$data['sig']    = $this->create_signature( $data, $this->state_data['key'] );
+				$ajax_url       = $this->ajax_url();
 
 				$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 				$this->display_errors();
@@ -2607,7 +2763,7 @@ class WPMDB extends WPMDB_Base {
 
 	function template_compatibility() {
 		$args = array(
-			'plugin_compatibility_checked' => ( isset( $GLOBALS['wpmdb_compatibility'] ) ? ' checked="checked"' : '' ),
+			'plugin_compatibility_checked' => ( isset( $GLOBALS['wpmdb_compatibility'] ) ? true : false ),
 		);
 		$this->template( 'compatibility', 'common', $args );
 	}
@@ -2659,35 +2815,6 @@ class WPMDB extends WPMDB_Base {
 		return __( 'Migrate DB', 'wp-migrate-db' );
 	}
 
-	function deactivate_other_instances( $plugin ) {
-		if ( ! in_array( basename( $plugin ), array( 'wp-migrate-db-pro.php', 'wp-migrate-db.php' ) ) ) {
-			return;
-		}
-
-		$plugin_to_deactivate  = 'wp-migrate-db.php';
-		$deactivated_notice_id = '1';
-		if ( $plugin_to_deactivate == basename( $plugin ) ) {
-			$plugin_to_deactivate  = 'wp-migrate-db-pro.php';
-			$deactivated_notice_id = '2';
-		}
-
-		if ( is_multisite() ) {
-			$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-			$active_plugins = array_keys( $active_plugins );
-		} else {
-			$active_plugins = (array) get_option( 'active_plugins', array() );
-		}
-
-		foreach ( $active_plugins as $basename ) {
-			if ( false !== strpos( $basename, $plugin_to_deactivate ) ) {
-				set_transient( 'wp_migrate_db_deactivated_notice_id', $deactivated_notice_id, 1 * HOUR_IN_SECONDS );
-				deactivate_plugins( $basename );
-
-				return;
-			}
-		}
-	}
-
 	function plugin_deactivated_notice() {
 		if ( false !== ( $deactivated_notice_id = get_transient( 'wp_migrate_db_deactivated_notice_id' ) ) ) {
 			if ( '1' === $deactivated_notice_id ) {
@@ -2731,14 +2858,16 @@ class WPMDB extends WPMDB_Base {
 	/**
 	 * Ensures that the given create table sql string is compatible with the target database server version.
 	 *
-	 * @param $create_table
-	 * @param $table
-	 * @param $db_version
+	 * @param string $create_table
+	 * @param string $table
+	 * @param string $db_version
+	 * @param string $action
+	 * @param string $stage
 	 *
 	 * @return mixed
 	 */
-	function mysql_compat_filter( $create_table, $table, $db_version ) {
-		if ( empty( $db_version ) ) {
+	function mysql_compat_filter( $create_table, $table, $db_version, $action, $stage ) {
+		if ( empty( $db_version ) || empty( $action ) || empty( $stage ) ) {
 			return $create_table;
 		}
 
@@ -2750,9 +2879,31 @@ class WPMDB extends WPMDB_Base {
 
 			// Replace utf8mb4 introduced in MySQL 5.5.3 with utf8. As of WordPress 4.2 utf8mb4 is used by default on supported MySQL versions
 			// but causes migrations to fail when the remote site uses MySQL < 5.5.3.
-			$create_table = preg_replace( '/(COLLATE\s)utf8mb4/', '$1utf8', $create_table ); // Column collation
-			$create_table = preg_replace( '/(COLLATE=)utf8mb4/', '$1utf8', $create_table ); // Table collation
-			$create_table = preg_replace( '/(CHARSET\s?=\s?)utf8mb4/', '$1utf8', $create_table ); // Table charset
+			$abort_utf8mb4 = false;
+			if ( 'savefile' !== $action && 'backup' !== $stage ) {
+				$abort_utf8mb4 = true;
+			}
+			// Escape hatch if user knows that site content is utf8 safe.
+			$abort_utf8mb4 = apply_filters( 'wpmdb_abort_utf8mb4_to_utf8', $abort_utf8mb4 );
+
+			$replace_count = 0;
+			$create_table  = preg_replace( '/(COLLATE\s)utf8mb4/', '$1utf8', $create_table, -1, $replace_count ); // Column collation
+
+			if ( false === $abort_utf8mb4 || 0 === $replace_count ) {
+				$create_table = preg_replace( '/(COLLATE=)utf8mb4/', '$1utf8', $create_table, -1, $replace_count ); // Table collation
+			}
+
+			if ( false === $abort_utf8mb4 || 0 === $replace_count ) {
+				$create_table = preg_replace( '/(CHARSET\s?=\s?)utf8mb4/', '$1utf8', $create_table, -1, $replace_count ); // Table charset
+			}
+
+			if ( true === $abort_utf8mb4 && 0 !== $replace_count ) {
+				$return = sprintf( __( 'The source site supports utf8mb4 data but the target does not, aborting migration to avoid possible data corruption. Please see %1$s for more information. (#148)', 'wp-migrate-db-pro' ), sprintf( '<a href="https://deliciousbrains.com/wp-migrate-db-pro/doc/source-site-supports-utf8mb4/">%1$s</a>', __( 'our documentation', 'wp-migrate-db-pro' ) ) );
+				$return = array( 'wpmdb_error' => 1, 'body' => $return );
+				$result = $this->end_ajax( json_encode( $return ) );
+
+				return $result;
+			}
 		}
 
 		return $create_table;
@@ -2780,7 +2931,7 @@ class WPMDB extends WPMDB_Base {
 			foreach ( $tmp_find_replace_pairs as $replace_old => $replace_new ) {
 				$find_replace_pairs['replace_old'][ $i ] = $replace_old;
 				$find_replace_pairs['replace_new'][ $i ] = $replace_new;
-				$i ++;
+				$i++;
 			}
 		}
 

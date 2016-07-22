@@ -1,59 +1,21 @@
 <?php
 
 /**
- * Miscelaneous plugin-wide functions
+ * Miscellaneous plugin-wide functions.
  *
- * @package iThemes-Security
- * @since   4.0
+ * Various static functions to provide information to modules and other areas throughout the plugin.
+ *
+ * @package iThemes_Security
+ *
+ * @since   4.0.0
  */
 final class ITSEC_Lib {
-
-	/**
-	 * Loads core functionality across both admin and frontend.
-	 */
-	function __construct() {
-
-		return;
-
-	}
-
-	/**
-	 * Converts CIDR to ip range.
-	 *
-	 * Modified from function at http://stackoverflow.com/questions/4931721/getting-list-ips-from-cidr-notation-in-php
-	 * as it was far more elegant than my own solution
-	 *
-	 * @param string $cidr cidr notation to convert
-	 *
-	 * @return array        range of ips returned
-	 */
-	public static function cidr_to_range( $cidr ) {
-
-		$range = array();
-
-		if ( strpos( $cidr, '/' ) ) {
-
-			$cidr = explode( '/', $cidr );
-
-			$range[] = long2ip( ( ip2long( $cidr[0] ) ) & ( ( - 1 << ( 32 - (int) $cidr[1] ) ) ) );
-			$range[] = long2ip( ( ip2long( $cidr[0] ) ) + pow( 2, ( 32 - (int) $cidr[1] ) ) - 1 );
-
-		} else { //if not a range just return the original ip
-
-			$range[] = $cidr;
-
-		}
-
-		return $range;
-
-	}
-
 	/**
 	 * Clear caches.
 	 *
 	 * Clears popular WordPress caching mechanisms.
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @param bool $page [optional] true to clear page cache
 	 *
@@ -69,7 +31,7 @@ final class ITSEC_Lib {
 		//clear w3 total cache or wp super cache
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 
-			if ( $page == true ) {
+			if ( true == $page ) {
 				w3tc_pgcache_flush();
 				w3tc_minify_flush();
 			}
@@ -77,7 +39,7 @@ final class ITSEC_Lib {
 			w3tc_dbcache_flush();
 			w3tc_objectcache_flush();
 
-		} else if ( function_exists( 'wp_cache_clear_cache' ) && $page == true ) {
+		} else if ( function_exists( 'wp_cache_clear_cache' ) && true == $page ) {
 
 			wp_cache_clear_cache();
 
@@ -88,7 +50,9 @@ final class ITSEC_Lib {
 	/**
 	 * Creates appropriate database tables.
 	 *
-	 * @since 4.0
+	 * Uses dbdelta to create database tables either on activation or in the event that one is missing.
+	 *
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -114,12 +78,12 @@ final class ITSEC_Lib {
 				log_priority int(2) NOT NULL DEFAULT 1,
 				log_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 				log_date_gmt datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-				log_host varchar(20),
-				log_username varchar(20),
+				log_host varchar(40),
+				log_username varchar(60),
 				log_user bigint(20) UNSIGNED,
 				log_url varchar(255),
 				log_referrer varchar(255),
-				log_data longtext NOT NULL DEFAULT '',
+				log_data longtext NOT NULL,
 				PRIMARY KEY  (log_id),
 				KEY log_type (log_type),
 				KEY log_date_gmt (log_date_gmt)
@@ -133,9 +97,9 @@ final class ITSEC_Lib {
 				lockout_start_gmt datetime NOT NULL,
 				lockout_expire datetime NOT NULL,
 				lockout_expire_gmt datetime NOT NULL,
-				lockout_host varchar(20),
+				lockout_host varchar(40),
 				lockout_user bigint(20) UNSIGNED,
-				lockout_username varchar(20),
+				lockout_username varchar(60),
 				lockout_active int(1) NOT NULL DEFAULT 1,
 				PRIMARY KEY  (lockout_id),
 				KEY lockout_expire_gmt (lockout_expire_gmt),
@@ -151,9 +115,9 @@ final class ITSEC_Lib {
 				temp_type varchar(20) NOT NULL,
 				temp_date datetime NOT NULL,
 				temp_date_gmt datetime NOT NULL,
-				temp_host varchar(20),
+				temp_host varchar(40),
 				temp_user bigint(20) UNSIGNED,
-				temp_username varchar(20),
+				temp_username varchar(60),
 				PRIMARY KEY  (temp_id),
 				KEY temp_date_gmt (temp_date_gmt),
 				KEY temp_host (temp_host),
@@ -167,12 +131,13 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Gets location of wp-config.php
+	 * Gets location of wp-config.php.
 	 *
 	 * Finds and returns path to wp-config.php
 	 *
-	 * @return string path to wp-config.php
+	 * @since 4.0.0
 	 *
+	 * @return string path to wp-config.php
 	 * */
 	public static function get_config() {
 
@@ -189,60 +154,119 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Return primary domain from given url
+	 * Gets current url
 	 *
-	 * Returns primary domain name (without subdomains) of given URL
+	 * Finds and returns current url.
 	 *
-	 * @param string  $address address to filter
-	 * @param boolean $apache  [true] does this require an apache style wildcard
+	 * @since 4.3.0
 	 *
-	 * @return string domain name
-	 *
+	 * @return string current url
 	 * */
-	public static function get_domain( $address, $apache = true ) {
+	public static function get_current_url() {
 
-		preg_match( "/^(http:\/\/)?([^\/]+)/i", $address, $matches );
+		$page_url = 'http';
 
-		$host = $matches[2];
+		if ( isset( $_SERVER["HTTPS"] ) ) {
 
-		preg_match( "/[^\.\/]+\.[^\.\/]+$/", $host, $matches );
-
-		if ( $apache == true ) {
-			$wc = '(.*)';
-		} else {
-			$wc = '*.';
-		}
-
-		if ( ! is_array( $matches ) ) {
-			return false;
-		}
-
-		// multisite domain mapping compatibility. when hide login is enabled,
-		// rewrite rules redirect valid POST requests from MAPPED_DOMAIN/wp-login.php?SECRET_KEY
-		// because they aren't coming from the "top-level" domain. blog_id 1, the parent site,
-		// is a completely different, unrelated domain in this configuration.
-		if ( is_multisite() && function_exists( 'domain_mapping_warning' ) ) {
-
-			if ( $apache == true ) {
-				return $wc;
-			} else {
-				return '*';
+			if ( 'on' == $_SERVER["HTTPS"] ) {
+				$page_url .= "s";
 			}
 
-		} elseif ( isset( $matches[0] ) ) {
+		}
 
-			return $wc . $matches[0];
+		$page_url .= "://";
+
+		if ( '80' != $_SERVER["SERVER_PORT"] ) {
+
+			$page_url .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
 
 		} else {
 
-			return false;
+			$page_url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 
 		}
+
+		return esc_url( $page_url );
+	}
+
+	/**
+	 * Return primary domain from given url.
+	 *
+	 * Returns primary domain name (without subdomains) of given URL.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $url          URL to filter
+	 *
+	 * @return string domain name or '*' on error or domain mapped multisite
+	 * */
+	public static function get_domain( $url ) {
+		if ( is_multisite() && function_exists( 'domain_mapping_warning' ) ) {
+			return '*';
+		}
+		
+		
+		$host = parse_url( $url, PHP_URL_HOST );
+		
+		if ( false === $host ) {
+			return '*';
+		}
+		if ( 'www.' == substr( $host, 0, 4 ) ) {
+			return substr( $host, 4 );
+		}
+		
+		$host_parts = explode( '.', $host );
+		
+		if ( count( $host_parts ) > 2 ) {
+			$host_parts = array_slice( $host_parts, -2, 2 );
+		}
+		
+		return implode( '.', $host_parts );
+	}
+
+	/**
+	 * Get path to WordPress install.
+	 *
+	 * Get the absolute filesystem path to the root of the WordPress installation.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @return string Full filesystem path to the root of the WordPress installation
+	 */
+	public static function get_home_path() {
+
+		$home    = set_url_scheme( get_option( 'home' ), 'http' );
+		$siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+
+		if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
+
+			$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
+			$pos                 = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
+
+			if ( $pos === false ) {
+
+				$home_path = dirname( $_SERVER['SCRIPT_FILENAME'] );
+
+			} else {
+
+				$home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
+
+			}
+
+		} else {
+
+			$home_path = ABSPATH;
+
+		}
+
+		return trailingslashit( str_replace( '\\', '/', $home_path ) );
 
 	}
 
 	/**
-	 * Returns the root of the WordPress install
+	 * Returns the root of the WordPress install.
+	 *
+	 * Get's the URI path to the WordPress installation.
 	 *
 	 * @since 4.0.6
 	 *
@@ -251,7 +275,7 @@ final class ITSEC_Lib {
 	public static function get_home_root() {
 
 		//homeroot from wp_rewrite
-		$home_root = parse_url( home_url() );
+		$home_root = parse_url( site_url() );
 
 		if ( isset( $home_root['path'] ) ) {
 
@@ -272,20 +296,21 @@ final class ITSEC_Lib {
 	 *
 	 * Finds and returns path to .htaccess or nginx.conf if appropriate
 	 *
-	 * @return string path to .htaccess
+	 * @since 4.0.0
 	 *
-	 * */
+	 * @return string path to .htaccess
+	 */
 	public static function get_htaccess() {
 
 		global $itsec_globals;
 
-		if ( ITSEC_Lib::get_server() === 'nginx' ) {
+		if ( 'nginx' === ITSEC_Lib::get_server() ) {
 
 			return $itsec_globals['settings']['nginx_file'];
 
 		} else {
 
-			return ABSPATH . '.htaccess';
+			return ITSEC_Lib::get_home_path() . '.htaccess';
 
 		}
 
@@ -294,60 +319,55 @@ final class ITSEC_Lib {
 	/**
 	 * Returns the actual IP address of the user.
 	 *
-	 * Determines the user's IP address by returning the fowarded IP address if present or
+	 * Determines the user's IP address by returning the forwarded IP address if present or
 	 * the direct IP address if not.
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @return  String The IP address of the user
-	 *
 	 */
 	public static function get_ip() {
+		global $itsec_globals;
 
-		//Just get the headers if we can or else use the SERVER global
-		if ( function_exists( 'apache_request_headers' ) ) {
-
-			$headers = apache_request_headers();
-
-		} else {
-
-			$headers = $_SERVER;
-
+		if ( isset( $itsec_globals['settings']['proxy_override'] ) && true === $itsec_globals['settings']['proxy_override'] ) {
+			return esc_sql( $_SERVER['REMOTE_ADDR'] );
 		}
 
-		//Get the forwarded IP if it exists
-		if ( array_key_exists( 'X-Forwarded-For', $headers ) && ( filter_var( $headers['X-Forwarded-For'],
-		                                                                      FILTER_VALIDATE_IP,
-		                                                                      FILTER_FLAG_IPV4 ) || filter_var( $headers['X-Forwarded-For'],
-		                                                                                                        FILTER_VALIDATE_IP,
-		                                                                                                        FILTER_FLAG_IPV6 ) )
-		) {
+		$headers = array(
+			'HTTP_CF_CONNECTING_IP', // CloudFlare
+			'HTTP_X_FORWARDED_FOR',  // Squid and most other forward and reverse proxies
+			'REMOTE_ADDR',           // Default source of remote IP
+		);
 
-			$the_ip = $headers['X-Forwarded-For'];
+		$headers = apply_filters( 'itsec_filter_remote_addr_headers', $headers );
 
-		} elseif ( array_key_exists( 'HTTP_X_FORWARDED_FOR',
-		                             $headers ) && ( filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP,
-		                                                         FILTER_FLAG_IPV4 ) || filter_var( $headers['HTTP_X_FORWARDED_FOR'],
-		                                                                                           FILTER_VALIDATE_IP,
-		                                                                                           FILTER_FLAG_IPV6 ) )
-		) {
+		$headers = (array) $headers;
 
-			$the_ip = $headers['HTTP_X_FORWARDED_FOR'];
-
-		} else {
-
-			$the_ip = $_SERVER['REMOTE_ADDR'];
-
+		if ( ! in_array( 'REMOTE_ADDR', $headers ) ) {
+			$headers[] = 'REMOTE_ADDR';
 		}
 
-		return esc_sql( $the_ip );
+		foreach ( $headers as $header ) {
+			if ( empty( $_SERVER[$header] ) ) {
+				continue;
+			}
 
+			$ip = filter_var( $_SERVER[$header], FILTER_VALIDATE_IP );
+
+			if ( ! empty( $ip ) ) {
+				break;
+			}
+		}
+
+		return esc_sql( (string) $ip );
 	}
 
 	/**
 	 * Gets PHP Memory Limit.
 	 *
-	 * @since 4.0
+	 * Attempts to get the maximum amount of memory allowed for the application by the server.
+	 *
+	 * @since 4.0.0
 	 *
 	 * @return int php memory limit in megabytes
 	 */
@@ -358,93 +378,62 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Returns the URI path of the current module
+	 * Returns the URL of the current module.
 	 *
-	 * @since 4.0
+	 * Get's the full URL of the current module.
 	 *
-	 * @param string $file     the module file from which to derive the path
-	 * @param bool   $with_sub include the subdirectory if needed
+	 * @since 4.0.0
+	 *
+	 * @param string $file the module file from which to derive the path
 	 *
 	 * @return string the path of the current module
 	 */
-	public static function get_module_path( $file, $with_sub = false ) {
+	public static function get_module_path( $file ) {
 
-		$directory = dirname( $file );
+		global $itsec_globals;
 
-		$path_info = parse_url( get_bloginfo( 'url' ) );
+		$path = str_replace( $itsec_globals['plugin_dir'], '', dirname( $file ) );
+		$path = ltrim( str_replace( '\\', '/', $path ), '/' );
 
-		$path = trailingslashit( '/' . ltrim( str_replace( '\\', '/',
-		                                                   str_replace( rtrim( ABSPATH, '\\\/' ), '', $directory ) ),
-		                                      '\\\/' ) );
-
-		if ( $with_sub === true && isset( $path_info['path'] ) ) {
-
-			$path = $path_info['path'] . $path;
-
-		}
-
-		return $path;
-
-	}
-
-	/**
-	 * Returns a psuedo-random string of requested length.
-	 *
-	 * @param int $length how long the string should be (max 62)
-	 *
-	 * @return string
-	 */
-	public static function get_random( $length ) {
-
-		$string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-		return substr( str_shuffle( $string ), mt_rand( 0, strlen( $string ) - $length ), $length );
+		return trailingslashit( trailingslashit( $itsec_globals['plugin_url'] ) . $path );
 
 	}
 
 	/**
 	 * Returns the server type of the plugin user.
 	 *
+	 * Attempts to figure out what http server the visiting user is running.
+	 *
+	 * @since 4.0.0
+	 *
 	 * @return string|bool server type the user is using of false if undetectable.
 	 */
 	public static function get_server() {
-
-		$server_raw = strtolower( filter_var( $_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING ) );
-
-		//figure out what server they're using
-		if ( strpos( $server_raw, 'apache' ) !== false ) {
-
-			return 'apache';
-
-		} elseif ( strpos( $server_raw, 'nginx' ) !== false ) {
-
-			return 'nginx';
-
-		} elseif ( strpos( $server_raw, 'litespeed' ) !== false ) {
-
-			return 'litespeed';
-
-		} else { //unsupported server
-
-			return false;
-
-		}
-
+		require_once( trailingslashit( $GLOBALS['itsec_globals']['plugin_dir'] ) . 'core/lib/class-itsec-lib-utility.php' );
+		
+		return ITSEC_Lib_Utility::get_web_server();
 	}
 
 	/**
-	 * Determine whether the server supports SSL (shared cert not supported
+	 * Determine whether the server supports SSL (shared cert not supported.
+	 *
+	 * Attempts to retrieve an HTML version of the homepage in an effort to determine if SSL is available.
+	 *
+	 * @since 4.0.0
 	 *
 	 * @return bool true if ssl is supported or false
 	 */
 	public static function get_ssl() {
 
-		$url = str_replace( 'http://', 'https://', get_bloginfo( 'url' ) );
+		$url = str_ireplace( 'http://', 'https://', get_bloginfo( 'url' ) );
 
 		if ( function_exists( 'wp_http_supports' ) && wp_http_supports( array( 'ssl' ), $url ) ) {
+
 			return true;
+
 		} elseif ( function_exists( 'curl_init' ) ) {
 
+			//use a manual CURL request to better account for self-signed certificates
 			$timeout    = 5; //timeout for the request
 			$site_title = trim( get_bloginfo() );
 
@@ -466,10 +455,14 @@ final class ITSEC_Lib {
 
 			preg_match( '/<title>(.+)<\/title>/', $body, $matches );
 
-			if ( $http_code == 200 && isset( $matches[1] ) && strpos( $matches[1], $site_title ) !== false ) {
+			if ( 200 == $http_code && isset( $matches[1] ) && false !== strpos( $matches[1], $site_title ) ) {
+
 				return true;
+
 			} else {
+
 				return false;
+
 			}
 
 		}
@@ -479,85 +472,62 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Converts IP with a netmask wildcards to one with * instead
+	 * Determines whether a given IP address is whitelisted
 	 *
-	 * @param string $ip ip to convert
+	 * @param  string  $ip_to_check ip to check (can be in CIDR notation)
+	 * @param  array   $white_ips   ip list to compare to if not yet saved to options
+	 * @param  boolean $current     whether to whitelist the current ip or not (due to saving, etc)
 	 *
-	 * @return string     the converted ip
+	 * @return boolean               true if whitelisted or false
 	 */
-	public static function ip_mask_to_range( $ip ) {
+	public static function is_ip_whitelisted( $ip_to_check, $white_ips = null, $current = false ) {
+		if ( ! class_exists( 'ITSEC_Lib_IP_Tools' ) ) {
+			$itsec_core = ITSEC_Core::get_instance();
+			require_once( dirname( $itsec_core->get_plugin_file() ) . '/core/lib/class-itsec-lib-ip-tools.php' );
+		}
 
-		if ( strpos( $ip, '/' ) ) {
+		if ( $white_ips === null ) {
 
-			$parts  = explode( '/', trim( $ip ) );
-			$octets = array_reverse( explode( '.', trim( $parts[0] ) ) );
+			$global_settings = get_site_option( 'itsec_global' );
 
-			if ( isset( $parts[1] ) && intval( $parts[1] ) > 0 ) {
+			$white_ips = ( isset( $global_settings['lockout_white_list'] ) ? $global_settings['lockout_white_list'] : array() );
 
-				$wildcards = $parts[1] / 8;
+		}
 
-				for ( $count = 0; $count < $wildcards; $count ++ ) {
+		if ( $current === true ) {
+			$white_ips[] = ITSEC_Lib::get_ip(); //add current user ip to whitelist to check automatically
+		}
 
-					$octets[$count] = '[0-9]+';
-
-				}
-
-				return implode( '.', array_reverse( $octets ) );
-
+		// Check to see if we have a temporarily white listed IP
+		$temp = get_site_option( 'itsec_temp_whitelist_ip' );
+		if ( false !== $temp ) {
+			// If the temporary white list is expired, delete the option we store it in
+			if ( $temp['exp'] < current_time( 'timestamp' ) ) {
+				delete_site_option( 'itsec_temp_whitelist_ip' );
 			} else {
-
-				return $ip;
-
+				// If the temporary white list is still valid, add the IP to our list of white IPs
+				$white_ips[] = $temp['ip'];
 			}
-
 		}
 
-		return $ip;
+		$white_ips = apply_filters( 'itsec_white_ips', $white_ips );
+
+		foreach ( $white_ips as $white_ip ) {
+			if ( ITSEC_Lib_IP_Tools::intersect( $ip_to_check, ITSEC_Lib_IP_Tools::ip_wild_to_ip_cidr( $white_ip ) ) ) {
+				return true;
+			}
+		}
+
+		return false;
 
 	}
 
 	/**
-	 * Converts IP with * wildcards to one with a netmask instead
+	 * Determine whether we're on the login page or not.
 	 *
-	 * @param string $ip ip to convert
+	 * Attempts to determine whether or not the user is on the WordPress dashboard login page.
 	 *
-	 * @return string     the converted ip
-	 */
-	public static function ip_wild_to_mask( $ip ) {
-
-		$host_parts = array_reverse( explode( '.', trim( $ip ) ) );
-
-		if ( strpos( $ip, '*' ) ) {
-
-			$mask           = 0; //used to calculate netmask with wildcards
-			$converted_host = str_replace( '*', '0', $ip );
-
-			//convert hosts with wildcards to host with netmask and create rule lines
-			foreach ( $host_parts as $part ) {
-
-				if ( $part === '*' ) {
-					$mask = $mask + 8;
-				}
-
-			}
-
-			$converted_host = trim( $converted_host );
-
-			//Apply a mask if we had to convert
-			if ( $mask > 0 ) {
-				$converted_host .= '/' . $mask;
-			}
-
-			return $converted_host;
-
-		}
-
-		return $ip;
-
-	}
-
-	/**
-	 * Determine whether we're on the login page or not
+	 * @since 4.0.0
 	 *
 	 * @return bool true if is login page else false
 	 */
@@ -568,7 +538,11 @@ final class ITSEC_Lib {
 	}
 
 	/**
+	 * Checks jQuery version.
+	 *
 	 * Checks if the jquery version saved is vulnerable to http://bugs.jquery.com/ticket/9521
+	 *
+	 * @since 4.0.0
 	 *
 	 * @return mixed|bool true if known safe false if unsafe or null if untested
 	 */
@@ -576,10 +550,14 @@ final class ITSEC_Lib {
 
 		$jquery_version = get_site_option( 'itsec_jquery_version' );
 
-		if ( $jquery_version !== false and version_compare( $jquery_version, '1.6.3', '>=' ) ) {
+		if ( false !== $jquery_version && version_compare( $jquery_version, '1.6.3', '>=' ) ) {
+
 			return true;
-		} elseif ( $jquery_version === false ) {
-			return NULL;
+
+		} elseif ( false === $jquery_version ) {
+
+			return null;
+
 		}
 
 		return false;
@@ -587,9 +565,11 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Forces the given page to a WordPress 404 error
+	 * Set a 404 error.
 	 *
-	 * @since 4.0
+	 * Forces the given page to a WordPress 404 error.
+	 *
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -606,10 +586,14 @@ final class ITSEC_Lib {
 		$wp_query->set_404();
 		$page_404 = get_404_template();
 
-		if ( strlen( $page_404 ) > 1 ) {
+		if ( 1 < strlen( $page_404 ) ) {
+
 			include( $page_404 );
+
 		} else {
+
 			include( get_query_template( 'index' ) );
+
 		}
 
 		die();
@@ -622,7 +606,7 @@ final class ITSEC_Lib {
 	 * This function, adopted from builder, attempts to increase the minimum
 	 * memory limit before heavy functions.
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @param int $new_memory_limit what the new memory limit should be
 	 *
@@ -632,26 +616,38 @@ final class ITSEC_Lib {
 
 		$memory_limit = @ini_get( 'memory_limit' );
 
-		if ( $memory_limit > - 1 ) {
+		if ( - 1 < $memory_limit ) {
 
 			$unit = strtolower( substr( $memory_limit, - 1 ) );
 
 			$new_unit = strtolower( substr( $new_memory_limit, - 1 ) );
 
 			if ( 'm' == $unit ) {
+
 				$memory_limit *= 1048576;
+
 			} else if ( 'g' == $unit ) {
+
 				$memory_limit *= 1073741824;
+
 			} else if ( 'k' == $unit ) {
+
 				$memory_limit *= 1024;
+
 			}
 
 			if ( 'm' == $new_unit ) {
+
 				$new_memory_limit *= 1048576;
+
 			} else if ( 'g' == $new_unit ) {
+
 				$new_memory_limit *= 1073741824;
+
 			} else if ( 'k' == $new_unit ) {
+
 				$new_memory_limit *= 1024;
+
 			}
 
 			if ( (int) $memory_limit < (int) $new_memory_limit ) {
@@ -663,11 +659,13 @@ final class ITSEC_Lib {
 	}
 
 	/**
-	 * Checks if user exists
+	 * Checks if user exists.
 	 *
-	 * Checks to see if WordPress user with given id exists
+	 * Checks to see if WordPress user with given id exists.
 	 *
-	 * @param int $id user id of user to check
+	 * @since 4.0.0
+	 *
+	 * @param int $user_id user id of user to check
 	 *
 	 * @return bool true if user exists otherwise false
 	 *
@@ -677,142 +675,22 @@ final class ITSEC_Lib {
 		global $wpdb;
 
 		//return false if username is null
-		if ( $user_id == '' ) {
+		if ( '' == $user_id ) {
 			return false;
 		}
 
 		//queary the user table to see if the user is there
-		$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM `" . $wpdb->users . "` WHERE ID='%s';",
-		                                          sanitize_text_field( $user_id ) ) );
+		$saved_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM `" . $wpdb->users . "` WHERE ID='%s';", sanitize_text_field( $user_id ) ) );
 
-		if ( $userid == $user_id ) {
+		if ( $saved_id == $user_id ) {
+
 			return true;
+
 		} else {
-			return false;
-		}
-
-	}
-
-	/**
-	 * Validates a list of ip addresses
-	 *
-	 * @param string $ip string of hosts to check
-	 *
-	 * @return array array of good hosts or false
-	 */
-	public static function validates_ip_address( $ip ) {
-
-		//validate list
-		$ip             = trim( filter_var( $ip, FILTER_SANITIZE_STRING ) );
-		$ip_parts       = explode( '.', $ip );
-		$error_handler  = NULL;
-		$is_ip          = 0;
-		$part_count     = 1;
-		$good_ip        = true;
-		$found_wildcard = false;
-
-		foreach ( $ip_parts as $part ) {
-
-			if ( $good_ip == true ) {
-
-				if ( ( is_numeric( $part ) && $part <= 255 && $part >= 0 ) || $part === '*' || ( $part_count === 3 && strpos( $part,
-				                                                                                                              '/' ) !== false )
-				) {
-					$is_ip ++;
-				}
-
-				switch ( $part_count ) {
-
-					case 1: //1st octet
-
-						if ( $part === '*' || strpos( $part, '/' ) !== false ) {
-
-							return false;
-
-						}
-
-						break;
-
-					case 2: //2nd octet
-
-						if ( $part === '*' ) {
-
-							$found_wildcard = true;
-
-						} elseif ( strpos( $part, '/' ) !== false ) {
-
-							return false;
-
-						}
-
-						break;
-
-					case 3: //3rd octet
-
-						if ( $part !== '*' ) {
-
-							if ( $found_wildcard === true ) {
-
-								return false;
-
-							}
-
-						} elseif ( strpos( $part, '/' ) !== false ) {
-
-							return false;
-
-						} else {
-
-							$found_wildcard = true;
-
-						}
-
-						break;
-
-					default: //4th octet and netmask
-
-						if ( $part !== '*' ) {
-
-							if ( $found_wildcard == true ) {
-
-								return false;
-
-							} elseif ( strpos( $part, '/' ) !== false ) {
-
-								$netmask = intval( substr( $part, ( strpos( $part, '/' ) + 1 ) ) );
-
-								if ( ! is_numeric( $netmask ) && 1 > $netmask && 31 < $netmask ) {
-
-									return false;
-
-								}
-
-							}
-
-						}
-
-						break;
-
-				}
-
-				$part_count ++;
-
-			}
-
-		}
-
-		if ( ( strpos( $ip, '/' ) !== false && ip2long( trim( substr( $ip, 0, strpos( $ip,
-		                                                                              '/' ) ) ) ) === false ) || ( strpos( $ip,
-		                                                                                                                   '/' ) === false && ip2long( trim( str_replace( '*',
-		                                                                                                                                                                  '0',
-		                                                                                                                                                                  $ip ) ) ) === false )
-		) { //invalid ip
 
 			return false;
 
 		}
-
-		return true; //ip is valid
 
 	}
 
@@ -820,6 +698,8 @@ final class ITSEC_Lib {
 	 * Validates a file path
 	 *
 	 * Adapted from http://stackoverflow.com/questions/4049856/replace-phps-realpath/4050444#4050444 as a replacement for PHP's realpath
+	 *
+	 * @since 4.0.0
 	 *
 	 * @param string $path The original path, can be relative etc.
 	 *
@@ -831,7 +711,7 @@ final class ITSEC_Lib {
 		$unipath = strlen( $path ) == 0 || $path{0} != '/';
 
 		// attempts to detect if path is relative in which case, add cwd
-		if ( strpos( $path, ':' ) === false && $unipath ) {
+		if ( false === strpos( $path, ':' ) && $unipath ) {
 			$path = getcwd() . DIRECTORY_SEPARATOR . $path;
 		}
 
@@ -861,8 +741,18 @@ final class ITSEC_Lib {
 		$path = implode( DIRECTORY_SEPARATOR, $absolutes );
 
 		// resolve any symlinks
-		if ( file_exists( $path ) && linkinfo( $path ) > 0 ) {
-			$path = @readlink( $path );
+		if ( function_exists( 'linkinfo' ) ) { //linkinfo not available on Windows with PHP < 5.3.0
+
+			if ( file_exists( $path ) && 0 < linkinfo( $path ) ) {
+				$path = @readlink( $path );
+			}
+
+		} else {
+
+			if ( file_exists( $path ) && 0 < linkinfo( $path ) ) {
+				$path = @readlink( $path );
+			}
+
 		}
 
 		// put initial separator that could have been lost
@@ -872,6 +762,25 @@ final class ITSEC_Lib {
 		@unlink( $path . '/test.txt' );
 
 		return $test;
+
+	}
+
+	/**
+	 * Validates a URL
+	 *
+	 * Ensures the provided URL is a valid URL.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string $url the url to validate
+	 *
+	 * @return bool true if valid url else false
+	 */
+	public static function validate_url( $url ) {
+
+		$pattern = "/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i";
+
+		return (bool) preg_match( $pattern, $url );
 
 	}
 

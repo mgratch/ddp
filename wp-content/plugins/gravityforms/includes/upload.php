@@ -111,6 +111,11 @@ class GFAsyncUpload {
 			}
 		}
 
+		/**
+		 * Allows the disabling of file upload whitelisting
+		 *
+		 * @param bool false Set to 'true' to disable whitelisting.  Defaults to 'false'.
+		 */
 		$whitelisting_disabled = apply_filters( 'gform_file_upload_whitelisting_disabled', false );
 
 		if ( empty( $allowed_extensions ) && ! $whitelisting_disabled ) {
@@ -240,7 +245,7 @@ class GFAsyncUpload {
 
 		GFCommon::log_debug( sprintf( 'GFAsyncUpload::upload(): File upload complete. temp_filename: %s  uploaded_filename: %s ', $tmp_file_name, $uploaded_filename ) );
 
-		gf_do_action( 'gform_post_multifile_upload', $form['id'], $form, $field, $uploaded_filename, $tmp_file_name, $file_path );
+		gf_do_action( array( 'gform_post_multifile_upload', $form['id'] ), $form, $field, $uploaded_filename, $tmp_file_name, $file_path );
 
 		die( $output );
 	}

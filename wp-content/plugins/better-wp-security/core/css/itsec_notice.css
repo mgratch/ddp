@@ -1,8 +1,8 @@
 #itsec_setup_notice,
 #itsec_support_notice,
-#itsec_upgrade_notice {
+#itsec_upgrade_notice,
+#itsec_api_notice {
 	margin                : 1em 0;
-	padding               : 1em .75em 1em 1em;
 	position              : relative;
 	font-size             : 14px;
 	line-height           : 1.6;
@@ -26,7 +26,8 @@
 }
 
 #itsec_setup_notice span.it-icon-itsec,
-#itsec_support_notice span.it-icon-itsec {
+#itsec_support_notice span.it-icon-itsec,
+#itsec_api_notice span.it-icon-itsec {
 	font-size      : 2em;
 	line-height    : .1;
 	vertical-align : middle;
@@ -41,13 +42,14 @@
 }
 
 #itsec_setup_notice .itsec-notice-button,
-#itsec_support_notice .itsec-notice-button {
+#itsec_support_notice .itsec-notice-button,
+#itsec_api_notice .itsec-notice-button {
 	background          : #9fd0f1;
 	border              : 1px solid #79afd3;
 	border-bottom-width : 2px;
 	border-radius       : 3px;
 	display             : inline-block;
-	margin              : -8px 0 -8px 10px;
+	margin              : 10px 0 10px 10px;
 	padding             : 10px 18px;
 	-webkit-transition  : all .1s linear;
 	-moz-transition     : all .1s linear;
@@ -58,25 +60,32 @@
 	text-decoration     : none;
 }
 
+.itsec_notice_text {
+	display : block;
+	margin  : 10px 0 10px 0;
+}
+
 #itsec_support_notice .itsec-notice-button {
 	margin-left  : 0;
 	margin-right : 10px;
 }
 
 #itsec_setup_notice .itsec-notice-button:hover,
-#itsec_support_notice .itsec-notice-button:hover {
+#itsec_support_notice .itsec-notice-button:hover,
+#itsec_api_notice .itsec-notice-button:hover {
 	background : #eff7fd;
 	cursor     : pointer;
 }
 
 #itsec_setup_notice .itsec-notice-hide,
 #itsec_support_notice .itsec-notice-hide,
-#itsec_upgrade_notice .itsec-notice-hide {
+#itsec_upgrade_notice .itsec-notice-hide,
+#itsec_api_notice .itsec-notice-hide {
 	border             : 1px solid transparent;
 	border-radius      : 3px;
 	display            : inline-block;
 	float              : right;
-	margin             : -8px 0;
+	margin             : 8px 0;
 	padding            : 7px 14px;
 	-webkit-transition : all .1s linear;
 	-moz-transition    : all .1s linear;
@@ -95,7 +104,8 @@
 
 #itsec_setup_notice .itsec-notice-hide:hover,
 #itsec_support_notice .itsec-notice-hide:hover,
-#itsec_upgrade_notice .itsec-notice-hide:hover {
+#itsec_upgrade_notice .itsec-notice-hide:hover,
+#itsec_api_notice .itsec-notice-hide:hover {
 	background          : #9fd0f1;
 	border              : 1px solid #79afd3;
 	border-bottom-width : 2px;
@@ -103,7 +113,8 @@
 	cursor              : pointer;
 }
 
-#itsec_setup_notice a.itsec-notice-button {
+#itsec_setup_notice a.itsec-notice-button,
+#itsec_api_notice a.itsec-notice-button {
 	line-height : 15px;
 	font-size   : 14px;
 }

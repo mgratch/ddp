@@ -39,8 +39,8 @@
 			return {
 				longname: 'TablePress',
 				author: 'Tobias Bäthge',
-				authorurl: 'http://tobias.baethge.com/',
-				infourl: 'http://tablepress.org/',
+				authorurl: 'https://tobias.baethge.com/',
+				infourl: 'https://tablepress.org/',
 				version: '1.0.0'
 			};
 		}

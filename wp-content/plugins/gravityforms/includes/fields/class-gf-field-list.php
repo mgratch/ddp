@@ -36,6 +36,7 @@ class GF_Field_List extends GF_Field {
 		return ! $this->is_form_editor() ? sprintf( 'input_%s_%s_shim', $form['id'], $this->id ) : '';
 	}
 
+	private static $_style_block_printed = false;
 	public function get_field_input( $form, $value = '', $entry = null ) {
 
 		$form_id         = $form['id'];
@@ -58,9 +59,51 @@ class GF_Field_List extends GF_Field {
 		$shim_style  = is_rtl() ? 'position:absolute;left:999em;' : 'position:absolute;left:-999em;';
 		$label_target_shim = sprintf( '<input type=\'text\' id=\'input_%1$s_%2$s_shim\' style=\'%3$s\' onfocus=\'jQuery( "#field_%1$s_%2$s table tr td:first-child input" ).focus();\' />', $form_id, $this->id, $shim_style );
 
-		$list = "<div class='ginput_container ginput_list'>" .
+		$list = '';
+		if ( ! self::$_style_block_printed ){
+			//This style block needs to be inline so that the list field continues to work even if the option to turn off CSS output is activated
+			$list .= '<style type="text/css">
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.add_list_item[src$="plugins/gravityforms/images/blankspace.png"],
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.delete_list_item[src$="plugins/gravityforms/images/blankspace.png"] {
+							background-color: transparent !important;
+							background-position: 0 0;
+							background-size: 16px 16px !important;
+							background-repeat: no-repeat;
+							border: none !important;
+							width: 16px !important;
+							height: 16px !important;
+							vertical-align: middle !important;
+							opacity: 0.5;
+						}
+
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.add_list_item,
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.delete_list_item {
+							width: 16px;
+							height: 16px;
+							vertical-align: middle !important;
+							opacity: 0.5;
+						}
+
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.add_list_item[src$="plugins/gravityforms/images/blankspace.png"] {
+							background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxnIGlkPSJpY29tb29uLWlnbm9yZSI+PC9nPjxwYXRoIGQ9Ik0yNTYgNTEyYy0xNDEuMzc1IDAtMjU2LTExNC42MDktMjU2LTI1NnMxMTQuNjI1LTI1NiAyNTYtMjU2YzE0MS4zOTEgMCAyNTYgMTE0LjYwOSAyNTYgMjU2cy0xMTQuNjA5IDI1Ni0yNTYgMjU2ek0yNTYgNjRjLTEwNi4wMzEgMC0xOTIgODUuOTY5LTE5MiAxOTJzODUuOTY5IDE5MiAxOTIgMTkyYzEwNi4wNDcgMCAxOTItODUuOTY5IDE5Mi0xOTJzLTg1Ljk1My0xOTItMTkyLTE5MnpNMjg4IDM4NGgtNjR2LTk2aC05NnYtNjRoOTZ2LTk2aDY0djk2aDk2djY0aC05NnY5NnoiPjwvcGF0aD48L3N2Zz4=");
+						}
+
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.delete_list_item[src$="plugins/gravityforms/images/blankspace.png"] {
+							background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxnIGlkPSJpY29tb29uLWlnbm9yZSI+PC9nPjxwYXRoIGQ9Ik0yNTYgMGMtMTQxLjM3NSAwLTI1NiAxMTQuNjI1LTI1NiAyNTYgMCAxNDEuMzkxIDExNC42MjUgMjU2IDI1NiAyNTYgMTQxLjM5MSAwIDI1Ni0xMTQuNjA5IDI1Ni0yNTYgMC0xNDEuMzc1LTExNC42MDktMjU2LTI1Ni0yNTZ6TTI1NiA0NDhjLTEwNi4wMzEgMC0xOTItODUuOTY5LTE5Mi0xOTJzODUuOTY5LTE5MiAxOTItMTkyYzEwNi4wNDcgMCAxOTIgODUuOTY5IDE5MiAxOTJzLTg1Ljk1MyAxOTItMTkyIDE5MnpNMTI4IDI4OGgyNTZ2LTY0aC0yNTZ2NjR6Ij48L3BhdGg+PC9zdmc+");
+						}
+
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.add_list_item:hover,
+						body .ginput_container_list table.gfield_list tbody tr td.gfield_list_icons img.delete_list_item:hover {
+							opacity: 1.0;
+						}
+						</style>';
+
+			self::$_style_block_printed = true;
+		}
+
+		$list .= "<div class='ginput_container ginput_container_list ginput_list'>" .
 			$label_target_shim .
-			"<table class='gfield_list'>";
+			"<table class='gfield_list gfield_list_container'>";
 
 		$class_attr = '';
 		if ( $has_columns ) {
@@ -89,20 +132,28 @@ class GF_Field_List extends GF_Field {
 		$maxRow              = intval( $this->maxRows );
 		$disabled_icon_class = ! empty( $maxRow ) && count( $value ) >= $maxRow ? 'gfield_icon_disabled' : '';
 
+		$add_icon    = ! empty( $this->addIconUrl ) ? $this->addIconUrl : GFCommon::get_base_url() . '/images/blankspace.png';
+		$delete_icon = ! empty( $this->deleteIconUrl ) ? $this->deleteIconUrl : GFCommon::get_base_url() . '/images/blankspace.png';
+
+		$add_events    = $is_form_editor ? '' : "onclick='gformAddListItem(this, {$maxRow})' onkeypress='gformAddListItem(this, {$maxRow})'";
+		$delete_events = $is_form_editor ? '' : "onclick='gformDeleteListItem(this, {$maxRow})' onkeypress='gformDeleteListItem(this, {$maxRow})'";
+
 		$list .= '<tbody>';
 		$rownum = 1;
 		foreach ( $value as $item ) {
 
 			$odd_even = ( $rownum % 2 ) == 0 ? 'even' : 'odd';
 
-			$list .= "<tr class='gfield_list_row_{$odd_even}'>";
+			$list .= "<tr class='gfield_list_row_{$odd_even} gfield_list_group'>";
 			$colnum = 1;
 			foreach ( $columns as $column ) {
+				$data_label = '';
 
 				//getting value. taking into account columns being added/removed from form meta
 				if ( is_array( $item ) ) {
 					if ( $has_columns ) {
 						$val = rgar( $item, $column['text'] );
+						$data_label = "data-label='" . esc_attr( $column['text'] ) . "'";
 					} else {
 						$vals = array_values( $item );
 						$val  = rgar( $vals, 0 );
@@ -111,22 +162,17 @@ class GF_Field_List extends GF_Field {
 					$val = $colnum == 1 ? $item : '';
 				}
 
-				$list .= "<td class='gfield_list_cell gfield_list_{$this->id}_cell{$colnum}'>" . $this->get_list_input( $has_columns, $column, $val, $form_id ) . '</td>';
+				$list .= "<td class='gfield_list_cell gfield_list_{$this->id}_cell{$colnum}' {$data_label}>" . $this->get_list_input( $has_columns, $column, $val, $form_id ) . '</td>';
 				$colnum ++;
 			}
-
-			$add_icon    = ! empty( $this->addIconUrl ) ? $this->addIconUrl : GFCommon::get_base_url() . '/images/blankspace.png';
-			$delete_icon = ! empty( $this->deleteIconUrl) ? $this->deleteIconUrl : GFCommon::get_base_url() . '/images/blankspace.png';
-
-			$on_click = $is_form_editor ? '' : "onclick='gformAddListItem(this, {$maxRow})'";
 
 			if ( $this->maxRows != 1 ) {
 
 				// can't replace these icons with the webfont versions since they appear on the front end.
 
 				$list .= "<td class='gfield_list_icons'>";
-				$list .= "   <img src='{$add_icon}' class='add_list_item {$disabled_icon_class}' {$disabled_text} title='" . esc_attr__( 'Add another row', 'gravityforms' ) . "' alt='" . esc_attr__( 'Add a row', 'gravityforms' ) . "' {$on_click} style='cursor:pointer; margin:0 3px;' />" .
-					"   <img src='{$delete_icon}' {$disabled_text} title='" . esc_attr__( 'Remove this row', 'gravityforms' ) . "' alt='" . esc_attr__( 'Remove this row', 'gravityforms' ) . "' class='delete_list_item' style='cursor:pointer; {$delete_display}' onclick='gformDeleteListItem(this, {$maxRow})' />";
+				$list .= "   <img src='{$add_icon}' class='add_list_item {$disabled_icon_class}' {$disabled_text} title='" . esc_attr__( 'Add another row', 'gravityforms' ) . "' alt='" . esc_attr__( 'Add a row', 'gravityforms' ) . "' {$add_events} style='cursor:pointer; margin:0 3px;' " . $this->get_tabindex() . "/>" .
+				         "   <img src='{$delete_icon}' class='delete_list_item' {$disabled_text} title='" . esc_attr__( 'Remove this row', 'gravityforms' ) . "' alt='" . esc_attr__( 'Remove this row', 'gravityforms' ) . "' {$delete_events} style='cursor:pointer; {$delete_display}' " . $this->get_tabindex() . "/>";
 				$list .= '</td>';
 
 			}
@@ -141,58 +187,15 @@ class GF_Field_List extends GF_Field {
 		}
 
 		$list .= '</tbody>';
-		$list .= $this->maxRows != 1 ? $this->get_svg_image_block() : '';
 		$list .= '</table></div>';
 
 		return $list;
 
 	}
 
-	public function get_svg_image_block() {
-		global $_has_image_block;
-
-		//return image block once per page load
-		if ( ! $_has_image_block ) {
-
-			$_has_image_block = true;
-			return '
-					<style type="text/css">
-
-					/* add SVG background image support for retina devices -------------------------------*/
-
-					img.add_list_item {
-						background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxnIGlkPSJpY29tb29uLWlnbm9yZSI+PC9nPjxwYXRoIGQ9Ik0yNTYgNTEyYy0xNDEuMzc1IDAtMjU2LTExNC42MDktMjU2LTI1NnMxMTQuNjI1LTI1NiAyNTYtMjU2YzE0MS4zOTEgMCAyNTYgMTE0LjYwOSAyNTYgMjU2cy0xMTQuNjA5IDI1Ni0yNTYgMjU2ek0yNTYgNjRjLTEwNi4wMzEgMC0xOTIgODUuOTY5LTE5MiAxOTJzODUuOTY5IDE5MiAxOTIgMTkyYzEwNi4wNDcgMCAxOTItODUuOTY5IDE5Mi0xOTJzLTg1Ljk1My0xOTItMTkyLTE5MnpNMjg4IDM4NGgtNjR2LTk2aC05NnYtNjRoOTZ2LTk2aDY0djk2aDk2djY0aC05NnY5NnoiPjwvcGF0aD48L3N2Zz4=);
-					}
-
-					img.delete_list_item {
-						background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxnIGlkPSJpY29tb29uLWlnbm9yZSI+PC9nPjxwYXRoIGQ9Ik0yNTYgMGMtMTQxLjM3NSAwLTI1NiAxMTQuNjI1LTI1NiAyNTYgMCAxNDEuMzkxIDExNC42MjUgMjU2IDI1NiAyNTYgMTQxLjM5MSAwIDI1Ni0xMTQuNjA5IDI1Ni0yNTYgMC0xNDEuMzc1LTExNC42MDktMjU2LTI1Ni0yNTZ6TTI1NiA0NDhjLTEwNi4wMzEgMC0xOTItODUuOTY5LTE5Mi0xOTJzODUuOTY5LTE5MiAxOTItMTkyYzEwNi4wNDcgMCAxOTIgODUuOTY5IDE5MiAxOTJzLTg1Ljk1MyAxOTItMTkyIDE5MnpNMTI4IDI4OGgyNTZ2LTY0aC0yNTZ2NjR6Ij48L3BhdGg+PC9zdmc+);
-					}
-
-					img.add_list_item,
-					img.delete_list_item {
-						width: 1em;
-						height: 1em;
-						background-size: 1em 1em;
-						opacity: 0.5;
-					}
-
-					img.add_list_item:hover,
-					img.add_list_item:active,
-					img.delete_list_item:hover,
-					img.delete_list_item:active {
-						opacity: 1.0;
-					}
-
-					</style>
-				';
-		}
-
-		return '';
-	}
-
 	public function get_list_input( $has_columns, $column, $value, $form_id ) {
 
-		$tabindex = GFCommon::get_tabindex();
+		$tabindex = $this->get_tabindex();
 		$disabled = $this->is_form_editor() ? 'disabled' : '';
 
 		$column_index = 1;
@@ -207,7 +210,8 @@ class GF_Field_List extends GF_Field {
 		}
 		$input_info = array( 'type' => 'text' );
 
-		$input_info = gf_apply_filters( 'gform_column_input', array(
+		$input_info = gf_apply_filters( array(
+			'gform_column_input',
 			$form_id,
 			$this->id,
 			$column_index
@@ -218,7 +222,7 @@ class GF_Field_List extends GF_Field {
 			case 'select' :
 				$input = "<select name='input_{$this->id}[]' {$tabindex} {$disabled} >";
 				if ( ! is_array( $input_info['choices'] ) ) {
-					$input_info['choices'] = explode( ',', $input_info['choices'] );
+					$input_info['choices'] = array_map( 'trim', explode( ',', $input_info['choices'] ) );
 				}
 
 				foreach ( $input_info['choices'] as $choice ) {
@@ -244,12 +248,20 @@ class GF_Field_List extends GF_Field {
 				break;
 		}
 
-		return gf_apply_filters( 'gform_column_input_content', array(
+		return gf_apply_filters( array(
+			'gform_column_input_content',
 			$form_id,
 			$this->id,
 			$column_index
 		), $input, $input_info, $this, rgar( $column, 'text' ), $value, $form_id );
 
+	}
+
+	public function get_field_label_class(){
+
+		$has_columns = is_array( $this->choices );
+
+		return $has_columns ? 'gfield_label gfield_label_before_complex' : 'gfield_label';
 	}
 
 	public function get_value_submission( $field_values, $get_from_post_global_var = true ) {
@@ -309,6 +321,7 @@ class GF_Field_List extends GF_Field {
 			$items = '';
 			foreach ( $value as $key => $item ) {
 				if ( ! empty( $item ) ) {
+					$item = wp_kses_post( $item );
 					switch ( $format ) {
 						case 'text' :
 							$items .= $item . ', ';
@@ -351,6 +364,8 @@ class GF_Field_List extends GF_Field {
 							$list .= "\n\n" . $this->label . ': ';
 						}
 
+						$item = array_map( 'wp_kses_post', $item );
+
 						$list .= implode( ',', array_values( $item ) );
 
 						$is_first_row = false;
@@ -359,6 +374,7 @@ class GF_Field_List extends GF_Field {
 
 				case 'url' :
 					foreach ( $value as $item ) {
+						$item = array_map( 'wp_kses_post', $item );
 						$list .= implode( "|", array_values( $item ) ) . ',';
 					}
 					if ( ! empty( $list ) ) {
@@ -382,6 +398,7 @@ class GF_Field_List extends GF_Field {
 							$list .= '<tr>';
 							foreach ( $columns as $column ) {
 								$val = rgar( $item, $column );
+								$val = wp_kses_post( $val );
 								$list .= "<td style='padding: 6px 10px; border-right: 1px solid #DFDFDF; border-bottom: 1px solid #DFDFDF; border-top: 1px solid #FFF; font-family: sans-serif; font-size:12px;'>{$val}</td>\n";
 							}
 
@@ -403,6 +420,7 @@ class GF_Field_List extends GF_Field {
 							$list .= '<tr>';
 							foreach ( $columns as $column ) {
 								$val = rgar( $item, $column );
+								$val = wp_kses_post( $val );
 								$list .= "<td>{$val}</td>\n";
 							}
 
@@ -433,7 +451,9 @@ class GF_Field_List extends GF_Field {
 			$value = serialize( $value );
 		}
 
-		return $value;
+		$value_safe = $this->sanitize_entry_value( $value, $form['id'] );
+
+		return $value_safe;
 	}
 
 	public function get_value_merge_tag( $value, $input_id, $entry, $form, $modifier, $raw_value, $url_encode, $esc_html, $format, $nl2br ) {
@@ -469,6 +489,37 @@ class GF_Field_List extends GF_Field {
 	public function sanitize_settings() {
 		parent::sanitize_settings();
 		$this->maxRows = absint( $this->maxRows );
+	}
+
+	public function get_value_export( $entry, $input_id = '', $use_text = false, $is_csv = false ) {
+		if ( empty( $input_id ) ) {
+			$input_id = $this->id;
+		} elseif ( ! ctype_digit( $input_id ) ) {
+			$field_id_array = explode( '.', $input_id );
+			$input_id       = rgar( $field_id_array, 0 );
+			$column_num     = rgar( $field_id_array, 1 );
+		}
+
+		$value = rgar( $entry, $input_id );
+		if ( empty( $value ) || $is_csv ) {
+
+			return $value;
+		}
+
+		$list_values = $column_values = unserialize( $value );
+
+		if ( isset( $column_num ) && is_numeric( $column_num ) && $this->enableColumns ) {
+			$column        = rgars( $this->choices, "{$column_num}/text" );
+			$column_values = array();
+			foreach ( $list_values as $value ) {
+				$column_values[] = rgar( $value, $column );
+			}
+		} elseif ( $this->enableColumns ) {
+
+			return json_encode( $list_values );
+		}
+
+		return GFCommon::implode_non_blank( ', ', $column_values );
 	}
 
 }
