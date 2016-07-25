@@ -157,24 +157,25 @@ Template Name: Home Page
 			<div class="social-widget table__item">
 				<h4 class="headline headline--color-2 headline--with-icon headline--social-widget"><?php echo renderSVG(get_template_directory().'/images/logo-instagram.svg'); ?> Instagram</h4>
 					<?php
-						$strHtml = '';
+						echo do_shortcode( '[instagram-feed]' );
+						// $strHtml = '';
 
-						$strHtml .= '<ul class="grid grid--instagram">';
-							foreach ($instagramFeed->data as $key => $ipost) {
-								if ($key < 9) {
-									$strHtml .= '<li class="grid__item">';
-										$strHtml .= '<a href="'.$ipost->link.'" target="_blank">';
-											$strHtml .= '<img class="grid__item__image" src="'.$ipost->images->thumbnail->url.'">';
-										$strHtml .= '</a>';
-									$strHtml .= '</li>';
-								}
-							}
-							for ($i = 1; $i <= 1; $i++) {
-								$strHtml .= '<li class="grid__item flex-grid-spacer"></li>';
-							}
-						$strHtml .= '</ul>';
+						// $strHtml .= '<ul class="grid grid--instagram">';
+						// 	foreach ($instagramFeed->data as $key => $ipost) {
+						// 		if ($key < 9) {
+						// 			$strHtml .= '<li class="grid__item">';
+						// 				$strHtml .= '<a href="'.$ipost->link.'" target="_blank">';
+						// 					$strHtml .= '<img class="grid__item__image" src="'.$ipost->images->thumbnail->url.'">';
+						// 				$strHtml .= '</a>';
+						// 			$strHtml .= '</li>';
+						// 		}
+						// 	}
+						// 	for ($i = 1; $i <= 1; $i++) {
+						// 		$strHtml .= '<li class="grid__item flex-grid-spacer"></li>';
+						// 	}
+						// $strHtml .= '</ul>';
 
-						echo $strHtml;
+						// echo $strHtml;
 					?>
 			</div>
 

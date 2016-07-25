@@ -19,7 +19,7 @@ $theme_colors = array(
 	'color-2' => 'light blue',
 	'color-3' => 'teal',
 	'color-4' => 'lemon',
-	'color-5' => 'orange'
+	'color-5' => 'pale blue'
 );
 
 

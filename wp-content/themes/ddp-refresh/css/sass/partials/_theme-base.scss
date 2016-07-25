@@ -11,7 +11,7 @@ $wrapperMargin : 2.5;  // % value
 
 $fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
 
-$mobile-menu-flip-min : 855px;
+$mobile-menu-flip-min : 950px;
 $mobile-menu-flip-max : $mobile-menu-flip-min - 1px;
 
 /* Default Styles
@@ -92,6 +92,10 @@ strong {
   ul:not(.columned-content):not(.tabs):not(.tab__content):not(.gform_fields) {
     padding-left: 16px;
   }
+
+  img {
+    @extend .flex-image;
+  }
 }
 
 .photo-credit {
@@ -123,13 +127,20 @@ strong {
       border-bottom: solid 1px $color-alt-7;
     }
 
-    & > *:first-child {
-      float: left;
-      line-height: 0;
-      margin-right: 20px;
+    @media screen and (min-width: em(768px)) {
+      & > *:first-child {
+        float: left;
+        line-height: 0;
+        margin-right: 20px;
+      }
     }
     & > *:not(:first-child) {
       overflow: hidden;
     }
+  }
+
+  .biz-board-headshot {
+    width: 100%;
+    max-width: 165px;
   }
 // END Legacy Hacks
