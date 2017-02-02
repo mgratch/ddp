@@ -174,13 +174,11 @@ class IODDPWalker extends Walker_Nav_Menu
 					$strHtml .= '<div class="menu__flyout">';
 						$strHtml .= '<div class="table table--2-items">';
 							$strHtml .= '<ul class="menu menu--sub-menu table__item">';
-
-
 							$strSubHtml = '';
 							foreach($childItems[$item->db_id] as $key=>$subitem){
 
 								if($key !== 'sub'){
-									$split = ceil(count($childItems[$item->db_id])/2);
+									$split = floor(count($childItems[$item->db_id])/2);
 									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
 
 									if($key == $split) {

@@ -85,7 +85,7 @@ Template Name: Home Page
 						if ($module_meta['home_module_type'] == 'multi' && !empty($module_meta['home_module_subsets'][0]['home_module_main_title']) ) {
 							$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
 						}  else if ($module_meta['home_module_type'] == 'map') {
-							$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
+							//$strTabNav .= '<li class="tabs__tab js-tab"><span class="tab__title">'.get_the_title($custom_data['home_module_id_'.$i])."</span></li>\n";
 						 }
 
 						if($module_meta['home_module_type'] == 'map') {
