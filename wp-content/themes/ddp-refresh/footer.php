@@ -63,7 +63,7 @@
           <div class="footer--main__content__item">
             <h4 class="headline headline--light headline--shout headline--color-2 footer--main__content__title">JOIN THE DOWNTOWN DETROIT PARTNERSHIP</h4>
             <p>Be informed, develop connections and have your voice heard.</p>
-            <a class="button button--cta button--color-2 button--shout" href="http://devbucket.net/sites/ddp/dev/about-ddp/become-a-member/">Learn More</a>
+            <a class="button button--cta button--color-2 button--shout" href="http://downtowndetroit.org/about-ddp/become-a-member/">Learn More</a>
           </div>
         </div>
   			<p class="footer__copyright">&copy; Copyright <?php echo date('Y'); ?> <a class="footer__link" href="<?php bloginfo('url'); ?>/" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> </p>
@@ -73,5 +73,13 @@
 		<?php wp_footer();
       // var_dump($companyInfo);
     ?>
+    	<script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-50703938-1');ga('send','pageview');
+        </script>
 	</body>
 </html>
