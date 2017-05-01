@@ -152,7 +152,7 @@ class IODDPWalker extends Walker_Nav_Menu
 						$children_items[] = $s_element;
 					}
 				}
-				//var_dump($children_items);
+				
 				if(count($children_items) > 0 ){
 					$childItems[$element->menu_item_parent]['sub'][$element->db_id] = $children_items;
 				}
@@ -161,7 +161,7 @@ class IODDPWalker extends Walker_Nav_Menu
 			}
 
 		}
-
+		//var_dump($menu_elements);
 		$strHtml = '';
 
 		foreach($menu_elements as  $item){
@@ -181,11 +181,13 @@ class IODDPWalker extends Walker_Nav_Menu
 									$split = floor(count($childItems[$item->db_id])/2);
 									$classes = join(' ',io_menu_standards($subitem->classes,$subitem));
 
-									if($key == $split) {
+									if($key == $split && $split > 0) {
 										 $strHtml .= '</ul><ul class="menu menu--sub-menu table__item">';
 									}
 									$strHtml .= '<li id="menu-'.$subitem->db_id.'" class="'.$classes.'"><a href="'.$subitem->url.'" class="menu__link">'.$subitem->title.'</a>';
-
+// 									if ($split == 0){
+// 										$strHtml .= '</ul><ul class="menu menu--sub-menu table__item">';
+// 									}
 									if (!empty($childItems[$item->db_id]['sub'][$subitem->db_id])) {
 
 										$strHtml .= '<ul class="menu menu--sub-sub-menu">';

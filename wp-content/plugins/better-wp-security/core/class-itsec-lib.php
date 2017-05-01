@@ -45,6 +45,8 @@ final class ITSEC_Lib {
 
 		}
 
+
+		do_action( 'itsec-lib-clear-caches' );
 	}
 
 	/**
@@ -140,17 +142,9 @@ final class ITSEC_Lib {
 	 * @return string path to wp-config.php
 	 * */
 	public static function get_config() {
+		require_once( ITSEC_Core::get_core_dir() . '/lib/class-itsec-lib-config-file.php' );
 
-		if ( file_exists( trailingslashit( ABSPATH ) . 'wp-config.php' ) ) {
-
-			return trailingslashit( ABSPATH ) . 'wp-config.php';
-
-		} else {
-
-			return trailingslashit( dirname( ABSPATH ) ) . 'wp-config.php';
-
-		}
-
+		return ITSEC_Lib_Config_File::get_wp_config_file_path();
 	}
 
 	/**
@@ -204,23 +198,23 @@ final class ITSEC_Lib {
 		if ( is_multisite() && function_exists( 'domain_mapping_warning' ) ) {
 			return '*';
 		}
-		
-		
+
+
 		$host = parse_url( $url, PHP_URL_HOST );
-		
+
 		if ( false === $host ) {
 			return '*';
 		}
 		if ( 'www.' == substr( $host, 0, 4 ) ) {
 			return substr( $host, 4 );
 		}
-		
+
 		$host_parts = explode( '.', $host );
-		
+
 		if ( count( $host_parts ) > 2 ) {
 			$host_parts = array_slice( $host_parts, -2, 2 );
 		}
-		
+
 		return implode( '.', $host_parts );
 	}
 
@@ -301,19 +295,9 @@ final class ITSEC_Lib {
 	 * @return string path to .htaccess
 	 */
 	public static function get_htaccess() {
+		require_once( ITSEC_Core::get_core_dir() . '/lib/class-itsec-lib-config-file.php' );
 
-		global $itsec_globals;
-
-		if ( 'nginx' === ITSEC_Lib::get_server() ) {
-
-			return $itsec_globals['settings']['nginx_file'];
-
-		} else {
-
-			return ITSEC_Lib::get_home_path() . '.htaccess';
-
-		}
-
+		return ITSEC_Lib_Config_File::get_server_config_file_path();
 	}
 
 	/**
@@ -326,11 +310,14 @@ final class ITSEC_Lib {
 	 *
 	 * @return  String The IP address of the user
 	 */
-	public static function get_ip() {
-		global $itsec_globals;
+	public static function get_ip( $use_cache = true ) {
+		if ( isset( $GLOBALS['__itsec_remote_ip'] ) && $use_cache ) {
+			return $GLOBALS['__itsec_remote_ip'];
+		}
 
-		if ( isset( $itsec_globals['settings']['proxy_override'] ) && true === $itsec_globals['settings']['proxy_override'] ) {
-			return esc_sql( $_SERVER['REMOTE_ADDR'] );
+		if ( ITSEC_Modules::get_setting( 'global', 'proxy_override' ) ) {
+			$GLOBALS['__itsec_remote_ip'] = $_SERVER['REMOTE_ADDR'];
+			return $GLOBALS['__itsec_remote_ip'];
 		}
 
 		$headers = array(
@@ -347,19 +334,44 @@ final class ITSEC_Lib {
 			$headers[] = 'REMOTE_ADDR';
 		}
 
-		foreach ( $headers as $header ) {
-			if ( empty( $_SERVER[$header] ) ) {
-				continue;
-			}
+		// Loop through twice. The first run won't accept a reserved or private range IP. If an acceptable IP is not
+		// found, try again while accepting reserved or private range IPs.
+		for ( $x = 0; $x < 2; $x++ ) {
+			foreach ( $headers as $header ) {
+				if ( ! isset( $_SERVER[$header] ) ) {
+					continue;
+				}
 
-			$ip = filter_var( $_SERVER[$header], FILTER_VALIDATE_IP );
+				$ip = trim( $_SERVER[$header] );
+
+				if ( empty( $ip ) ) {
+					continue;
+				}
+
+				if ( false !== ( $comma_index = strpos( $_SERVER[$header], ',' ) ) ) {
+					$ip = substr( $ip, 0, $comma_index );
+				}
+
+				if ( 0 === $x ) {
+					// First run through. Only accept an IP not in the reserved or private range.
+					$ip = filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE );
+				} else {
+					$ip = filter_var( $ip, FILTER_VALIDATE_IP );
+				}
+
+				if ( ! empty( $ip ) ) {
+					break;
+				}
+			}
 
 			if ( ! empty( $ip ) ) {
 				break;
 			}
 		}
 
-		return esc_sql( (string) $ip );
+		$GLOBALS['__itsec_remote_ip'] = (string) $ip;
+
+		return $GLOBALS['__itsec_remote_ip'];
 	}
 
 	/**
@@ -390,12 +402,12 @@ final class ITSEC_Lib {
 	 */
 	public static function get_module_path( $file ) {
 
-		global $itsec_globals;
-
-		$path = str_replace( $itsec_globals['plugin_dir'], '', dirname( $file ) );
+		$path = str_replace( ITSEC_Core::get_plugin_dir(), '', dirname( $file ) );
 		$path = ltrim( str_replace( '\\', '/', $path ), '/' );
 
-		return trailingslashit( trailingslashit( $itsec_globals['plugin_url'] ) . $path );
+		$url_base = trailingslashit( plugin_dir_url( ITSEC_Core::get_plugin_file() ) );
+
+		return trailingslashit( $url_base . $path );
 
 	}
 
@@ -409,8 +421,8 @@ final class ITSEC_Lib {
 	 * @return string|bool server type the user is using of false if undetectable.
 	 */
 	public static function get_server() {
-		require_once( trailingslashit( $GLOBALS['itsec_globals']['plugin_dir'] ) . 'core/lib/class-itsec-lib-utility.php' );
-		
+		require_once( ITSEC_Core::get_core_dir() . '/lib/class-itsec-lib-utility.php' );
+
 		return ITSEC_Lib_Utility::get_web_server();
 	}
 
@@ -471,55 +483,84 @@ final class ITSEC_Lib {
 
 	}
 
+	public static function get_whitelisted_ips() {
+		return apply_filters( 'itsec_white_ips', array() );
+	}
+
 	/**
-	 * Determines whether a given IP address is whitelisted
+	 * Determines whether a given IP address is whiteliste
 	 *
-	 * @param  string  $ip_to_check ip to check (can be in CIDR notation)
-	 * @param  array   $white_ips   ip list to compare to if not yet saved to options
-	 * @param  boolean $current     whether to whitelist the current ip or not (due to saving, etc)
+	 * @param  string  $ip_to_check     ip to check (can be in CIDR notation)
+	 * @param  array   $whitelisted_ips ip list to compare to if not yet saved to options
+	 * @param  boolean $current         whether to whitelist the current ip or not (due to saving, etc)
 	 *
-	 * @return boolean               true if whitelisted or false
+	 * @return boolean true if whitelisted or false
 	 */
-	public static function is_ip_whitelisted( $ip_to_check, $white_ips = null, $current = false ) {
+	public static function is_ip_whitelisted( $ip, $whitelisted_ips = null, $current = false ) {
+		global $itsec_lockout;
+
+		$ip = sanitize_text_field( $ip );
+
+		if ( ITSEC_Lib::get_ip() === $ip && $itsec_lockout->is_visitor_temp_whitelisted() ) {
+			return true;
+		}
+
 		if ( ! class_exists( 'ITSEC_Lib_IP_Tools' ) ) {
-			$itsec_core = ITSEC_Core::get_instance();
-			require_once( dirname( $itsec_core->get_plugin_file() ) . '/core/lib/class-itsec-lib-ip-tools.php' );
+			require_once( ITSEC_Core::get_core_dir() . '/lib/class-itsec-lib-ip-tools.php' );
 		}
 
-		if ( $white_ips === null ) {
-
-			$global_settings = get_site_option( 'itsec_global' );
-
-			$white_ips = ( isset( $global_settings['lockout_white_list'] ) ? $global_settings['lockout_white_list'] : array() );
-
+		if ( is_null( $whitelisted_ips ) ) {
+			$whitelisted_ips = self::get_whitelisted_ips();
 		}
 
-		if ( $current === true ) {
-			$white_ips[] = ITSEC_Lib::get_ip(); //add current user ip to whitelist to check automatically
+		if ( $current ) {
+			$whitelisted_ips[] = ITSEC_Lib::get_ip(); //add current user ip to whitelist
 		}
 
-		// Check to see if we have a temporarily white listed IP
-		$temp = get_site_option( 'itsec_temp_whitelist_ip' );
-		if ( false !== $temp ) {
-			// If the temporary white list is expired, delete the option we store it in
-			if ( $temp['exp'] < current_time( 'timestamp' ) ) {
-				delete_site_option( 'itsec_temp_whitelist_ip' );
-			} else {
-				// If the temporary white list is still valid, add the IP to our list of white IPs
-				$white_ips[] = $temp['ip'];
-			}
-		}
-
-		$white_ips = apply_filters( 'itsec_white_ips', $white_ips );
-
-		foreach ( $white_ips as $white_ip ) {
-			if ( ITSEC_Lib_IP_Tools::intersect( $ip_to_check, ITSEC_Lib_IP_Tools::ip_wild_to_ip_cidr( $white_ip ) ) ) {
+		foreach ( $whitelisted_ips as $whitelisted_ip ) {
+			if ( ITSEC_Lib_IP_Tools::intersect( $ip, ITSEC_Lib_IP_Tools::ip_wild_to_ip_cidr( $whitelisted_ip ) ) ) {
 				return true;
 			}
 		}
 
 		return false;
 
+	}
+
+	public static function get_blacklisted_ips() {
+		return apply_filters( 'itsec_filter_blacklisted_ips', array() );
+	}
+
+	/**
+	 * Determines whether a given IP address is blacklisted
+	 *
+	 * @param string $ip              ip to check (can be in CIDR notation)
+	 * @param array  $blacklisted_ips ip list to compare to if not yet saved to options
+	 *
+	 * @return boolean true if blacklisted or false
+	 */
+	public static function is_ip_blacklisted( $ip = null, $blacklisted_ips = null ) {
+		$ip = sanitize_text_field( $ip );
+
+		if ( empty( $ip ) ) {
+			$ip = ITSEC_Lib::get_ip();
+		}
+
+		if ( ! class_exists( 'ITSEC_Lib_IP_Tools' ) ) {
+			require_once( ITSEC_Core::get_core_dir() . '/lib/class-itsec-lib-ip-tools.php' );
+		}
+
+		if ( is_null( $blacklisted_ips ) ) {
+			$blacklisted_ips = self::get_blacklisted_ips();
+		}
+
+		foreach ( $blacklisted_ips as $blacklisted_ip ) {
+			if ( ITSEC_Lib_IP_Tools::intersect( $ip, ITSEC_Lib_IP_Tools::ip_wild_to_ip_cidr( $blacklisted_ip ) ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -546,17 +587,13 @@ final class ITSEC_Lib {
 	 *
 	 * @return mixed|bool true if known safe false if unsafe or null if untested
 	 */
-	public static function safe_jquery_version() {
+	public static function is_jquery_version_safe() {
 
-		$jquery_version = get_site_option( 'itsec_jquery_version' );
+		$jquery_version = ITSEC_Modules::get_setting( 'wordpress-tweaks', 'jquery_version' );
 
-		if ( false !== $jquery_version && version_compare( $jquery_version, '1.6.3', '>=' ) ) {
+		if ( ! empty( $jquery_version ) && version_compare( $jquery_version, '1.6.3', '>=' ) ) {
 
 			return true;
-
-		} elseif ( false === $jquery_version ) {
-
-			return null;
 
 		}
 
@@ -784,4 +821,82 @@ final class ITSEC_Lib {
 
 	}
 
+	public static function show_status_message( $message ) {
+		echo "<div class=\"updated fade\"><p><strong>$message</strong></p></div>\n";
+	}
+
+	public static function show_error_message( $message ) {
+		if ( is_wp_error( $message ) ) {
+			$message = $message->get_error_message();
+		}
+
+		if ( ! is_string( $message ) ) {
+			return;
+		}
+
+		echo "<div class=\"error\"><p><strong>$message</strong></p></div>\n";
+	}
+
+	public static function show_inline_status_message( $message ) {
+		echo "<div class=\"updated fade inline\"><p><strong>$message</strong></p></div>\n";
+	}
+
+	public static function show_inline_error_message( $message ) {
+		if ( is_wp_error( $message ) ) {
+			$message = $message->get_error_message();
+		}
+
+		if ( ! is_string( $message ) ) {
+			return;
+		}
+
+		echo "<div class=\"error inline\"><p><strong>$message</strong></p></div>\n";
+	}
+
+	public static function get_user( $user = false ) {
+		if ( $user instanceof WP_User ) {
+			return $user;
+		}
+
+		if ( false === $user ) {
+			$user = wp_get_current_user();
+		} else if ( is_int( $user ) ) {
+			$user = get_user_by( 'id', $user );
+		} else if ( is_string( $user ) ) {
+			$user = get_user_by( 'login', $user );
+		} else {
+			if ( is_object( $user ) ) {
+				$type = 'object(' . get_class( $user ) . ')';
+			} else {
+				$type = gettype( $user );
+			}
+
+			trigger_error( "ITSEC_Lib::get_user() called with an invalid \$user argument. Received \$user variable of type: $type", E_USER_ERROR );
+
+			return false;
+		}
+
+		if ( $user instanceof WP_User ) {
+			return $user;
+		}
+
+		return false;
+	}
+
+	public static function get_password_strength_results( $password, $penalty_strings = array() ) {
+		if ( ! isset( $GLOBALS['itsec_zxcvbn'] ) ) {
+			require_once( ITSEC_Core::get_core_dir() . '/lib/itsec-zxcvbn-php/zxcvbn.php' );
+			$GLOBALS['itsec_zxcvbn'] = new ITSEC_Zxcvbn();
+		}
+
+		return $GLOBALS['itsec_zxcvbn']->test_password( $password, $penalty_strings );
+	}
+
+	public static function get_trace_ip_link( $ip = false ) {
+		if ( empty( $ip ) ) {
+			return 'http://www.traceip.net/';
+		} else {
+			return 'http://www.traceip.net/?query=' . urlencode( $ip );
+		}
+	}
 }

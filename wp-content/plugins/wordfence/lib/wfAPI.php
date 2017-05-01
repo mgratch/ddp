@@ -15,7 +15,7 @@ class wfAPI {
 	}
 
 	public function getStaticURL($url) { // In the form '/something.bin' without quotes
-		return $this->getURL($this->getAPIURL() . $url);
+		return $this->getURL(rtrim($this->getAPIURL(), '/') . '/' . ltrim($url, '/'));
 	}
 
 	public function call($action, $getParams = array(), $postParams = array(), $forceSSL = false) {
@@ -25,7 +25,7 @@ class wfAPI {
 			//User's should never see this message unless we aren't calling SSLEnabled() to check if SSL is enabled before using call() with forceSSL
 			throw new Exception("SSL is not supported by your web server and is required to use this function. Please ask your hosting provider or site admin to install cURL with openSSL to use this feature.");
 		}
-		$json = $this->getURL($apiURL . '/v' . WORDFENCE_API_VERSION . '/?' . $this->makeAPIQueryString() . '&' . self::buildQuery(
+		$json = $this->getURL(rtrim($apiURL, '/') . '/v' . WORDFENCE_API_VERSION . '/?' . $this->makeAPIQueryString() . '&' . self::buildQuery(
 				array_merge(
 					array('action' => $action),
 					$getParams
@@ -43,6 +43,15 @@ class wfAPI {
 				wfConfig::set('isPaid', '');
 			}
 		}
+		
+		$hasKeyConflict = false;
+		if (isset($dat['_hasKeyConflict'])) {
+			$hasKeyConflict = ($dat['_hasKeyConflict'] == 1);
+			if ($hasKeyConflict) {
+				//new wfNotification(null, wfNotification::PRIORITY_DEFAULT, '<a href="' . network_admin_url('admin.php?page=WordfenceSecOpt') . '">The Wordfence API key you\'re using does not match this site\'s address. Premium features are disabled.</a>', 'wfplugin_keyconflict', null, array(array('link' => 'https://www.wordfence.com/manage-wordfence-api-keys/', 'label' => 'Manage Keys')));
+			}
+		}
+		wfConfig::set('hasKeyConflict', $hasKeyConflict);
 
 		if (!is_array($dat)) {
 			throw new Exception("We received a data structure that is not the expected array when contacting the Wordfence scanning servers and calling the '$action' function.");
@@ -94,7 +103,7 @@ class wfAPI {
 	}
 
 	public function binCall($func, $postData) {
-		$url = $this->getAPIURL() . '/v' . WORDFENCE_API_VERSION . '/?' . $this->makeAPIQueryString() . '&action=' . $func;
+		$url = rtrim($this->getAPIURL(), '/') . '/v' . WORDFENCE_API_VERSION . '/?' . $this->makeAPIQueryString() . '&action=' . $func;
 
 		$data = $this->getURL($url, $postData);
 
