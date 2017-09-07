@@ -1,7 +1,0 @@
-<?php
-/*
-Template Name: Sidebar
-*/
-
-//Substitute your own page ID in the following line
-FLThemeBuilderLayoutRenderer::render_all( 3736 );
