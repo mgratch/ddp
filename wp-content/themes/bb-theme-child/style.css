@@ -692,7 +692,9 @@ Layout
         padding-right: 10%;
     }
 }
-
+.uabb-button-wrap.uabb-creative-button-wrap a.uabb-button.uabb-creative-button.uabb-creative-flat-btn *{
+    color: #fff;
+}
 /**
 fl-builder-edit
  */

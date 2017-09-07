@@ -14,7 +14,7 @@ $color = !empty($color) ? esc_attr($color) : 'color-2';
 	$strHtml = '';
 
 	$strHtml .= '<li class="widget widget--side-menu widget--'.$color.'">';
-	$strHtml .= '<div class="title title--bkg-'.$color.'"><span>'.get_the_title().'</span></div>';
+	$strHtml .= '<div class="title title--bkg-'.$color.'"><span>'.get_the_title($topParentPostID).'</span></div>';
 	$strHtml .= get_submenu($topParentPostID);
 	$strHtml .= '</li>';
 

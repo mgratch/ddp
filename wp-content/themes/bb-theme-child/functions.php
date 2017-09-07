@@ -273,7 +273,7 @@ add_filter('fl_builder_settings_form_config','mod_settings_form');
 function ddp_get_page_color(){
 	global $post;
 	$topParentPostID = $post->ID;
-	if (get_queried_object_id() === $post->ID){
+	if (get_queried_object_id() === $post->ID || is_archive()){
 		if($post->post_parent != 0){
 			$topParentPostID = get_top_parent_id($post);
 		}
@@ -281,11 +281,10 @@ function ddp_get_page_color(){
 		$color = !empty($color) ? esc_attr($color) : 'color-2';
 	} else {
 		global $wp;
-		$wp->query_vars['pagename'];
 		$current_url = $wp->request;
 		$topParentPost = get_page_by_path( $current_url );
 		$topParentPostID = get_top_parent_id($topParentPost);
-		$color = get_post_meta($topParentPostID, 'page_color', true);
+		$color = $topParentPostID ? get_post_meta($topParentPostID, 'page_color', true) : '';
 		$color = !empty($color) ? esc_attr($color) : 'color-2';
 	}
 	return $color;
@@ -298,6 +297,10 @@ add_shortcode('ddp_page_color', 'ddp_get_page_color');
  */
 
 function get_top_parent_id($current_page) {
+
+	if (!$current_page){
+		return false;
+	}
 
 	$ancestors = get_ancestors( $current_page->ID, 'page' );
 	$top_parent_id = $current_page->ID;
