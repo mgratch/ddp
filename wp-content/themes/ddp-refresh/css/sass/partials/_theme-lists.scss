@@ -1,0 +1,32 @@
+.list {
+
+  &:not(.social-connect__list) > * + * {
+    margin-top: 20px;
+  }
+}
+
+.list__item {
+
+  & > * + *:not(.post-meta) {
+    margin-top: #{(15/16)}em;
+  }
+}
+
+.social-connect__list {
+  @include flex-grid( ul, middle, null, left, false );
+
+  .list__item {
+    line-height: 0;
+  }
+}
+
+.social-connect__link {
+  display: block;
+  height: 24px;
+
+  & > * {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

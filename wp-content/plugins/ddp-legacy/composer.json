@@ -1,0 +1,15 @@
+{
+    "name": "iodd/ddp-legacy",
+    "authors": [
+        {
+            "name": "TJ",
+            "email": "tjmiller@evolveinsideout.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "IODD\\DDPLegacy\\": "src/"
+      }
+    }
+}

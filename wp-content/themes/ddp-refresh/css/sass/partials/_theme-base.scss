@@ -1,0 +1,146 @@
+// -- INSTRUCTIONS -----------------------
+// FOR REMS            : Use rem($px) for pixel to rem conversion or u(1rem) for straight rem
+// FOR MEDIA QUERIES   : Use @include respond-min(em($px)) { } for min-width or @include respond-max(em($px)) { } for max-width
+// FOR IE 8 ONLY FIXES : Use @include old-ie { }
+// FOR FLEX GRID ITEMS : Use @include flex-grid($element, $alignment, $font-size, $text-align, $spacer); This menu uses our justify trick **NOTE** If having issues make sure looped elements contain a new line break ."\r\n" (MUST BE CONTAINED IN DOUBLE QUOTES)
+// **** GO TO STYLE-IE.SCSS AND ADD THE .WRAPPER MQ VALUE TO THE FIX-MQS CONFIG ****
+
+// -- THEME VARS -------------------------
+$wrapperWidth  : 1235; // px value
+$wrapperMargin : 2.5;  // % value
+
+$fluidWidth    : $wrapperWidth + ($wrapperWidth - ($wrapperWidth * ((100 - ($wrapperMargin * 2)) / 100) ));
+
+$mobile-menu-flip-min : 950px;
+$mobile-menu-flip-max : $mobile-menu-flip-min - 1px;
+
+/* Default Styles
+----------------------------------------*/
+/*Site Base*/
+body {
+  font: {
+    family: $font-accent-light;
+    size: 100%;
+    weight: 400;
+  }
+  line-height: 1.4;
+  color: $color-base;
+  background-color: $color-alt-8;
+}
+
+.xdebug-var-dump {
+  background: white !important;
+  color: black !important;
+}
+
+strong {
+  font: {
+    family: $font-accent-medium;
+    weight: normal;
+  }
+}
+
+.link {
+  color: $color-alt-2;
+  transition: color 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: darken($color-alt-2, 5%);
+  }
+}
+
+.link--no-underline {
+  text-decoration: none;
+}
+
+.wrapper {
+  width: #{100 - ($wrapperMargin * 2)}#{'%'};
+  margin: 0 #{($wrapperMargin)}#{'%'};
+
+  @include respond-min(em($fluidWidth)) {
+    width: em($wrapperWidth);
+    margin: 0 auto;
+    position: relative;
+  }
+}
+
+.content-wrap {
+  background-color: white;
+  overflow: hidden;
+}
+
+.page-content {
+
+  & > *:not(.tabs):not(.tab__content):not(.map-container):not(.js-tab-content-container) {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  & > * + *:not(.post-meta):not(.js-tab-content-container) {
+    margin-top: #{(15/16)}em;
+  }
+
+  a {
+    @extend .link;
+  }
+
+  ol:not(.columned-content):not(.tabs):not(.tab__content) {
+    padding-left: 20px;
+  }
+
+  ul:not(.columned-content):not(.tabs):not(.tab__content):not(.gform_fields) {
+    padding-left: 16px;
+  }
+
+  img {
+    @extend .flex-image;
+  }
+}
+
+.photo-credit {
+  font: {
+    family: $font-accent-light-italic;
+    size: rem(12px);
+  }
+  color: $color-alt-7;
+}
+
+.social-widget {
+  padding-bottom: 30px;
+}
+
+.post-meta {
+  margin-top: 5px;
+}
+
+// Legacy Hacks
+  .landing-page-listing {
+    @extend .clearfix;
+    padding-bottom: 15px;
+
+    *:not(.landing-page-listing) + & {
+      padding-top: 15px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $color-alt-7;
+    }
+
+    @media screen and (min-width: em(768px)) {
+      & > *:first-child {
+        float: left;
+        line-height: 0;
+        margin-right: 20px;
+      }
+    }
+    & > *:not(:first-child) {
+      overflow: hidden;
+    }
+  }
+
+  .biz-board-headshot {
+    width: 100%;
+    max-width: 165px;
+  }
+// END Legacy Hacks

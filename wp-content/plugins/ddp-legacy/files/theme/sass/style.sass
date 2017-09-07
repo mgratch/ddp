@@ -1,0 +1,1103 @@
+/*
+Theme Name: DDP
+Theme URI: 
+Description: Custom theme for Downtown Detroit Partnership
+Version: 1.0
+Author: Rob Ritzenhein
+Author URI: 
+*/
+
+@font-face {font-family: 'Capita-Light';src: url('webfonts/29DA86_0_0.eot');src: url('webfonts/29DA86_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/29DA86_0_0.woff') format('woff'),url('webfonts/29DA86_0_0.ttf') format('truetype');}
+
+@font-face {
+    font-family: 'museo_sans100';
+    src: url('../fonts/museosans_100-webfont.eot');
+    src: url('../fonts/museosans_100-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/museosans_100-webfont.woff') format('woff'),
+    url('../fonts/museosans_100-webfont.ttf') format('truetype'),
+    url('../fonts/museosans_100-webfont.svg#museo_sans100') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans300';
+    src: url('../fonts/museosans_300-webfont.eot');
+    src: url('../fonts/museosans_300-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/museosans_300-webfont.woff') format('woff'),
+        url('../fonts/museosans_300-webfont.ttf') format('truetype'),
+        url('../fonts/museosans_300-webfont.svg#museo_sans300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans300_italic';
+    src: url('../fonts/museosans_300_italic-webfont.eot');
+    src: url('../fonts/museosans_300_italic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/museosans_300_italic-webfont.woff') format('woff'),
+        url('../fonts/museosans_300_italic-webfont.ttf') format('truetype'),
+        url('../fonts/museosans_300_italic-webfont.svg#museo_sans300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans500';
+    src: url('../fonts/museosans_500-webfont.eot');
+    src: url('../fonts/museosans_500-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/museosans_500-webfont.woff') format('woff'),
+        url('../fonts/museosans_500-webfont.ttf') format('truetype'),
+        url('../fonts/museosans_500-webfont.svg#museo_sans500') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_slab100';
+    src: url('../fonts/museo_slab_100-webfont.eot');
+    src: url('../fonts/museo_slab_100-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/museo_slab_100-webfont.woff') format('woff'),
+        url('../fonts/museo_slab_100-webfont.ttf') format('truetype'),
+        url('../fonts/museo_slab_100-webfont.svg#museo_slab100') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'museo_slab300';
+    src: url('../fonts/museo_slab_300-webfont.eot');
+    src: url('../fonts/museo_slab_300-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/museo_slab_300-webfont.woff') format('woff'),
+        url('../fonts/museo_slab_300-webfont.ttf') format('truetype'),
+        url('../fonts/museo_slab_300-webfont.svg#museo_slab300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'museo_slab500';
+    src: url('../fonts/museo_slab_500-webfont.eot');
+    src: url('../fonts/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/museo_slab_500-webfont.woff') format('woff'),
+        url('../fonts/museo_slab_500-webfont.ttf') format('truetype'),
+        url('../fonts/museo_slab_500-webfont.svg#museo_slab500') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+$green: #b4c82c;
+$orange: #f69a0b;
+$blue: #36b3ce;
+$lgrey: #262626;
+$dgrey: #1a1c1c;
+
+*, *:after, *:before {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+body {
+  
+  font-family: 'museo_sans300';
+  position: relative;
+  background-color: $lgrey;
+  
+  .row {
+    margin: 0;
+  }
+  #wrapper {
+    position: relative;
+    right: 0px;
+    z-index: 25;
+  }
+  #about-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    width: 300px;
+    height: auto;
+    
+      .search {
+       
+        
+        margin: 30px 0;
+        padding: 10px;
+        background-color: #37869B;
+        height: 60px;
+        display: block;
+        
+        &.min {
+          margin-top: 0;
+        }
+        
+        .search-input {
+           height: 30px;
+           margin: 5px;        
+           color: #fff;
+           padding: 3px 10px;
+           border: 1px #fff solid;
+           border-radius: 20px;
+           display: block;
+           
+           img {
+             float: right;
+           }
+        }
+        
+      }
+    
+      ul {
+        margin-bottom: 15px;
+        
+        li {
+        
+        list-style-type: none;
+        
+        a{
+          
+          color: $blue;
+          
+          strong {
+            color: #fff;
+            text-transform: uppercase
+          }
+          
+          
+        }
+        
+        }
+        
+      }
+    
+  }
+  
+  header {
+      
+      position: fixed;
+      top: 0px;
+      width: 100%;
+      z-index: 500;
+      background: rgba(27, 29, 29, 0.9);
+      height: 120px;
+      
+      display: block;
+      
+      
+      .brand {
+        
+        width: 200px;
+        height: 120px;
+        background: url('../img/ddp-logo.png') center center no-repeat;
+        float: left;
+        margin: 0 25px;
+        background-size: 75%;
+        overflow: hidden;
+       
+        
+        &:after {
+          content: '';
+          background: url('../img/ddp-logo-2.png') center 150px no-repeat;
+          background-size: 75%;
+          width: 200px;
+          height: 120px;
+          display: block;
+          margin-left: 0x; 
+          
+        }
+        
+      }
+      
+      .about {
+        
+       
+         height: 60px;
+          width: 105px;
+          float: right;
+          margin: 30px 0;
+          background-color: $blue;
+          text-decoration: none;
+          text-align: center;
+          color: #fff;
+          text-transform: uppercase;
+          outline: 0;
+          line-height: 60px;
+          
+        
+        span {
+          display: inline-block;
+          transition: 0.75s all ease;
+          transform: rotate(180deg);
+          -webkit-transform: rotate(180deg);
+          
+          &.open {
+             transform: rotate(0deg);
+             -webkit-transform: rotate(0deg);
+             
+          }
+        }
+        
+      }
+      
+      .social {
+       position: absolute;
+       top: 44px;
+       right: 125px;
+       
+       img{
+         opacity: 0.8;
+         
+         &:hover {
+         opacity: 1;
+        }
+       
+       }
+       
+       
+      }
+      
+      .main-nav {
+         
+        .big-three {
+          
+          width: 700px;
+          margin: auto;
+          display: block;
+          padding: 0;
+          
+            .explore {
+              transition: border 0s;
+              &:hover {
+                
+                border-bottom: 5px $green solid;
+              }
+              
+              ul li:hover {
+                border-bottom: 1px $green solid;
+                color: #ddd;
+              }
+            }
+            
+            .business {
+              transition: border 0s;
+              &:hover {
+                transition: border 0s;
+                border-bottom: 5px $blue solid;
+              }
+              
+              ul li:hover {
+                border-bottom: 1px $blue solid;
+                color: #ddd;
+              }
+            }
+            
+            .live {
+              transition: border 0s;
+              &:hover {
+                transition: border 0s;
+                border-bottom: 5px $orange solid;
+              }
+              ul li:hover {
+                border-bottom: 1px $orange solid;
+                color: #ddd;
+              }
+            }
+          
+          li {
+            
+            display: block;
+            float: left;
+            width: 33%;
+            text-align: center;
+            color: #fff;
+            padding: 15px;
+            transition: all 0.5s;
+            
+            
+            
+            a {
+              text-decoration: none;
+              color: #fff;
+              font-size: 18px;
+              font-family: 'museo_slab100';   
+              
+              .img-container {
+                width: 100%;
+                height: 60px;
+                opacity: 1;
+                display: block;
+                background-color: transparent;
+              
+              img {
+                
+                width: auto;
+                height: 100%;
+              }
+              
+              }
+              
+            }
+            
+            &:hover {
+              
+            }
+            
+          }
+          
+        }
+        
+      }
+      
+     
+      
+    }
+    
+    header.min {
+     
+      top: 0px;
+      box-shadow: 0px 0px 1px rgba(255,255,255, 0.5);
+      
+      .brand {
+      
+        height: 60px;
+        background: url('../img/ddp-logo.png') center -150px no-repeat;
+        background-size: 50%;
+        float: left;
+        margin: 0 25px;
+       
+        
+        &:after {
+          height: 60px;
+          background: url('../img/ddp-logo-2.png') center center no-repeat;
+          background-size: 50%;
+          
+          
+        }
+        
+      }
+      
+      .about {
+        
+        height: 60px;
+        background-size: 50px;
+        margin: 0;
+        
+        
+      }
+      
+      .social {
+        right: 125px;
+        top: 10px;
+      }
+      
+      
+        .main-nav {
+          
+          .big-three {
+            
+            .explore {
+              a {
+                color: $green;
+              }
+              transition: border 0s;
+
+              
+              &:hover {
+                border-bottom: 5px $green solid;
+              }
+            }
+            
+            .business {
+              
+              a {
+                color: $blue;
+              }
+              transition: border 0s;
+
+              
+              &:hover {
+                border-bottom: 5px $blue solid;
+              }
+            }
+            
+            .live {
+              a {
+                color: $orange;
+              }
+              transition: border 0s;
+
+              
+              &:hover {
+                border-bottom: 5px $orange solid;
+              }
+            }
+            
+            li {
+              
+              
+              
+              .img-container {
+               height: 0px;
+               opacity: 0;
+               
+               img {
+                 margin-left: -100px;
+               }
+               
+                
+              }
+              
+            }
+            
+          }
+          
+        }
+        
+        
+        
+    }
+  
+  .slideshow {
+    
+    display: block;
+    margin-bottom: 15px;
+    height: 650px;
+    overflow: hidden;
+    position: relative;
+     
+     &:after {
+        content: '';
+        height: 100px;
+        position: absolute;
+        top: 350px;
+        display: block;
+        background-color: $dgrey;
+        z-index: 25;
+        width: 100%;
+        opacity: .75;
+      }
+    
+    
+    .title-toggle {  
+      
+      display: block;
+      position: absolute;
+      bottom: 10px;
+      right: 0;
+      width: 120px;
+      height: 44px;
+      background-color: $lgrey;
+      z-index: 75;
+      cursor: pointer;
+      line-height: 44px;
+      color: $blue;
+      text-transform: uppercase;
+       transition: all 0.5s 0.25s ease;
+        -moz-transition: all 0.5s 0.25s ease;
+        -webkit-transition: all 0.5s 0.25s ease;
+      
+      span {
+        background: url('../img/close-icon.png') no-repeat center center;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin: 12px 5px 12px 10px;
+        float: left;
+         transition: all 0.5s 0.25s ease;
+        -moz-transition: all 0.5s 0.25s ease;
+        -webkit-transition: all 0.5s 0.25s ease;
+       
+      }
+    }
+    .title-toggle.toggled {
+      
+      right: -80px;
+      color: $lgrey;
+      
+      span {
+        transform: rotate(225deg);
+        -moz-transform: rotate(225deg);
+        -webkit-transform: rotate(225deg);
+        
+      }
+    }
+    
+    .carousel-control {
+        z-index: 50 !important;
+        margin-top: 90px;
+        
+        .glyphicon {
+          background: url('../img/carousel-control-arrow.png') center center no-repeat;
+          width: 54px;
+          height: 54px;
+          text-indent: -5000px;
+          
+          &.glyphicon-chevron-right {
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+          }
+        }
+      }
+  }
+  
+  .slideshow.toggled {
+    img.cta {
+      opacity: 0;
+      max-height: 0;
+    }
+    &:after {
+      background-color: transparent;
+    }
+  }
+  .programs-main-header {
+    
+    background-color: $blue;
+   
+  }
+  
+  .articles-main-header {
+    
+    background-color: $green;
+    
+  }
+  .articles-main {
+    
+    margin: 0 0 15px 0;
+    background-color: $lgrey;
+    position: relative;
+    overflow: hidden;
+      
+    .article-nav {
+      background-color: $lgrey;
+      height: 500px;
+      padding: 0;
+      
+      
+        ul {
+          
+          background-color: $dgrey;
+          height: 100%;
+          padding: 10px 0;
+          font-size: 14px;
+          
+          
+          
+          li {
+            
+            color: #fff;
+            border-bottom: 1px $lgrey solid;
+            margin: 0;
+            list-style-type: none;
+            padding: 20px 20px 20px 30px;
+            
+            &.selected, &.selected:hover {
+              
+              background-color: $blue;
+              margin: 0;
+              padding-left: 30px;
+              
+              &:after {
+                content: "▶";
+                font-size: 10px;
+                line-height: 14px;
+                margin-left: 10px;
+              }
+              
+            }
+            &:hover {
+              padding-left: 30px;
+              background-color: #333;
+            } 
+            
+          }
+          
+        }
+      
+    }
+    .article-feature {
+      background-color: $lgrey;
+      height: 500px;
+      
+      .img-container {
+        height: 345px;
+        overflow: hidden;
+        
+      }
+    }
+    .articles-sub {
+      background-color: $lgrey;
+      height: auto;
+      display: block;
+      padding: 0;
+      
+      .article1 {
+        height: 200px;
+        margin-bottom: 15px;
+        padding: 25px;
+        display: block;
+        background-color: $orange;
+        
+        &:hover {
+          background-color: #ffad2d;
+        }
+          
+          
+      }
+      .article2 {
+        position: relative;
+        bottom: 0;
+        height: 250px;
+        
+        .img-container {
+            height: 130px;
+            overflow: hidden;  
+          }
+      }
+      
+    }
+    
+  }
+  
+  .programs-progress-main {
+     
+     margin: 0;
+     display: block;
+     height: auto;
+    
+    .col-lg-4 {
+      padding-left: 0;
+      text-align: center;
+     
+    }
+    .col-lg-4:first-child {
+      padding-left: 0px;
+    }
+    .col-lg-4:last-child {
+      padding-right: 0px;
+    }
+    
+  }
+  
+  footer {
+    background-color: #2d2e2e;
+    margin-top: 15px;
+    font-size: 13px;
+    
+    .social {
+     
+    }
+    
+    .col-md-4 {
+      padding: 25px;
+      color: #fff;
+      
+    }
+    
+    .phone {
+      font-size: 13px;
+      padding: 10px 0px;
+      display: block;
+      font-family: 'museo_sans500';
+    }
+    
+    a, a:hover {
+      color: $green;
+    }
+    
+    ul.quick-links {
+      
+      padding: 5px 0 0 0;
+      
+       li {
+         cursor: pointer;
+         list-style-type: none;
+         padding: 5px 0;
+         width: 50%;
+         float: left;
+       }
+    }
+    
+    h4 {
+      text-transform: uppercase;
+      color: $green;
+      display: block;
+      border-bottom: 1px #fff solid;
+      padding: 5px 0 10px 0;
+      font-size: 14px;
+      
+    }
+  }
+  
+  #wrapper.interior-page {
+  
+    .main-img {
+      height: 525px;
+      overflow: hidden;
+      
+      &:after {
+        content: '';
+        width: 100%;
+        height: 300px;
+        background-color: rgba(180, 200, 44, 0.9);
+        position: absolute;
+        top: 0;
+        display: block;
+      }
+    }
+    
+    .row.main-body {
+      background-color: $dgrey;
+    }
+    
+    .title {
+     position: absolute;
+     z-index: 25;
+     top: 120px;
+     color: #fff;
+     width: 100%;
+     font-size: 18px;
+      
+      
+        h1 {
+          font-size: 48px;
+          font-family: 'museo_sans100';
+          border-bottom: 1px #fff solid;
+          padding: 10px 0;
+          width: 700px;
+        }
+        .sub-head {
+          width: 700px;
+          font-family: 'museo_sans300_italic';
+        }
+    }
+    
+    .col-lg-3 {
+      background-color: $dgrey;
+      padding-left: 0;
+      
+      &:before {
+          content: '';
+          background-color: $green;
+          margin-top: 10px;
+          width: 100%;
+          height: 45px;
+          display: block;
+          position: absolute;
+          z-index: 10;
+        }
+        
+      .left-sidebar {
+      width: 250px;
+      float: right;
+      color: #fff;
+      
+        
+      
+        h3 {
+          background-color: $green;
+          padding: 0;
+          z-index: 25;
+          position: relative;
+          font-family: 'museo_slab100';
+          font-size: 20px;
+          margin-left: 15px;
+        }
+        ul {
+            background-color: $dgrey;
+            padding: 15px 0 30px 0;
+            margin:0 0 0 15px;
+          li {
+            list-style-type: none;
+            padding: 5px 5px 5px 0px;
+            border-bottom: 1px $dgrey solid;
+            cursor: pointer;
+            
+            &:hover {
+              
+             
+             color: $blue;
+            }
+            
+            &.active {
+              color: $blue;
+              border-bottom: 1px #000 solid;
+              background-color: #000 !important;
+              padding: 5px 5px 5px 10px !important;
+              margin-left: -10px;
+            }
+            
+          }
+        }
+        
+        h4.categories {
+          color: $green;
+          border-top: 1px $green solid;
+          font-family: 'museo_sans100';
+          font-size: 24px;
+          padding-top: 20px;
+          margin-left: 15px;
+        }
+      
+    }
+    }
+    
+    
+    .col-lg-9.main-content {
+      padding: 0px 25px 30px 25px;
+      margin-top: 10px;  
+      background-color: #eee;
+      position: relative;
+      font-family: 'Capita-Light';
+      
+      &:after {
+        content: '';
+        position: absolute;
+        height: 40px;
+        left: 0;
+        top: -40px;
+        width: 100%;
+        display: block;
+        z-index: 25;
+        background-color: #eee;
+      }
+      h4 {
+         font-family: 'museo_slab100';
+         color: #b4c82c;
+         margin-bottom: 5px;
+         font-size: 30px;
+      }
+      p {
+        width: 700px;
+        font-size: 16px;
+        line-height: 24px;
+        color: #555;
+        margin: 0 0 25px 0;
+      }
+      .header {
+        background-color: $orange;
+        color: #fff;
+        font-family: 'museo_sans100';
+        font-size: 24px;
+        width: 725px;
+        text-align: left;
+        margin: 20px 0 20px -25px;
+        padding-left: 25px;
+      }
+      
+      ul {
+        width: 700px;
+        margin: 0;
+        padding: 0;
+        
+        li {
+          padding: 5px 0;
+          width: 50%;
+          float: left;
+          list-style-type: none;
+        }
+      }
+    }
+  
+  }
+  
+  .header {
+    height: 75px;
+    text-align: center;
+    font-family: 'museo_sans100';
+    font-size: 36px;
+    line-height: 75px;
+    color: #fff;
+    display: block; 
+    margin-bottom: 15px;
+  }
+  
+  header .dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 120px;
+    border-radius: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 700px;
+    left: 50%;
+    margin-left: -350px;
+    background-color: $dgrey;
+    height: 0px;
+    overflow: hidden;
+      
+      
+      
+      ul {
+        padding: 25px;
+        li {
+          padding: 5px 10px 5px 0 !important;
+          margin: 0px 15px 0px 0;
+          text-align: left !important;
+          font-size: 16px;
+          border-bottom: 1px $lgrey solid;
+          width: 45% !important;
+          cursor: pointer;
+        }
+      }
+      
+      .description {
+        clear: both;
+        display: block;
+        text-align: left;
+        padding: 25px;
+      }
+    
+  }
+  
+  header.min .dropdown-menu {
+    top: 60px;
+  }
+  
+  ul.big-three li:hover .dropdown-menu {
+    height: 300px;
+  }
+  
+  .explore .description {
+        color: $green;
+        }
+  .business .description {
+        color: $blue;
+        }
+  .live .description {
+        color: $orange;
+        }      
+        
+  
+  .img-container {
+    
+    background-color: #fff;
+    position: relative;
+    
+    img.cta {
+      position: absolute;
+      top: 250px;
+      left: 50%;
+      margin-left: -375px;
+      z-index: 50;
+      transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -webkit-transition: all 0.5s ease;
+     
+    }
+    
+    img.bg-image {
+      
+       width: 100%;
+       height: auto;
+       
+       &:hover {
+         
+       }
+       
+    }
+  
+  }
+  
+  .text-box {
+    background-color: $dgrey;
+    padding: 25px;
+    height: 100%;
+    
+    
+  }
+  
+  h4 {
+      margin: 0;
+    }
+  
+}
+
+@media (max-width: 1200px) {
+  
+    .big-three {
+      width: 450px !important;
+      margin: auto;
+      
+      li {
+        
+      }
+    } 
+}
+
+@media (max-width: 960px) {
+  
+  body {
+    
+    header nav.main-nav {
+      
+      .about {
+        position: absolute;
+        right: 0;
+      }
+      
+      .brand {
+      
+      margin-left: 0px;
+      
+    }
+  
+   .big-three {
+      width: 350px !important;
+      margin: auto;
+      display: block;
+      
+      li a{
+        font-size: 14px;
+      }
+    } 
+      
+    }
+    
+  }
+  
+}
+
+@media (max-width: 768px) {
+  
+  .big-three {display: none !important;}
+  
+}
+
+@media (min-width: 1440px) {
+  
+  .col-lg-3 {
+    
+    width: 30%;
+  }
+  
+  .col-lg-9 {
+    
+    width: 70%;
+  }
+  
+  .col-lg-9.col-lg-offset-3 {
+    margin-left: 30%;
+  }
+  
+}

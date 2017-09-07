@@ -1,0 +1,297 @@
+/* Navigation
+----------------------------------------*/
+.mobile-button {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  font: {
+    family: $font-accent-medium;
+    size: rem(12px);
+  }
+  text-transform: uppercase;
+  color: $color-alt-2;
+  padding: 15px 10px;
+  background-color: white;
+  border: solid 1px $color-alt-2;
+
+  @include respond-min(em($mobile-menu-flip-min)) {
+    display: none;
+  }
+}
+
+.menu {
+  list-style: none;
+}
+
+.menu--main {
+  width: 100%;
+  font: {
+    family: $font-accent-medium;
+  }
+
+  .menu__link {
+    display: block;
+    text-decoration: none;
+    color: $color-base;
+    padding: 14px 10px 12px;
+
+    @include respond-min(em($mobile-menu-flip-min)) {
+      padding: 10px 10px 9px;
+    }
+  }
+
+  & > .menu__item {
+    line-height: 0.85;
+
+    &:hover .menu__flyout {
+      display: block;
+    }
+
+    & > .menu__link {
+      color: black;
+      line-height: (18/16);
+    }
+
+    @include respond-min(em($mobile-menu-flip-min)) {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      border-bottom: solid 6px transparent;
+      transition: border-bottom-color 0.15s ease;
+    }
+  }
+
+  @include respond-min(em($mobile-menu-flip-min)) {
+    display: table;
+    position: relative;
+    padding: 0 20px;
+    background-color: transparent;
+    margin-left: 0;
+
+    & > .menu__link {
+      padding: 43px 10px 37px;
+    }
+  }
+}
+
+.menu__flyout {
+
+  .menu--main & {
+    overflow: hidden;
+    background-color: rgba(white, 0.95);
+    border-top: solid 1px;
+  }
+
+  .menu__item {
+    border-bottom: solid 1px $color-alt-7;
+    transition: border-bottom-color 0.25s ease;
+  }
+
+  .menu--sub-sub-menu {
+    font-size: #{(16/17)}em;
+    border-top: solid 1px;
+    padding: 0 10px;
+
+    .menu__item {
+      border-bottom-color: $color-base;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .menu__link {
+        position: relative;
+        padding-left: 16px;
+
+        &:before {
+          content: '\0002b';
+          display: block;
+          position: absolute;
+          left: 2px;
+        }
+      }
+    }
+  }
+
+  @include respond-min(em($mobile-menu-flip-min)) {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    width: calc(100% - 40px);
+    text-align: left;
+    margin-top: -1px;
+  }
+}
+
+.menu--sub-menu {
+  font-size: #{(17/16)}em;
+  line-height: 1;
+
+  .menu__link {
+    transition: color 0.25s ease;
+  }
+
+  .menu__item--has-children {
+    position: relative;
+
+    & > .menu__link {
+      width: calc(100% - 36px);
+    }
+  }
+}
+
+.menu--sub-menu__toggle {
+  display: block;
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    width: 0;
+    height: 0;
+  }
+
+  .menu--main & {
+    right: 0;
+    padding: calc(#{(18.83/16)}em - 2px) calc(#{(18.83/16)}em - 2px);
+
+    &:before {
+      border: {
+        top: solid 5px transparent;
+        bottom: solid 5px transparent;
+        left: solid 8px;
+      }
+    }
+  }
+
+  .menu--side & {
+    left: 0;
+    padding: #{(19.44/16)}em #{(19.44/16)}em;
+
+    &:before {
+      border: {
+        top: solid 4px transparent;
+        bottom: solid 4px transparent;
+        left: solid 6px;
+      }
+    }
+  }
+
+  .menu__item--toggle-open &:before {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+}
+
+.menu__item__description {
+  display: none;
+
+  @include respond-min(em($mobile-menu-flip-min)) {
+    display: block;
+    font: {
+      family: $font-alt-medium;
+      size: rem(17px);
+    }
+    line-height: (22/17);
+    padding: 0 30px 25px;
+  }
+}
+
+.menu--side {
+  padding: 10px 10px 10px 12px;
+
+  .menu__item {
+    position: relative;
+    font: {
+      family: $font-accent-light;
+      size: rem(14px);
+    }
+  }
+
+  .menu__link {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: black;
+    padding: {
+      top: 7px;
+      bottom: 8px;
+    }
+    transition: color 0.25s ease;
+    margin-left: 34px;
+  }
+
+  .menu--sub-sub-menu .menu__link {
+    padding-left: 1.2em;
+
+    &:before {
+      content: '\02014';
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
+$colors-list: ($color-alt-1, $color-alt-2, $color-alt-3, $color-alt-4, $color-alt-5);
+$current-color: ();
+
+@each $current-color in $colors-list {
+  $i: index($colors-list, $current-color);
+
+  .menu__item--color-#{$i} {
+
+    .menu--sub-menu > .menu__item:hover,
+    &:hover {
+      border-bottom-color: $current-color;
+    }
+
+    .menu__flyout,
+    .menu--sub-sub-menu {
+      border-top-color: $current-color;
+    }
+
+    .menu--sub-menu .menu__link:hover,
+    .menu--sub-sub-menu .menu__link:before,
+    .menu__item--current > .menu__link,
+    .menu__item__description {
+      color: $current-color;
+    }
+
+    .menu--sub-menu__toggle:before {
+      border-left-color: lighten($current-color, 15%);
+      transition: border-left-color 0.15s ease, transform 0.25s ease;
+    }
+    .menu__item--toggle-open .menu--sub-menu__toggle:before,
+    .menu--sub-menu__toggle:hover:before {
+      border-left-color: $current-color;
+    }
+  }
+
+  .widget--color-#{$i} {
+
+    .menu__item--current > .menu__link,
+    .menu__link:hover {
+      color: $current-color;
+    }
+
+    .menu--sub-menu__toggle:before {
+      border-left-color: lighten($current-color, 15%);
+      transition: border-left-color 0.15s ease, transform 0.25s ease;
+    }
+    .menu__item--toggle-open .menu--sub-menu__toggle:before,
+    .menu--sub-menu__toggle:hover:before {
+      border-left-color: $current-color;
+    }
+  }
+}
+
+
+

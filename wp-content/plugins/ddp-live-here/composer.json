@@ -1,0 +1,12 @@
+{
+    "name": "ddp/ddp-live-here",
+    "authors": [
+        {
+            "name": "TJ",
+            "email": "tjmiller@evolveinsideout.com"
+        }
+    ],
+    "require": {
+        "league/csv": "7.*"
+    }
+}

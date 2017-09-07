@@ -1,0 +1,31 @@
+/* Filter Form Structure
+-----------------------------------------*/
+.column {
+
+  & > * {
+    vertical-align: top;
+    padding-bottom: 8px;
+  }
+}
+
+.filter-content {
+  width: calc(100% - 23px);
+  padding: 16px 16px 2px (80/640)*100%;
+  background-color: white;
+  border: {
+    right: solid 1px #a29f9f;
+    bottom: solid 1px #a29f9f;
+  }
+
+  .form-label {
+    padding-bottom: 3px;
+
+    .bedrooms & {
+      float: left;
+    }
+  }
+}
+
+.checkbox-list {
+  @include flex-grid( div, baseline, null, left );
+}
