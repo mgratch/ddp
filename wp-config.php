@@ -78,7 +78,9 @@ if ($_ENV['DEBUG'] == 'true') {
     $debug = true;
 }
 
-define('WP_DEBUG', $debug);
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_DISPLAY', true );
+define( 'WP_DEBUG_LOG', true );
 
 /* That's all, stop editing! Happy blogging. */
 

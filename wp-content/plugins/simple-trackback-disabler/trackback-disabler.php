@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Simple Trackback Disabler
-Plugin URI: http://alleghenycreative.com/projects/simple-trackback-disabler
+Plugin URI: https://alleghenycreative.com/projects/simple-trackback-disabler
 Description: This is a utility plugin that runs database operations on your WordPress database to change settings and clean up unwanted trackbacks, pingbacks, and comments. Without this plugin you would have to change settings in WordPress and go through all your existing pages and posts and update those as well or have to manually execute SQL commands on your database. Simple Trackback Disabler does this for you…Automagically!
 Author: Allegheny Creative, LLC
-Version: 1.3
-Author URI: http://www.alleghenycreative.com
+Version: 1.4
+Author URI: https://www.alleghenycreative.com
 License: GPLv3
 */
 
 /*
 ================================================================================ 
 
-  Copyright 2013  Aaron Crawford / Allegheny Creative, LLC.
+  Copyright 2017  Aaron Crawford / Allegheny Creative, LLC.
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
@@ -303,7 +303,24 @@ function tb_disabler_page() {
 		<div class="inside">
 		<p>If you found the plugin helpful and appreciate how much time it saved you…consider making a donation via PayPal to support it’s development.</p>
 		
-		<center><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="V58WBGFZW5HT8"><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"></form></center>
+		<center>
+			<!-- Begin PayPal Donations by https://www.tipsandtricks-hq.com/paypal-donations-widgets-plugin -->
+			
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			    <div class="paypal-donations">
+			        <input type="hidden" name="cmd" value="_donations" />
+			        <input type="hidden" name="bn" value="TipsandTricks_SP" />
+			        <input type="hidden" name="business" value="sales@alleghenycreative.com" />
+			        <input type="hidden" name="return" value="https://alleghenycreative.com/projects/simple-trackback-disabler/" />
+			        <input type="hidden" name="item_name" value="Support Simple Trackback Disabler" />
+			        <input type="hidden" name="rm" value="0" />
+			        <input type="hidden" name="currency_code" value="USD" />
+			        <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online." />
+			        <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+			    </div>
+			</form>
+			<!-- End PayPal Donations -->
+		</center>
 
 		<hr>
 		<h4>Other Ways to Help</h4>

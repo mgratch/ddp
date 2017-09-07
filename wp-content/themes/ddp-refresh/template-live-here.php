@@ -45,7 +45,7 @@ Template Name: Live Here Interactive
 		<div class="table table--with-aside table--top-offset">
 			<?php// get_sidebar(); ?>
 			<section class="table__item table__item--no-padding">
-				<?php echo ddp\live\View::getView('Property.InteractiveMap'); ?>
+				<?php echo ddp\live\View::getView('Property.interactiveMap'); ?>
 			</section><!-- ./SITE-CONTENT -->
 		</div>
 	</main>

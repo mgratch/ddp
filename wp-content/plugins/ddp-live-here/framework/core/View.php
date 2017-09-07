@@ -63,7 +63,9 @@ class View
 
     $i = Instance::get($parts[0].'_Controller');
 
-    return $i->$parts[1]();
+    $function = $parts[1];
+
+    return $i->{$function}();
   }
 
   public function parseTemplatePath($template)

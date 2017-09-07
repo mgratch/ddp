@@ -52,6 +52,7 @@ class Tribe__Events__Organizer {
 		$this->singular_organizer_label                = $this->get_organizer_label_singular();
 		$this->singular_organizer_label_lowercase      = $this->get_organizer_label_singular_lowercase();
 		$this->plural_organizer_label                  = $this->get_organizer_label_plural();
+		$this->plural_organizer_label_lowercase        = $this->get_organizer_label_plural_lowercase();
 
 		$this->post_type_args['rewrite']['slug']   = $rewrite->prepare_slug( $this->singular_organizer_label, self::POSTTYPE, false );
 		$this->post_type_args['show_in_nav_menus'] = class_exists( 'Tribe__Events__Pro__Main' ) ? true : false;
@@ -63,17 +64,18 @@ class Tribe__Events__Organizer {
 		 * @param array
 		 */
 		$this->post_type_args['labels'] = apply_filters( 'tribe_events_register_organizer_post_type_labels', array(
-			'name'               => $this->plural_organizer_label,
-			'singular_name'      => $this->singular_organizer_label,
+			'name'                    => $this->plural_organizer_label,
+			'singular_name'           => $this->singular_organizer_label,
 			'singular_name_lowercase' => $this->singular_organizer_label_lowercase,
-			'add_new'            => esc_html__( 'Add New', 'the-events-calendar' ),
-			'add_new_item'       => sprintf( esc_html__( 'Add New %s', 'the-events-calendar' ), $this->singular_organizer_label ),
-			'edit_item'          => sprintf( esc_html__( 'Edit %s', 'the-events-calendar' ), $this->singular_organizer_label ),
-			'new_item'           => sprintf( esc_html__( 'New %s', 'the-events-calendar' ), $this->singular_organizer_label ),
-			'view_item'          => sprintf( esc_html__( 'View %s', 'the-events-calendar' ), $this->singular_organizer_label ),
-			'search_items'       => sprintf( esc_html__( 'Search %s', 'the-events-calendar' ), $this->plural_organizer_label ),
-			'not_found'          => sprintf( esc_html__( 'No %s found', 'the-events-calendar' ), strtolower( $this->plural_organizer_label ) ),
-			'not_found_in_trash' => sprintf( esc_html__( 'No %s found in Trash', 'the-events-calendar' ), strtolower( $this->plural_organizer_label ) ),
+			'plural_name_lowercase'   => $this->plural_organizer_label_lowercase,
+			'add_new'                 => esc_html__( 'Add New', 'the-events-calendar' ),
+			'add_new_item'            => sprintf( esc_html__( 'Add New %s', 'the-events-calendar' ), $this->singular_organizer_label ),
+			'edit_item'               => sprintf( esc_html__( 'Edit %s', 'the-events-calendar' ), $this->singular_organizer_label ),
+			'new_item'                => sprintf( esc_html__( 'New %s', 'the-events-calendar' ), $this->singular_organizer_label ),
+			'view_item'               => sprintf( esc_html__( 'View %s', 'the-events-calendar' ), $this->singular_organizer_label ),
+			'search_items'            => sprintf( esc_html__( 'Search %s', 'the-events-calendar' ), $this->plural_organizer_label ),
+			'not_found'               => sprintf( esc_html__( 'No %s found', 'the-events-calendar' ), strtolower( $this->plural_organizer_label ) ),
+			'not_found_in_trash'      => sprintf( esc_html__( 'No %s found in Trash', 'the-events-calendar' ), strtolower( $this->plural_organizer_label ) ),
 		) );
 
 		$this->register_post_type();
@@ -85,6 +87,7 @@ class Tribe__Events__Organizer {
 		add_filter( 'tribe_events_linked_post_create_' . self::POSTTYPE, array( $this, 'save' ), 10, 5 );
 		add_filter( 'tribe_events_linked_post_default', array( $this, 'linked_post_default' ), 10, 2 );
 		add_action( 'tribe_events_linked_post_new_form', array( $this, 'linked_post_new_form' ) );
+		add_filter( 'tribe_events_linked_post_meta_values__EventOrganizerID', array( $this, 'filter_out_invalid_organizer_ids' ), 10, 2 );
 	}
 
 	/**
@@ -224,6 +227,20 @@ class Tribe__Events__Organizer {
 	}
 
 	/**
+	 * Removes anything other than integers from the supplied array of Organizer IDs.
+	 *
+	 * @since 4.5.11
+	 *
+	 * @param array $organizer_ids An array of post IDs of the current event's attached Organizers.
+	 * @param int $post_id The current event's post ID.
+	 *
+	 * @return array
+	 */
+	public function filter_out_invalid_organizer_ids( $organizer_ids, $post_id ) {
+		return array_map( 'absint', (array) $organizer_ids );
+	}
+
+	/**
 	 * Check to see if any organizer data set
 	 *
 	 * @param array $data the organizer data.
@@ -278,8 +295,11 @@ class Tribe__Events__Organizer {
 			unset( $data['FeaturedImage'] );
 		}
 
+		// the organizer name is saved in the the post_title
+		unset( $data['Organizer'] );
+
 		foreach ( $data as $key => $var ) {
-			update_post_meta( $organizerId, '_Organizer' . $key, $var );
+			update_post_meta( $organizerId, '_Organizer' . $key, sanitize_text_field( $var ) );
 		}
 	}
 
@@ -330,6 +350,41 @@ class Tribe__Events__Organizer {
 	 *
 	 */
 	public function update( $id, $data ) {
+		$args = array(
+			'ID' => $id,
+		);
+
+		if ( isset( $data['post_title'] ) ) {
+			$args['post_title'] = $data['post_title'];
+		}
+
+		if ( isset( $data['Organizer'] ) ) {
+			$args['post_title'] = $data['Organizer'];
+			unset( $data['Organizer'] );
+		}
+
+		if ( isset( $data['post_content'] ) ) {
+			$args['post_content'] = $data['post_content'];
+		}
+
+		if ( isset( $data['Description'] ) ) {
+			$args['post_content'] = $data['Description'];
+			unset( $data['Description'] );
+		}
+
+		if ( isset( $data['post_excerpt'] ) ) {
+			$args['post_excerpt'] = $data['post_excerpt'];
+		}
+
+		if ( isset( $data['Excerpt'] ) ) {
+			$args['post_excerpt'] = $data['Excerpt'];
+			unset( $data['Excerpt'] );
+		}
+
+		if ( count( $args ) > 1 ) {
+			wp_update_post( $args );
+		}
+
 		$this->save_meta( $id, $data );
 		do_action( 'tribe_events_organizer_updated', $id, $data );
 	}
