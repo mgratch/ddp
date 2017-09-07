@@ -130,12 +130,119 @@ class IODDPSubWalker extends Walker_Nav_Menu
 }
 
 function kick_off_walker() {
-	if ( class_exists( 'FL_Menu_Module_Walker' ) ) {
-		// Set sub menu class name
-		class IODDPWalker extends FL_Menu_Module_Walker {
+	class IODDPWalker extends Walker_Nav_Menu {
+
+		function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+
+			$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+			$args   = (object) $args;
+
+			$class_names = '';
+			$value       = '';
+
+			$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+			$submenu = $args->has_children ? ' fl-has-submenu' : '';
+
+			$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
+			$class_names = ' class="' . esc_attr( $class_names ) . $submenu . '"';
+
+
+			if ( isset( $item->group_start ) && true === $item->group_start ) {
+				$output .= "<ul class='menu--sub-menu table__item'>";
+			} else {
+				$output .= '';
+			}
+
+			$output .= $indent . '<li id="menu-item-' . $item->ID . '"' . $value . $class_names . '>';
+
+			$atts = array();
+
+			$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+			$atts['target'] = ! empty( $item->target ) ? $item->target : '';
+			$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
+			$atts['href']   = ! empty( $item->url ) ? $item->url : '';
+
+			$atts            = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+
+			$attributes = ! empty( $atts['classes'] ) ? ' class="' . esc_attr( join( '', array_filter( $atts['classes'] ) ) ) . '"' : '';
+			$attributes .= ! empty( $item->attr_title ) ? ' title="' . esc_attr( $atts['title'] ) . '"' : '';
+			$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $atts['target'] ) . '"' : '';
+			$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $atts['rel'] ) . '"' : '';
+			$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $atts['href'] ) . '"' : '';
+
+			$item_output = $args->has_children ? '<div class="fl-has-submenu-container">' : '';
+			$item_output .= $args->before;
+			$item_output .= '<a' . $attributes . '>';
+			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+			$item_output .= '</a>';
+
+			if ( $args->has_children ) {
+				$item_output .= '<span class="fl-menu-toggle"></span>';
+			}
+
+			$item_output .= $args->after;
+			$item_output .= $args->has_children ? '</div>' : '';
+
+			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 
 		}
 
+		function end_el( &$output, $item, $depth = 0, $args = array() ) {
+			if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+				$t = '';
+				$n = '';
+			} else {
+				$t = "\t";
+				$n = "\n";
+			}
+			$output .= "</li>{$n}";
+
+			if ( isset( $item->group_end ) && true === $item->group_end ) {
+				$output .= "</ul>";
+			} else {
+				$output .= '';
+			}
+
+		}
+
+		public function start_lvl( &$output, $depth = 0, $args = array() ) {
+			parent::start_lvl( $output, $depth, $args );
+			if (0 === $depth){
+				if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+					$t = '';
+					$n = '';
+				} else {
+					$t = "\t";
+					$n = "\n";
+				}
+				$indent = str_repeat( $t, $depth );
+				$output .= "{$n}{$indent}<div class='table table--2-items'>{$n}";
+			}
+		}
+
+		public function end_lvl( &$output, $depth = 0, $args = array() ) {
+			if (0 === $depth) {
+				if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+					$t = '';
+					$n = '';
+				} else {
+					$t = "\t";
+					$n = "\n";
+				}
+				$indent = str_repeat( $t, $depth );
+				$output .= "$indent</div>{$n}";
+			}
+			parent::end_lvl( $output, $depth, $args );
+		}
+
+		function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+			$id_field = $this->db_fields['id'];
+			if ( is_object( $args[0] ) ) {
+				$args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
+			}
+
+			return parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+		}
 	}
 }
 
@@ -147,7 +254,7 @@ function change_fl_nav_walker( $args ) {
 	return $args;
 }
 
-//add_filter( 'wp_nav_menu_args', 'change_fl_nav_walker' );
+add_filter( 'wp_nav_menu_args', 'change_fl_nav_walker' );
 
 // Map menu item class names
 add_filter( 'nav_menu_css_class', 'io_menu_standards', 10, 2 );
