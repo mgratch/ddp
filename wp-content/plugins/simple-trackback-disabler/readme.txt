@@ -1,12 +1,12 @@
 === Plugin Name ===
 Contributors: alleghenycreative
-Donate link: http://alleghenycreative.com/projects/simple-trackback-disabler#donate
+Donate link: https://alleghenycreative.com/projects/simple-trackback-disabler#donate
 Tags: trackbacks, pingbacks, comments, disabler, disable, spam, utility
-Author URI: http://alleghenycreative.com
-Plugin URI: http://alleghenycreative.com/projects/simple-trackback-disabler
+Author URI: https://alleghenycreative.com
+Plugin URI: https://alleghenycreative.com/projects/simple-trackback-disabler
 Requires at least: 3.0.1
-Tested up to: 3.9
-Stable tag: 1.3
+Tested up to: 4.7.3
+Stable tag: 1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -42,6 +42,9 @@ WARNING: This plugin performs operations on your WordPress Database. It is stron
 1. Simple, Straightforward interface to change settings and clean up unwanted comments, trackbacks, and pingbacks.
 
 == Changelog ==
+
+= 1.4 =
+* Minor changes. Added Repo Icon. Tested with current version of WP 4.7.3
 
 = 1.3 =
 * Minor changes and compatibility update.

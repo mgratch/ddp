@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: DDP CSV Import
-Plugin URI: 
+Plugin URI:
 Description: Custom plugin to handle CSV import and conversion to JSON for display in tables.
 Author: Octane Design
 Version: 1.0
@@ -26,7 +26,9 @@ function process_csv($atts){
 	), $atts ) );
 
 	if($file !== null){
-		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+		// $filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+		$upload_dir = wp_upload_dir();
+		$filename =  $upload_dir['basedir'].$file;
 		$data = new Spreadsheet_Excel_Reader($filename, false);
 		$cells = $data->sheets[0]["cells"];
 		array_shift($cells);
@@ -45,7 +47,7 @@ function process_csv($atts){
 		// print_r($even);
 
 		$html = '';
-		$html .= '<ul class="members-container">';
+		$html .= '<ul class="columned-content columned-content--3-column columned-content--alt-bkgn">';
 		foreach($cells as $k => $v){
 			if( $v[2] == "") {
 				$html .= '<li>'.$v[1].'</li>';

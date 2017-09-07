@@ -44,6 +44,11 @@ body,
 	z-index: 301103;
 }
 
+/* Move backdrop of the wpLink dialog above the "Advanced Editor" dialog */
+body #wp-link-backdrop {
+	z-index: 100103;
+}
+
 /* Table Preview (CSS for actual preview is directly in the preview HTML) */
 #table-preview-iframe {
 	width: 100%;
@@ -76,13 +81,11 @@ body,
 /* Spinner/loading animation that is shown during saving/preview preparation */
 .spinner.animation-saving,
 .spinner.animation-preview {
-	display: inline-block;
 	float: none;
 	margin: 0 0 0 6px;
-	vertical-align: middle;
 }
 
-/* Margins for dynamically created (inline) .error/.updated messages */
+/* Margins for dynamically created (inline) .notice messages */
 #tablepress-page div.ajax-alert {
 	margin: -10px 0 15px;
 }
@@ -113,6 +116,11 @@ body,
 	width: 120px;
 }
 
+#table-information-shortcode,
+#tablepress-page .button {
+	vertical-align: middle;
+}
+
 /* Table cells */
 #edit-form-body td {
 	padding: 2px 1px;
@@ -136,13 +144,14 @@ body,
 	width: 100%;
 	width: auto\0/IE; /* IE hack, as cells will otherwise shrink and overlap instead of horizontal scrolling kicking in */
 	height: 100%;
+	resize: both;
 }
 #edit-form-body textarea:focus {
 	border-color: #333333;
 }
 
 /* For faster drawing performance, and hopefully faster scrolling */
-#tablepress-page input,
+#tablepress-page input[type="text"],
 #tablepress-page textarea,
 #tablepress-page select {
 	-webkit-box-shadow: none;
@@ -200,12 +209,11 @@ body,
 	margin-right: 2px;
 }
 #edit-form-head .sorting-indicator {
-	display: block;
+	visibility: visible;
 }
 #edit-form-head .sort-asc .sorting-indicator:before {
 	content: '\f142';
 }
-
 #edit-form-head .sort-desc .sorting-indicator:before {
 	content: '\f140';
 }

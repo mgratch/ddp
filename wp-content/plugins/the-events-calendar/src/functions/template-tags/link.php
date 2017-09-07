@@ -19,7 +19,6 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 *
 	 * @param bool|string $anchor link text. Use %title% to place the post title in your string.
 	 *
-	 * @return void
 	 * @see tribe_get_prev_event_link()
 	 */
 	function tribe_the_prev_event_link( $anchor = false ) {
@@ -112,10 +111,9 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @return string URL
 	 */
 	function tribe_get_events_link() {
-		$tribe_ecp = Tribe__Events__Main::instance();
-		$output    = $tribe_ecp->getLink( 'home' );
+		$plugin = Tribe__Events__Main::instance();
 
-		return apply_filters( 'tribe_get_events_link', $output );
+		return apply_filters( 'tribe_get_events_link', $plugin->getLink( 'home' ) );
 	}
 
 	/**
@@ -257,34 +255,50 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	}
 
 	/**
-	 * Single Event Link (Display)
-	 *
-	 * Display link to a single event
-	 *
-	 * @param null|int $post Optional post ID
-	 *
-	 * @return string Link html
-	 */
-	function tribe_event_link( $post = null ) {
-		// pass in whole post object to retain start date
-		echo apply_filters( 'tribe_event_link', tribe_get_event_link( $post ) );
-	}
-
-	/**
 	 * Single Event Link
 	 *
 	 * Get link to a single event
 	 *
-	 * @param int $event Optional post ID
+	 * @param WP_Post|int $post_id   Optional. WP Post that this affects
+	 * @param bool        $full_link Optional. If true outputs a complete HTML <a> link, otherwise only the URL is output
 	 *
-	 * @return string
+	 * @return string|bool Link to post or false if none found
 	 */
-	function tribe_get_event_link( $event = null ) {
-		if ( '' == get_option( 'permalink_structure' ) ) {
-			return apply_filters( 'tribe_get_event_link', Tribe__Events__Main::instance()->getLink( 'single', $event ), $event );
-		} else {
-			return trailingslashit( apply_filters( 'tribe_get_event_link', Tribe__Events__Main::instance()->getLink( 'single', $event ), $event ) );
+	function tribe_get_event_link( $post_id = null, $full_link = false ) {
+		$post_id = Tribe__Main::post_id_helper( $post_id );
+		$url = Tribe__Events__Main::instance()->getLink( 'single', $post_id );
+
+		if ( '' != get_option( 'permalink_structure' ) ) {
+			$url = trailingslashit( $url );
 		}
+
+		if ( $full_link ) {
+			$title_args = array( 'post' => $post_id, 'echo' => false );
+			$name       = get_the_title( $post_id );
+			$attr_title = the_title_attribute( $title_args );
+			$link       = false;
+
+			if ( ! empty( $url ) && ! empty( $name ) ) {
+				$link = sprintf(
+					'<a href="%1$s" title="%2$s"">%3$s</a>',
+					esc_url( $url ),
+					$attr_title,
+					$name
+				);
+			}
+		} else {
+			$link = $url;
+		}
+
+		/**
+		 * Filters the permalink to events
+		 *
+		 * @param mixed  $link      The link, possibly HTML, just URL, or false
+		 * @param int    $post_id   Post ID
+		 * @param bool   $full_link Whether to output full HTML <a> link
+		 * @param string $url       The URL itself
+		 */
+		return apply_filters( 'tribe_get_event_link', $link, $post_id, $full_link, $url );
 	}
 
 	/**
@@ -302,7 +316,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 			$html  = sprintf(
 				'<a href="%s" target="%s">%s</a>',
 				esc_url( $url ),
-				apply_filters( 'tribe_get_event_website_link_target', 'self' ),
+				apply_filters( 'tribe_get_event_website_link_target', '_self' ),
 				apply_filters( 'tribe_get_event_website_link_label', $label )
 			);
 		} else {

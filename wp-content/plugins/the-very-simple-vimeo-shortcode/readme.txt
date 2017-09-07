@@ -3,8 +3,8 @@ Contributors: yourlocalwebmaster
 Donate link: http://yourlocalwebmaster.com/donate
 Tags: vimeo, video, shortcode, vimeo shortcode, simple video plugin
 Requires at least: 2.0.2
-Tested up to: 3.9
-Stable tag: 3.9 trunk
+Tested up to: 4.3
+Stable tag: 2.9.1 trunk
 
 A very simple shortcode to add your Vimeo videos into your WordPress website!
 
@@ -36,7 +36,7 @@ The Current Available Attributes are:
 -portrait (when false(default), removes the image from the top left of video)
 -byline (when false(default), removes "From #####"  in the title
 -autoplay (when true, plays the video automatically) (default: false)
-
+-title (when false, removes the title from the video)
 = Why does my video look disproportioned? =
 
 When setting height and width attributes, they should maintain the same aspect ration of the original video..
@@ -65,6 +65,9 @@ Added "portrait" and "byline" attributes. (Inspired by Tim Golden <http://www.ti
 
 = 2.9 =
 Added "title" option.  Remove the title of the video by adding the attribute  "title=0" to the shortcode.
+
+= 2.9.1 =
+Added documentation for "title" option.  Remove the title of the video by adding the attribute  "title=0" to the shortcode.
 
 == Upgrade Notice ==
 

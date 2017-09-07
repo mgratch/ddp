@@ -1,0 +1,140 @@
+/* Footer
+----------------------------------------*/
+
+// FOR STICKY FOOTER (If having issues with height check margins in header and footer)
+  $footer-height: 268px;
+
+  .content-wrap {
+    min-height: 100%;
+  }
+
+  #footer-push {
+    height: $footer-height;
+    clear: both;
+
+    @include respond-max(em(854px)) {
+      height: 550px;
+    }
+
+    @include respond-max(em(665px)) {
+      height: 600px;
+    }
+
+    @include respond-max(em(355px)) {
+      height: 650px;
+    }
+  }
+
+  .footer--main {
+    height: $footer-height;
+    margin-top: -$footer-height;
+    overflow: hidden;
+
+    @include respond-max(em(854px)) {
+      height: 550px;
+      margin-top: -550px;
+    }
+
+    @include respond-max(em(665px)) {
+      height: 600px;
+      margin-top: -600px;
+    }
+
+    @include respond-max(em(355px)) {
+      height: 650px;
+      margin-top: -650px;
+    }
+  }
+// END OF STICKY FOOTER CODE
+
+.footer--main {
+  position: relative;
+  z-index: 1;
+  padding: 0 15px;
+  background-color: $color-alt-8;
+}
+
+.footer__vert-centered-content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.footer--main__content {
+  font: {
+    family: $font-accent-light;
+    size: rem(14px);
+  }
+  line-height: (20/14);
+  color: white;
+
+  @include respond-min(em(855px)) {
+    display: table;
+    width: calc(100% + 70px);
+    margin: 0 -35px;
+  }
+}
+
+.footer--main__content__title {
+  line-height: 1.1;
+  padding-bottom: 10px;
+  border-bottom: solid 1px white;
+}
+
+.footer--main__content__item {
+
+  & > * + * {
+    margin-top: 15px;
+  }
+
+  @include respond-max(em(854px)) {
+    & + .footer--main__content__item {
+      margin-top: 30px;
+    }
+  }
+
+  @include respond-min(em(855px)) {
+    display: table-cell;
+    width: (1/3)*100%;
+    vertical-align: top;
+    padding: 0 35px;
+  }
+}
+
+.newsletter-signup-form {
+  max-width: 350px;
+
+  .form__input {
+    max-height: 36px;
+  }
+}
+
+.footer--main__content__link {
+  color: white;
+}
+
+.footer__link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.footer__copyright {
+  font: {
+    family: $font-accent-light;
+    size: rem(14px);
+  }
+  color: $color-alt-4;
+  margin-top: 10px;
+
+  * {
+    color: $color-alt-4;
+  }
+
+  @include respond-max(em(854px)) {
+    margin-top: 30px;
+  }
+}

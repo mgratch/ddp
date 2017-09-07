@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-/* global alert, confirm, tp, tablepress_strings, tablepress_options, ajaxurl, QTags, wpLink, tb_show, tb_remove */
+/* global alert, confirm, tp, tablepress_strings, tablepress_options, ajaxurl, wpLink, tb_show, wp, JSON */
 
 // Ensure the global `tp` object exists.
 window.tp = window.tp || {};
@@ -118,7 +118,7 @@ jQuery( document ).ready( function( $ ) {
 			} );
 			table_data = JSON.stringify( table_data );
 
-			// @TODO: maybe for options saving: http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
+			// @TODO: maybe for options saving: https://stackoverflow.com/questions/1184624/convert-form-data-to-javascript-object-with-jquery
 			// or each()-loop through all checkboxes/textfields/selects
 			table_options = {
 				// Table Options
@@ -199,18 +199,18 @@ jQuery( document ).ready( function( $ ) {
 					return;
 				}
 
-				$(this).closest( 'p' ).append( '<span class="animation-preview spinner" title="' + tablepress_strings.preparing_preview + '"/>' );
+				$(this).closest( 'p' ).append( '<span class="animation-preview spinner is-active" title="' + tablepress_strings.preparing_preview + '"/>' );
 				$( 'body' ).addClass( 'wait' );
 				$id( 'table-preview' ).empty(); // clear preview
 
-				$.post(
-						ajaxurl,
-						tp.table.prepare_ajax_request( 'tablepress_preview_table', '#nonce-preview-table' ),
-						function() { /* done with .success() below */ },
-						'json'
-					)
-					.success( tp.table.preview.ajax_success )
-					.error( tp.table.preview.ajax_error );
+				$.ajax({
+					'type': 'POST',
+					'url': ajaxurl,
+					'data': tp.table.prepare_ajax_request( 'tablepress_preview_table', '#nonce-preview-table' ),
+					'success': tp.table.preview.ajax_success,
+					'error': tp.table.preview.ajax_error,
+					'dataType': 'json'
+				} );
 
 				return false;
 			},
@@ -404,13 +404,14 @@ jQuery( document ).ready( function( $ ) {
 				$foot_rows = $table_body.find( '.foot-row' ).nextAll().addBack(),
 				rows = $table_body.children().not( $head_rows ).not( $foot_rows ).get(),
 				/*
-				 * Natural Sort algorithm for Javascript - Version 0.7 - Released under MIT license
+				 * Natural Sort algorithm for Javascript - Version 0.8.1 - Released under MIT license
 				 * Author: Jim Palmer (based on chunking idea from Dave Koelle)
 				 * See: https://github.com/overset/javascript-natural-sort and http://www.overset.com/2008/09/01/javascript-natural-sort-algorithm-with-unicode-support/
 				 */
 				natural_sort = function( a, b ) {
-					var re = /(^-?[0-9]+(\.?[0-9]*)[df]?e?[0-9]?$|^0x[0-9a-f]+$|[0-9]+)/gi,
-						sre = /(^[ ]*|[ ]*$)/g,
+					var re = /(^([+\-]?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?(?=\D|\s|$))|^0x[\da-fA-F]+$|\d+)/g,
+						sre = /^\s+|\s+$/g,   // trim pre-post whitespace
+						snre = /\s+/g,        // normalize all whitespace to single ' ' character
 						dre = /(^([\w ]+,?[\w ]+)?[\w ]+,?[\w ]+\d+:\d+(:\d+)?[\w ]?|^\d{1,4}[\/\-]\d{1,4}[\/\-]\d{1,4}|^\w+, \w+ \d+, \d{4})/,
 						hre = /^0x[0-9a-f]+$/i,
 						ore = /^0/,
@@ -421,30 +422,34 @@ jQuery( document ).ready( function( $ ) {
 						xN = x.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
 						yN = y.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
 						// numeric, hex or date detection
-						xD = parseInt(x.match(hre), 10) || (xN.length !== 1 && x.match(dre) && Date.parse(x)),
-						yD = parseInt(y.match(hre), 10) || xD && y.match(dre) && Date.parse(y) || null,
-						oFxNcL, oFyNcL, cLoc, numS;
+						xD = parseInt(x.match(hre), 16) || (xN.length !== 1 && Date.parse(x)),
+						yD = parseInt(y.match(hre), 16) || xD && y.match(dre) && Date.parse(y) || null,
+						normChunk = function(s, l) {
+							// normalize spaces; find floats not starting with '0', string or 0 if not defined (Clint Priest)
+							return (!s.match(ore) || l === 1) && parseFloat(s) || s.replace(snre, ' ').replace(sre, '') || 0;
+						},
+						oFxNcL, oFyNcL;
 					// first try and sort Hex codes or Dates
 					if (yD) {
-						if ( xD < yD ) { return -1; }
-						else if ( xD > yD ) { return 1; }
+						if (xD < yD) { return -1; }
+						else if (xD > yD) { return 1; }
 					}
 					// natural sorting through split numeric strings and default strings
-					for(cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
-						// find floats not starting with '0', string or 0 if not defined (Clint Priest)
-						oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
-						oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
+					for(var cLoc = 0, xNl = xN.length, yNl = yN.length, numS = Math.max(xNl, yNl); cLoc < numS; cLoc++) {
+						oFxNcL = normChunk(xN[cLoc] || '', xNl);
+						oFyNcL = normChunk(yN[cLoc] || '', yNl);
 						// handle numeric vs string comparison - number < string - (Kyle Adams)
-						if (isNaN(oFxNcL) !== isNaN(oFyNcL)) { return (isNaN(oFxNcL)) ? 1 : -1; }
-						// rely on string comparison if different types - i.e. '02' < 2 !== '02' < '2'
-						else if (typeof oFxNcL !== typeof oFyNcL) {
-							oFxNcL += '';
-							oFyNcL += '';
+						if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
+							return isNaN(oFxNcL) ? 1 : -1;
+						}
+						// if unicode use locale comparison
+						if (/[^\x00-\x80]/.test(oFxNcL + oFyNcL) && oFxNcL.localeCompare) {
+							var comp = oFxNcL.localeCompare(oFyNcL);
+							return comp / Math.abs(comp);
 						}
 						if (oFxNcL < oFyNcL) { return -1; }
-						if (oFxNcL > oFyNcL) { return 1; }
+						else if (oFxNcL > oFyNcL) { return 1; }
 					}
-					return 0;
 				};
 
 			$.each( rows, function( row_idx, row ) {
@@ -849,27 +854,30 @@ jQuery( document ).ready( function( $ ) {
 			add: function( /* event */ ) {
 				if ( ! tp.content.image.prompt_shown ) {
 					if ( ! confirm( tablepress_strings.image_add ) ) {
-						return false; // because it's a link
+						return;
 					}
 				}
 
 				tp.content.image.prompt_shown = true;
 				$id( 'edit-form-body' ).one( 'click', 'textarea', function() {
-					window.wpActiveEditor = this.id;
-					// move caret to the end, to prevent inserting right between existing text, as that's ugly in small cells (possible though in Advanced Editor)
-					this.selectionStart = this.selectionEnd = this.value.length;
-					var $link = $id( 'image-add' ),
-						width = $( window ).width(),
-						W = ( 840 < width ) ? 840 : width,
-						H = $( window ).height();
-					if ( $( '#wpadminbar' ).length ) {
-						H -= parseInt( jQuery( '#wpadminbar' ).css( 'height' ), 10 );
-					}
-					tb_show( $link.text(), $link.attr( 'href' ) + '&TB_iframe=true&height=' + ( H - 85 ) + '&width=' + ( W - 80 ), false );
-					$(this).blur();
-				} );
+					var editor = this.id,
+						options = {
+							frame: 'post',
+							state: 'insert',
+							title: wp.media.view.l10n.addMedia,
+							multiple: true
+						};
 
-				return false; // because it's a link
+					// Move caret to the end, to prevent inserting right between existing text, as that's ugly in small cells (though possible in the Advanced Editor and Insert Link dialog).
+					this.selectionStart = this.selectionEnd = this.value.length;
+
+					// Remove focus from the textarea to prevent Opera from showing the outline of the textarea above the modal.
+					// See: WP Core #22445
+					$(this).blur();
+
+					wp.media.editor.open( editor, options );
+					tp.table.set_table_changed();
+				} );
 			}
 		},
 		span: {
@@ -1033,18 +1041,18 @@ jQuery( document ).ready( function( $ ) {
 				return;
 			}
 
-			$(this).closest( 'p' ).append( '<span class="animation-saving spinner" title="' + tablepress_strings.saving_changes + '"/>' );
+			$(this).closest( 'p' ).append( '<span class="animation-saving spinner is-active" title="' + tablepress_strings.saving_changes + '"/>' );
 			$( '.save-changes-button' ).prop( 'disabled', true );
 			$( 'body' ).addClass( 'wait' );
 
-			$.post(
-					ajaxurl,
-					tp.table.prepare_ajax_request( 'tablepress_save_table', '#nonce-edit-table' ),
-					function() { /* done with .success() below */ },
-					'json'
-				)
-				.success( tp.save_changes.ajax_success )
-				.error( tp.save_changes.ajax_error );
+			$.ajax({
+				'type': 'POST',
+				'url': ajaxurl,
+				'data': tp.table.prepare_ajax_request( 'tablepress_save_table', '#nonce-edit-table' ),
+				'success': tp.save_changes.ajax_success,
+				'error': tp.save_changes.ajax_error,
+				'dataType': 'json'
+			} );
 		},
 		ajax_success: function( data, status /*, jqXHR */ ) {
 			if ( ( 'undefined' === typeof status ) || ( 'success' !== status ) ) {
@@ -1066,7 +1074,7 @@ jQuery( document ).ready( function( $ ) {
 			tp.save_changes.error( 'AJAX call failed: ' + status + ' - ' + error_thrown + '. Try again while holding down the &#8220;Shift&#8221; key.' );
 		},
 		success: function( data ) {
-			// saving was successful, so the original ID has changed to the (maybe) new ID -> we need to adjust all occurances
+			// saving was successful, so the original ID has changed to the (maybe) new ID -> we need to adjust all occurrences
 			if ( tp.table.id !== data.table_id ) {
 				// update URL (for HTML5 browsers only), but only if ID really changed, to not get dummy entries in the browser history
 				if ( ( 'pushState' in window.history ) && null !== window.history.pushState ) {
@@ -1111,10 +1119,10 @@ jQuery( document ).ready( function( $ ) {
 			var delay,
 				div_class = 'save-changes-' + type;
 			if ( 'success' === type ) {
-				div_class += ' updated';
+				div_class += ' notice notice-success';
 				delay = 3000;
 			} else {
-				div_class += ' error';
+				div_class += ' notice notice-error';
 				delay = 6000;
 			}
 			$( '.animation-saving' ).closest( 'p' )
@@ -1150,7 +1158,7 @@ jQuery( document ).ready( function( $ ) {
 				'.show-help-box':		function() {
 					$(this).next().wpdialog( {
 						title: $(this).attr( 'title' ),
-						height: 420,
+						height: 470,
 						width: 320,
 						modal: true,
 						dialogClass: 'wp-dialog',
@@ -1203,9 +1211,18 @@ jQuery( document ).ready( function( $ ) {
 				dialogClass: 'wp-dialog',
 				resizable: false
 			} );
+			// Fix issue with input fields not being usable (they are immediately losing focus without this) in the wpLink dialog when called through the "Advanced Editor"
+			$id( 'wp-link' ).on( 'focus', 'input', function( event ) {
+				event.stopPropagation();
+			} );
 		} else {
 			$id( 'advanced-editor-open' ).hide();
 		}
+
+		// Fix issue with input fields not being usable (they are immediately losing focus without this) in the sidebar of the new Media Manager
+		$( 'body' ).on( 'focus', '.media-modal .media-frame-content input, .media-modal .media-frame-content textarea', function( event ) {
+			event.stopPropagation();
+		} );
 
 		if ( tablepress_options.cells_auto_grow ) {
 			$table.on( 'focus', 'textarea', tp.cells.autogrow );
@@ -1246,31 +1263,7 @@ jQuery( document ).ready( function( $ ) {
 		} ).disableSelection();
 	};
 
-	// run TablePress initialization
+	// Run TablePress initialization.
 	tp.init();
-
-	/**
-	 * On click on "Insert into Post" in the Media Library, this function is called by WordPress
-	 * We need to override the original behavior to be able to set the table to changed
-	 *
-	 * @see media-upload.js
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string new_html HTML code that gets appended to the cell content of the cell that has been marked as active editor
-	 */
-	window.send_to_editor = function( new_html ) {
-		// Quicktags is usually used and does the same internally + caret position handling
-		if ( 'undefined' !== typeof( QTags ) ) {
-			QTags.insertContent( new_html );
-		} else {
-			document.getElementById( window.wpActiveEditor ).value += new_html;
-		}
-
-		try {
-			tb_remove();
-		} catch( e ) {}
-		tp.table.set_table_changed();
-	};
 
 } );

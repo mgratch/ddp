@@ -1,0 +1,142 @@
+.table {
+  display: table;
+  width: 100%;
+
+  @include respond-min(em($mobile-menu-flip-min)) {
+    .menu--main & {
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.table--with-aside {
+  position: relative;
+}
+
+.table--top-offset {
+   margin-top: -35px;
+}
+
+.table__item {
+  display: table-cell;
+  vertical-align: top;
+
+  .table--2-items > & {
+    width: 50%;
+  }
+
+  .table--3-items > & {
+    width: (1/3)*100%;
+    padding: {
+      right: 15px;
+      left: 15px;
+    }
+  }
+
+  .table--2-items-flex-first > & {
+    vertical-align: middle;
+
+    &:first-child {
+      width: 100%;
+    }
+
+    @include respond-max(em($mobile-menu-flip-max)) {
+      display: block;
+    }
+  }
+
+  .table--with-aside > & {
+
+    &:first-child:not(:last-child) {
+      width: (325/1265)*100%;
+      min-width: 220px;
+
+      @include respond-max(em(700px)) {
+        display: none;
+      }
+    }
+    &:last-child:not(:first-child) {
+      width: (940/1265)*100%;
+      padding: {
+        right: 15px;
+        left: 15px;
+      }
+    }
+    &:first-child:last-child {
+      width: 100%;
+    }
+  }
+
+  .table--top-offset > & {
+    position: relative;
+    z-index: 1;
+
+    &:first-child:not(:last-child) {
+      padding-top: 35px;
+    }
+    &:last-child {
+      background-color: white;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 10000px;
+        background-color: white;
+      }
+    }
+    &:last-child:not(.table__item--no-padding) {
+      padding: 15px;
+    }
+  }
+
+  .menu--main & {
+
+    @include respond-min(em($mobile-menu-flip-min)) {
+      padding: 0 30px;
+    }
+
+    @include respond-min(em(875px)) {
+
+      &:first-child {
+        padding: {
+          right: 15px;
+          left: 30px;
+        }
+      }
+      &:last-child {
+        padding: {
+          right: 30px;
+          left: 15px;
+        }
+      }
+    }
+    @include respond-max(em(874px)) {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .social-feeds & {
+    max-width: 370px;
+    text-align: left;
+
+    @include respond-max(em(959px)) {
+      display: inline-block;
+      width: (1/2)*100% - 0.1%;
+    }
+
+    @include respond-max(em(639px)) {
+      width: 100%;
+    }
+  }
+}
+
+.social-feeds {
+  max-width: 1111px;
+  text-align: center;
+  margin: 0 auto;
+}
+

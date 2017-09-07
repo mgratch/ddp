@@ -1,0 +1,164 @@
+
+.map-container,
+.map-container *,
+.map-container *:after,
+.map-container *:before{
+  transition:none !important;
+  -webkit-transition:none !important;
+  -moz-transition:none !important;
+  -o-transition:none !important;
+}
+
+/* Interior Page Data Table Styles*/
+.map-table {
+	width: 100%;
+}
+.map-table td {
+	padding: 5px;
+}
+.map-table thead {
+	background-color: #ccc;
+	height: 30px;
+}
+.map-table tbody tr:nth-child(even) {
+	background-color: #e4e4e4;
+}
+
+#data .map-table tbody tr td:first-child{ width: 50%; }
+
+.map-container{
+  position: relative;
+}
+.map-wrapper{
+  width:100%;
+  height:500px;
+}
+.map-wrapper{
+  height:550px;
+}
+
+.map-container .info-overlay{
+  position: absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  text-align: center;
+  background:#fff;
+  background:rgba(255,255,255,0.8);
+  padding:30px 30px 20px 30px;
+}
+.map-container .info-overlay h3{
+  margin:0px;
+  padding-right:50px;
+  float:left;
+  color:#9b9b9b;
+  font-family:'museo_sans300';
+}
+
+.map-container .info-overlay .links {
+  display: inline-block;
+}
+
+.map-container .info-overlay .links a {
+  color:#fff;
+  font-size:18px;
+  display:block;
+  float:left;
+  margin-right:30px;
+  text-decoration: none;
+  color: #000;
+  padding-left:30px;
+  padding-right:2px;
+  line-height: 34px;
+  padding-bottom:2px;
+}
+.map-container .info-overlay .links a:hover{
+  text-decoration: none;
+}
+.map-container .info-overlay .links a#Attractions{
+  background:url("../images/pushpin-attractions.png") no-repeat;
+}
+.map-container .info-overlay .links a#FoodBars{
+  background:url("../images/pushpin-foodbars.png") no-repeat;
+}
+.map-container .info-overlay .links a#Lighthouse{
+  background:url("../images/pushpin-lighthouse.png") no-repeat;
+}
+.map-container .info-overlay .links a#Shopping{
+  background:url("../images/pushpin-shopping.png") no-repeat;
+}
+.map-container .info-overlay .links a.active{
+  padding-bottom:0px;
+  /* counteract the border jump. if you adjust border, adjust the padding in main dec */
+}
+.map-container .info-overlay .links a#Attractions.active{
+  border-bottom:2px solid #fd5c47;
+}
+.map-container .info-overlay .links a#FoodBars.active{
+  border-bottom:2px solid #ff9c00;
+}
+.map-container .info-overlay .links a#Lighthouse.active{
+  border-bottom:2px solid #36b3ce;
+}
+.map-container .info-overlay .links a#Shopping.active{
+  border-bottom:2px solid #b4c82d;
+}
+
+
+.infobox-wrapper{
+  color:#fff;
+  width:244px;
+  height:209px;
+  background:url("../images/infobox_bknd.png") no-repeat 50% 50%;
+  padding:18px 20px 20px 20px;
+  font-size:14px;
+  font-family: 'museo_sans100';
+  overflow: hidden;
+}
+.infoBox > img{
+  /*visibility: hidden !important;*/
+  /* close icon */
+}
+.infobox-wrapper ul,
+.infobox-wrapper ul li{
+  padding:0px !important;
+  margin-left:0px !important;
+  margin-top:0px !important;
+  width:auto !important;
+  list-style:none;
+  color:#fff;
+  font-weight:normal;
+}
+.infobox-wrapper li{
+  line-height: 16px;
+  margin-bottom:5px !important;
+}
+.infobox-wrapper a{
+  font-size:18px;
+  font-family: 'museo_sans300';
+  display:block;
+  font-weight:normal;
+  line-height: 21px;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+.infobox-wrapper.Attractions a{
+  color:#fd5c47;
+  border-bottom:1px solid #fd5c47;
+}
+.infobox-wrapper.FoodBars a{
+  color:#ff9c00;
+  border-bottom:1px solid #ff9c00;
+}
+.infobox-wrapper.Lighthouse a{
+  color:#36b3ce;
+  border-bottom:1px solid #36b3ce;
+}
+.infobox-wrapper.Shopping a{
+  color:#b4c82d;
+  border-bottom:1px solid #b4c82d;
+}
+
+
+

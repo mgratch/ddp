@@ -1,6 +1,10 @@
 <?php
 class wfDB {
 	public $errorMsg = false;
+	public static function networkPrefix() {
+		global $wpdb;
+		return $wpdb->get_blog_prefix(0);
+	}
 	public function __construct(){
 	}
 	public function querySingle(){
@@ -68,7 +72,13 @@ class wfDB {
 	}
 	public function createKeyIfNotExists($table, $col, $keyName){
 		$table = $this->prefix() . $table;
-		$exists = $this->querySingle("show tables like '$table'");
+		
+		$exists = $this->querySingle(<<<SQL
+SELECT TABLE_NAME FROM information_schema.TABLES
+WHERE TABLE_SCHEMA=DATABASE()
+AND TABLE_NAME='%s'
+SQL
+			, $table);
 		$keyFound = false;
 		if($exists){
 			$q = $this->querySelect("show keys from $table");
@@ -84,6 +94,10 @@ class wfDB {
 	}
 	public function getMaxAllowedPacketBytes(){
 		$rec = $this->querySingleRec("show variables like 'max_allowed_packet'");
+		return intval($rec['Value']);
+	}
+	public function getMaxLongDataSizeBytes() {
+		$rec = $this->querySingleRec("show variables like 'max_long_data_size'");
 		return $rec['Value'];
 	}
 	public function prefix(){
@@ -102,7 +116,166 @@ class wfDB {
 		global $wpdb;
 		return $wpdb->_real_escape($str);
 	}
-
 }
+
+abstract class wfModel {
+
+	private $data;
+	private $db;
+	private $dirty = false;
+
+	/**
+	 * Column name of the primary key field.
+	 *
+	 * @return string
+	 */
+	abstract public function getIDColumn();
+
+	/**
+	 * Table name.
+	 *
+	 * @return mixed
+	 */
+	abstract public function getTable();
+
+	/**
+	 * Checks if this is a valid column in the table before setting data on the model.
+	 *
+	 * @param string $column
+	 * @return boolean
+	 */
+	abstract public function hasColumn($column);
+
+	/**
+	 * wfModel constructor.
+	 * @param array|int|string $data
+	 */
+	public function __construct($data = array()) {
+		if (is_array($data) || is_object($data)) {
+			$this->setData($data);
+		} else if (is_numeric($data)) {
+			$this->fetchByID($data);
+		}
+	}
+
+	public function fetchByID($id) {
+		$id = absint($id);
+		$data = $this->getDB()->get_row($this->getDB()->prepare('SELECT * FROM ' . $this->getTable() .
+				' WHERE ' . $this->getIDColumn() . ' = %d', $id));
+		if ($data) {
+			$this->setData($data);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function save() {
+		if (!$this->dirty) {
+			return false;
+		}
+		$this->dirty = ($this->getPrimaryKey() ? $this->update() : $this->insert()) === false;
+		return !$this->dirty;
+	}
+
+	/**
+	 * @return false|int
+	 */
+	public function insert() {
+		$data = $this->getData();
+		unset($data[$this->getPrimaryKey()]);
+		$rowsAffected = $this->getDB()->insert($this->getTable(), $data);
+		$this->setPrimaryKey($this->getDB()->insert_id);
+		return $rowsAffected;
+	}
+
+	/**
+	 * @return false|int
+	 */
+	public function update() {
+		return $this->getDB()->update($this->getTable(), $this->getData(), array(
+			$this->getIDColumn() => $this->getPrimaryKey(),
+		));
+	}
+
+	/**
+	 * @param $name string
+	 * @return mixed
+	 */
+	public function __get($name) {
+		if (!$this->hasColumn($name)) {
+			return null;
+		}
+		return array_key_exists($name, $this->data) ? $this->data[$name] : null;
+	}
+
+	/**
+	 * @param $name string
+	 * @param $value mixed
+	 */
+	public function __set($name, $value) {
+		if (!$this->hasColumn($name)) {
+			return;
+		}
+		$this->data[$name] = $value;
+		$this->dirty = true;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getData() {
+		return $this->data;
+	}
+
+	/**
+	 * @param array $data
+	 * @param bool $flagDirty
+	 */
+	public function setData($data, $flagDirty = true) {
+		$this->data = array();
+		foreach ($data as $column => $value) {
+			if ($this->hasColumn($column)) {
+				$this->data[$column] = $value;
+				$this->dirty = (bool) $flagDirty;
+			}
+		}
+	}
+
+	/**
+	 * @return wpdb
+	 */
+	public function getDB() {
+		if ($this->db === null) {
+			global $wpdb;
+			$this->db = $wpdb;
+		}
+		return $this->db;
+	}
+
+	/**
+	 * @param wpdb $db
+	 */
+	public function setDB($db) {
+		$this->db = $db;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPrimaryKey() {
+		return $this->{$this->getIDColumn()};
+	}
+
+	/**
+	 * @param int $value
+	 */
+	public function setPrimaryKey($value) {
+		$this->{$this->getIDColumn()} = $value;
+	}
+}
+
 
 ?>

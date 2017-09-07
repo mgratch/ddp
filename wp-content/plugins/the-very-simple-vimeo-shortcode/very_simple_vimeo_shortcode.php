@@ -3,7 +3,7 @@
 Plugin Name: Simple Vimeo Shortcode
 Plugin URI: http://www.yourlocalwebmaster.com/plugins/very-simple-vimeo-shortcode-plugin
 Description: A simple shortcode to add your vimeo videos into site! Website are affordable from <a href="http://www.yourlocalwebmaster.com">www.YourLocalWebmaster.com</a>
-Version: 2.9
+Version: 2.9.1
 Author: Grant Kimball
 Author URI: http://www.YourLocalWebmaster.com/
 License: GPL2

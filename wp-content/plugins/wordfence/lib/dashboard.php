@@ -10,7 +10,7 @@
 ?>
 </td></tr>
 <?php } ?>
-<?php if(wfConfig::get('firewallEnabled')){ ?><tr><td style="padding-right: 20px;">Firewall Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
+<?php if(wfConfig::get('firewallEnabled')){ ?><tr><td style="padding-right: 20px;">Advanced Blocking Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('loginSecurityEnabled')){ ?><tr><td style="padding-right: 20px;">Login Security Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('other_scanComments')){ ?><tr><td style="padding-right: 20px;">Comment Filter Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('other_hideWPVersion')){ ?><tr><td style="padding-right: 20px;">WordPress Version Hiding Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
@@ -26,13 +26,10 @@
 
 <?php if(wfConfig::get('scheduledScansEnabled')){ ?>
 <?php if(wfConfig::get('scheduledScansEnabled')){ ?><tr><td style="padding-right: 20px;">Security Scans Enabled:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
-<?php if(wfConfig::get('scansEnabled_public')){ ?><tr><td style="padding-right: 20px;">Scan public facing site:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
-<?php if(wfConfig::get('scansEnabled_heartbleed')){ ?><tr><td style="padding-right: 20px;">Scan for HeartBleed Vulnerability:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_core')){ ?><tr><td style="padding-right: 20px;">Scan Core Files:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_themes')){ ?><tr><td style="padding-right: 20px;">Scan Themes:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_plugins')){ ?><tr><td style="padding-right: 20px;">Scan Plugins:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_fileContents')){ ?><tr><td style="padding-right: 20px;">Scan Other Files:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
-<?php if(wfConfig::get('scansEnabled_database')){ ?><tr><td style="padding-right: 20px;">Scan Database:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_posts')){ ?><tr><td style="padding-right: 20px;">Scan Posts:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_comments')){ ?><tr><td style="padding-right: 20px;">Scan Comments:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>
 <?php if(wfConfig::get('scansEnabled_oldVersions')){ ?><tr><td style="padding-right: 20px;">Scan for Old Software:</td><td style="color: #0F0;">&#10004;</td></tr> <?php } ?>

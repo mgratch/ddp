@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: DDP Interactive Map
-Plugin URI: 
+Plugin URI:
 Description: Custom interactive map for DDP.
 Author: Octane Design
 Version: 1.0
@@ -14,6 +14,10 @@ $plugin_url = plugin_dir_url( __FILE__ );
 function print_map($atts){
 	global $plugin_path, $plugin_url;
 
+	wp_enqueue_script('velocity');
+	wp_enqueue_script('velocity-ui');
+
+
 	extract( shortcode_atts( array(
 		'width' => '800px',
 		'height' => '650px',
@@ -24,35 +28,39 @@ function print_map($atts){
 		'show_table' => null
 
 	), $atts ) );
-	
-	
+
+
 	$data = read_xls($file);
 	if($data !== false){
 		$html = '';
-		
-		
+
+
 		if($show_table != null){
-			$html .= '<ul class="nav nav-tabs">';	 
-			$html .= '<li class="active"><a href="#int-map" data-toggle="tab">Map</a></li>';
-			$html .= '<li><a href="#data" data-toggle="tab">Data</a></li>'; 	 
-			$html .= '</ul>';	 	 
-			$html .= '<div class="tab-content">';
-			$html .= '<div id="int-map" class="tab-pane active fade in">';
+			$html .= '<ul class="tabs">';
+			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Map</span></li>\n";
+			$html .= "<li class=\"tabs__tab js-tab\"><span class=\"tab__title\">Data</span></li>\n";
+			$html .= '</ul>';
+		//	$html .= '<div class="tab-content">';
+			$html .= '<div class="js-tab-content-container">';
+			$html .= '<div id="int-map" class="tab__content js-tab-content">';
 		}
 		$html .= '<div class="map-container"><div class="map-wrapper"><div id="map-canvas" style="width:'.$width.'; height:'.$height.';"></div></div>';
 		if($category == 'all'){
 			$html .= '<div class="info-overlay"><div class="links"><a href="#" class="active" id="Attractions">Attractions</a><a href="#" class="active" id="FoodBars">Food &amp; Bars</a><a href="#" class="active" id="Lighthouse">Project Lighthouse</a><a href="#" class="active" id="Shopping">Shopping</a></div>';
 		}
+		//$html .= '</div></div>';
 		$html .= '</div>';
+
+
 		$html .= '<script type="text/javascript">';
 
 		$html .= 'var dataObj = {
 			';
-		
+
 		if( $category == "Food &amp; Bars" ) {
 			$category = 'Food & Bars';
 		}
-		
+
 		foreach($data as $k => $array){
 			if($category == 'all'){
 				$html .= get_location($k, $array);
@@ -65,8 +73,8 @@ function print_map($atts){
 			}
 
 		}
-		
-		
+
+
 
 		$html .= '}';
 
@@ -74,12 +82,12 @@ function print_map($atts){
 		jQuery(document).ready(function($){
 		    google.maps.event.addDomListener(window, "load", initialize("'.$plugin_url.'",'.$zoom.'));
 		});
-	      
-	    </script>';
 
+	    </script>';
+		$html .= '</div>';
 	    if($show_table != null){
-	    	$html .= '</div>';
-			$html .= '<div id="data" class="tab-pane fade">';
+
+			$html .= '<div id="data" class="tab__content js-tab-content">';
 
 			$html .= '<table class="map-table">';
 			$html .= '<thead><tr>';
@@ -104,7 +112,7 @@ function print_map($atts){
 			}
 
 			$html .= '</table>';
-			$html .= '</div>'; 	 
+			$html .= '</div>';
 			$html .= '</div>';
 	    }
 
@@ -122,12 +130,21 @@ function read_xls($file){
 		///usr/home/downtowndetroit/public_html/downtowndetroit.org
 		//$usr = "constructor";
 		$usr = "downtowndetroit";
-		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key=AIzaSyDjC8OjHMmiox7fqIcuwfXtmnBiLjFLkZ0&sensor=false');
-		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js');
-		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js');
+		wp_enqueue_script( 'gmap', '//maps.googleapis.com/maps/api/js?key='.$_ENV['GOOGLE_MAPS_API_KEY'], null, null, true);
+		wp_enqueue_script('gmap-infobox', 'http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js', null, null, true);
+		wp_enqueue_script( 'gmap-custom', $plugin_url.'js/ddp-map.js', null, null, true);
+
+		wp_enqueue_style( 'gmap-custom-css', $plugin_url.'css/ddp-interactive-map.css');
 		require_once($plugin_path."inc/excel_reader2.php");
 		//print $plugin_path."/xls/data.xls";
-		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+
+
+//switch with below for dev		$filename = str_replace("http://", "/usr/home/$usr/public_html/", $file);
+		$upload_dir = wp_upload_dir();
+		// var_dump($upload_dir['basedir']);
+		$filename =  $upload_dir['basedir'].$file;
+
+
 		$data = new Spreadsheet_Excel_Reader($filename, false);
 		$cells = $data->sheets[0]["cells"];
 		array_shift($cells);

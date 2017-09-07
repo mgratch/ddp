@@ -37,6 +37,10 @@
 				params = params + '&tribe_event_category=' + ts.category;
 			}
 
+			if ( tf.is_featured() ) {
+				params = params + '&featured=1';
+			}
+
 			history.replaceState( {
 				"tribe_params"    : params,
 				"tribe_url_params": td.params
@@ -61,7 +65,7 @@
 			} );
 		}
 
-		$( '#tribe-events-content-wrapper' ).on( 'click', 'ul.tribe-events-sub-nav a[rel="next"]',function( e ) {
+		$( '#tribe-events-content-wrapper,.tribe-events-view-wrapper' ).on( 'click', 'ul.tribe-events-sub-nav a[rel="next"]',function( e ) {
 			e.preventDefault();
 
 			if ( ts.ajax_running ) {
@@ -74,7 +78,7 @@
 
 			if ( $( this ).parent().is( '.tribe-events-past' ) ) {
 				ts.view = 'past';
-			} else if ( 'undefined' !== result[1] ) {
+			} else if ( result && 'undefined' !== typeof result[1] ) {
 				ts.view = result[1];
 			} else {
 				ts.view = 'list';
@@ -86,7 +90,7 @@
 			result = reg.exec( href );
 
 			// use what is on the URL if possible
-			if ( 'undefined' !== typeof result[1] ) {
+			if ( result && 'undefined' !== typeof result[1] ) {
 				ts.paged = result[1];
 			} else {
 				// otherwise figure it out based on the current page and direction
@@ -123,7 +127,7 @@
 
 			if ( $( this ).parent().is( '.tribe-events-past' ) ) {
 				ts.view = 'past';
-			} else if ( 'undefined' !== typeof result[1] ) {
+			} else if ( result && 'undefined' !== typeof result[1] ) {
 				ts.view = result[1];
 			} else {
 				ts.view = 'list';
@@ -134,7 +138,7 @@
 
 			td.cur_url = tf.url_path( $( this ).attr( 'href' ) );
 
-			if ( 'undefined' !== typeof result[1] ) {
+			if ( result && 'undefined' !== typeof result[1] ) {
 				ts.paged = result[1];
 			} else if ( 'list' === ts.view ) {
 				if ( ts.paged > 1 ) {
@@ -174,7 +178,9 @@
 				if ( pathname.match( /\/all\/$/ ) ) {
 					ts.view = 'all';
 				} else {
-					ts.view = 'list';
+					var display = tribeUtils.getQueryVars().tribe_event_display;
+
+					ts.view = undefined !== display ? display : 'list';
 				}
 
 				ts.popping = false;
@@ -198,7 +204,7 @@
 			tribe_events_bar_listajax_actions( e );
 		} );
 
-		$( te ).on( "tribe_ev_runAjax", function() {
+		$( te ).on( 'tribe_ev_runAjax', function() {
 			tribe_events_list_ajax_post();
 		} );
 
@@ -226,7 +232,8 @@
 				ts.params = {
 					action             : 'tribe_list',
 					tribe_paged        : ts.paged,
-					tribe_event_display: ts.view
+					tribe_event_display: ts.view,
+					featured           : tf.is_featured()
 				};
 
 				ts.url_params = {
@@ -330,6 +337,8 @@
 							}
 
 							$( te ).trigger( 'tribe_ev_ajaxSuccess' ).trigger( 'tribe_ev_listView_AjaxSuccess' );
+							$( te ).trigger( 'ajax-success.tribe' ).trigger( 'tribe_ev_listView_AjaxSuccess' );
+
 							// @ifdef DEBUG
 							dbug && debug.timeEnd( 'List View Ajax Timer' );
 							// @endif
