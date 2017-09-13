@@ -49,9 +49,9 @@ function process_csv($atts){
 		$html = '';
 		$html .= '<ul class="columned-content columned-content--3-column columned-content--alt-bkgn">';
 		foreach($cells as $k => $v){
-			if( $v[2] == "") {
+			if( isset($v[2]) && "" == $v[2] && isset($v[1])) {
 				$html .= '<li>'.$v[1].'</li>';
-			} else {
+			} elseif (isset($v[2]) && isset($v[1])) {
 				$html .= '<li><a href="'.$v[2].'" target="_blank">'.$v[1].'</a></li>';
 			}
 		}

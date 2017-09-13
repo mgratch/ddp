@@ -94,7 +94,7 @@ function v($data,$pos) {
 
 class OLERead {
 	var $data = '';
-	function OLERead(){	}
+	function __construct(){	}
 
 	function read($sFileName){
 		// check if file exist and is readable (Darko Miljanovic)
@@ -912,7 +912,7 @@ class Spreadsheet_Excel_Reader {
 	 *
 	 * Some basic initialisation
 	 */
-	function Spreadsheet_Excel_Reader($file='',$store_extended_info=true,$outputEncoding='') {
+	function __construct($file='',$store_extended_info=true,$outputEncoding='') {
 		$a = new OLERead();
 		$this->_ole =& $a;
 		$this->setUTFEncoder('iconv');
@@ -1206,17 +1206,17 @@ class Spreadsheet_Excel_Reader {
 						}
 
 						$xf = array();
-						$xf['formatIndex'] = $indexCode;
-						$xf['align'] = $align;
-						$xf['fontIndex'] = $fontIndexCode;
-						$xf['bgColor'] = $bgcolor;
-						$xf['fillPattern'] = $fillPattern;
+						$xf['formatIndex'] = isset($indexCode) ? $indexCode : false;
+						$xf['align'] = isset($align) ? $align : false;
+						$xf['fontIndex'] = isset($fontIndexCode) ? $fontIndexCode : false;
+						$xf['bgColor'] = isset($bgcolor) ? $bgcolor : false;
+						$xf['fillPattern'] = isset($fillPattern) ? $fillPattern : false;
 
 						$border = ord($data[$pos+14]) | (ord($data[$pos+15]) << 8) | (ord($data[$pos+16]) << 16) | (ord($data[$pos+17]) << 24);
-						$xf['borderLeft'] = $this->lineStyles[($border & 0xF)];
-						$xf['borderRight'] = $this->lineStyles[($border & 0xF0) >> 4];
-						$xf['borderTop'] = $this->lineStyles[($border & 0xF00) >> 8];
-						$xf['borderBottom'] = $this->lineStyles[($border & 0xF000) >> 12];
+						$xf['borderLeft'] = isset($this->lineStyles[($border & 0xF)]) ? $this->lineStyles[($border & 0xF)] : false;
+						$xf['borderRight'] = isset($this->lineStyles[($border & 0xF0) >> 4]) ? $this->lineStyles[($border & 0xF0) >> 4] : false;
+						$xf['borderTop'] = isset($this->lineStyles[($border & 0xF00) >> 8]) ? $this->lineStyles[($border & 0xF00) >> 8] : false;
+						$xf['borderBottom'] = isset($this->lineStyles[($border & 0xF000) >> 12]) ? $this->lineStyles[($border & 0xF000) >> 12] : false;
 						
 						$xf['borderLeftColor'] = ($border & 0x7F0000) >> 16;
 						$xf['borderRightColor'] = ($border & 0x3F800000) >> 23;
