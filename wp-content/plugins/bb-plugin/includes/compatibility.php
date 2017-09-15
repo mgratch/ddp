@@ -188,7 +188,7 @@ function fl_maybe_fix_unserialize( $data ) {
 	$unserialized = @unserialize( $data );
 	// @codingStandardsIgnoreEnd
 	if ( ! $unserialized ) {
-		$unserialized = unserialize( preg_replace_callback( '!s:(\d+):"(.*?)";!', 'fl_maybe_fix_unserialize_callback', $data ) );
+		$unserialized = unserialize( preg_replace_callback( '/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s', 'fl_maybe_fix_unserialize_callback', $data ) );
 	}
 	return $unserialized;
 }
@@ -199,7 +199,7 @@ function fl_maybe_fix_unserialize( $data ) {
  * @since 1.10.6
  */
 function fl_maybe_fix_unserialize_callback( $match ) {
-	return ( strlen( $match[2] ) == $match[1] ) ? $match[0] : 's:' . strlen( $match[2] ) . ':"' . $match[2] . '";';
+	return ( strlen( $match[2] ) == $match[1] ) ? $match[0] : 's:' . mb_strlen( $match[2] ) . ':"' . $match[2] . '";';
 }
 
 /**

@@ -575,7 +575,7 @@ final class FLBuilderAdminSettings {
 		} elseif ( isset( $_POST['fl-debug-nonce'] ) && wp_verify_nonce( $_POST['fl-debug-nonce'], 'debug' ) ) {
 			$debugmode = get_option( 'fl_debug_mode', false );
 
-			if ( false === $debugmode ) {
+			if ( ! $debugmode ) {
 				update_option( 'fl_debug_mode', md5( rand() ) );
 			} else {
 				delete_option( 'fl_debug_mode' );

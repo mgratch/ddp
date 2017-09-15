@@ -1,3 +1,23 @@
+<h4>1.10.8.2 09/12/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Update language files.</li>
+	<li>Make module frontend filterable.</li>
+	<li>New filters <code>fl_builder_module_frontend_custom_{slug}</code>, <code>fl_builder_module_frontend_file</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed fatal error in debug class if bb-theme is not available.</li>
+	<li>Fixed issue with media uploads if file extension is uppercase.</li>
+	<li>Fixed an issue with Posts Module load more button.</li>
+</ul>
+
+<h4>1.10.8.1 09/07/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a PHP 5.2 issue. Debug class using PHP 5.3 and above code.</li>
+</ul>
+
 <h4>1.10.8 09/06/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

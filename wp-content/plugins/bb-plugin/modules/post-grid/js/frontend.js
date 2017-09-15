@@ -114,7 +114,7 @@
 		_initInfiniteScroll: function()
 		{
 			var isScroll = 'scroll' == this.settings.pagination || 'load_more' == this.settings.pagination,
-				pages	 = $( this.nodeClass + ' .fl-builder-pagination' ).find( 'a.page-numbers:not(.next)' );
+				pages	 = $( this.nodeClass + ' .fl-builder-pagination' ).find( 'li .page-numbers:not(.next)' );
 
 			if( pages.length > 1) {
 				this.totalPages = parseInt( pages.last().text() );

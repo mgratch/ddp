@@ -128,9 +128,8 @@ final class FL_Debug {
 			'name' => 'Active Theme',
 			'data' => array(
 				sprintf( '%s - v%s', $theme->get( 'Name' ), $theme->get( 'Version' ) ),
-				sprintf( 'Parent Theme: %s', ( $theme->parent_Theme ?: 'Not a child theme' ) ), // @codingStandardsIgnoreLine
+				sprintf( 'Parent Theme: %s', ( $theme->get( 'Template' ) ) ? $theme->get( 'Template' ) : 'Not a child theme' ),
 			),
-
 		);
 		self::register( 'active_theme', $args );
 
@@ -257,19 +256,21 @@ final class FL_Debug {
 		);
 		self::register( 'bb_cache_path_writable', $args );
 
-		$cache = FLCustomizer::get_cache_dir();
+		if ( class_exists( 'FLCustomizer' ) ) {
+			$cache = FLCustomizer::get_cache_dir();
 
-		$args = array(
-			'name' => 'Beaver Theme Path',
-			'data' => $cache['path'],
-		);
-		self::register( 'bb_theme_cache_path', $args );
+			$args = array(
+				'name' => 'Beaver Theme Path',
+				'data' => $cache['path'],
+			);
+			self::register( 'bb_theme_cache_path', $args );
 
-		$args = array(
-			'name' => 'Beaver Theme Path writable',
-			'data' => ( is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
-		);
-		self::register( 'bb_theme_cache_path_writable', $args );
+			$args = array(
+				'name' => 'Beaver Theme Path writable',
+				'data' => ( is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
+			);
+			self::register( 'bb_theme_cache_path_writable', $args );
+		}
 
 		$args = array(
 			'name' => 'Licence',

@@ -2783,8 +2783,8 @@ final class FLBuilder {
 		$ext = pathinfo( $file['name'], PATHINFO_EXTENSION );
 
 		$regex = array(
-			'photo' => '#(jpe?g|png|gif|bmp|tiff?)#',
-			'video' => '#(mp4|m4v|webm)#',
+			'photo' => '#(jpe?g|png|gif|bmp|tiff?)#i',
+			'video' => '#(mp4|m4v|webm)#i',
 		);
 
 		if ( ! $type ) {
