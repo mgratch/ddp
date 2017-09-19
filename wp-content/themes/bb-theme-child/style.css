@@ -86,7 +86,6 @@ template: bb-theme
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     right: 10px;
-    font-family: "museo_sans500";
     font-size: 0.75rem;
     text-transform: uppercase;
     color: #00b3ee;
@@ -585,6 +584,79 @@ footer h4.fl-heading:first-child {
     font-weight: 100;
 }
 
+
+/* Grvity Forms Global Overrides
+----------------------------------------*/
+/* line 15, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* line 20, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_anchor {
+    display: inline;
+}
+
+/* line 24, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper select,
+body .gform_wrapper .ginput_complex select,
+body .gform_wrapper .ginput_complex .ginput_right select,
+body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
+    width: 100% !important;
+    font-size: 1em;
+}
+
+/* line 28, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_complex textarea, body .gform_wrapper .ginput_complex .ginput_right textarea, body .gform_wrapper .ginput_complex .ginput_full textarea, body .gform_wrapper input[type="text"], body .gform_wrapper .ginput_complex input[type="text"], body .gform_wrapper .ginput_complex .ginput_right input[type="text"], body .gform_wrapper .ginput_complex .ginput_full input[type="text"], body .gform_wrapper input[type="url"], body .gform_wrapper .ginput_complex input[type="url"], body .gform_wrapper .ginput_complex .ginput_right input[type="url"], body .gform_wrapper .ginput_complex .ginput_full input[type="url"], body .gform_wrapper input[type="email"], body .gform_wrapper .ginput_complex input[type="email"], body .gform_wrapper .ginput_complex .ginput_right input[type="email"], body .gform_wrapper .ginput_complex .ginput_full input[type="email"], body .gform_wrapper input[type="tel"], body .gform_wrapper .ginput_complex input[type="tel"], body .gform_wrapper .ginput_complex .ginput_right input[type="tel"], body .gform_wrapper .ginput_complex .ginput_full input[type="tel"], body .gform_wrapper input[type="number"], body .gform_wrapper .ginput_complex input[type="number"], body .gform_wrapper .ginput_complex .ginput_right input[type="number"], body .gform_wrapper .ginput_complex .ginput_full input[type="number"], body .gform_wrapper input[type="password"], body .gform_wrapper .ginput_complex input[type="password"], body .gform_wrapper .ginput_complex .ginput_right input[type="password"], body .gform_wrapper .ginput_complex .ginput_full input[type="password"] {
+    line-height: 1;
+    padding: 0;
+    border: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+/* line 36, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex {
+    font-size: 0.1px;
+}
+
+/* line 39, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > * {
+    width: 49.9% !important;
+    font-size: 1rem;
+    margin: 0 !important;
+}
+
+/* line 44, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > *:first-of-type {
+    padding-right: 10px;
+}
+
+/* line 47, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .ginput_complex > *:last-of-type {
+    padding-left: 10px;
+}
+
+/* line 53, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_footer {
+    padding: 0;
+    margin: 0;
+}
+
+/* line 57, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_gform-overrides.scss */
+body .gform_wrapper .gform_footer input.button,
+body .gform_wrapper .gform_footer input[type="submit"] {
+    -webkit-appearance: none;
+    transition: background-color 0.25s ease;
+    border-radius: 0;
+    color: #ffffff;
+    border-color: transparent;
+}
+
+
+
 footer .gform_wrapper {
     margin: 0;
 }
@@ -721,22 +793,23 @@ Layout
 }
 
 .fl-theme-builder-blog-posts .page-content > .fl-col-content,
+.board-directors-archive .page-content > .fl-col-content,
 .fl-theme-builder-sidebar-page .page-content > .fl-col-content {
     padding-right: 30%;
 }
 
 @media (max-width: 1366px) {
     .fl-theme-builder-blog-posts .page-content > .fl-col-content,
+    .board-directors-archive .page-content > .fl-col-content,
     .fl-theme-builder-sidebar-page .page-content > .fl-col-content {
-
         padding-right: 20%;
     }
 }
 
 @media (max-width: 1199px) {
     .fl-theme-builder-blog-posts .page-content > .fl-col-content,
+    .board-directors-archive .page-content > .fl-col-content,
     .fl-theme-builder-sidebar-page .page-content > .fl-col-content {
-
         padding-right: 10%;
     }
 }
@@ -851,9 +924,6 @@ body .gform_wrapper, body .gform_wrapper textarea, body .gform_wrapper .ginput_c
 
 /* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-forms.scss */
 body .gform_wrapper .gfield_label {
-    font-family: "museo_sans500";
-    font-size: 0.875rem;
-    font-weight: normal !important;
     margin-bottom: 0 !important;
 }
 
@@ -916,4 +986,8 @@ ul#menu-main.fl-menu-horizontal li.mega-menu > ul.sub-menu span.fl-menu-toggle {
 }
 
 #menu-main .menu__item--has-children.menu__item--current-item-parent.opened .fl-has-submenu-container span.fl-menu-toggle:before {
+}
+
+.fl-biz-title {
+    margin-top: 0;
 }
