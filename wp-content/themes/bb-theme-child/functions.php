@@ -496,20 +496,30 @@ add_filter( 'body_class', 'add_layout_to_body_class' );
 function add_color_to_body_class( $classes ) {
 
 	global $post;
-	$parent_id = is_object($post) ? $post->post_parent: is_array($post) ? $post['post_parent'] : 0;
-	$topParentPostID = is_object($post) ? $post->ID : is_array($post) ? $post['ID'] : $post;
-	if ( get_queried_object_id() === $topParentPostID || is_archive() ) {
+
+	if (is_object($post)){
+		$parent_id = $post->post_parent;
+		$current_post_id = $post->ID;
+	} elseif (is_array($post)){
+		$parent_id = $post['post_parent'];
+		$current_post_id = $post['ID'];
+	} else {
+		$parent_id = 0;
+		$current_post_id = $post;
+	}
+
+	if ( get_queried_object_id() === $current_post_id || is_archive() ) {
 		if ( $parent_id != 0 ) {
-			$topParentPostID = get_top_parent_id( $post );
+			$current_post_id = get_top_parent_id( $post );
 		}
-		$color = get_post_meta( $topParentPostID, 'page_color', true );
+		$color = get_post_meta( $current_post_id, 'page_color', true );
 		$color = ! empty( $color ) ? esc_attr( $color ) : 'color-2';
 	} else {
 		global $wp;
 		$current_url     = $wp->request;
 		$topParentPost   = get_page_by_path( $current_url );
-		$topParentPostID = get_top_parent_id( $topParentPost );
-		$color           = $topParentPostID ? get_post_meta( $topParentPostID, 'page_color', true ) : '';
+		$current_post_id = get_top_parent_id( $topParentPost );
+		$color           = $current_post_id ? get_post_meta( $current_post_id, 'page_color', true ) : '';
 		$color           = ! empty( $color ) ? esc_attr( $color ) : 'color-2';
 	}
 
