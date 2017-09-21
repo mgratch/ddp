@@ -74,7 +74,7 @@
 
 				<?php if ( BB_Ultimate_Addon_Helper::get_builder_uabb_branding( 'uabb-enable-template-cloud' ) ) { ?>
 				<div class="fl-builder-modules-cta">
-					<a href="#" onclick="window.open('<?php echo admin_url(); ?>options-general.php?page=uabb-builder-settings#uabb-cloud-templates');" target="_blank"><i class="fa fa-external-link-square"></i> <?php echo sprintf( __( 'Note - You can enable, disable and manage %s sections here.', 'uabb' ), UABB_PREFIX );?></a>
+					<a href="#" onclick="window.open('<?php echo admin_url(); ?>options-general.php?page=uabb-builder-settings#uabb-cloud-templates');" target="_blank" rel="noopener"><i class="fa fa-external-link-square"></i> <?php echo sprintf( __( 'Note - You can enable, disable and manage %s sections here.', 'uabb' ), UABB_PREFIX );?></a>
 				</div>
 				<?php } ?>
 				<div class="fl-builder-modules-cta">

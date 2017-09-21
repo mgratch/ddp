@@ -82,14 +82,14 @@ class UABBInfoList extends FLBuilderModule {
 
         if ( !empty( $item->list_item_link ) && $item->list_item_link === "complete" && !empty($item->list_item_url) ) {
 
-            echo '<a href="'.$item->list_item_url.'" class="uabb-info-list-link" target="'.$item->list_item_link_target.'"></a>';
+            echo '<a href="'.$item->list_item_url.'" class="uabb-info-list-link" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'></a>';
         }
 
         if( isset( $item->image_type ) && $item->image_type != "none" ) {
             echo '<div class="uabb-info-list-icon info-list-icon-dynamic'. $list_item_counter.'">';
 
             if ( !empty( $item->list_item_link ) && $item->list_item_link == "icon") {
-                echo '<a href="'. $item->list_item_url .'" class="uabb-info-list-link" target="'. $item->list_item_link_target .'"></a>';
+                echo '<a href="'. $item->list_item_url .'" class="uabb-info-list-link" target="'. $item->list_item_link_target .'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'></a>';
             }
                 $this->render_image( $item, $this->settings );
           
@@ -101,7 +101,7 @@ class UABBInfoList extends FLBuilderModule {
         echo '<'. $this->settings->heading_tag_selection . ' class="uabb-info-list-title">';
         if ( !empty( $item->list_item_link ) && $item->list_item_link === "list-title" && !empty($item->list_item_url) ) {
 
-            echo '<a href="'. $item->list_item_url .'" target="'.$item->list_item_link_target.'">';
+            echo '<a href="'. $item->list_item_url .'" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'>';
 
         }
         if( isset( $item->list_item_title ) ) {

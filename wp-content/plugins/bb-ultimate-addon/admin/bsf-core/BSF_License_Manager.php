@@ -400,7 +400,7 @@ if ( ! class_exists( 'BSF_License_Manager' ) ) {
 
 				$html .= '<input type="submit" class="button ' . $submit_button_class . '" name="bsf_activate_license" value="' . esc_attr__( $button_text_activate, 'bsf' ) . '"/>';
 				
-				$get_license_message = apply_filters( "bsf_get_license_message_{$product_id}", "<p>If you don't have a license, you can <a target='_blank' href='$purchase_url'>get it here »</a></p>", $purchase_url );
+				$get_license_message = apply_filters( "bsf_get_license_message_{$product_id}", "<p>If you don't have a license, you can <a target='_blank' rel='noopener' href='$purchase_url'>get it here »</a></p>", $purchase_url );
 
 				$html .= $get_license_message;
 			}

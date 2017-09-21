@@ -83,9 +83,10 @@ class UABBContactFormModule extends FLBuilderModule {
 		add_filter('wp_mail_from_name', 'UABBContactFormModule::from_name');
 		
 		$headers =	array(
-						'Reply-To: ' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
-						'Content-Type: text/html; charset=UTF-8',
-					);
+			'From:' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
+			'Reply-To:' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
+			'Content-Type: text/html; charset=UTF-8',
+		);
 
 		$template = $settings->email_template;
 		if ( isset( $_POST['name'] ) )  $template = str_replace( '[NAME]', $_POST['name'], $template );

@@ -138,6 +138,45 @@ do_action( 'uabb_loop_settings_before_form', $settings ); // e.g Add custom FLBu
 	</table>
 </div>
 
+<div id="fl-builder-settings-section-masonary_filter" class="uabb-settings-section">
+	<h3 class="fl-builder-settings-title"><?php _e('Taxonomy Filter', 'uabb'); ?></h3>
+	<?php foreach(FLBuilderLoop::post_types() as $slug => $type) : ?>
+		<table class="fl-form-table fl-loop-builder-masonary_filter fl-loop-builder-<?php echo $slug; ?>-masonary_filter" <?php if($slug == $settings->post_type) echo 'style="display:table;"'; ?>>
+		<?php
+
+		// Taxonomies
+		$taxonomies = FLBuilderLoop::taxonomies($slug);
+		$taxonomies_array = array();
+		$toggleArray = array();
+
+		if( count($taxonomies) > 0 ) $taxonomies_array[-1] = __('No Filter', 'uabb');
+
+		foreach($taxonomies as $tax_slug => $tax) {
+			$taxonomies_array[$tax_slug] = $tax->label;
+		}
+
+		if( count( $taxonomies_array ) > 0 ) {
+			// Taxonomy Filter
+			FLBuilder::render_settings_field('masonary_filter_' . $slug, array(
+				'type'          => 'select',
+				'label'         => __('Taxonomy Filter', 'uabb'),
+				'help'			=> __( 'Select post filter criteria to display post filter at top of the module.', 'uabb' ),
+				'options'       => $taxonomies_array,
+			), $settings);
+		}
+			FLBuilder::render_settings_field('uabb_masonary_filter_type_' . $slug, array(
+				'type'          => 'select',
+				'label'         => __( 'Select Filter Layout', 'uabb' ),
+				'options'       => array(
+						'buttons'       => __( 'Button', 'uabb' ),
+						'drop-down'       => __( 'Drop Down', 'uabb' ),
+					),
+			), $settings);
+		?>
+		</table>
+	<?php endforeach; ?>
+</div>
+
 <div id="fl-builder-settings-section-filter" class="uabb-settings-section">
 	<h3 class="fl-builder-settings-title"><?php _e('Filter', 'uabb'); ?></h3>
 	<?php foreach(FLBuilderLoop::post_types() as $slug => $type) : ?>
@@ -216,36 +255,6 @@ do_action( 'uabb_loop_settings_before_form', $settings ); // e.g Add custom FLBu
 	</table>
 </div>
 
-<div id="fl-builder-settings-section-masonary_filter" class="uabb-settings-section">
-	<h3 class="fl-builder-settings-title"><?php _e('Taxonomy Filter', 'uabb'); ?></h3>
-	<?php foreach(FLBuilderLoop::post_types() as $slug => $type) : ?>
-		<table class="fl-form-table fl-loop-builder-masonary_filter fl-loop-builder-<?php echo $slug; ?>-masonary_filter" <?php if($slug == $settings->post_type) echo 'style="display:table;"'; ?>>
-		<?php
-
-		// Taxonomies
-		$taxonomies = FLBuilderLoop::taxonomies($slug);
-		$taxonomies_array = array();
-		$toggleArray = array();
-
-		if( count($taxonomies) > 0 ) $taxonomies_array[-1] = __('No Filter', 'uabb');
-
-		foreach($taxonomies as $tax_slug => $tax) {
-			$taxonomies_array[$tax_slug] = $tax->label;
-		}
-
-		if( count( $taxonomies_array ) > 0 ) {
-			// Taxonomy Filter
-			FLBuilder::render_settings_field('masonary_filter_' . $slug, array(
-				'type'          => 'select',
-				'label'         => __('Taxonomy Filter', 'uabb'),
-				'help'			=> __( 'Select post filter criteria to display post filter buttons at top of the module.', 'uabb' ),
-				'options'       => $taxonomies_array,
-			), $settings);
-		}
-		?>
-		</table>
-	<?php endforeach; ?>
-</div>
 </div>
 <?php
 do_action( 'uabb_loop_settings_after_form', $settings ); // e.g Add custom FLBuilder::render_settings_field()

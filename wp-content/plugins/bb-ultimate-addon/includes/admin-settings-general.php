@@ -33,7 +33,7 @@
 					<?php _e('Enable this setting for applying UI effects such as - Section panel, Search box etc. to frontend page builder. ', 'uabb'); ?>
 					<?php
 					if( empty( $branding_name ) && empty( $branding_short_name ) ) :
-						_e('Read ', 'uabb'); ?><a target="_blank" href="https://www.ultimatebeaver.com/docs/how-to-enable-disable-beaver-builders-ui/"><?php _e('this article', 'uabb'); ?></a><?php _e(' for more information.', 'uabb');
+						_e('Read ', 'uabb'); ?><a target="_blank" rel="noopener" href="https://www.ultimatebeaver.com/docs/how-to-enable-disable-beaver-builders-ui/?utm_source=uabb-pro-dashboard&utm_medium=general-settings-screen&utm_campaign=ui-design"><?php _e('this article', 'uabb'); ?></a><?php _e(' for more information.', 'uabb');
 					endif;
 					?>
 				</p>
@@ -69,7 +69,7 @@
 					<?php _e('This setting is required if you wish to use Google Map module in your website.', 'uabb'); ?>
 					<?php
 					if( empty( $branding_name ) && empty( $branding_short_name ) ) :
-						_e('Need help to get Google map API key? Read ', 'uabb'); ?><a target="_blank" href="https://www.ultimatebeaver.com/docs/how-to-create-google-api-key-in-uabb-google-map-element/"><?php _e('this article', 'uabb'); ?></a>.</p><?php
+						_e('Need help to get Google map API key? Read ', 'uabb'); ?><a target="_blank" rel="noopener" href="https://www.ultimatebeaver.com/docs/how-to-create-google-api-key-in-uabb-google-map-element/?utm_source=uabb-pro-dashboard&utm_medium=general-settings-screen&utm_campaign=google-map"><?php _e('this article', 'uabb'); ?></a>.</p><?php
 					endif;
 					?>
 				</p>

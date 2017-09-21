@@ -516,6 +516,10 @@ ul.uabb-masonary-filters > li:last-of-type {
     margin-right: 0;
 }
 
+select.uabb-masonary-filters {
+    outline: none;
+}
+
 .uabb-blogs-pagination {
     padding: 40px 0;
 }

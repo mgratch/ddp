@@ -450,7 +450,7 @@ FLBuilder::register_module('UABBPhotoModule', array(
 						'type'          => 'photo',
 						'label'         => __('Photo', 'uabb'),
 						'show_remove'	=> true,
-						'connections'	=> array( 'string', 'html' ),
+						'connections'	=> array( 'photo' ),
 					),
 					'photo_size'         => array(
 						'type'          => 'text',

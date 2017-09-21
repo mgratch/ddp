@@ -1,16 +1,15 @@
 <?php
-
 /**
  * Plugin Name: Ultimate Addon for Beaver Builder
  * Plugin URI: http://www.ultimatebeaver.com/
  * Description: Ultimate Addons is a premium extension for Beaver Builder that adds 45+ modules, 250+ templates and works on top of any Beaver Builder Package. (Free, Standard, Pro & Agency) You can use it with any WordPress theme.
- * Version: 1.6.3
+ * Version: 1.6.5
  * Author: Brainstorm Force
  * Author URI: http://www.brainstormforce.com
  * Text Domain: uabb
  */
 
-define( 'BB_ULTIMATE_ADDON_VER', '1.6.3' );
+define( 'BB_ULTIMATE_ADDON_VER', '1.6.5' );
 define( 'BB_ULTIMATE_ADDON_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BB_ULTIMATE_ADDON_URL', plugins_url( '/', __FILE__ ) );
 define( 'BSF_REMOVE_uabb_FROM_REGISTRATION_LISTING', true );
@@ -40,8 +39,8 @@ if( !class_exists( "BB_Ultimate_Addon" ) ) {
 				if( $no_memory == true && ! defined( 'WP_CLI' ) ) {
 
 					$msg  = __('Unfortunately, plugin could not be activated as the memory allocated by your host has almost exhausted. UABB plugin recommends that your site should have 15M PHP memory remaining. ', 'uabb');
-					$msg .= '<br/><br/>' . __('Please check ', 'uabb') . '<a target="_blank" href="https://www.ultimatebeaver.com/docs/increase-memory-limit-site/">' . __('this article', 'uabb') . '</a> ';
-					$msg .= __(' for solution or contact ', 'uabb') . '<a target="_blank" href="http://store.brainstormforce.com/support">' . __(' support', 'uabb') . '</a>.';
+					$msg .= '<br/><br/>' . __('Please check ', 'uabb') . '<a target="_blank" rel="noopener" href="https://www.ultimatebeaver.com/docs/increase-memory-limit-site/">' . __('this article', 'uabb') . '</a> ';
+					$msg .= __(' for solution or contact ', 'uabb') . '<a target="_blank" rel="noopener" href="http://store.brainstormforce.com/support">' . __(' support', 'uabb') . '</a>.';
 					$msg .= '<br/><br/><a class="button button-primary" href="'.network_admin_url( 'plugins.php' ). '">' . __('Return to Plugins Page', 'uabb') . '</a>';
 
 					deactivate_plugins( plugin_basename( __FILE__ ) );

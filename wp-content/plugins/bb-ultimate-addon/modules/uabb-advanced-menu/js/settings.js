@@ -24,13 +24,9 @@
                 id   = form.data('node');
 
             if( $( '.fl-active' ).attr('href') == '#fl-builder-settings-tab-submenu' ) {
-            	jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'display', 'block' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'visibility', 'visible' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'opacity', '1' );
+            	jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css({ 'display': 'block', 'visibility': 'visible', 'opacity': '1' });
             } else {
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'display', 'none' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'visibility', 'hidden' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'opacity', '0' );
+                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu:not(.uabb-creative-menu-expanded) .sub-menu' ).first().css({ 'display': 'none', 'visibility': 'hidden', 'opacity': '0' });
             }
         },
 
@@ -52,13 +48,9 @@
                 anchorHref = $(this).attr('href');
                 
             if( anchorHref == '#fl-builder-settings-tab-submenu' ){
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'display', 'block' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'visibility', 'visible' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'opacity', '1' );
+                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css({ 'display': 'block', 'visibility': 'visible', 'opacity': '1' });
             } else {
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'display', 'none' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'visibility', 'hidden' );
-                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu .sub-menu' ).first().css( 'opacity', '0' );
+                jQuery( '.fl-node-' + id + ' .uabb-creative-menu .menu:not(.uabb-creative-menu-expanded) .sub-menu' ).first().css({ 'display': 'none', 'visibility': 'hidden', 'opacity': '0' });
             }
         },
     });

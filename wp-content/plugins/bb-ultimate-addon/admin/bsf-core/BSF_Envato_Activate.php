@@ -165,7 +165,7 @@ class BSF_Envato_Activate {
 			$html .= '<input type="hidden" readonly class="' . $license_active_class . ' ' . $size . '-text" id="bsf_license_manager[license_key]" name="redirect" value="' . $this->get_redirect_url() . '"/>';
 			$html .= '<input type="hidden" readonly class="' . $license_active_class . ' ' . $size . '-text" id="bsf_license_manager[license_key]" name="product_id" value="' . $product_id . '"/>';
 			$html .= '<input type="button" class="button bsf-envato-form-activation ' . $submit_button_class . '" name="bsf_activate_license" value="' . esc_attr__( $button_text_activate, 'bsf' ) . '"/>';
-			$html .= "<p>If you don't have a license, you can <a target='_blank' href='$purchase_url'>get it here »</a></p>";
+			$html .= "<p>If you don't have a license, you can <a target='_blank' href='$purchase_url' rel='noopener'>get it here »</a></p>";
 		}
 
 		$html .= '</form>';

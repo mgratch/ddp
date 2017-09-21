@@ -89,7 +89,7 @@ class InfoBannerModule extends FLBuilderModule {
     public function render_link()
     {
         if($this->settings->cta_type == 'link') {
-            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" class="uabb-infobanner-cta-link">' . $this->settings->cta_text . '</a>';
+            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, 0, 0 ) .' class="uabb-infobanner-cta-link">' . $this->settings->cta_text . '</a>';
         }
     }
 
@@ -595,11 +595,6 @@ FLBuilder::register_module('InfoBannerModule', array(
                         'label'      => __('Background Color', 'uabb'),
                         'default'    => '',
                         'show_reset' => true,
-                        'preview'       => array(
-                            'type'            => 'css',
-                            'selector'        => '.uabb-creative-button-wrap a',
-                            'property'         => 'background',
-                        ),
                     ),
                     'btn_bg_color_opc'    => array( 
                         'type'        => 'text',

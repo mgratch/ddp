@@ -872,7 +872,7 @@ if ( ! function_exists( 'bsf_nag_brainstorm_updater_multisite' ) ) {
 			__('Looks like you are on a WordPress Multisite, you will need to install and network activate %1$s Brainstorm Updater for Multisite %2$s plugin. Download it from %3$s here %4$s', 'bsf' ) ,
 				'<strong><em>',
 				'</strong></em>',
-				'<a href="http://bsf.io/bsf-updater-mu" target="_blank">',
+				'<a href="http://bsf.io/bsf-updater-mu" target="_blank" rel="noopener">',
 				'</a>'
 			 );
 

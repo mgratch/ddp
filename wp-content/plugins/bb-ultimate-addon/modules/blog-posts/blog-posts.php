@@ -339,8 +339,8 @@ class BlogPostsModule extends FLBuilderModule {
 
              // Order by meta value arg.
         if ( strstr( $args['orderby'], 'meta_value' ) ) {
-            if( isset( $settings->order_by_meta_key ) ) {
-                $args['meta_key'] = $settings->order_by_meta_key;
+            if( isset( $this->settings->order_by_meta_key ) ) {
+                $args['meta_key'] = $this->settings->order_by_meta_key;
             }
         }
 
@@ -420,7 +420,7 @@ class BlogPostsModule extends FLBuilderModule {
             echo '</div>';
 
         } else if( $this->settings->cta_type == 'link' ) {
-            echo '<span class="uabb-read-more-text uabb-blog-post-section"><a href="' . $link . '" target="' . $link_target . '" >' . do_shortcode( $this->settings->cta_text ) . ' <span class="uabb-next-right-arrow">&#8594;</span></a></span>';
+            echo '<span class="uabb-read-more-text uabb-blog-post-section"><a href="' . $link . '" target="' . $link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $link_target, 0, 0 ) .'>' . do_shortcode( $this->settings->cta_text ) . ' <span class="uabb-next-right-arrow">&#8594;</span></a></span>';
         }
     }
 
@@ -505,21 +505,40 @@ class BlogPostsModule extends FLBuilderModule {
                     $category_detail = get_terms( $this->settings->$cat );
 
                     if( count( $category_detail ) > 0 ) {
-                        echo '<div class="uabb-masonary-filters-wrapper">
-                            <ul class="uabb-masonary-filters">';
-                        echo '<li class="uabb-masonary-filter-' . $this->node . ' uabb-masonary-current" data-filter="*">' . __( 'All', 'uabb' ) . '</li>';
-                        foreach( $category_detail as $cat_details ){
-                            if( !empty( $tax_value ) ) {
-                                if( in_array( $cat_details->term_id, $tax_value ) ) {
-                                    echo '<li class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</li>';
+
+                        echo '<div class="uabb-masonary-filters-wrapper">';
+
+                        $filter_type = 'uabb_masonary_filter_type_' . $post_type;
+                        if( isset( $this->settings->$filter_type ) && $this->settings->$filter_type == "drop-down" ) {
+                            echo '<select class="uabb-masonary-filters">';
+                            echo '<option class="uabb-masonary-filter-' . $this->node . ' uabb-masonary-current" data-filter="*" value="all">'. __( 'All', 'uabb' ) .'</option>';
+
+                                foreach( $category_detail as $cat_details ){
+                                    if( !empty( $tax_value ) ) {
+                                        if( in_array( $cat_details->term_id, $tax_value ) ) {
+                                            echo '<option class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</option>';
+                                    }
                                 }
-                            } else {
-                                echo '<li class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</li>';
-                            }
-                                
+                            echo '</select>';
                         }
-                        echo '</ul>
-                        </div>';
+                        else {
+                                echo '<ul class="uabb-masonary-filters">';
+                                echo '<li class="uabb-masonary-filter-' . $this->node . ' uabb-masonary-current" data-filter="*">' . __( 'All', 'uabb' ) . '</li>';
+                                foreach( $category_detail as $cat_details ){
+                                    if( !empty( $tax_value ) ) {
+                                        if( in_array( $cat_details->term_id, $tax_value ) ) {
+                                            echo '<li class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</li>';
+                                        }
+                                    } else {
+                                        echo '<li class="uabb-masonary-filter-' . $this->node . '" data-filter=".uabb-masonary-cat-' . $cat_details->slug . '">' . $cat_details->name . '</li>';
+                                    }
+                                }
+                                echo '</ul>';
+                        }
+                        echo '</div>';
                     }
 
                 }
@@ -563,7 +582,7 @@ class BlogPostsModule extends FLBuilderModule {
 
             <?php do_action( 'uabb_blog_posts_before_image', $obj->ID ); ?>
 
-                <a href="<?php echo $link; ?>" target="<?php echo $this->settings->link_target; ?>" title="<?php the_title_attribute(); ?>">
+                <a href="<?php echo $link; ?>" target="<?php echo $this->settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, 0, 1 ); ?> title="<?php the_title_attribute(); ?>">
                 <img <?php echo $img_url; ?> alt="<?php echo $img_data['alt']; ?>" />
                 </a>
 
@@ -1322,6 +1341,10 @@ FLBuilder::register_module('BlogPostsModule', array(
                             'Y-m-d'         => date_i18n('Y-m-d'),
                             'Y.m.d'         => date_i18n('Y.m.d'),
                             'Y/m/d'         => date_i18n('Y/m/d'),
+                            'M, Y'        => date_i18n('M, Y'),
+                            'M Y'        => date_i18n('M Y'),
+                            'F, Y'        => date_i18n('F, Y'),
+                            'F Y'        => date_i18n('F Y'),
                         )
                     ),
                     'show_categories' => array(
@@ -2286,9 +2309,136 @@ FLBuilder::register_module('BlogPostsModule', array(
                     ),
                 )
             ),
+            'masonary_select_style' => array(
+                'title' => __( 'Drop-down Taxonomy Filter Styling', 'uabb' ),
+                'fields' => array(
+                    'selfilter_width' => array(
+                        'type'          => 'text',
+                        'label'         => __( 'Width', 'uabb' ),
+                        'description'   => 'px',
+                        'size'          => '8',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'width',
+                            'unit'          => 'px',
+                        )
+                    ),
+                    'selfilter_overall_alignment' => array(
+                        'type'          => 'select',
+                        'label' => __('Alignment', 'uabb'),
+                        'default'       => 'center',
+                        'options'       => array(
+                            'center' => __( 'Center', 'uabb' ),
+                            'left' => __( 'Left', 'uabb' ),
+                            'right' => __( 'Right', 'uabb' ),
+                        ),
+                        'help' => __( 'Controls the alignment of section.', 'uabb' ),
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-masonary-filters-wrapper',
+                            'property'      => 'text-align',
+                        )
+                    ),
+                    'selfilter_bottom_spacing'  => array(
+                        'type'          => 'text',
+                        'label'         => __('Bottom Spacing', 'uabb'),
+                        'description'   => __( 'px', 'uabb' ),
+                        'placeholder'   => '40',
+                        'size'          => '8',
+                        'help'          => __('Use this setting to manage the space between filters and post.', 'uabb'),
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'margin-bottom',
+                            'unit'          => 'px',
+                        )
+                    ),
+                    'selfilter_border_enable'  => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __( 'Show Border', 'uabb' ),
+                        'default'       => 'yes',
+                        'options'       => array(
+                            'yes'           => __( 'Yes', 'uabb' ),
+                            'no'            => __( 'No', 'uabb' ),
+                        ),
+                        'toggle'        => array(
+                            'yes'        => array(
+                                'fields'        => array( 'selfilter_border_style', 'selfilter_border_size', 'selfilter_border_radius', 'selfilter_color_border' )
+                            )
+                        )
+                    ),
+                    'selfilter_border_style'       => array(
+                        'type'          => 'select',
+                        'label'         => __('Border Style', 'uabb'),
+                        'default'       => 'solid',
+                        'help'          => __( 'The type of border to use. Double borders must have a height of at least 3px to render properly.', 'uabb' ),
+                        'options'       => array(
+                            'solid'     => __('Solid', 'uabb'),
+                            'dotted'    => __('Dotted', 'uabb'),
+                            'dashed'    => __('Dashed', 'uabb'),
+                            'double'    => __('Double', 'uabb'),
+                        ),
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'border-style',
+                        )
+                    ),
+                    'selfilter_border_size'  => array(
+                        'type'          => 'text',
+                        'label'         => __('Border Size', 'uabb'),
+                        'description'   => __( 'px', 'uabb' ),
+                        'placeholder'   => '1',
+                        'size'          => '8',
+                        'default'       => '1',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'border-width',
+                            'unit'          => 'px'
+                        )
+                    ),
+                    'selfilter_border_radius'  => array(
+                        'type'          => 'text',
+                        'label'         => __('Border Radius', 'uabb'),
+                        'description'   => __( 'px', 'uabb' ),
+                        'placeholder'   => '2',
+                        'size'          => '8',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'border-radius',
+                            'unit'          => 'px'
+                        )
+                    ),
+                    'selfilter_color_border' => array( 
+                        'type'       => 'color',
+                        'label'      => __('Border Color', 'uabb'),
+                        'default'    => '',
+                        'show_reset' => true,
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'border-color',
+                        )
+                    ),
+                    'selfilter_background_color' => array(
+                        'type'       => 'color',
+                        'label'      => __('Background Color', 'uabb'),
+                        'default'    => '',
+                        'show_reset' => true,
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'background',
+                        )
+                    ),
+                )
+            ),
         ),
     ),
-    'typography'       => array( // Tab
+    'typography'        => array( // Tab
         'title'         => __('Typography', 'uabb'), // Tab title
         'sections'      => array( // Tab Sections
             'title_typography' => array(
@@ -2693,6 +2843,49 @@ FLBuilder::register_module('BlogPostsModule', array(
                             'medium'        => '',
                             'small'         => '',
                         ),
+                    ),
+                )
+            ),
+            'taxonomy_filter_select_field_typography'    =>  array(
+                'title' => __( 'Drop-down Taxonomy Filter', 'uabb' ),
+                'fields'    => array(
+                    'taxonomy_filter_select_font_family'       => array(
+                        'type'          => 'font',
+                        'label'         => __('Font Family', 'uabb'),
+                        'default'       => array(
+                            'family'        => 'Default',
+                            'weight'        => 'Default'
+                        ),
+                        'preview'   => array(
+                            'type'      => 'font',
+                            'selector'  => 'select.uabb-masonary-filters'
+                        ),
+                    ),
+                    'taxonomy_filter_select_font_size'     => array(
+                        'type'          => 'uabb-simplify',
+                        'label'         => __( 'Font Size', 'uabb' ),
+                        'default'       => array(
+                            'desktop'       => '',
+                            'medium'        => '',
+                            'small'         => '',
+                        ),
+                        'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => 'select.uabb-masonary-filters',
+                            'property'  => 'font-size',
+                            'unit'      => 'px'
+                        ),
+                    ),                   
+                    'taxonomy_filter_select_color' => array( 
+                        'type'       => 'color',
+                        'label'      => __('Text Color', 'uabb'),
+                        'default'    => '',
+                        'show_reset' => true,
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'select.uabb-masonary-filters',
+                            'property'      => 'color',
+                        )
                     ),
                 )
             ),

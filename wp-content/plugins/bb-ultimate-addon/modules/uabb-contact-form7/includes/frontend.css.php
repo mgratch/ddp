@@ -93,13 +93,17 @@
     <?php } ?>
 }
 
+.fl-node-<?php echo $id; ?> .uabb-cf7-style select,
+.fl-node-<?php echo $id; ?> .uabb-cf7-style select:focus {
+    -webkit-appearance: menulist !important;
+}
+
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=tel],
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=email],
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=text],
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=url],
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=number],
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=date],
-.fl-node-<?php echo $id; ?> .uabb-cf7-style select,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style textarea,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=tel]:focus,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=email]:focus,
@@ -107,9 +111,7 @@
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=url]:focus,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=number]:focus,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style input[type=date]:focus,
-.fl-node-<?php echo $id; ?> .uabb-cf7-style select:focus,
 .fl-node-<?php echo $id; ?> .uabb-cf7-style textarea:focus {
-    -webkit-appearance: none;
   	<?php if( $settings->input_border_radius != '' ) { ?>
     	border-radius: <?php echo $settings->input_border_radius; ?>px;
     <?php } ?>
@@ -230,7 +232,7 @@ if( $settings->radio_check_custom_option == 'true') {
         font-size: calc(<?php echo $font_size ?>px - <?php echo $settings->radio_check_border_width ?>px );
         padding-top: 0;
         color: #<?php echo $settings->radio_check_selected_color ?>;
-        line-height: 1.2;
+        line-height: 1.3;
     }
 
     .fl-node-<?php echo $id; ?> .uabb-cf7-style .wpcf7-checkbox input[type='checkbox'] + span:before {

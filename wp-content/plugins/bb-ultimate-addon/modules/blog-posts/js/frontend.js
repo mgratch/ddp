@@ -33,6 +33,7 @@ var UABBBlogPosts;
         this.medium_breakpoint         = settings.medium_breakpoint;
         this.equal_height_box         = settings.equal_height_box;
         this.mesonry_equal_height      = settings.mesonry_equal_height;
+        this.uabb_masonary_filter_type = settings.uabb_masonary_filter_type
 
         if( this.is_carousel == 'carousel' ) {
             this._uabbBlogPostCarousel();
@@ -69,6 +70,7 @@ var UABBBlogPosts;
         medium_breakpoint       : '',
         equal_height_box        : 'yes',
         mesonry_equal_height    : 'no',
+        uabb_masonary_filter_type : 'buttons',
 
         _hasPosts: function()
         {
@@ -169,12 +171,22 @@ var UABBBlogPosts;
                 }
             });
 
-            jQuery( nodeClass ).find('.uabb-masonary-filters .uabb-masonary-filter-' + id).on('click', function(){
-                jQuery( this ).siblings().removeClass( 'uabb-masonary-current' );
-                jQuery( this ).addClass( 'uabb-masonary-current' );
-                var value = jQuery( this ).data( 'filter' );
-                jQuery( nodeClass + ' .uabb-blog-posts-masonary' ).isotope( { filter: value } )
-            });
+            if( this.uabb_masonary_filter_type == 'drop-down' ) {
+
+                jQuery( nodeClass ).find('.uabb-masonary-filters').on('change', function() {
+                    value = jQuery( nodeClass ).find('.uabb-masonary-filters option:selected').data('filter');
+                    jQuery( nodeClass + ' .uabb-blog-posts-masonary' ).isotope( { filter: value } )
+                });
+            }
+            else {
+                jQuery( nodeClass ).find('.uabb-masonary-filters .uabb-masonary-filter-' + id).on('click', function(){
+                    jQuery( this ).siblings().removeClass( 'uabb-masonary-current' );
+                    jQuery( this ).addClass( 'uabb-masonary-current' );
+                    var value = jQuery( this ).data( 'filter' );
+                    jQuery( nodeClass + ' .uabb-blog-posts-masonary' ).isotope( { filter: value } )
+                });
+            }
+
 
             if( this.mesonry_equal_height == 'yes' ) {
                 this._uabbBlogPostMesonryHeight();

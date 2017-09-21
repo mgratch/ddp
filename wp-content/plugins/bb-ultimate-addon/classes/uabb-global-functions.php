@@ -450,7 +450,7 @@ function uabb_theme_button_border_radius( $default ) {
 
 		if ( $radius == '' ) {
 			$radius = apply_filters( 'uabb_theme_button_border_radius', $default );
-			if ( $radius == '' ) {
+			if ( $radius === '' ) {
 				$radius = '4';
 			}
 		}

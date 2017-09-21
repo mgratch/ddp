@@ -108,7 +108,7 @@ $google_api_key = '';
 $style1 = 'line-height: 1.45em; color: #a94442;';
 $style2 = 'font-weight:bold;color: #a94442;';
 $notice = sprintf( 
-        __( '<span style="%s">To display customized Google Map without an issue, you need to configure Google Map API key in <span style="%s">General Settings</span>. Please configure API key from <a href="%s" class="uabb-google-map-notice" target="_blank">here</a></span>.' , 'uabb' ),
+        __( '<span style="%s">To display customized Google Map without an issue, you need to configure Google Map API key in <span style="%s">General Settings</span>. Please configure API key from <a href="%s" class="uabb-google-map-notice" target="_blank" rel="noopener">here</a></span>.' , 'uabb' ),
         $style1, $style2, admin_url( 'options-general.php?page=uabb-builder-settings#uabb' ) );
 
 
@@ -291,7 +291,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         'label'     => '',
                         'rows'      => 25,
                         'media_buttons' => false,
-                        'description'   => __('<br/><br/><a target="_blank" href="http://googlemaps.github.io/js-samples/styledmaps/wizard/index.html">Click here</a> to get the style JSON code for styling your map.','uabb'),
+                        'description'   => __('<br/><br/><a target="_blank" rel="noopener" href="http://googlemaps.github.io/js-samples/styledmaps/wizard/index.html">Click here</a> to get the style JSON code for styling your map.','uabb'),
                         'connections'   => array( 'string', 'html' )
                     ),
                 )
@@ -311,15 +311,17 @@ FLBuilder::register_settings_form('uabb_google_map_addresses', array(
                     'fields'        => array(
                         'map_lattitude'     => array(
                             'type'          => 'text',
-                            'label'         => __('Lattitude', 'uabb'),
+                            'label'         => __('Latitude', 'uabb'),
                             'placeholder'   => '40.76142',
-                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb')
+                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
+                            'connections'       => array( 'custom_field' ),
                         ),
                         'map_longitude'     => array(
                             'type'          => 'text',
                             'label'         => __('Longitude', 'uabb'),
                             'placeholder'   => '-73.97712',
-                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb')
+                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
+                            'connections'       => array( 'custom_field' ),
                         ),
                     )
                 ),

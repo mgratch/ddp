@@ -86,6 +86,10 @@ var UABBGoogleMaps;
                 map.setMapTypeId( 'map_style' );
             }
 
+            if( !this.map_style ) {
+                map.setMapTypeId( this.map_type.toLowerCase() );
+            }
+
             if( ( this.markers ).length > 0 ) {
                 for( i = 0; i < ( this.markers ).length ; i++ ) {
 

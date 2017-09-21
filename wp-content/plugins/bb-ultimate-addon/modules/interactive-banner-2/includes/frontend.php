@@ -23,7 +23,7 @@
 	<?php
 	if( $settings->link_url != '' ) {
 	?>
-	<a class="uabb-new-ib-link" href="<?php echo $settings->link_url; ?>" target="<?php echo $settings->link_target; ?>"></a>
+	<a class="uabb-new-ib-link" href="<?php echo $settings->link_url; ?>" target="<?php echo $settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $settings->link_target, 0, 1 ); ?>></a>
 	<?php
 	}
 	?>

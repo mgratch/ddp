@@ -542,13 +542,13 @@ if ( ! class_exists( 'BSF_Update_Manager' ) ) {
 
 				if ( $plugin_info['Author'] == 'Brainstorm Force' ) {
 					$strings['no_package'] = sprintf(
-						__( 'Click <a target="_blank" href="%1s">here</a> to activate license of <i>%2s</i> to receive automatic updates.' ),
+						__( 'Click <a target="_blank" href="%1s" rel="noopener">here</a> to activate license of <i>%2s</i> to receive automatic updates.' ),
 						bsf_registration_page_url( '', $product_id ),
 						$plugin_name
 					);
 				} elseif ( $is_bundled !== '' ) {
 					$strings['no_package'] = sprintf(
-						__( 'This plugin is came bundled with the <i>%1s</i>. For receiving updates, you need to register license of <i>%2s</i> <a target="_blank" href="%3s">here</a>.' ),
+						__( 'This plugin is came bundled with the <i>%1s</i>. For receiving updates, you need to register license of <i>%2s</i> <a target="_blank" rel="noopener" href="%3s">here</a>.' ),
 						$plugin_name,
 						$plugin_name,
 						bsf_registration_page_url( '', $product_id )
@@ -564,7 +564,7 @@ if ( ! class_exists( 'BSF_Update_Manager' ) ) {
 				if ( $theme_author == 'Brainstorm Force' ) {
 					$strings['downloading_package'] = 'Downloading the package...';
 					$strings['no_package']          = sprintf(
-						__( 'Click <a target="_blank" href="%1s">here</a> to activate license of <i>%2s</i> to receive automatic updates.' ),
+						__( 'Click <a target="_blank" rel="noopener" href="%1s">here</a> to activate license of <i>%2s</i> to receive automatic updates.' ),
 						bsf_registration_page_url( '', $product_id ),
 						$theme_name
 					);

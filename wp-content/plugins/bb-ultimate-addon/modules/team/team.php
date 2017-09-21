@@ -78,7 +78,7 @@ class UABBTeamModule extends FLBuilderModule {
 		if ( !empty( $this->settings->name ) ) {
 			$output  = '<div class="uabb-team-name" >';
 			$output .= '<'.$this->settings->tag_selection.' class="uabb-team-name-text">';
-			$output .= ( isset( $this->settings->enable_custom_link ) && $this->settings->enable_custom_link != 'no' ) ? '<a href="' . $this->settings->custom_link . '" target ="' . $this->settings->custom_link_target . '">' . $this->settings->name . '</a>' : $this->settings->name;
+			$output .= ( isset( $this->settings->enable_custom_link ) && $this->settings->enable_custom_link != 'no' ) ? '<a href="' . $this->settings->custom_link . '" target ="' . $this->settings->custom_link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->custom_link_target, 0, 0 ) .'>' . $this->settings->name . '</a>' : $this->settings->name;
 			$output .= '</'.$this->settings->tag_selection.'>';
 			$output .= '</div>';
 			echo $output;
@@ -124,7 +124,7 @@ class UABBTeamModule extends FLBuilderModule {
 					continue;
 				}
 				$icon->link_target = ( isset( $icon->link_target ) ) ? $icon->link_target : '_blank';
-				echo '<a class="uabb-team-icon-link uabb-team-icon-'.$icon_count.'" href="'.$icon->link.'" target="' . $icon->link_target . '">';
+				echo '<a class="uabb-team-icon-link uabb-team-icon-'.$icon_count.'" href="'.$icon->link.'" target="' . $icon->link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $icon->link_target, 0, 0 ) .'>';
 				$imageicon_array = array(
 
 				  /* General Section */

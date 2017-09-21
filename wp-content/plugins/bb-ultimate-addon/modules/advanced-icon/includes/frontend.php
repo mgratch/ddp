@@ -11,7 +11,7 @@ foreach($settings->icons as $icon) {
 			echo "";
 		}
 		else {
-		echo '<a class="adv-icon-link adv-icon-'.$icon_count.'" href="'.$icon->link.'" target="'.$icon->link_target.'">';
+		echo '<a class="adv-icon-link adv-icon-'.$icon_count.'" href="'.$icon->link.'" target="'.$icon->link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $icon->link_target, 0, 0 ) .'>';
 		$imageicon_array = array(
 
 		  /* General Section */

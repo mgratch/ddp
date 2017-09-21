@@ -12,7 +12,7 @@ if ( $settings->dual_button_style == "transparent" ) {
 <div class="uabb-module-content uabb-dual-button <?php echo "uabb-align-".$settings->dual_button_align;?>">
 	<div class="uabb-dual-button-wrapper <?php echo "uabb-" . $settings->dual_button_type; ?> <?php echo "uabb-" . $settings->dual_button_type.'-'.$settings->dual_button_width_type; ?>">
 		<div class="uabb-dual-button-one <?php echo "uabb-btn-" . $settings->dual_button_type; ?>">
-			<a class="uabb-btn uabb-btn-one<?php echo $btn_style_class;?>" href="<?php echo $settings->button_one_link;?>" target="<?php echo $settings->button_one_link_target; ?>">
+			<a class="uabb-btn uabb-btn-one<?php echo $btn_style_class;?>" href="<?php echo $settings->button_one_link;?>" target="<?php echo $settings->button_one_link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $settings->button_one_link_target, 0, 1 ); ?>>
 				<?php if ( $settings->icon_position_btn_one == "before" && $settings->image_type_btn_one != 'none' ) { ?>
 				<div class="uabb-btn-img-icon before uabb-btn-one-img-icon">
 					<?php 
@@ -79,7 +79,7 @@ if ( $settings->dual_button_style == "transparent" ) {
 			?>
 		</div>
 		<div class="uabb-dual-button-two <?php echo "uabb-btn-" . $settings->dual_button_type; ?>">
-			<a class="uabb-btn uabb-btn-two<?php echo $btn_style_class;?>" href="<?php echo $settings->button_two_link;?>" target="<?php echo $settings->button_two_link_target; ?>">
+			<a class="uabb-btn uabb-btn-two<?php echo $btn_style_class;?>" href="<?php echo $settings->button_two_link;?>" target="<?php echo $settings->button_two_link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $settings->button_two_link_target, 0, 1 ); ?>>
 				<?php if ( $settings->icon_position_btn_two == "before" && $settings->image_type_btn_two != "none" ) { ?>
 				<div class="uabb-btn-img-icon before uabb-btn-two-img-icon">
 					<?php 

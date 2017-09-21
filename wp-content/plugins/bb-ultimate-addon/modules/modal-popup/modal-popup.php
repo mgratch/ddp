@@ -18,7 +18,6 @@ class ModalPopupModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/modal-popup/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/modal-popup/',
-            'partial_refresh'   => true
 		));
 
 		$this->add_css( 'font-awesome' );
@@ -107,7 +106,7 @@ class ModalPopupModule extends FLBuilderModule {
                 return $wp_embed->autoembed($settings->ct_video);
             break;
             case 'iframe':
-                return '<iframe src="' . $settings->iframe_url . '" class="uabb-content-iframe" frameborder="0" width="100%" height="100%"></iframe>';
+                return '<iframe src="' . $settings->iframe_url . '" class="uabb-content-iframe" frameborder="0" width="100%" height="100%" allowfullscreen></iframe>';
             break;
             case 'saved_rows':
                 return '[fl_builder_insert_layout id="'.$settings->ct_saved_rows.'" type="fl-builder-template"]';
@@ -356,6 +355,7 @@ FLBuilder::register_module('ModalPopupModule', array(
 					'video_url'     => array(
 						'type'          => 'text',
 						'label'         => __( 'Video URL', 'uabb' ),
+                        'connections' => array( 'url' ),
 					),
 					'video_ratio'         => array(
 						'type'          => 'select',
@@ -409,12 +409,6 @@ FLBuilder::register_module('ModalPopupModule', array(
 						'size'          => '6',
 						'description'   => 'px',
 						'help'         => __('If you keep this empty title will not display', 'uabb'),
-                        'preview'         => array(
-                            'type'          => 'css',
-                            'selector'      => '.uabb-content',
-                            'property'      => 'width',
-                            'unit'          => 'px'
-                        )
 					),
 					'modal_spacing'     => array(
 						'type'          => 'uabb-spacing',

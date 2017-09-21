@@ -292,6 +292,7 @@
                 post_type = form.find('select[name=post_type]').val(),
                 show_pagination = form.find('select[name=show_pagination]').val(),
                 pagination = form.find('select[name=pagination]').val(),
+                filter_type    = form.find('select[name=uabb_masonary_filter_type_'+post_type+']').val(),
                 is_no_filter = form.find('select[name=masonary_filter_'+post_type+']').val();
 
                 form.find('.fl-loop-builder-filter').hide();
@@ -313,14 +314,27 @@
                             form.find('#fl-builder-settings-section-pagination_style').hide();
                         }
                         form.find('#fl-builder-settings-section-masonary_style').hide();
+                        form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                     } else {
                         form.find('#fl-builder-settings-section-pagination_setting').hide();
                         form.find('#fl-builder-settings-section-pagination_style').hide();
-                        form.find('#fl-builder-settings-section-masonary_style').show();
+                        if( filter_type == 'drop-down' ) {
+                            form.find('#fl-builder-settings-section-masonary_select_style').show();
+                            form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
+                            form.find('#fl-builder-settings-section-masonary_style').hide();
+                        }
+                        else {
+                            form.find('#fl-builder-settings-section-masonary_style').show();
+                            form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                            form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
+                        }
                     }
                 } else {
                     form.find('#fl-builder-settings-section-masonary_filter').hide();
                     form.find('#fl-builder-settings-section-masonary_style').hide();
+                    form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                    form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                     form.find('#fl-builder-settings-section-pagination_setting').show();
                     if( show_pagination == 'yes' && pagination == 'numbers' ) {
                         form.find('#fl-builder-settings-section-pagination_style').show();
@@ -504,6 +518,7 @@
                 show_pagination = form.find('select[name=show_pagination]').val(),
                 pagination = form.find('select[name=pagination]').val(),
                 data_source = form.find('select[name=data_source]').val(),
+                filter_type    = form.find('select[name=uabb_masonary_filter_type_'+post_type+']').val(),
                 is_no_filter = form.find('select[name=masonary_filter_'+post_type+']').val();
 
             if ( data_source == 'main_query' || show_pagination == 'no' ) {
@@ -532,6 +547,8 @@
                 form.find('#fl-field-below_element_space').show();
                 form.find('#fl-field-post_per_grid').hide();
                 form.find('#fl-builder-settings-section-masonary_style').hide();
+                form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                 form.find('#fl-builder-settings-section-pagination_setting').show();
                 if( show_pagination == 'yes' && pagination == 'numbers' ) {
                     form.find('#fl-builder-settings-section-pagination_style').show();
@@ -552,6 +569,8 @@
                 form.find('#fl-builder-settings-section-grid_filter').hide();
                 form.find('#fl-builder-settings-section-masonary_filter').hide();
                 form.find('#fl-builder-settings-section-masonary_style').hide();
+                form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                 form.find('#fl-field-equal_height_box').hide();
                 form.find('#fl-field-below_element_space').hide();
 
@@ -582,18 +601,31 @@
                     form.find('#fl-builder-settings-section-masonary_filter').show();
                     form.find('.fl-loop-builder-masonary_filter').hide();
                     form.find('.fl-loop-builder-'+post_type+'-masonary_filter').show();
-                    form.find('#fl-builder-settings-section-masonary_style').show();
+                    if( filter_type == 'drop-down' ) {
+                        form.find('#fl-builder-settings-section-masonary_select_style').show();
+                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
+                        form.find('#fl-builder-settings-section-masonary_style').hide();
+                    }
+                    else {
+                        form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
+                        form.find('#fl-builder-settings-section-masonary_style').show();
+                    }
                     //form.find('#fl-builder-settings-section-pagination_setting').hide();
                     //form.find('#fl-builder-settings-section-pagination_style').hide();
                 } else {
                     form.find('#fl-builder-settings-section-masonary_filter').hide();
                     form.find('#fl-builder-settings-section-masonary_style').hide();
+                    form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                    form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                 }
             } else {
                 form.find('#fl-builder-settings-section-carousel_filter').show();
                 form.find('#fl-builder-settings-section-grid_filter').show();
                 form.find('#fl-builder-settings-section-masonary_filter').hide();
                 form.find('#fl-builder-settings-section-masonary_style').hide();
+                form.find('#fl-builder-settings-section-masonary_select_style').hide();
+                form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                 form.find('#fl-field-equal_height_box').show();
                 form.find('#fl-field-below_element_space').hide();
                 form.find('#fl-field-post_per_grid_desktop').show();

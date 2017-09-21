@@ -1,3 +1,29 @@
+Version 1.6.5 - Thursday, 21st September 2017
+- Security Fix: A cross-site scripting (XSS) vulnerability was discovered in html links, WordPress core has patched it's vulnerability in 4.8.2 release and we've also fix it for UABB
+- Fixed: Google Map - JSON map style option not working
+- Fixed: Row Separator - Duplicate class names while using custom class name
+
+Version 1.6.4 - Tuesday, 19th September 2017
+- Improvement: Advanced Menu - Option to add submenu icon in overlay and off-canvas layout
+- Improvement: Advanced Posts - Added drop-down filter option for masonry layout
+- Improvement: Contact Form - From field in the mail show sender name than the WordPress default name
+- Improvement: Countdown - Added time zone option
+- Improvement: Google Map - Added field connections support to the latitude & longitude field
+- Improvement: Modal Popup - Added field connections support to the video URL field
+- Improvement: Row Separator - Added new row separator styles
+- Improvement: Row Separator - Added width option
+- Fixed: Advanced Menu - List style being overridden by third-party applications
+- Fixed: Advanced Posts - Fixed shortcodes in HTML attributes not being parsed in the context of the current post in the custom layout.
+- Fixed: Countdown - Evergreen Countdown does not work with minutes
+- Fixed: Countdown - Countdown module shows incorrect label for singular values
+- Fixed: Fancy Text - Text overlap issue when slide effect is applied
+- Fixed: Google Map - Map type option was not working
+- Fixed: Modal Popup - Text Blur issue
+- Fixed: Modal Popup - After closing modal audio/video player doesn't stop which is added by content
+- Fixed: Photo - Changed field connection support to photo rather than a string, HTML
+- Fixed: Row Separator - Tilt Left and Tilt Right doesn't go edge to edge
+- Fixed: Row Separator - z-index issue in row separator and photo module
+
 Version 1.6.3 - Tuesday, 29th August 2017
 - Improvement: Photo Gallery - Get full-size image in lightbox rather than large
 - Improvement: Info Circle - Icon background color opacity option

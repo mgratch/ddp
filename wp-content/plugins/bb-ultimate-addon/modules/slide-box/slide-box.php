@@ -29,7 +29,7 @@ class SlideBoxModule extends FLBuilderModule {
     public function render_link()
     {
         if($this->settings->cta_type == 'link') {
-            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" class="uabb-callout-cta-link">' . $this->settings->cta_text . '</a>';
+            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, 0, 0 ) .' class="uabb-callout-cta-link">' . $this->settings->cta_text . '</a>';
         }
     }
 

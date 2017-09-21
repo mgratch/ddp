@@ -24,7 +24,7 @@ if( count($settings->social_icons) > 0 ) {
 				  break;
 
 			case 'pinterest':
-							 $url = "https://pinterest.com/pin/create/bookmarklet/?url=".$current_page;
+							 $url = "https://pinterest.com/pin/create/link/?url=".$current_page;
 				  break;
 			case 'linkedin':
 							 $url = "http://www.linkedin.com/shareArticle?url=".$current_page;
@@ -56,9 +56,8 @@ if( count($settings->social_icons) > 0 ) {
 
 		}
 
-		echo '<div class="uabb-social-share-link-wrap"><a class="uabb-social-share-link uabb-social-share-'.$icon_count.'" href="'.$url.'" target="_blank" onclick="window.open(this.href,\'social-share\',\'left=20,top=20,width=500,height=500,toolbar=1,resizable=0\');return false;">';
+		echo '<div class="uabb-social-share-link-wrap"><a class="uabb-social-share-link uabb-social-share-'.$icon_count.'" href="'.$url.'" target="_blank" rel="noopener" onclick="var uabbWindow = window.open(this.href,\'social-share\',\'left=20,top=20,width=500,height=500,toolbar=1,resizable=0\'); uabbWindow.opener = null; return false;">';
 		$imageicon_array = array(
-
 
 			/* General Section */
 			'image_type' => $icon->image_type,

@@ -1,6 +1,10 @@
 <div id="fl-uabb-cloud-templates-form" class="fl-settings-form uabb-cloud-templates-fl-settings-form">
 
-	<h3 class="fl-settings-form-header"><?php _e( 'Template Cloud', 'uabb' ); ?></h3>
+
+	<div class="fl-settings-form-header">
+		<h3><?php _e( 'Template Cloud', 'uabb' ); ?></h3>
+		<a target="_blank" rel="noopener" href="https://www.ultimatebeaver.com/docs/use-template-cloud/?utm_source=uabb-pro-dashboard&utm_medium=template-cloud-screen&utm_campaign=template-cloud" data-count="118" style="float: right;"><?php _e('How to use Page Templates?', 'uabb'); ?></a>
+	</div>
 
 	<form id="uabb-cloud-templates-form" action="<?php UABBBuilderAdminSettings::render_form_action( 'uabb-cloud-templates' ); ?>" method="post">
 

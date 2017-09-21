@@ -20,7 +20,7 @@ class UABBCountdownModule extends FLBuilderModule {
             'enabled'       => true, // Defaults to true and can be omitted.
             'partial_refresh'  => true
 		) );
-        
+
 	}
 
     public function enqueue_scripts() {
@@ -84,6 +84,27 @@ class UABBCountdownModule extends FLBuilderModule {
         ob_end_clean();
         return $html;
     }
+
+    /**
+     * Get time zone GMT offset 
+     */
+     public function get_gmt_difference( $settings ) {
+
+        if( ! empty( $settings->time_zone ) ) {
+
+            $time_zone_kolkata = new DateTimeZone("Asia/Kolkata");
+            $time_zone = new DateTimeZone($settings->time_zone);
+
+            $time_kolkata = new DateTime("now", $time_zone_kolkata);
+
+            $timeOffset = $time_zone->getOffset($time_kolkata);
+
+            return $timeOffset / 3600;
+        }
+        else {
+            return "NULL";
+        }
+    }
 }
 
 /**
@@ -114,6 +135,12 @@ FLBuilder::register_module('UABBCountdownModule', array(
 							)
 						),
 					),
+                    'time_zone'          => array(
+                        'type'          => 'timezone',
+                        'label'         => __( 'Time Zone', 'uabb' ),
+                        'default'       => '',
+                        'class'         => '',
+                    ),
                     'fixed_date' => array(
                         'type'          => 'uabb-normal-date',
                         'label'         => __( 'Select Date & Time', 'uabb' ),
@@ -202,22 +229,6 @@ FLBuilder::register_module('UABBCountdownModule', array(
                             'type'          => 'none'
                         )
                     ),
-                    /*'fixed_redirect_link'   => array(
-                        'type'          => 'link',
-                        'label'         => __('Enter URL', 'uabb'),
-                    ),
-                    'fixed_redirect_link_target'   => array(
-                        'type'          => 'select',
-                        'label'         => __('Link Target', 'uabb'),
-                        'default'       => '_self',
-                        'options'       => array(
-                            '_self'         => __('Same Window', 'uabb'),
-                            '_blank'        => __('New Window', 'uabb')
-                        ),
-                        'preview'       => array(
-                            'type'          => 'none'
-                        )
-                    ),*/
 				)
 			),
             'message'    =>  array(

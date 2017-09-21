@@ -269,7 +269,7 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 				'uabb-row-separator'		=> 'Row Separator',
 				'uabb-row-gradient'			=> 'Row Gradient Background',
 				'uabb-col-gradient'			=> 'Column Gradient Background',
- 			);
+				);
 			return $extenstions_array;
 		}
 
@@ -369,7 +369,34 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 
 			return $_templates_exist;
 		}
-	
+
+		/**
+		 *	Get link rel attribute
+		 *
+	 	 *  @since 1.6.1
+		 *	@return string
+		 */
+		static public function get_link_rel( $target, $is_nofollow = 0, $echo = 0 )  {
+
+			$attr = '';
+
+			if( '_blank' == $target ) {
+				$attr.= 'noopener';
+			}
+
+			if( 1 == $is_nofollow ) {
+				$attr.= ' nofollow';
+			}
+
+			if( '' == $attr ) {
+				return;
+			}
+
+			if ( ! $echo  ) {
+				return 'rel="'.$attr.'"';
+			}
+			echo 'rel="'.$attr.'"';
+		}
 	}
 	new BB_Ultimate_Addon_Helper();
 }

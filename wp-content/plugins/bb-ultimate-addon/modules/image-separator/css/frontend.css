@@ -1,7 +1,7 @@
 /* Photo */
 .fl-module-image-separator {
 	position: absolute;
-	z-index: 3;
+	z-index: 15;
 	left: 50%;
 	-webkit-transform: translateX( 50% );
 	-moz-transform: translateX( 50% );
@@ -22,7 +22,7 @@
 	position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 3;
+    z-index: 15;
     left: 0;
 }
 

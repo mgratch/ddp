@@ -25,14 +25,23 @@ class Creative_Menu_Walker extends Walker_Nav_Menu {
 
         $output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names . '>';
 
-        $attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) .'"' : '';
+        if( $item->target == '_blank' && strpos( $item->xfn, 'noopener') === false ) {
+            $rel_xfn = ' noopener';
+        }
+        if ( $item->target == '_blank' && empty( $item->xfn ) ) {
+            $rel_blank = 'rel="noopener"';
+        }
+
+	    $rel_blank    = ! empty( $item->xfn ) ? $item->xfn : '';
+
+	    $attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) .'"' : '';
         $attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) .'"' : '';
-        $attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) .'"' : '';
+        $attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . $rel_xfn . '"' : '' . $rel_blank;
         $attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) .'"' : '';
 
         $item_output = $args->has_children ? '<div class="uabb-has-submenu-container">' : '';
         $item_output .= $args->before;
-        $item_output .= '<a'. $attributes . ' data-hover="'	. trim( $item->title, '' ) . '"><span class="menu-item-text" data-hover="'	. trim( $item->title, '' ) .'">';
+        $item_output .= '<a'. $attributes .'"><span class="menu-item-text">';
         $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 		if( $args->has_children ) {
 			$item_output .= '<span class="uabb-menu-toggle"></span>';

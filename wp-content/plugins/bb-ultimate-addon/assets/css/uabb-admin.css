@@ -167,7 +167,15 @@
 div#fl-uabb-cloud-templates-form {
     max-width: 100%;
 }
-
+div#fl-uabb-cloud-templates-form .fl-settings-form-header {
+    margin-top: 20px;
+}
+div#fl-uabb-cloud-templates-form .fl-settings-form-header h3 {
+    display: initial;
+}
+div#fl-uabb-cloud-templates-form .fl-settings-form-header a {
+    float: right;
+}
 /* Templates not found msg */
 .uabb-cloud-templates-not-found {
     padding-left: 1em;

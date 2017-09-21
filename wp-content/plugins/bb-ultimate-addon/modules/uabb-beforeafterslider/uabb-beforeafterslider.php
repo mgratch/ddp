@@ -25,7 +25,6 @@ class UABBBeforeaftersliderModule extends FLBuilderModule {
         $this->add_css('baslider-twentytwenty', $this->url . 'css/twentytwenty.css');
         $this->add_js('baslider-move', $this->url ."js/jquery.event.move.js", array(), '', true);
         $this->add_js('baslider-plug', $this->url ."js/jquery.twentytwenty.js", array(), '',true);
-
 	}
 }
 
@@ -173,6 +172,7 @@ FLBuilder::register_module('UABBBeforeaftersliderModule', array(
                         'label'         => __('Comparison Handle Initial Offset', 'uabb'),
                         'default'       => '0.5',
                         'options'       => array(
+                            '0.0'             => __('0.0', 'uabb'),
                             '0.1'             => __('0.1', 'uabb'),
                             '0.2'             => __('0.2', 'uabb'),
                             '0.3'             => __('0.3', 'uabb'),

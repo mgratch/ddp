@@ -102,11 +102,11 @@ class UABB_UI_Panels {
 		}
 		$uabb = BB_Ultimate_Addon_Helper::get_builder_uabb_branding();
 		if ( is_array( $uabb ) ) {
-			$uabb_knowledge_base_url	= ( array_key_exists( 'uabb-knowledge-base-url' , $uabb ) && $uabb['uabb-knowledge-base-url' ] != ''  ) ? $uabb['uabb-knowledge-base-url' ] : 'https://www.ultimatebeaver.com/docs/';
-			$uabb_contact_support_url	= ( array_key_exists( 'uabb-contact-support-url' , $uabb ) && $uabb['uabb-contact-support-url' ] != '' ) ? $uabb['uabb-contact-support-url' ] : 'https://www.ultimatebeaver.com/contact/';
+			$uabb_knowledge_base_url	= ( array_key_exists( 'uabb-knowledge-base-url' , $uabb ) && $uabb['uabb-knowledge-base-url' ] != ''  ) ? $uabb['uabb-knowledge-base-url' ] : 'https://www.ultimatebeaver.com/docs/?utm_source=uabb-pro-dashboard&utm_medium=editor&utm_campaign=knowledge-base-help-link';
+			$uabb_contact_support_url	= ( array_key_exists( 'uabb-contact-support-url' , $uabb ) && $uabb['uabb-contact-support-url' ] != '' ) ? $uabb['uabb-contact-support-url' ] : 'https://www.ultimatebeaver.com/contact/?utm_source=uabb-pro-dashboard&utm_medium=editor&utm_campaign=contact-help-link';
 		}else{
-			$uabb_knowledge_base_url  	= 'https://www.ultimatebeaver.com/docs/';
-			$uabb_contact_support_url 	= 'https://www.ultimatebeaver.com/contact/';
+			$uabb_knowledge_base_url  	= 'https://www.ultimatebeaver.com/docs/?utm_source=uabb-pro-dashboard&utm_medium=editor&utm_campaign=knowledge-base-help-link';
+			$uabb_contact_support_url 	= 'https://www.ultimatebeaver.com/contact/?utm_source=uabb-pro-dashboard&utm_medium=editor&utm_campaign=contact-help-link';
 		}
 
 		$enable_KB = isset( $uabb['uabb-enable-knowledge-base'] ) ? $uabb['uabb-enable-knowledge-base'] : true;
@@ -154,7 +154,7 @@ class UABB_UI_Panels {
 
 		if ( $license_status_class == 'bsf-license-not-active-uabb' ) {
 			if( empty( $branding_name ) && empty( $branding_short_name ) ) {
-				$license_string = '<a href="https://store.brainstormforce.com/purchase-history/" target="_blank">license key</a>';
+				$license_string = '<a href="https://store.brainstormforce.com/licenses/?utm_source=uabb-pro-dashboard&utm_medium=license-screen&utm_campaign=get-license" target="_blank" rel="noopener">license key</a>';
 			} else {
 				$license_string = 'license key';
 			}
