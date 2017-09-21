@@ -27,9 +27,22 @@ window.wdsWindowReady = {};
 
     // Combine all events.
     app.bindEvents = function () {
-        app.$c.subMenuLinks.on('click touchstart', app.preventClick);
-        app.$c.subMenus.on('click touchstart', app.preventBubbling);
-        app.$c.subMenuItems.on('click touchstart', app.expandSubmenu);
+
+        console.log(window.innerWidth);
+
+        if (993 < window.innerWidth){
+            app.$c.subMenuLinks.on('click touchstart', app.preventClick);
+            app.$c.subMenus.on('click touchstart', app.preventBubbling);
+            app.$c.subMenuItems.on('click touchstart', app.expandSubmenu);
+        }
+        window.onresize = function(event) {
+            if (993 < window.innerWidth){
+                app.$c.subMenuLinks.on('click touchstart', app.preventClick);
+                app.$c.subMenus.on('click touchstart', app.preventBubbling);
+                app.$c.subMenuItems.on('click touchstart', app.expandSubmenu);
+            }
+        };
+
     };
 
     //prevent bubbling events

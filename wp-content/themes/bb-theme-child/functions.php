@@ -130,6 +130,8 @@ class IODDPSubWalker extends Walker_Nav_Menu {
 
 class IODDPWalker extends Walker_Nav_Menu {
 
+	private $last_item = false;
+
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
@@ -201,6 +203,26 @@ class IODDPWalker extends Walker_Nav_Menu {
 			$output .= '';
 		}
 
+		if ( $args->last_item ) {
+			$this->last_item = (int) $args->last_item;
+		}
+
+		if ($this->last_item){
+			if ( $item->ID === $this->last_item ) {
+
+				$walker = class_exists( 'FL_Menu_Module_Walker' ) ? new FL_Menu_Module_Walker() : '';
+
+				$defaults = array(
+					'menu'       => 'social-networks',
+					'container'  => false,
+					'menu_class' => 'menu social-networks-menu menu__item',
+					'walker'     => $walker,
+					'echo'       => false
+				);
+				$output   .= wp_nav_menu( $defaults );
+			}
+		}
+
 	}
 
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
@@ -230,13 +252,16 @@ class IODDPWalker extends Walker_Nav_Menu {
 			$indent = str_repeat( $t, $depth );
 			$output .= "$indent</div>{$n}";
 		}
+
 		parent::end_lvl( $output, $depth, $args );
+
 	}
 
 	function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
 		$id_field = $this->db_fields['id'];
 		if ( is_object( $args[0] ) ) {
 			$args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
+			$args[0]->last_item    = isset( $element->last_item ) ? $element->last_item : false;
 		}
 
 		return parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
@@ -247,7 +272,7 @@ class IODDPWalker extends Walker_Nav_Menu {
 //add_action( 'fl_before_header', 'kick_off_walker', 11 );
 
 function change_fl_nav_walker( $args ) {
-	if ('main' === $args['menu'] && 'menu menu--side' !== $args['menu_class']){
+	if ( 'main' === $args['menu'] && 'menu menu--side' !== $args['menu_class'] && false === strpos($args['menu_class'],'uabb-creative') ) {
 		$args['walker'] = new IODDPWalker();
 	}
 
@@ -433,13 +458,14 @@ function get_top_parent_id( $current_page ) {
 
 function get_submenu( $parent_page_id ) {
 	//calling walker function to show menu
-	return wp_nav_menu( array( 'echo'            => false,
-	                           'theme_location'  => 'main',
-	                           'container'       => false,
-	                           'menu_class'      => 'menu menu--side',
-	                           'container_class' => false,
-	                           'menu_id'         => false,
-	                           'walker'          => new IODDPSubWalker
+	return wp_nav_menu( array(
+		'echo'            => false,
+		'theme_location'  => 'main',
+		'container'       => false,
+		'menu_class'      => 'menu menu--side',
+		'container_class' => false,
+		'menu_id'         => false,
+		'walker'          => new IODDPSubWalker
 	) );
 }
 
@@ -461,7 +487,7 @@ function ddp_menu_js() {
 	/**
 	 * If we are debugging the site, use a unique version every page load so as to ensure no cache issues.
 	 */
-	$version = '1.0.0.8';
+	$version = '1.0.0.9';
 
 	/**
 	 * Should we load minified files?
@@ -497,14 +523,14 @@ function add_color_to_body_class( $classes ) {
 
 	global $post;
 
-	if (is_object($post)){
-		$parent_id = $post->post_parent;
+	if ( is_object( $post ) ) {
+		$parent_id       = $post->post_parent;
 		$current_post_id = $post->ID;
-	} elseif (is_array($post)){
-		$parent_id = $post['post_parent'];
+	} elseif ( is_array( $post ) ) {
+		$parent_id       = $post['post_parent'];
 		$current_post_id = $post['ID'];
 	} else {
-		$parent_id = 0;
+		$parent_id       = 0;
 		$current_post_id = $post;
 	}
 
@@ -529,3 +555,53 @@ function add_color_to_body_class( $classes ) {
 }
 
 add_filter( 'body_class', 'add_color_to_body_class' );
+
+function add_social_menu_to_main_nav( $sorted_menu_items, $args ) {
+	if ( 'main' === $args->menu ) {
+		$sorted_menu_items[ count( $sorted_menu_items ) ]->last_item = $sorted_menu_items[ count( $sorted_menu_items ) ]->menu_item_parent;
+	}
+
+	return $sorted_menu_items;
+}
+
+add_filter( 'wp_nav_menu_objects', 'add_social_menu_to_main_nav', 10, 2 );
+
+add_action( 'init', 'customize_font_list' );
+function customize_font_list(){
+
+	$custom_fonts = array(
+		'Avenir LT W01_45 Book1475508' => array(
+			'fallback' => 'Arial, sans-serif',
+			'weights' => array(
+				'400',
+				'700'
+			)
+		),
+		'Avenir LT W01_85 Heavy1475544' => array(
+			'fallback' => 'Arial, sans-serif',
+			'weights' => array(
+				'400',
+				'700'
+			)
+		),
+		'Avenir LT W01_95 Black1475556' => array(
+			'fallback' => 'Arial, sans-serif',
+			'weights' => array(
+				'400',
+				'700'
+			)
+		),
+	);
+
+	foreach($custom_fonts as $name => $settings){
+		// Add to Theme Customizer
+		if(class_exists('FLFontFamilies') && isset(FLFontFamilies::$system)){
+			FLFontFamilies::$system[$name] = $settings;
+		}
+
+		// Add to Page Builder
+		if(class_exists('FLBuilderFontFamilies') && isset(FLBuilderFontFamilies::$system)){
+			FLBuilderFontFamilies::$system[$name] = $settings;
+		}
+	}
+}
