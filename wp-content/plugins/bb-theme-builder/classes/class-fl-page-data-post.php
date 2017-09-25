@@ -389,10 +389,22 @@ final class FLPageDataPost {
 	static public function get_custom_field( $settings ) {
 		global $post;
 
+		if ( is_object( $post ) ) {
+			$parent_id       = $post->post_parent;
+			$current_post_id = $post->ID;
+		} elseif ( is_array( $post ) ) {
+			$parent_id       = $post['post_parent'];
+			$current_post_id = $post['ID'];
+		} else {
+			$parent_id       = 0;
+			$current_post_id = $post;
+		}
+
+
 		if ( empty( $settings->key ) ) {
 			return '';
 		}
 
-		return get_post_meta( $post->ID, $settings->key, true );
+		return get_post_meta( $current_post_id, $settings->key, true );
 	}
 }

@@ -22,3 +22,15 @@ add_action('wp_enqueue_scripts', 'probb_enqueue_styles', 1005 );
 function probb_enqueue_styles(){
 	wp_enqueue_style( 'shrinking-logo', plugin_dir_url(__FILE__) . '/assets/css/shrinking-logo.css', array(), '1.6', 'all' );
 }
+
+function my_builder_register_settings_form( $form, $id ) {
+
+	if ( 'menu' == $id ) {
+		$form['general']['sections']['general']['fields']['menu_layout']['options']['mobile'] = 'Mobile';
+		$form['general']['sections']['general']['fields']['menu_layout']['toggle']['mobile']['fields'] = ['submenu_click_toggle','collapse'];
+	}
+
+	return $form;
+}
+
+add_filter( 'fl_builder_register_settings_form', 'my_builder_register_settings_form', 10, 2 );

@@ -18,3 +18,20 @@ class DDP_Submenu_Module extends FLBuilderModule {
 }
 
 FLBuilder::register_module( 'DDP_Submenu_Module', array() );
+
+/**
+ * Function: get_submenu
+ */
+
+function ddp_get_submenu( $parent_page_id ) {
+	//calling walker function to show menu
+	return wp_nav_menu( array(
+		'echo'            => false,
+		'theme_location'  => 'main',
+		'container'       => false,
+		'menu_class'      => 'menu menu--side',
+		'container_class' => false,
+		'menu_id'         => false,
+		'walker'          => new IODDPSubWalker
+	) );
+}

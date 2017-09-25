@@ -78,7 +78,7 @@ final class FLThemeBuilderLayoutAdminAdd {
 
 			if ( file_exists( $file ) ) {
 
-				$data = unserialize( file_get_contents( $file ) );
+				$data = unserialize( preg_replace_callback( '/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s', 'fl_maybe_fix_unserialize_callback', file_get_contents( $file ) ) );
 
 				if ( isset( $data[ $layout ] ) ) {
 					$nodes = $data[ $layout ][0]->nodes;

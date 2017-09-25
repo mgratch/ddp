@@ -207,7 +207,7 @@ class IODDPWalker extends Walker_Nav_Menu {
 			$this->last_item = (int) $args->last_item;
 		}
 
-		if ($this->last_item){
+		if ( $this->last_item ) {
 			if ( $item->ID === $this->last_item ) {
 
 				$walker = class_exists( 'FL_Menu_Module_Walker' ) ? new FL_Menu_Module_Walker() : '';
@@ -272,8 +272,10 @@ class IODDPWalker extends Walker_Nav_Menu {
 //add_action( 'fl_before_header', 'kick_off_walker', 11 );
 
 function change_fl_nav_walker( $args ) {
-	if ( 'main' === $args['menu'] && 'menu menu--side' !== $args['menu_class'] && false === strpos($args['menu_class'],'uabb-creative') ) {
+	if ( 'main' === $args['menu'] && 'menu menu--side' !== $args['menu_class'] && false === strpos( $args['menu_class'], 'uabb-creative' ) && false === strpos( $args['menu_class'], 'mobile' ) ) {
 		$args['walker'] = new IODDPWalker();
+	} elseif ( 'main' === $args['menu'] && 'menu menu--side' !== $args['menu_class'] && false !== strpos( $args['menu_class'], 'mobile' ) ) {
+		$args['menu_id'] = ! empty( $args['menu_id'] ) ? $args['menu_id'] . '-mobile' : 'menu-main-mobile';
 	}
 
 	return $args;
@@ -408,19 +410,30 @@ add_filter( 'fl_builder_settings_form_config', 'mod_settings_form' );
 
 function ddp_get_page_color() {
 	global $post;
-	$topParentPostID = $post->ID;
-	if ( get_queried_object_id() === $post->ID || is_archive() ) {
-		if ( $post->post_parent != 0 ) {
-			$topParentPostID = get_top_parent_id( $post );
+
+	if ( is_object( $post ) ) {
+		$parent_id       = $post->post_parent;
+		$current_post_id = $post->ID;
+	} elseif ( is_array( $post ) ) {
+		$parent_id       = $post['post_parent'];
+		$current_post_id = $post['ID'];
+	} else {
+		$parent_id       = 0;
+		$current_post_id = $post;
+	}
+
+	if ( get_queried_object_id() === $current_post_id || is_archive() ) {
+		if ( $parent_id != 0 ) {
+			$current_post_id = get_top_parent_id( $post );
 		}
-		$color = get_post_meta( $topParentPostID, 'page_color', true );
+		$color = get_post_meta( $current_post_id, 'page_color', true );
 		$color = ! empty( $color ) ? esc_attr( $color ) : 'color-2';
 	} else {
 		global $wp;
 		$current_url     = $wp->request;
 		$topParentPost   = get_page_by_path( $current_url );
-		$topParentPostID = get_top_parent_id( $topParentPost );
-		$color           = $topParentPostID ? get_post_meta( $topParentPostID, 'page_color', true ) : '';
+		$current_post_id = get_top_parent_id( $topParentPost );
+		$color           = $current_post_id ? get_post_meta( $current_post_id, 'page_color', true ) : '';
 		$color           = ! empty( $color ) ? esc_attr( $color ) : 'color-2';
 	}
 
@@ -449,24 +462,6 @@ function get_top_parent_id( $current_page ) {
 	}
 
 	return $top_parent_id;
-}
-
-
-/**
- * Function: get_submenu
- */
-
-function get_submenu( $parent_page_id ) {
-	//calling walker function to show menu
-	return wp_nav_menu( array(
-		'echo'            => false,
-		'theme_location'  => 'main',
-		'container'       => false,
-		'menu_class'      => 'menu menu--side',
-		'container_class' => false,
-		'menu_id'         => false,
-		'walker'          => new IODDPSubWalker
-	) );
 }
 
 function manually_enqueue_jp_twitter_js( $node ) {
@@ -567,41 +562,322 @@ function add_social_menu_to_main_nav( $sorted_menu_items, $args ) {
 add_filter( 'wp_nav_menu_objects', 'add_social_menu_to_main_nav', 10, 2 );
 
 add_action( 'init', 'customize_font_list' );
-function customize_font_list(){
+function customize_font_list() {
 
 	$custom_fonts = array(
-		'Avenir LT W01_45 Book1475508' => array(
+		'Avenir LT W01_45 Book1475508'  => array(
 			'fallback' => 'Arial, sans-serif',
-			'weights' => array(
+			'weights'  => array(
 				'400',
 				'700'
 			)
 		),
 		'Avenir LT W01_85 Heavy1475544' => array(
 			'fallback' => 'Arial, sans-serif',
-			'weights' => array(
+			'weights'  => array(
 				'400',
 				'700'
 			)
 		),
 		'Avenir LT W01_95 Black1475556' => array(
 			'fallback' => 'Arial, sans-serif',
-			'weights' => array(
+			'weights'  => array(
 				'400',
 				'700'
 			)
 		),
 	);
 
-	foreach($custom_fonts as $name => $settings){
+	foreach ( $custom_fonts as $name => $settings ) {
 		// Add to Theme Customizer
-		if(class_exists('FLFontFamilies') && isset(FLFontFamilies::$system)){
-			FLFontFamilies::$system[$name] = $settings;
+		if ( class_exists( 'FLFontFamilies' ) && isset( FLFontFamilies::$system ) ) {
+			FLFontFamilies::$system[ $name ] = $settings;
 		}
 
 		// Add to Page Builder
-		if(class_exists('FLBuilderFontFamilies') && isset(FLBuilderFontFamilies::$system)){
-			FLBuilderFontFamilies::$system[$name] = $settings;
+		if ( class_exists( 'FLBuilderFontFamilies' ) && isset( FLBuilderFontFamilies::$system ) ) {
+			FLBuilderFontFamilies::$system[ $name ] = $settings;
 		}
 	}
+}
+
+if ( ! function_exists( 'the_archive_title' ) ) :
+	/**
+	 * Shim for `the_archive_title()`.
+	 *
+	 * Display the archive title based on the queried object.
+	 *
+	 * @todo Remove this function when WordPress 4.3 is released.
+	 *
+	 * @param string $before Optional. Content to prepend to the title. Default empty.
+	 * @param string $after Optional. Content to append to the title. Default empty.
+	 */
+	function the_archive_title( $before = '', $after = '' ) {
+		if ( is_category() ) {
+			$title = sprintf( esc_html__( 'Articles in Category: %s', 'fl-child-theme' ), single_cat_title( '', false ) );
+		} elseif ( is_tag() ) {
+			$title = sprintf( esc_html__( 'Articles in Tag: %s', 'fl-child-theme' ), single_tag_title( '', false ) );
+		} elseif ( is_author() ) {
+			$title = sprintf( esc_html__( 'Articles by Author: %s', 'fl-child-theme' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		} elseif ( is_year() ) {
+			$title = sprintf( esc_html__( 'Articles from Year: %s', 'fl-child-theme' ), get_the_date( esc_html_x( 'Y', 'yearly archives date format', 'fl-child-theme' ) ) );
+		} elseif ( is_month() ) {
+			$title = sprintf( esc_html__( 'Articles from Month: %s', 'fl-child-theme' ), get_the_date( esc_html_x( 'F Y', 'monthly archives date format', 'fl-child-theme' ) ) );
+		} elseif ( is_day() ) {
+			$title = sprintf( esc_html__( 'Articles from Day: %s', 'fl-child-theme' ), get_the_date( esc_html_x( 'F j, Y', 'daily archives date format', 'fl-child-theme' ) ) );
+		} elseif ( is_tax( 'post_format' ) ) {
+			if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+				$title = esc_html_x( 'Asides', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+				$title = esc_html_x( 'Galleries', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+				$title = esc_html_x( 'Images', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+				$title = esc_html_x( 'Videos', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+				$title = esc_html_x( 'Quotes', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+				$title = esc_html_x( 'Links', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+				$title = esc_html_x( 'Statuses', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+				$title = esc_html_x( 'Audio', 'post format archive title', 'fl-child-theme' );
+			} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+				$title = esc_html_x( 'Chats', 'post format archive title', 'fl-child-theme' );
+			}
+		} elseif ( is_post_type_archive() ) {
+			$title = sprintf( esc_html__( 'Articles from the Archives: %s', 'fl-child-theme' ), post_type_archive_title( '', false ) );
+		} elseif ( is_tax() ) {
+			$tax = get_taxonomy( get_queried_object()->taxonomy );
+			/* translators: 1: Taxonomy singular name, 2: Current taxonomy term */
+			$title = sprintf( esc_html__( 'Articles in %1$s: %2$s', 'fl-child-theme' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		} else {
+			$title = esc_html__( 'Archives', 'fl-child-theme' );
+		}
+
+		/**
+		 * Filter the archive title.
+		 *
+		 * @param string $title Archive title to be displayed.
+		 */
+		$title = apply_filters( 'get_the_archive_title', $title );
+
+		if ( ! empty( $title ) ) {
+			echo $before . $title . $after;  // WPCS: XSS OK.
+		}
+	}
+endif;
+
+function ev_unregister_taxonomy() {
+	register_taxonomy( 'post_tag', array( 'post' ) );
+}
+
+add_action( 'init', 'ev_unregister_taxonomy', 10000 );
+
+add_action( 'fl_page_data_add_properties', function () {
+
+	FLPageData::add_group( 'ddp_events', array(
+		'label' => 'DDP Events'
+	) );
+
+	FLPageData::add_post_property( 'ddp_organizer_name', array(
+		'label'  => 'Event Organizer Name',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_organizer_name'
+	) );
+
+	FLPageData::add_post_property( 'ddp_organizer_phone', array(
+		'label'  => 'Event Organizer Phone',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_organizer_phone'
+	) );
+
+	FLPageData::add_post_property( 'ddp_organizer_website', array(
+		'label'  => 'Event Organizer URL',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_organizer_website'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_name', array(
+		'label'  => 'Event Venue Name',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_name'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_address', array(
+		'label'  => 'Event Venue Address',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_address'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_city', array(
+		'label'  => 'Event Venue City',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_city'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_country', array(
+		'label'  => 'Event Venue Country',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_country'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_state', array(
+		'label'  => 'Event Venue State',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_state'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_zip', array(
+		'label'  => 'Event Venue Zip',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_zip'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_phone', array(
+		'label'  => 'Event Venue Phone',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_phone'
+	) );
+
+	FLPageData::add_post_property( 'ddp_venue_url', array(
+		'label'  => 'Event Venue URL',
+		'group'  => 'ddp_events',
+		'type'   => 'string',
+		'getter' => 'get_ddp_venue_url'
+	) );
+} );
+
+function get_ddp_organizer_name() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$organizer_id = get_post_meta($post_id, '_EventOrganizerID', true);
+	$name = get_post_meta($organizer_id, '_OrganizerOrganizer', true);
+
+	return $name;
+}
+
+function get_ddp_organizer_phone() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$organizer_id = get_post_meta($post_id, '_EventOrganizerID', true);
+	$phone = get_post_meta($organizer_id, '_OrganizerPhone', true);
+
+	return $phone;
+}
+
+function get_ddp_organizer_website() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$organizer_id = get_post_meta($post_id, '_EventOrganizerID', true);
+	$url = get_post_meta($organizer_id, '_OrganizerWebsite', true);
+
+	return $url;
+}
+
+function get_ddp_venue_name() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueVenue', true);
+
+	return $name;
+}
+
+function get_ddp_venue_address() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$address = get_post_meta($venue_id, '_VenueAddress', true);
+
+	return $address;
+}
+
+function get_ddp_venue_city() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueCity', true);
+
+	return $name;
+}
+
+function get_ddp_venue_country() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueCountry', true);
+
+	return $name;
+}
+
+function get_ddp_venue_state() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueState', true);
+
+	return $name;
+}
+
+function get_ddp_venue_zip() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueZip', true);
+
+	return $name;
+}
+
+function get_ddp_venue_phone() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenuePhone', true);
+
+	return $name;
+}
+
+function get_ddp_venue_url() {
+	global $post;
+
+	$post_id = ddp_get_post_id($post);
+	$venue_id = get_post_meta($post_id, '_EventVenueID', true);
+	$name = get_post_meta($venue_id, '_VenueURL', true);
+
+	return $name;
+}
+
+function ddp_get_post_id( $post ) {
+
+	if ( is_object( $post ) ) {
+		$current_post_id = $post->ID;
+	} elseif ( is_array( $post ) ) {
+		$current_post_id = $post['ID'];
+	} else {
+		$current_post_id = is_numeric($post) ? $post : 0;
+	}
+
+	return $current_post_id;
+
 }
