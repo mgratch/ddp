@@ -1179,3 +1179,118 @@ ul.fl-menu-horizontal li.mega-menu > ul.sub-menu.menu__flyout li.menu__item {
         margin-bottom: 0;
     }
 }
+
+.btn {
+    border-radius: 0 !important;
+    color: #fff;
+}
+
+.btn:hover {
+    color: #fff;
+    transition: background-color 0.25s ease;
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-1 .btn{
+    background-color: rgba(42, 49, 108, 1);
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-2 .btn {
+    background-color: rgba(0, 179, 238, 1);
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-3 .btn {
+    background-color: rgba(0, 168, 146, 1);
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-4 .btn {
+    background-color: rgba(196, 198, 82, 1);
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-5 .btn {
+    background-color: rgba(175, 213, 241, 1);
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-1 .btn:hover{
+    background-color: #23295a;
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-2 .btn:hover{
+    background-color: #00a0d5;
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-3 .btn:hover {
+    background-color: #008f7c;
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-4 .btn:hover {
+    background-color: #bdbf3f;
+}
+
+/* line 42, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-heroes.scss */
+.ddp--page-color-5 .btn:hover {
+    background-color: #99caed;
+}
+
+/* line 30, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-1 {
+    background-color: #2a316c;
+    transition: background-color 0.25s ease;
+}
+
+/* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-1:hover {
+    background-color: #23295a;
+}
+
+/* line 30, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-2 {
+    background-color: #00b3ee;
+    transition: background-color 0.25s ease;
+}
+
+/* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-2:hover {
+    background-color: #00a0d5;
+}
+
+/* line 30, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-3 {
+    background-color: #00a892;
+    transition: background-color 0.25s ease;
+}
+
+/* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-3:hover {
+    background-color: #008f7c;
+}
+
+/* line 30, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-4 {
+    background-color: #c4c652;
+    transition: background-color 0.25s ease;
+}
+
+/* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-4:hover {
+    background-color: #bdbf3f;
+}
+
+/* line 30, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-5 {
+    background-color: #afd5f1;
+    transition: background-color 0.25s ease;
+}
+
+/* line 34, /var/www/html/sites/ddp/dev/wp-content/themes/ddp-refresh/css/sass/partials/_theme-btns.scss */
+.btn--color-5:hover {
+    background-color: #99caed;
+}
