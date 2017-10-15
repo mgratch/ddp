@@ -103,8 +103,14 @@ var UABBNumber;
 
 			var $number = $( this.wrapperClass ).find( '.uabb-number-string' ),
 				$string = $number.find( '.uabb-number-int' ),
+				$counter_number = this.number;
 				current = 0;
-			
+
+			if( Number.isInteger( $counter_number ) ) {
+				var digits = 0;
+			} else {
+				var digits = $counter_number.toString().split(".")[1].length;
+			}
 			if ( ! $number.hasClass( 'uabb-number-animated') ) {
 
 	        	var $numFormat = this.numberFormat;
@@ -116,12 +122,13 @@ var UABBNumber;
 			        duration: this.speed,
 			        easing: 'swing',
 			        step: function ( now ) {
+
 			        	if($numFormat == 'locale') {
-			        		var $counter = now.toLocaleString($locale, { minimumFractionDigits: 0, maximumFractionDigits:0 });
+			        		var $counter = now.toLocaleString($locale, { minimumFractionDigits: digits, maximumFractionDigits:digits });
 			        	} else if($numFormat == 'none') {
-			        		var $counter = Math.ceil( now );
+			        		var $counter = now.toFixed(digits);
 			        	} else {
-			        		var $counter = UABBNumber.addCommas( Math.ceil( now ) );
+			        		var $counter = UABBNumber.addCommas( now.toFixed(digits) );
 			        	}
 		            	$string.text( $counter );
 			        }
@@ -190,7 +197,7 @@ var UABBNumber;
 			if( this.type == 'percent' ){
 				var number = this.number > 100 ? 100 : this.number;
 			} else {
-				var number = Math.ceil( ( this.number / this.max ) * 100 );
+				var number = ( ( this.number / this.max ) * 100 );
 			}
 
 		    $bar.animate({

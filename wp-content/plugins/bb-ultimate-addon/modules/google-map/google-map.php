@@ -173,6 +173,21 @@ FLBuilder::register_module('GoogleMapModule', array(
                             'TERRAIN'      => __('Terrain', 'uabb'),
                         ),
                     ),
+                    'map_fit_marker'     => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __( 'Auto Zoom', 'uabb' ),
+                        'default'       => 'no',
+                        'options'       => array(
+                            'yes'       => __('Yes','uabb'),
+                            'no'        => __('No','uabb'),
+                        ),
+                        'toggle'        => array(
+                            'no'  => array(
+                                'fields'    => array( 'map_zoom' )
+                            )
+                        )
+
+                    ),
                     'map_zoom' => array(
                         'type'          => 'select',
                         'label'         => __('Map Zoom', 'uabb'),

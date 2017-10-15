@@ -45,7 +45,6 @@ class ModalPopupModule extends FLBuilderModule {
             /* Link Section */
             'link'              => 'javascript:void(0)',//$this->settings->btn_link,
             'link_target'       => '_self',//$this->settings->btn_link_target,
-            
             /* Style Section */
             'style'             => $this->settings->btn_style,
             'border_size'       => $this->settings->btn_border_size,

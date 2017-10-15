@@ -54,9 +54,18 @@ if( count($settings->social_icons) > 0 ) {
 						 $url = "https://myspace.com/post?u=".$current_page;
 			 	 break;
 
+			case 'email':
+						 $url = "mailto:?body=".$current_page;
+			 	 break;
+
 		}
 
-		echo '<div class="uabb-social-share-link-wrap"><a class="uabb-social-share-link uabb-social-share-'.$icon_count.'" href="'.$url.'" target="_blank" rel="noopener" onclick="var uabbWindow = window.open(this.href,\'social-share\',\'left=20,top=20,width=500,height=500,toolbar=1,resizable=0\'); uabbWindow.opener = null; return false;">';
+		if( 'email' == $icon->social_share_type ) {
+			echo '<div class="uabb-social-share-link-wrap"><a class="uabb-social-share-link uabb-social-share-'.$icon_count.'" href="'.$url.'" target="_self" >';
+		} else {
+			echo '<div class="uabb-social-share-link-wrap"><a class="uabb-social-share-link uabb-social-share-'.$icon_count.'" href="'.$url.'" target="_blank" onclick="window.open(this.href,\'social-share\',\'left=20,top=20,width=500,height=500,toolbar=1,resizable=0\');return false;">';
+		}
+
 		$imageicon_array = array(
 
 			/* General Section */

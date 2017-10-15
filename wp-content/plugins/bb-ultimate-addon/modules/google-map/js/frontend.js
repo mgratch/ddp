@@ -31,6 +31,7 @@ var UABBGoogleMaps;
         this.open_marker            = settings.open_marker;
         this.markers                = settings.markers;
         this.enable_info            = settings.enable_info;
+        this.map_fit_marker         = settings.map_fit_marker;
         //console.log(settings);
         this._uabbGoogleMapInit();
         
@@ -106,6 +107,12 @@ var UABBGoogleMaps;
                         }
                     } else {
                         image = '';
+                    }
+
+                    if( this.map_fit_marker == 'yes' ) {
+                        loc = new google.maps.LatLng( parseFloat( this.markers[i].lat ), parseFloat( this.markers[i].lng ) );
+                        bounds.extend(loc);
+                        map.fitBounds(bounds);
                     }
 
                     marker = new google.maps.Marker({

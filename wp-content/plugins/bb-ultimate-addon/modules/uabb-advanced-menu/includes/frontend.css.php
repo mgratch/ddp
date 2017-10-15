@@ -163,15 +163,12 @@ if( isset( $settings->creative_menu_close_icon_size ) && $settings->creative_men
 	if( $settings->creative_menu_layout == 'horizontal' ) { ?>
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu.uabb-creative-menu-horizontal > li > a span.uabb-menu-toggle,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu.uabb-creative-menu-horizontal > li > .uabb-has-submenu-container a span.uabb-menu-toggle {
-			padding-right: 10px;
-		    float: left;
+		    padding-left: 10px;
+		    float: right;
 		}
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu.uabb-creative-menu-horizontal .uabb-menu-toggle {
-		    padding-right: 10px;
-		    float: left;
-		}
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu.uabb-creative-menu-horizontal .sub-menu {
-		    text-align: right;
+		    padding-left: 10px;
+		    float: right;
 		}
 	<?php } ?>
 
@@ -364,7 +361,7 @@ if( $global_settings->responsive_enabled ) { ?>
 				position: absolute;
 				top: 100%;
 				left: 0;
-				z-index: 10;
+				z-index: 16;
 				visibility: hidden;
 				opacity: 0;
 				text-align:left;
@@ -418,7 +415,7 @@ if( $global_settings->responsive_enabled ) { ?>
 
 			<?php if( $settings->creative_submenu_hover_toggle == 'none' ) { ?>
 				.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-has-submenu-container a span.menu-item-text {
-					color: #<?php echo $settings->creative_menu_link_color ?>px;
+					color: #<?php echo $settings->creative_menu_link_color ?>;
 				}
 				.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-menu-toggle {
 					display: none;
@@ -468,7 +465,7 @@ if( $global_settings->responsive_enabled ) { ?>
 			position: absolute;
 			top: 100%;
 			left: 0;
-			z-index: 10;
+			z-index: 16;
 			visibility: hidden;
 			opacity: 0;
 		}
@@ -492,7 +489,7 @@ if( $global_settings->responsive_enabled ) { ?>
 
 		<?php if( $settings->creative_submenu_hover_toggle == 'none' ) { ?>
 			.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-has-submenu-container a span.menu-item-text {
-				color: <?php echo $settings->creative_menu_link_color ?>px;
+				color: <?php echo $settings->creative_menu_link_color ?>;
 			}
 			.uabb-creative-menu .uabb-menu-toggle {
 				display: none;
@@ -588,13 +585,15 @@ if( $global_settings->responsive_enabled ) { ?>
 
 		<?php if( ( in_array( $settings->creative_menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->creative_submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( $settings->creative_menu_layout == 'accordion' && $settings->creative_submenu_click_toggle == 'arrows' ) ) { ?>
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-arrows li:hover .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-arrows  .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-arrows .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-arrows .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-none li:hover .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_link_hover_color; ?>;
 		}
 		<?php } elseif( ( in_array( $settings->creative_menu_layout, array( 'horizontal', 'vertical' ) ) && $settings->creative_submenu_hover_toggle == 'plus' ) || ( $settings->creative_menu_layout == 'accordion' && $settings->creative_submenu_click_toggle == 'plus' ) ) { ?>
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-plus li:hover .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-plus  .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before {
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-plus .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu .uabb-toggle-plus .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_link_hover_color; ?>;
 		}
 		<?php } ?>
@@ -609,6 +608,8 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li:hover > .uabb-has-submenu-container > a,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li:focus > .uabb-has-submenu-container > a,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-item > a,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-item > a,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-item > .uabb-has-submenu-container > a {
 		<?php  if( $settings->creative_menu_background_hover_color != '' ) { ?>
 			background-color: <?php echo ( false === strpos( $settings->creative_menu_background_hover_color, 'rgb' ) ) ? '#' . $settings->creative_menu_background_hover_color : $settings->creative_menu_background_hover_color; ?>;
@@ -619,7 +620,9 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > a,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > a,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a {
 		<?php  if( $settings->creative_submenu_background_hover_color != '' ) { ?>
 			background-color: <?php echo ( false === strpos( $settings->creative_submenu_background_hover_color, 'rgb' ) ) ? '#' . $settings->creative_submenu_background_hover_color : $settings->creative_submenu_background_hover_color; ?>;
 		<?php } ?>
@@ -631,12 +634,10 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li:focus > .uabb-has-submenu-container > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-item > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.focus > .uabb-has-submenu-container > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.focus > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.focus > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.focus > .uabb-has-submenu-container > a span.menu-item-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text > i {
 		<?php 
 		if ( $settings->creative_menu_link_hover_color != '' ) {
 			echo 'color: #'. $settings->creative_menu_link_hover_color .';';
@@ -644,7 +645,13 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text > i {
 		<?php 
 		if ( $settings->creative_submenu_link_hover_color != '' ) {
 			echo 'color: #'. $settings->creative_submenu_link_hover_color .';';
@@ -694,8 +701,8 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	min-width: <?php echo ( isset( $settings->submenu_width ) ? $settings->submenu_width: '' ); ?>px;
 }
 
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a *,
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a * {
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a span.menu-item-text,
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a span.menu-item-text {
 	color: <?php echo '#' . $settings->creative_submenu_link_color; ?>;
 }
 
@@ -714,6 +721,10 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 .fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li:last-child {
 	border-bottom: none;
 }
+.fl-node-<?php echo $id; ?> .uabb-creative-menu ul.sub-menu > li.uabb-creative-menu.uabb-has-submenu li:first-child,
+.fl-node-<?php echo $id; ?> .uabb-creative-menu ul.sub-menu > li.uabb-creative-menu.uabb-has-submenu li li:first-child {
+	border-top: none;
+}
 .fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li.uabb-active > .sub-menu > li:first-child,
 .fl-node-<?php echo $id; ?> .uabb-creative-menu .menu.uabb-creative-menu-expanded .sub-menu > li > .sub-menu > li:first-child {
 	<?php if( isset( $settings->creative_submenu_separator_settings_option ) && $settings->creative_submenu_separator_settings_option == 'yes' ) { ?>
@@ -726,6 +737,8 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 		<?php } ?>
 	<?php } ?>
 }
+
+
 
 
 .fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu {
@@ -790,10 +803,10 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	border: 0;
 }
 
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a:hover *,
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a:focus *,
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a:hover *,
-.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a:focus * {
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a:hover span.menu-item-text,
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > a:focus span.menu-item-text,
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a:hover span.menu-item-text,
+.fl-node-<?php echo $id; ?> .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a:focus span.menu-item-text {
 	color: <?php echo '#' . $settings->creative_submenu_link_hover_color; ?>;
 }
 
@@ -1150,11 +1163,46 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu li:last-child {
 		border-bottom: none;
 	}
+	
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li > a:hover span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li > a:focus span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu >  li:hover > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu >  li:focus > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li > a:hover span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li > a:focus span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li > a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li > a:focus span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu >  li:hover > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu >  li:focus > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li > a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li > a:focus span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li .uabb-has-submenu-container a:hover span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li .uabb-has-submenu-container a:focus span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li .uabb-has-submenu-container a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li .uabb-has-submenu-container a:focus span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li:hover > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li:focus > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li:hover > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li:focus > .uabb-has-submenu-container > a span.menu-item-text > i {
+		<?php if( $settings->creative_menu_responsive_link_hover_color ) { ?>color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;<?php } ?>
+	}
 
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li:hover a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li:focus a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li:hover .uabb-has-submenu-container a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu li:focus .uabb-has-submenu-container a span.menu-item-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-item > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-item > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-item > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-item > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-ancestor > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-ancestor > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-ancestor > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-ancestor > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text i {
 		<?php if( $settings->creative_menu_responsive_link_hover_color ) { ?>color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;<?php } ?>
 	}
 
@@ -1213,13 +1261,17 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows li:hover .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows li:focus .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows li:hover .uabb-has-submenu-container .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows li:focus .uabb-has-submenu-container .uabb-menu-toggle:before {
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows li:focus .uabb-has-submenu-container .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-arrows .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;
 		}
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus li:hover .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus li:focus .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus li:hover .uabb-has-submenu-container .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus li:focus .uabb-has-submenu-container .uabb-menu-toggle:before {
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus li:focus .uabb-has-submenu-container .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.full-screen .uabb-toggle-plus .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;
 		}
 	<?php } ?>
@@ -1323,14 +1375,16 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a span.menu-tem-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a span.menu-tem-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li a span.menu-item-text i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a span.menu-tem-text i {
 		<?php if( $settings->creative_menu_responsive_link_color ) { ?>color: #<?php echo $settings->creative_menu_responsive_link_color; ?>;<?php } ?>
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu li {
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: <?php echo ($settings->creative_menu_responsive_link_border_color) ? '#' . $settings->creative_menu_responsive_link_border_color : 'transparent'; ?>;
+		border-bottom-color: <?php echo ($settings->creative_menu_responsive_link_border_color) ? '#' . $settings->creative_menu_responsive_link_border_color : ''; ?>;
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu li:last-child {
@@ -1342,18 +1396,40 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li > a:hover span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li > a:focus span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a:hover span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a:focus span.menu-item-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a:focus span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu >  li:hover > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu >  li:focus > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li > a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li > a:focus span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu li .uabb-has-submenu-container a:focus span.menu-item-text > i {
 		<?php if( $settings->creative_menu_responsive_link_hover_color ) { ?>color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;<?php } ?>
 	}
 
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li > a:hover span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li > a:focus span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li > a:hover span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li > a:focus span.menu-item-text > i,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li:hover > .uabb-has-submenu-container > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li:focus > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li:hover > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li:focus > .uabb-has-submenu-container > a span.menu-item-text > i,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-item > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
 	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-item > a span.menu-item-text,
-	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text {
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-item > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-item > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-item > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-ancestor > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-ancestor > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-ancestor > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-ancestor > a span.menu-item-text > i,
+	.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .sub-menu > li.current-menu-ancestor > .uabb-has-submenu-container > a span.menu-item-text i {
 		<?php 
 		if ( $settings->creative_menu_responsive_link_hover_color != '' ) {
 			echo 'color: #'. $settings->creative_menu_responsive_link_hover_color .';';
@@ -1389,13 +1465,17 @@ if( !empty( $settings->creative_menu_background_hover_color ) || $settings->crea
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows li:hover .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows li:focus .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows li:hover .uabb-has-submenu-container .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows li:focus .uabb-has-submenu-container .uabb-menu-toggle:before {
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows li:focus .uabb-has-submenu-container .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-arrows .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;
 		}
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus li:hover .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus li:focus .uabb-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus li:hover .uabb-has-submenu-container .uabb-menu-toggle:before,
-		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus li:focus .uabb-has-submenu-container .uabb-menu-toggle:before {
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus li:focus .uabb-has-submenu-container .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus .uabb-creative-menu.current-menu-item .uabb-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .uabb-creative-menu.off-canvas .uabb-toggle-plus .uabb-creative-menu.current-menu-ancestor .uabb-menu-toggle:before {
 			color: #<?php echo $settings->creative_menu_responsive_link_hover_color; ?>;
 		}
 	<?php } ?>

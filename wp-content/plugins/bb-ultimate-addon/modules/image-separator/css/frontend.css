@@ -1,4 +1,9 @@
 /* Photo */
+
+.fl-row.fl-block-overlay-active .fl-module-image-separator {
+	position: absolute;
+}
+
 .fl-module-image-separator {
 	position: absolute;
 	z-index: 15;

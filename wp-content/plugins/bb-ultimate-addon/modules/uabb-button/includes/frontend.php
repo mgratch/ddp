@@ -6,13 +6,14 @@
 		<p class="perspective">
 	<?php
 	}
+	$nofollow = ( isset( $settings->link_nofollow ) ) ? $settings->link_nofollow : '0';
 	?>
-		<a href="<?php echo $settings->link; ?>" target="<?php echo $settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $settings->link_target, 0, 1 ); ?> class="uabb-button uabb-creative-button <?php echo 'uabb-creative-'.$settings->style.'-btn' ?> <?php echo ( ! isset( $settings->icon_type ) || ( isset( $settings->icon_type ) && $settings->icon_type == 'icon' ) ) ? $module->get_button_style() : ''; ?> <?php echo ( isset( $settings->a_class ) ) ? $settings->a_class : '' ; ?> <?php echo $settings->custom_class; ?>" <?php echo ( isset( $settings->a_data ) ) ? $settings->a_data : '' ; ?> role="button">
+		<a href="<?php echo $settings->link; ?>" target="<?php echo $settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $settings->link_target, $nofollow, 1 ); ?> class="uabb-button uabb-creative-button <?php echo 'uabb-creative-'.$settings->style.'-btn' ?> <?php echo ( ! isset( $settings->icon_type ) || ( isset( $settings->icon_type ) && $settings->icon_type == 'icon' ) ) ? $module->get_button_style() : ''; ?> <?php echo ( isset( $settings->a_class ) ) ? $settings->a_class : '' ; ?> <?php echo $settings->custom_class; ?>" <?php echo ( isset( $settings->a_data ) ) ? $settings->a_data : '' ; ?> role="button">
 
 			<?php if( isset( $settings->icon_type ) && $settings->icon_type == 'photo' ) {
 
 				$src = isset( $settings->photo_src ) ? $settings->photo_src : '';
-			 	if ( ! empty( $settings->photo ) && ( 'before' == $settings->icon_position || ! isset( $settings->icon_position ) ) ) :
+				if ( ! empty( $settings->photo ) && ( 'before' == $settings->icon_position || ! isset( $settings->icon_position ) ) ) :
 				?>
 					<img class="uabb-btn-img uabb-button-icon-before uabb-creative-button-icon-before" src="<?php echo $src; ?>"/>
 				<?php endif; ?>

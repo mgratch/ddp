@@ -650,15 +650,15 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         'toggle'        => array(
                             'hamburger' => array(
                                 'fields'        => array( 'creative_mobile_menu_type', 'creative_menu_mobile_breakpoint', 'creative_menu_responsive_alignment', 'creative_menu_mobile_toggle_color' ),
-                                'sections'      => array( 'creative_menu_responsive_mobile_style' )
+                                'sections'      => array( 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style' )
                             ),
                             'hamburger-label'   => array(
                                 'fields'        => array( 'creative_mobile_menu_type', 'creative_menu_mobile_breakpoint', 'creative_menu_responsive_alignment', 'creative_menu_mobile_toggle_color', 'creative_menu_mobile_toggle_text' ),
-                                'sections'      => array( 'creative_menu_responsive_mobile_style' )
+                                'sections'      => array( 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style' )
                             ),
                             'text'  => array(
                                 'fields'        => array( 'creative_mobile_menu_type', 'creative_menu_mobile_breakpoint', 'creative_menu_responsive_alignment', 'creative_menu_mobile_toggle_color', 'creative_menu_mobile_toggle_text' ),
-                                'sections'      => array( 'creative_menu_responsive_mobile_style' )
+                                'sections'      => array( 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style' )
                             ),
                         )
                     ),
@@ -696,12 +696,12 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					    ),
 						'toggle'	=> array(
 							'off-canvas'	=> array(
-								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_offcanvas_direction', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_responsive_overlay_padding', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color', 'creative_menu_responsive_overlay_color', 'creative_menu_off_canvas_shadow' ),
-                                'sections'   => array( 'creative_menu_responsive_style', 'creative_menu_responsive_close_style' )
+								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_offcanvas_direction', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_responsive_overlay_padding', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color', 'creative_menu_responsive_overlay_color', 'creative_menu_off_canvas_shadow', 'creative_menu_responsive_toggle' ),
+                                'sections'   => array( 'creative_menu_responsive_close_style' )
 							),
 							'full-screen'	=> array(
-								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_full_screen_effects', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color'  ),
-                                'sections'   => array( 'creative_menu_responsive_style', 'creative_menu_responsive_close_style' )
+								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_full_screen_effects', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color', 'creative_menu_responsive_toggle'  ),
+                                'sections'   => array( 'creative_menu_responsive_close_style' )
 							)
 						)
 					),

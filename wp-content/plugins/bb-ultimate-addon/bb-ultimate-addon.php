@@ -3,13 +3,13 @@
  * Plugin Name: Ultimate Addon for Beaver Builder
  * Plugin URI: http://www.ultimatebeaver.com/
  * Description: Ultimate Addons is a premium extension for Beaver Builder that adds 45+ modules, 250+ templates and works on top of any Beaver Builder Package. (Free, Standard, Pro & Agency) You can use it with any WordPress theme.
- * Version: 1.6.5
+ * Version: 1.6.6
  * Author: Brainstorm Force
  * Author URI: http://www.brainstormforce.com
  * Text Domain: uabb
  */
 
-define( 'BB_ULTIMATE_ADDON_VER', '1.6.5' );
+define( 'BB_ULTIMATE_ADDON_VER', '1.6.6' );
 define( 'BB_ULTIMATE_ADDON_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BB_ULTIMATE_ADDON_URL', plugins_url( '/', __FILE__ ) );
 define( 'BSF_REMOVE_uabb_FROM_REGISTRATION_LISTING', true );

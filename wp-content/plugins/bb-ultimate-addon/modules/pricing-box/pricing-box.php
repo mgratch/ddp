@@ -19,7 +19,7 @@ class UABBPricingTableModule extends FLBuilderModule {
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/pricing-box/',
 			'partial_refresh'	=> true
 		));
-
+		$this->add_css('font-awesome');
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_price_box_settings_field' ), 10, 3 );
 	}
 
@@ -43,6 +43,7 @@ class UABBPricingTableModule extends FLBuilderModule {
 			'text'                       => $this->settings->pricing_columns[$column]->btn_text,
 			'link'                       => $this->settings->pricing_columns[$column]->btn_link,
 			'link_target'                => $this->settings->pricing_columns[$column]->btn_link_target,
+			'link_nofollow'         	 => $this->settings->pricing_columns[$column]->btn_link_nofollow,
 			'icon'                       => $this->settings->pricing_columns[$column]->btn_icon,
 			'icon_position'              => $this->settings->pricing_columns[$column]->btn_icon_position,
 			'style'                      => $this->settings->pricing_columns[$column]->btn_style,
@@ -775,7 +776,18 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                        'preview'       => array(
 	                            'type'          => 'none'
 	                        )
-	                    )
+	                    ),
+	                    'btn_link_nofollow'   => array(
+	                    	'type'          => 'uabb-toggle-switch',
+	                    	'label'         => __('Link nofollow', 'uabb'),
+	                    	'description'   => '',
+	                    	'default'       => '0',
+	                    	'help'			=> __('Enable this to make this link nofollow', 'uabb'),
+	                    	'options'       => array(
+	                    		'1'       => __('Yes','uabb'),
+	                    		'0'       => __('No','uabb'),
+	                    	),
+	                    ),
 	                )
 	            ),
 				'btn-style'      => array(

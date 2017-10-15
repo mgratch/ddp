@@ -379,7 +379,6 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 		static public function get_link_rel( $target, $is_nofollow = 0, $echo = 0 )  {
 
 			$attr = '';
-
 			if( '_blank' == $target ) {
 				$attr.= 'noopener';
 			}
@@ -392,6 +391,7 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 				return;
 			}
 
+			$attr = trim($attr);
 			if ( ! $echo  ) {
 				return 'rel="'.$attr.'"';
 			}

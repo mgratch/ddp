@@ -107,7 +107,7 @@ if( $settings->is_carousel == 'masonary' ) {
 
 		$left_hide_class = ( $left_featured_image_content == '' && $right_featured_image_content == '' ) ? 'uabb-empty-img' : '';
 
-		do_action( 'uabb_blog_posts_before_post', $the_query->posts[$i]->ID );
+		do_action( 'uabb_blog_posts_before_post', $the_query->posts[$i]->ID, $settings );
 		?>
 	<div class="uabb-blog-posts-col-<?php echo $col; ?> uabb-post-wrapper <?php echo ( $settings->is_carousel == 'masonary' ) ? ' uabb-blog-posts-masonary-item-' . $module->node . ' ' : ''; ?> <?php echo ( $settings->is_carousel == 'masonary' ) ? $class : ''; ?>">
 		<div class="uabb-blog-posts-shadow clearfix">
@@ -130,7 +130,7 @@ if( $settings->is_carousel == 'masonary' ) {
 		</div>
 	</div>
 	<?php
-		do_action( 'uabb_blog_posts_after_post', $the_query->posts[$i]->ID );
+		do_action( 'uabb_blog_posts_after_post', $the_query->posts[$i]->ID, $settings );
 	}
 
 ?>

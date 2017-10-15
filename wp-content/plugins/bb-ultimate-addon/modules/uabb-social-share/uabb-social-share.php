@@ -210,7 +210,7 @@ FLBuilder::register_settings_form('uabb_social_share_form', array(
                             'options'       => array(
                                 'facebook' => __('Facebook', 'uabb'),
                                 'twitter'  => __('Twitter', 'uabb'),
-                                'google'  => __('Google', 'uabb'),
+                                'google'  => __('Google Plus', 'uabb'),
                                 'pinterest'  => __('Pinterest', 'uabb'),
                                 'linkedin'  => __('LinkedIn', 'uabb'),
                                 'digg'  => __('Digg', 'uabb'),
@@ -219,6 +219,7 @@ FLBuilder::register_settings_form('uabb_social_share_form', array(
                                 'stumbleupon'  => __('StumbleUpon', 'uabb'),
                                 'tumblr'  => __('Tumblr', 'uabb'),
                                 'myspace'  => __('Myspace', 'uabb'),
+                                'email'  => __('Email', 'uabb'),
                             )
                         ),
                         'image_type'    => array(

@@ -399,7 +399,7 @@ die();*/
 	if( $settings->num_font_size['medium'] != "" || $settings->num_line_height['medium'] != "" || 
 		$settings->ba_font_size['medium'] != "" || $settings->ba_line_height['medium'] != "" )
 	{
-		/* Medium Breakpoint media query */	
+		/* Medium Breakpoint media query */
 	?>
 		@media ( max-width: <?php echo $global_settings->medium_breakpoint .'px'; ?> ) {
 			/* Number Text Typography */

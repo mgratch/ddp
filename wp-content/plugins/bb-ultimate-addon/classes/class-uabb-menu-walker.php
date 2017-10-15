@@ -16,7 +16,7 @@ class Creative_Menu_Walker extends Walker_Nav_Menu {
         $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
         $args   = ( object )$args;
 
-        $class_names = $value = '';
+        $class_names = $value = $rel_xfn = $rel_blank = '';
 
         $classes = empty( $item->classes ) ? array() : (array) $item->classes;
         $submenu = $args->has_children ? ' uabb-has-submenu' : '';
@@ -25,16 +25,14 @@ class Creative_Menu_Walker extends Walker_Nav_Menu {
 
         $output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names . '>';
 
-        if( $item->target == '_blank' && strpos( $item->xfn, 'noopener') === false ) {
+        if( isset( $item->target ) && $item->target == '_blank' && isset( $item->xfn ) && strpos( $item->xfn, 'noopener') === false ) {
             $rel_xfn = ' noopener';
         }
-        if ( $item->target == '_blank' && empty( $item->xfn ) ) {
+        if ( isset( $item->target ) && $item->target == '_blank' && isset( $item->xfn ) && empty( $item->xfn ) ) {
             $rel_blank = 'rel="noopener"';
         }
 
-	    $rel_blank    = ! empty( $item->xfn ) ? $item->xfn : '';
-
-	    $attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) .'"' : '';
+        $attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) .'"' : '';
         $attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) .'"' : '';
         $attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . $rel_xfn . '"' : '' . $rel_blank;
         $attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) .'"' : '';

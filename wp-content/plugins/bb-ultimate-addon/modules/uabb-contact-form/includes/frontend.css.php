@@ -175,6 +175,11 @@
 	<?php echo ( $settings->label_bottom_margin != '' ) ? 'margin-bottom: '.$settings->label_bottom_margin.'px;' : ''; ?>
 }
 
+.fl-node-<?php echo $id; ?> .uabb-input-group.uabb-recaptcha > .uabb-grecaptcha {
+	<?php echo ( $settings->input_top_margin != '' ) ? 'margin-top: '.$settings->input_top_margin.'px;' : '' ; ?>
+	<?php echo ( $settings->input_bottom_margin != '' ) ? 'margin-bottom: '.$settings->input_bottom_margin.'px;' : 'margin-bottom: 10px;'; ?>
+}
+
 /* Button CSS */
 <?php
 $settings->btn_background_color = uabb_theme_button_bg_color( $settings->btn_background_color );

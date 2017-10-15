@@ -89,7 +89,8 @@ class InfoBannerModule extends FLBuilderModule {
     public function render_link()
     {
         if($this->settings->cta_type == 'link') {
-            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, 0, 0 ) .' class="uabb-infobanner-cta-link">' . $this->settings->cta_text . '</a>';
+            $nofollow = ( isset( $this->settings->link_nofollow ) ) ? $this->settings->link_nofollow : '0';
+            echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, $nofollow, 0 ) .' class="uabb-infobanner-cta-link">' . $this->settings->cta_text . '</a>';
         }
     }
 
@@ -107,6 +108,7 @@ class InfoBannerModule extends FLBuilderModule {
                 /* Link Section */
                 'link'              => $this->settings->btn_link,
                 'link_target'       => $this->settings->btn_link_target,
+                'link_nofollow'       => $this->settings->btn_link_nofollow,
                 
                 /* Style Section */
                 'style'             => $this->settings->btn_style,
@@ -477,7 +479,18 @@ FLBuilder::register_module('InfoBannerModule', array(
                         'preview'       => array(
                             'type'          => 'none'
                         )
-                    )
+                    ),
+                    'btn_link_nofollow'   => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Link nofollow', 'uabb'),
+                        'description'   => '',
+                        'default'       => '0',
+                        'help'          => __('Enable this to make this link nofollow', 'uabb'),
+                        'options'       => array(
+                            '1'       => __('Yes','uabb'),
+                            '0'       => __('No','uabb'),
+                        ),
+                    ),
                 )
             ),
             'btn-style'      => array(
@@ -722,7 +735,18 @@ FLBuilder::register_module('InfoBannerModule', array(
                         'preview'       => array(
                             'type'          => 'none'
                         )
-                    )
+                    ),
+                    'link_nofollow'   => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Link nofollow', 'uabb'),
+                        'description'   => '',
+                        'default'       => '0',
+                        'help'          => __('Enable this to make this link nofollow', 'uabb'),
+                        'options'       => array(
+                            '1'       => __('Yes','uabb'),
+                            '0'       => __('No','uabb'),
+                        ),
+                    ),
                 )
             ),
         )

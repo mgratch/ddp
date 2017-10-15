@@ -1,3 +1,15 @@
+Version 1.6.6 - Tuesday, 3rd October 2017
+- Improvement: Added nofollow options to all buttons and links
+- Improvement: Advanced Posts - Added settings parameter to hooks
+- Improvement: Counter - Added support for decimal numbers
+- Improvement: Contact Form - Introduced reCaptcha option
+- Improvement: Google Map - Introduced auto-zoom option, so that the Map centers itself based on the pinpoints
+- Improvement: Info List - Added custom character option along with icons and images which lets you add numbered list
+- Improvement: Social Share - Added Email share option
+- Improvement: Testimonials - Introduced stack option for mobile devices
+- Fixed: Image Separator - Unable to edit image separator
+- Fixed: Price Box - Font-awesome icons do not load on front end
+
 Version 1.6.5 - Thursday, 21st September 2017
 - Security Fix: A cross-site scripting (XSS) vulnerability was discovered in html links, WordPress core has patched it's vulnerability in 4.8.2 release and we've also fix it for UABB
 - Fixed: Google Map - JSON map style option not working

@@ -40,8 +40,12 @@
 .uabb-creative-menu-horizontal {
     font-size: 0;
 }
+.uabb-creative-menu-horizontal li,
 .uabb-creative-menu-horizontal > li {
-    font-size: initial;
+    font-size: medium;
+}
+.uabb-creative-menu-horizontal > li > .uabb-has-submenu-container > a > span.menu-item-text {
+    display: inline-block;
 }
 
 /* Expanded Menu */

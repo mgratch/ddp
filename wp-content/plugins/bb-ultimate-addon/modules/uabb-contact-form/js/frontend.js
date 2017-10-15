@@ -1,5 +1,33 @@
 (function($) {
 
+	window.onLoadUABBReCaptcha = function() {
+		var reCaptchaFields = $( '.uabb-grecaptcha' ),
+			widgetID;
+		if ( reCaptchaFields.length > 0 ) {
+			reCaptchaFields.each(function(){
+				var self 		= $( this ),
+				 	attrWidget 	= self.attr('data-widgetid');
+
+				// Avoid re-rendering as it's throwing API error
+				if ( (typeof attrWidget !== typeof undefined && attrWidget !== false) ) {
+					return;
+				}
+				else {
+					widgetID = grecaptcha.render( $(this).attr('id'), { 
+						sitekey : self.data( 'sitekey' ),
+						theme	: self.data( 'theme' ),
+						callback: function( response ){
+							if ( response != '' ) {
+								self.attr( 'data-uabb-grecaptcha-response', response );
+							}
+						}
+					});
+					self.attr( 'data-widgetid', widgetID );					
+				}
+			});
+		}
+	};
+
 	UABBContactForm = function( settings )
 	{
 		this.settings	= settings;
@@ -41,6 +69,8 @@
 				phone		= $(this.nodeClass + ' .uabb-phone input'),
 				subject	  	= $(this.nodeClass + ' .uabb-subject input'),
 				message	  	= $(this.nodeClass + ' .uabb-message textarea'),
+				reCaptchaField  = $('#'+ this.settings.id + '-uabb-grecaptcha'),
+				reCaptchaValue	= reCaptchaField.data( 'uabb-grecaptcha-response' ),
 				mailto	  	= $(this.nodeClass + ' .uabb-mailto'),
 				ajaxurl	  	= this.ajaxurl, //FLBuilderLayoutConfig.paths.wpAjaxUrl,
 				email_regex = /\S+@\S+\.\S+/,
@@ -168,6 +198,16 @@
 				else if (message.parent().hasClass('uabb-error')) {
 					message.parent().removeClass('uabb-error');
 					message.siblings( '.uabb-form-error-message' ).hide();
+				}
+			}
+
+			// validate if reCAPTCHA is enabled and checked
+			if ( reCaptchaField.length > 0 ) {
+				if ( 'undefined' === typeof reCaptchaValue || reCaptchaValue === false ) {
+					isValid = false;
+					reCaptchaField.parent().addClass( 'uabb-error' );
+				} else {
+					reCaptchaField.parent().removeClass('uabb-error');
 				}
 			}
 			

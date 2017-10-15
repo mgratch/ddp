@@ -82,26 +82,29 @@ class UABBInfoList extends FLBuilderModule {
 
         if ( !empty( $item->list_item_link ) && $item->list_item_link === "complete" && !empty($item->list_item_url) ) {
 
-            echo '<a href="'.$item->list_item_url.'" class="uabb-info-list-link" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'></a>';
+            echo '<a href="'.$item->list_item_url.'" class="uabb-info-list-link" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, $item->list_item_link_nofollow, 0 ) .'></a>';
         }
 
         if( isset( $item->image_type ) && $item->image_type != "none" ) {
             echo '<div class="uabb-info-list-icon info-list-icon-dynamic'. $list_item_counter.'">';
 
             if ( !empty( $item->list_item_link ) && $item->list_item_link == "icon") {
-                echo '<a href="'. $item->list_item_url .'" class="uabb-info-list-link" target="'. $item->list_item_link_target .'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'></a>';
+                echo '<a href="'. $item->list_item_url .'" class="uabb-info-list-link" target="'. $item->list_item_link_target .'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, $item->list_item_link_nofollow, 0 ) .'></a>';
             }
-                $this->render_image( $item, $this->settings );
-          
+            $this->render_image( $item, $this->settings );
+
+            if ( !empty( $item->image_type ) && $item->image_type == "custom_char") {
+                echo '<div class="custom-character'. $list_item_counter.'">'.$item->custom_text.'</div>';
+            }
             echo '</div>';
         }
 
         echo '<div class="uabb-info-list-content uabb-info-list-'. $this->settings->icon_position.' info-list-content-dynamic'. $list_item_counter.'">';
-        
+
         echo '<'. $this->settings->heading_tag_selection . ' class="uabb-info-list-title">';
         if ( !empty( $item->list_item_link ) && $item->list_item_link === "list-title" && !empty($item->list_item_url) ) {
 
-            echo '<a href="'. $item->list_item_url .'" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, 0, 0 ) .'>';
+            echo '<a href="'. $item->list_item_url .'" target="'.$item->list_item_link_target.'" '. BB_Ultimate_Addon_Helper::get_link_rel( $item->list_item_link_target, $item->list_item_link_nofollow, 0 ) .'>';
 
         }
         if( isset( $item->list_item_title ) ) {
@@ -589,6 +592,17 @@ FLBuilder::register_settings_form('info_list_item_form', array(
                                 '_blank'        => __('New Window', 'uabb')
                             ),
                         ),
+                        'list_item_link_nofollow'   => array(
+                            'type'          => 'uabb-toggle-switch',
+                            'label'         => __('Link nofollow', 'uabb'),
+                            'description'   => '',
+                            'default'       => '0',
+                            'help'          => __('Enable this to make this link nofollow', 'uabb'),
+                            'options'       => array(
+                                '1'       => __('Yes','uabb'),
+                                '0'       => __('No','uabb'),
+                            ),
+                        ),
                         'list_item_description'          => array(
                             'type'          => 'editor',
                             'default'       => __('Enter description text here.','uabb'),
@@ -615,6 +629,7 @@ FLBuilder::register_settings_form('info_list_item_form', array(
                                 'none'          => __( 'None', 'Image type.', 'uabb' ),
                                 'icon'          => __('Icon', 'uabb'),
                                 'photo'         => __('Photo', 'uabb'),
+                                'custom_char'         => __('Custom Character', 'uabb'),
                             ),
                             'toggle'        => array(
                                 'icon'          => array(
@@ -622,6 +637,9 @@ FLBuilder::register_settings_form('info_list_item_form', array(
                                 ),
                                 'photo'         => array(
                                     'sections'   => array( 'img_basic', 'img_style' ),
+                                ),
+                                'custom_char'         => array(
+                                    'sections'   => array( 'custom_char' ),
                                 )
                             ),
                         ),
@@ -675,6 +693,23 @@ FLBuilder::register_settings_form('info_list_item_form', array(
                             'type'          => 'text',
                             'label'         => __('Photo URL', 'uabb'),
                             'placeholder'   => 'http://www.example.com/my-photo.jpg',
+                        ),
+                    )
+                ),
+                /* Image Basic Setting */
+                'custom_char'     => array( // Section
+                    'title'         => __('Image','uabb'), // Section Title
+                    'fields'        => array( // Section Fields
+                        'custom_text'          => array(
+                            'type'          => 'text',
+                            'label'         => __('Custom Text', 'uabb'),
+                            'description'   => '',
+                        ),
+                        'custom_color' => array( 
+                            'type'       => 'color',
+                            'label'      => __('Icon Color', 'uabb'),
+                            'default'    => '',
+                            'show_reset' => true,
                         ),
                     )
                 ),

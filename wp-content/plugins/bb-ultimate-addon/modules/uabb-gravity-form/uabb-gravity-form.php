@@ -1369,12 +1369,6 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'placeholder'	=> '10',
 						'maxlength'     => '3',
 						'size'          => '6',
-						'preview'           => array(
-                            'type'          => 'css',
-                            'selector'      => '.gform_wrapper .gfield .gfield_description',
-                            'property'      => 'margin-top',
-                            'unit'			=> 'px',
-                        ),
 					),
 					'input_bottom_margin'   => array(
 						'type'          => 'text',
@@ -1384,12 +1378,6 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'placeholder'	=> '0',
 						'maxlength'     => '3',
 						'size'          => '6',
-						'preview'           => array(
-                            'type'          => 'css',
-                            'selector'      => '.gform_wrapper .gfield .gfield_description',
-                            'property'      => 'margin-bottom',
-                            'unit'			=> 'px',
-                        ),
 					),
                 )
             ),

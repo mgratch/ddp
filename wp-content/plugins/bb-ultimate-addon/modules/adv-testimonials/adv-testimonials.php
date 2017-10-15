@@ -600,6 +600,18 @@ FLBuilder::register_module('UABBAdvancedTestimonialsModule', array(
                         'maxlength'   => '3',
                         'size'        => '5',
                     ),
+                    'mobile_view' => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Mobile Structure', 'uabb'),
+                        'default'       => 'inline',
+                        'options'       => array(
+                            'inline'  => __('Inline', 'uabb'),
+                            'stack'   => __('Stack', 'uabb'),
+                        ),
+                        'preview'       => array(
+                            'type'    => 'none'
+                        )
+                    ),
                 ),
             ),
 

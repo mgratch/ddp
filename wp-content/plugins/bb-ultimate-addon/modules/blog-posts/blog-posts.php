@@ -382,6 +382,7 @@ class BlogPostsModule extends FLBuilderModule {
                 /* Link Section */
                 'link'              => $link,
                 'link_target'       => $link_target,
+                'link_nofollow'     => $this->settings->link_nofollow,
 
                 /* Style Section */
                 'style'             => $this->settings->btn_style,
@@ -420,7 +421,8 @@ class BlogPostsModule extends FLBuilderModule {
             echo '</div>';
 
         } else if( $this->settings->cta_type == 'link' ) {
-            echo '<span class="uabb-read-more-text uabb-blog-post-section"><a href="' . $link . '" target="' . $link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $link_target, 0, 0 ) .'>' . do_shortcode( $this->settings->cta_text ) . ' <span class="uabb-next-right-arrow">&#8594;</span></a></span>';
+            $nofollow = ( isset( $this->settings->link_nofollow ) ) ? $this->settings->link_nofollow : '0';
+            echo '<span class="uabb-read-more-text uabb-blog-post-section"><a href="' . $link . '" target="' . $link_target . '" '. BB_Ultimate_Addon_Helper::get_link_rel( $link_target, $nofollow, 0 ) .'>' . do_shortcode( $this->settings->cta_text ) . ' <span class="uabb-next-right-arrow">&#8594;</span></a></span>';
         }
     }
 
@@ -557,7 +559,7 @@ class BlogPostsModule extends FLBuilderModule {
 
             $show_featured_image = ( isset( $this->settings->show_featured_image ) ) ? $this->settings->show_featured_image : 'yes';
 
-            $link = apply_filters( 'uabb_blog_posts_link', get_permalink( $obj->ID ), $obj->ID );
+            $link = apply_filters( 'uabb_blog_posts_link', get_permalink( $obj->ID ), $obj->ID, $this->settings );
 
             if( $show_featured_image == 'yes' ) {
 
@@ -580,13 +582,13 @@ class BlogPostsModule extends FLBuilderModule {
 
             <div class="uabb-post-thumbnail <?php echo ( $this->settings->featured_image_size == 'custom' ) ? 'uabb-crop-thumbnail' : ''; ?> <?php echo $spacing_class; ?>">
 
-            <?php do_action( 'uabb_blog_posts_before_image', $obj->ID ); ?>
-
-                <a href="<?php echo $link; ?>" target="<?php echo $this->settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, 0, 1 ); ?> title="<?php the_title_attribute(); ?>">
+            <?php do_action( 'uabb_blog_posts_before_image', $obj->ID, $this->settings ); ?>
+                <?php $nofollow = ( isset( $this->settings->link_nofollow ) ) ? $this->settings->link_nofollow : '0'; ?>
+                <a href="<?php echo $link; ?>" target="<?php echo $this->settings->link_target; ?>" <?php BB_Ultimate_Addon_Helper::get_link_rel( $this->settings->link_target, $nofollow, 1 ); ?> title="<?php the_title_attribute(); ?>">
                 <img <?php echo $img_url; ?> alt="<?php echo $img_data['alt']; ?>" />
                 </a>
 
-            <?php do_action( 'uabb_blog_posts_after_image', $obj->ID ); ?>
+            <?php do_action( 'uabb_blog_posts_after_image', $obj->ID, $this->settings ); ?>
                     <?php
                     if( $this->settings->show_date_box == 'yes' ) {
                         $date_box_format = ( isset( $this->settings->date_box_format ) ) ? $this->settings->date_box_format : 'M j, Y';
@@ -664,9 +666,9 @@ class BlogPostsModule extends FLBuilderModule {
             <<?php echo $this->settings->title_tag_selection; ?> class="uabb-post-heading uabb-blog-post-section">
                 <?php
 
-                $title = '<a href='. apply_filters( "uabb_blog_posts_link", get_permalink( $obj->ID ), $obj->ID ) .' title=' . the_title_attribute('echo=0') . ' tabindex="0" class="">'. get_the_title() .'</a>';
+                $title = '<a href='. apply_filters( "uabb_blog_posts_link", get_permalink( $obj->ID ), $obj->ID, $this->settings ) .' title=' . the_title_attribute('echo=0') . ' tabindex="0" class="">'. get_the_title() .'</a>';
 
-                echo apply_filters( 'uabb_advanced_post_title_link', $title, get_the_title(), get_permalink( $obj->ID ), $obj->ID );
+                echo apply_filters( 'uabb_advanced_post_title_link', $title, get_the_title(), get_permalink( $obj->ID ), $obj->ID, $this->settings );
                 ?>
             </<?php echo $this->settings->title_tag_selection; ?>>
         <?php
@@ -714,13 +716,13 @@ class BlogPostsModule extends FLBuilderModule {
             if( $content_count != 0 ) {
                 if( $content_type == 'excerpt' && $strip_html == 'no' ) {
                 ?>
-                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt', the_excerpt() ); ?></div>
+                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt', the_excerpt(), $this->settings ); ?></div>
                 <?php
                 } elseif ( $content_type == 'content' && $strip_html == 'no' ) { ?>
-                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt', the_content() ); ?></div>
+                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt', the_content(), $this->settings ); ?></div>
                 <?php
                 } else { ?>
-                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt',$content); ?></div>
+                    <div class="uabb-blog-posts-description uabb-blog-post-section uabb-text-editor"><?php echo apply_filters('uabb_blog_posts_excerpt',$content, $this->settings); ?></div>
                 <?php
                 }
             }
@@ -902,7 +904,7 @@ class BlogPostsModule extends FLBuilderModule {
      */
     public function render_blog_content( $obj, $i ) {
         
-        $link = apply_filters( 'uabb_blog_posts_link', get_permalink( $obj->ID ), $obj->ID );
+        $link = apply_filters( 'uabb_blog_posts_link', get_permalink( $obj->ID ), $obj->ID, $this->settings );
         $show_title = ( isset( $this->settings->show_title ) ) ? $this->settings->show_title : 'yes';
         $show_excerpt = ( isset( $this->settings->show_excerpt ) ) ? $this->settings->show_excerpt : 'yes';
         $show_author = ( isset( $this->settings->show_author ) ) ? $this->settings->show_author : 'yes';
@@ -931,27 +933,26 @@ class BlogPostsModule extends FLBuilderModule {
             foreach( $layout_sequence as $sq ) {
                 switch ( $sq ) {
                     case 'img' :
-                        
                         if( substr( $this->settings->layout_sort_order, 0, 3 ) != 'img' && substr( $this->settings->layout_sort_order, -3 ) != 'img' ) {
                             echo $this->render_featured_image( 'top', $obj, $i );
                         }
                         break;
                     case 'title':
-                        do_action( 'uabb_blog_posts_before_title', $obj->ID );
+                        do_action( 'uabb_blog_posts_before_title', $obj->ID, $this->settings );
                         $this->render_title_section( $obj );
-                        do_action( 'uabb_blog_posts_after_title', $obj->ID );
+                        do_action( 'uabb_blog_posts_after_title', $obj->ID, $this->settings );
                         break;
 
                      case 'content':
-                        do_action( 'uabb_blog_posts_before_content', $obj->ID );
+                        do_action( 'uabb_blog_posts_before_content', $obj->ID, $this->settings );
                         $this->render_content_section( $obj );
-                        do_action( 'uabb_blog_posts_after_content', $obj->ID );
+                        do_action( 'uabb_blog_posts_after_content', $obj->ID, $this->settings );
                         break;
 
                      case 'meta':
-                        do_action( 'uabb_blog_posts_before_meta', $obj->ID );
+                        do_action( 'uabb_blog_posts_before_meta', $obj->ID, $this->settings );
                         $this->render_meta_section( $obj );
-                        do_action( 'uabb_blog_posts_after_meta', $obj->ID );
+                        do_action( 'uabb_blog_posts_after_meta', $obj->ID, $this->settings);
                         break;
 
                      case 'cta':
@@ -1479,7 +1480,18 @@ FLBuilder::register_module('BlogPostsModule', array(
                         'preview'       => array(
                             'type'          => 'none'
                         )
-                    )
+                    ),
+                    'link_nofollow'   => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Link nofollow', 'uabb'),
+                        'description'   => '',
+                        'default'       => '0',
+                        'help'          => __('Enable this to make this link nofollow', 'uabb'),
+                        'options'       => array(
+                            '1'       => __('Yes','uabb'),
+                            '0'       => __('No','uabb'),
+                        ),
+                    ),
                 )
             ),
             'btn-style'      => array(

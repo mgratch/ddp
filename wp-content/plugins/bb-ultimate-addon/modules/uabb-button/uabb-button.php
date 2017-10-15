@@ -139,7 +139,18 @@ FLBuilder::register_module('UABBButtonModule', array(
 						'preview'       => array(
 							'type'          => 'none'
 						)
-					)
+					),
+					'link_nofollow'   => array(
+						'type'          => 'uabb-toggle-switch',
+						'label'         => __('Link nofollow', 'uabb'),
+						'description'   => '',
+						'default'       => '0',
+						'help'			=> __('Enable this to make this link nofollow', 'uabb'),
+						'options'       => array(
+							'1'       => __('Yes','uabb'),
+							'0'       => __('No','uabb'),
+						),
+					),
 				)
 			),
 			'btn_html_element'          => array(

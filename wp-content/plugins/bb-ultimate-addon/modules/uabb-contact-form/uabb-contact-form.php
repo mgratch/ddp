@@ -23,12 +23,47 @@ class UABBContactFormModule extends FLBuilderModule {
 
 		add_action('wp_ajax_uabb_builder_email', array($this, 'send_mail'));
 		add_action('wp_ajax_nopriv_uabb_builder_email', array($this, 'send_mail'));
+		add_filter( 'script_loader_tag', array( $this, 'uabb_add_async_attribute' ), 10, 2 );
 	}
 
 	static public function mailto_email()
 	{
 		return $this->settings->mailto_email;
 	}
+
+	/**
+	 * @method enqueue_scripts
+	 */
+	public function enqueue_scripts() {
+		$settings = $this->settings;
+		if ( isset( $settings->uabb_recaptcha_toggle ) && $settings->uabb_recaptcha_toggle == 'show' && isset( $settings->uabb_recaptcha_site_key ) && ! empty( $settings->uabb_recaptcha_site_key ) ) {
+
+			$site_lang = substr( get_locale(), 0, 2 );
+			$post_id    = FLBuilderModel::get_post_id();
+
+			$this->add_js(
+				'uabb-g-recaptcha',
+				'https://www.google.com/recaptcha/api.js?onload=onLoadUABBReCaptcha&render=explicit&hl=' . $site_lang,
+				array( 'fl-builder-layout-' . $post_id ),
+				'2.0',
+				true
+			);
+		}
+	}
+
+	/**
+	 * @method  uabb_add_async_attribute for the enqueued `uabb-g-recaptcha` script
+	 * @param string $tag    Script tag
+	 * @param string $handle Registered script handle
+	 */
+	public function uabb_add_async_attribute( $tag, $handle ) {
+		if ( ( $handle !== 'uabb-g-recaptcha'  ) || (  $handle === 'uabb-g-recaptcha' && strpos( $tag, 'uabb-g-recaptcha-api' ) !== false ) ) {
+			return $tag;
+		}
+
+		return str_replace( ' src', ' id="uabb-g-recaptcha-api" async="async" defer="defer" src', $tag );
+	}
+
 	/**
 	 * @method send_mail
 	 */
@@ -1368,5 +1403,59 @@ FLBuilder::register_module('UABBContactFormModule', array(
                 )
             ),
 		)
-	)
+	),
+	'reCAPTCHA'	=> array(
+		'title'		  => __( 'reCAPTCHA', 'uabb' ),
+		'sections'	  => array(
+			'recaptcha_general' => array(
+				'title'			=> '',
+				'fields'		=> array(
+					'uabb_recaptcha_toggle' => array(
+						'type' 			=> 'select',
+						'label' 		=> 'reCAPTCHA Field',
+						'default'		  => 'hide',
+						'options'		  => array(
+							'show'	   => __( 'Show', 'uabb' ),
+							'hide'	   => __( 'Hide', 'uabb' ),
+						),
+						'help' 			=> __( 'If you want to show this field, please provide valid Site and Secret Keys.', 'uabb' ),
+						'preview'		  => array(
+							'type'		   => 'none',
+						),
+						'toggle'		=> array(
+							'show'		=> array(
+								'fields'	=> array( 'uabb_recaptcha_theme', 'uabb_recaptcha_site_key', 'uabb_recaptcha_secret_key' ),
+							)
+						),
+					),
+					'uabb_recaptcha_site_key'		=> array(
+						'type'			=> 'text',
+						'label' 		=> __( 'Site Key', 'uabb' ),
+						'default'		  => '',
+						'preview'		  => array(
+							'type'		   => 'none',
+						),
+					),
+					'uabb_recaptcha_secret_key'	=> array(
+						'type'			=> 'text',
+						'label' 		=> __( 'Secret Key', 'uabb' ),
+						'default'		  => '',
+						'preview'		  => array(
+							'type'		   => 'none',
+						),
+					),
+					'uabb_recaptcha_theme'   => array(
+						'type'          => 'select',
+						'label'         => __('Theme', 'uabb'),
+						'default'       => 'light',
+						'options'       => array(
+							'light'      => __('Light', 'uabb'),
+							'dark'       => __('Dark', 'uabb'),
+						),
+					),
+				),
+			),
+		),
+		'description'	  => sprintf( __( 'Please register keys for your website at <a%s>Google Admin Console</a>.', 'uabb' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
+	),
 ));

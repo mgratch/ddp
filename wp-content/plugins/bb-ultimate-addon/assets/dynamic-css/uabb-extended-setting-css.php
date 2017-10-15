@@ -27,7 +27,7 @@ if ( $enable_row_separator ) {
 		}
 
 		
-		if( $row->uabb_row_separator_color != '' ) {
+		if( isset( $row->uabb_row_separator_color ) && $row->uabb_row_separator_color != '' ) {
 			$row->uabb_row_separator_color = UABB_Helper::uabb_colorpicker( $row, 'uabb_row_separator_color', true );
 		} else {
 			if( isset( $row->separator_color ) && $row->separator_color != '' && $row->separator_color != 'ffffff' ) {
@@ -35,11 +35,11 @@ if ( $enable_row_separator ) {
 			}
 		}
 
-		if( $row->uabb_row_separator_color == '' ) {
+		if( !isset( $row->uabb_row_separator_color ) || $row->uabb_row_separator_color == '' ) {
 			$row->uabb_row_separator_color = '#ffffff';
 		}
 
-		if( $row->bot_separator_color == '' ) {
+		if( !isset( $row->bot_separator_color ) || $row->bot_separator_color == '' ) {
 			$row->bot_separator_color = '#ffffff';
 		}
 
@@ -228,7 +228,7 @@ if ( $enable_row_separator ) {
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
-					    <?php if( $row->separator_shape_width_medium == '' ) { ?>
+					    <?php if( !isset( $row->separator_shape_width_medium ) || $row->separator_shape_width_medium == '' ) { ?>
 							width: calc( 100% + 1.5px );
 						<?php } else { ?>
 					    	width: calc( <?php echo $row->separator_shape_width_medium; ?>% + 1.5px );
@@ -242,7 +242,7 @@ if ( $enable_row_separator ) {
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
-					    <?php if( $row->bot_separator_shape_width_medium == '' ) { ?>
+					    <?php if( !isset( $row->bot_separator_shape_width_medium ) || $row->bot_separator_shape_width_medium == '' ) { ?>
 							width: calc( 100% + 1.5px );
 						<?php } else { ?>
 					    	width: calc( <?php echo $row->bot_separator_shape_width_medium; ?>% + 1.5px ) ;
@@ -285,7 +285,7 @@ if ( $enable_row_separator ) {
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
-					    <?php if( $row->separator_shape_width_responsive == '' ) { ?>
+					    <?php if( !isset( $row->separator_shape_width_responsive ) || $row->separator_shape_width_responsive == '' ) { ?>
 							width: calc( 100% + 1.5px );
 						<?php } else { ?>
 					    	width: calc( <?php echo $row->separator_shape_width_responsive; ?>% + 1.5px );
@@ -299,7 +299,7 @@ if ( $enable_row_separator ) {
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
-					    <?php if( $row->bot_separator_shape_width_responsive == '' ) { ?>
+					    <?php if( !isset( $row->bot_separator_shape_width_responsive ) || $row->bot_separator_shape_width_responsive == '' ) { ?>
 							width: calc( 100% + 1.5px );
 						<?php } else { ?>
 					    	width: calc( <?php echo $row->bot_separator_shape_width_responsive; ?>% + 1.5px ) ;

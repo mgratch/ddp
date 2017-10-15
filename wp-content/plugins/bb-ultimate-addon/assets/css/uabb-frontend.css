@@ -83,13 +83,13 @@
     width: 100%
 }*/
 
-.uabb-row-separator svg {
-    width: 100%;
+.fl-responsive-preview-content .fl-builder-content-editing {
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
-.uabb-top-row .fl-row-content-wrap,
-.uabb-bottom-row .fl-row-content-wrap {
-    overflow: hidden;
+.uabb-row-separator svg {
+    width: 100%;
 }
 
 .uabb-top-row-separator.uabb-has-svg svg {
