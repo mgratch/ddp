@@ -59,7 +59,7 @@ if( defined( 'FL_BUILDER_VERSION' ) ) {
 					<div class="uabb-form-error-message">!</div>
 				</div><!-- Inline Block Space Fix
 				
-				--><div class="uabb-form-button" data-wait-text="<?php esc_attr_e( 'Please Wait...', 'uabb' ); ?>">
+				--><div class="uabb-form-button" data-wait-text="<?php echo $settings->btn_processing_text ?>">
 				<?php
 				$resp_overall_alignment = $settings->resp_overall_alignment != 'default' ? $settings->resp_overall_alignment : $settings->overall_alignment;
 				$btn_settings = array(

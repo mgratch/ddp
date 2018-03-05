@@ -5,8 +5,8 @@ if($settings->layout == 'grid') : ?>
 <div class="uabb-module-content uabb-photo-gallery uabb-gallery-grid<?php echo $settings->grid_column; ?> <?php echo ( $settings->hover_effects != 'none' ) ? $settings->hover_effects : ''; ?>"><?php 
 	foreach($module->get_photos() as $photo) : 
 	?><div class="uabb-photo-gallery-item <?php echo ( ( $settings->click_action != 'none' ) && !empty( $photo->link ) ) ? 'uabb-photo-gallery-link' : ''; ?>">
-		<div class="uabb-photo-gallery-content">
-			
+		
+		<div class="uabb-photo-gallery-content">		
 			<?php if( $settings->click_action != 'none' ) : ?>
 				<?php $click_action_link = '#'; 
 					  //$click_action_target = '_self';

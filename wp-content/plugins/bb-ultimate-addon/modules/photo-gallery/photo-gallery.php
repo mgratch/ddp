@@ -18,7 +18,8 @@ class UABBPhotoGalleryModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/photo-gallery/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/photo-gallery/',
 			'editor_export'  	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'format-gallery.svg',
 		));
 
 		$this->add_js('jquery-magnificpopup-uabb', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery.magnificpopup.min.js', array('jquery'), '', true);

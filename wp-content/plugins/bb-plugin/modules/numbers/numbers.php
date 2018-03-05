@@ -10,9 +10,11 @@ class FLNumbersModule extends FLBuilderModule {
 	 */
 	public function __construct() {
 		parent::__construct(array(
-			'name'          => __( 'Number Counter', 'fl-builder' ),
-			'description'   => __( 'Renders an animated number counter.', 'fl-builder' ),
-			'category'      => __( 'Advanced Modules', 'fl-builder' ),
+			'name'          	=> __( 'Number Counter', 'fl-builder' ),
+			'description'   	=> __( 'Renders an animated number counter.', 'fl-builder' ),
+			'category'      	=> __( 'Info', 'fl-builder' ),
+			'partial_refresh'	=> true,
+			'icon'				=> 'chart-bar.svg',
 		));
 
 		$this->add_js( 'jquery-waypoints' );
@@ -59,8 +61,8 @@ class FLNumbersModule extends FLBuilderModule {
 		if ( $wp_locale ) {
 			$i18n_decimal = $wp_locale->number_format['decimal_point'];
 
-			// French and Norwegian uses SPACE (&nbsp;) as thousands separator.
-			$i18n_thousand = str_replace( '&nbsp;', ' ', $wp_locale->number_format['thousands_sep'] );
+			// French and Norwegian uses SPACE (&nbsp;) as thousands separator. Deutsch(Schweiz) uses single quote.
+			$i18n_thousand = str_replace( array( '&nbsp;', "'" ), array( ' ', "\\'" ), $wp_locale->number_format['thousands_sep'] );
 
 			if ( ! empty( $i18n_decimal ) ) {
 				$format_decimal = $i18n_decimal;

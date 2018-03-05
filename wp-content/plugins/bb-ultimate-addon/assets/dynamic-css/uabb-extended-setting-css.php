@@ -185,14 +185,14 @@ if ( $enable_row_separator ) {
 
 		<?php if( $row->uabb_row_separator_z_index == 'yes' ) { ?>
 			.fl-node-<?php echo $id; ?> .uabb-top-row-separator {
-		    	z-index: 10;
-		    }
-	    <?php } ?>
-	    <?php if( $row->bot_separator_z_index == 'yes' ) { ?>
-	    	.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator {
-		    	z-index: 10;
-		    }
-	    <?php } ?>
+			z-index: 9;
+		}
+		<?php } ?>
+		<?php if( $row->bot_separator_z_index == 'yes' ) { ?>
+			.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator {
+			z-index: 9;
+		}
+		<?php } ?>
 
 		/* Responsive Sizes */
 		<?php if($global_settings->responsive_enabled) { // Responsive Sizes ?>
@@ -224,28 +224,28 @@ if ( $enable_row_separator ) {
 				<?php } ?>
 				<?php if( $row->separator_shape == 'xlarge_circle' || $row->separator_shape == 'circle_svg' || $row->separator_shape == 'triangle_svg' || $row->separator_shape == 'pine_tree' || $row->separator_shape == 'pine_tree_bend' || $row->separator_shape == 'film' || $row->separator_shape == 'round_split' || $row->separator_shape == 'tilt_left' || $row->separator_shape == 'tilt_right' ) { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
-							width: calc( 100% + 1.5px );
+							width: 100%;
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
 					    <?php if( !isset( $row->separator_shape_width_medium ) || $row->separator_shape_width_medium == '' ) { ?>
-							width: calc( 100% + 1.5px );
+							width: 100%;
 						<?php } else { ?>
-					    	width: calc( <?php echo $row->separator_shape_width_medium; ?>% + 1.5px );
+					    	width: <?php echo $row->separator_shape_width_medium; ?>%;
 						<?php } ?>
 					}
 				<?php }?>
 
 				<?php if( $row->bot_separator_shape == 'xlarge_circle' || $row->bot_separator_shape == 'triangle_svg' || $row->bot_separator_shape == 'circle_svg' || $row->bot_separator_shape == 'pine_tree' || $row->bot_separator_shape == 'pine_tree_bend' || $row->bot_separator_shape == 'film' || $row->bot_separator_shape == 'round_split' || $row->bot_separator_shape == 'tilt_left' || $row->bot_separator_shape == 'tilt_right' ) { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
-							width: calc( 100% + 1.5px );
+							width: 100%;
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
 					    <?php if( !isset( $row->bot_separator_shape_width_medium ) || $row->bot_separator_shape_width_medium == '' ) { ?>
-							width: calc( 100% + 1.5px );
+							width: 100%;
 						<?php } else { ?>
-					    	width: calc( <?php echo $row->bot_separator_shape_width_medium; ?>% + 1.5px ) ;
+					    	width: <?php echo $row->bot_separator_shape_width_medium; ?>%;
 						<?php } ?>
 					}
 				<?php }?>
@@ -281,28 +281,28 @@ if ( $enable_row_separator ) {
 
 				<?php if( $row->separator_shape == 'xlarge_circle' || $row->separator_shape == 'circle_svg' || $row->separator_shape == 'triangle_svg' || $row->separator_shape == 'pine_tree' || $row->separator_shape == 'pine_tree_bend' || $row->separator_shape == 'film' || $row->separator_shape == 'round_split' || $row->separator_shape == 'tilt_left' || $row->separator_shape == 'tilt_right' ) { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
-							width: calc( 100% + 1.5px );
+							width: 100%;
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-top-row-separator.uabb-has-svg svg {
 					    <?php if( !isset( $row->separator_shape_width_responsive ) || $row->separator_shape_width_responsive == '' ) { ?>
-							width: calc( 100% + 1.5px );
+							width: 100%;
 						<?php } else { ?>
-					    	width: calc( <?php echo $row->separator_shape_width_responsive; ?>% + 1.5px );
+					    	width: <?php echo $row->separator_shape_width_responsive; ?>%;
 						<?php } ?>
 					}
 				<?php }?>
 
 				<?php if( $row->bot_separator_shape == 'xlarge_circle' || $row->bot_separator_shape == 'triangle_svg' || $row->bot_separator_shape == 'circle_svg' || $row->bot_separator_shape == 'pine_tree' || $row->bot_separator_shape == 'pine_tree_bend' || $row->bot_separator_shape == 'film' || $row->bot_separator_shape == 'round_split' || $row->bot_separator_shape == 'tilt_left' || $row->bot_separator_shape == 'tilt_right' ) { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
-							width: calc( 100% + 1.5px );
+							width: 100%;
 					}
 				<?php } else { ?>
 					.fl-node-<?php echo $id; ?> .uabb-bottom-row-separator.uabb-has-svg svg {
 					    <?php if( !isset( $row->bot_separator_shape_width_responsive ) || $row->bot_separator_shape_width_responsive == '' ) { ?>
-							width: calc( 100% + 1.5px );
+							width: 100%;
 						<?php } else { ?>
-					    	width: calc( <?php echo $row->bot_separator_shape_width_responsive; ?>% + 1.5px ) ;
+					    	width: <?php echo $row->bot_separator_shape_width_responsive; ?>%;
 						<?php } ?>
 					}
 				<?php }?>

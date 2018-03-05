@@ -21,7 +21,6 @@
 		tab_id = hashval.replace( '-' + dataindex, '' );
 	if( tab_id != '' ) {
 		if( jQuery( tab_id ).length > 0 ) {
-			console.log(jQuery( tab_id + ' .uabb-adv-accordion-button' ).eq(dataindex));
 		    if( jQuery(tab_id).find( '.uabb-adv-accordion > .uabb-adv-accordion-item[data-index="' + dataindex + '"]' ) ) {
 
 				jQuery('html, body').animate({

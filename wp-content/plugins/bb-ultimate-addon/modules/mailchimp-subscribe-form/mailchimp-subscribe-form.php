@@ -21,7 +21,8 @@ class UABBSubscribeFormModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/mailchimp-subscribe-form/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/mailchimp-subscribe-form/',
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 		
 		add_action( 'wp_ajax_uabb_subscribe_form_submit', array( $this, 'submit' ) );
@@ -517,6 +518,14 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'selector'      => '.uabb-form-button .uabb-button-text',
                         )
 		            ),
+					'btn_processing_text'	=> array(
+						'type'          => 'text',
+						'label'         => __('Processing Text', 'uabb'),
+						'default'       => 'Please Wait...',
+                        'preview'       => array(
+                            'type'          => 'none'
+                        )
+					),
 		        )
 			),
             'btn-style'      => array(
@@ -642,7 +651,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 					                'property'     => 'border-color'
 					            ),
 					            array(
-					                'selector'     => '.uabb-form-button .uabb-button-wrap a',
+					                'selector'     => '.uabb-button:not(.uabb-creative-transparent-btn) .uabb-form-button .uabb-button-wrap a',
 					                'property'     => 'background'
 					            ),    
 					        )

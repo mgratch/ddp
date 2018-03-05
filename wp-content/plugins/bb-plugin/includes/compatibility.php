@@ -188,7 +188,7 @@ function fl_maybe_fix_unserialize( $data ) {
 	$unserialized = @unserialize( $data );
 	// @codingStandardsIgnoreEnd
 	if ( ! $unserialized ) {
-		$unserialized = unserialize( preg_replace_callback( '/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s', 'fl_maybe_fix_unserialize_callback', $data ) );
+		$unserialized = unserialize( preg_replace_callback( '!s:(\d+):"(.*?)";!', 'fl_maybe_fix_unserialize_callback', $data ) );
 	}
 	return $unserialized;
 }
@@ -199,7 +199,7 @@ function fl_maybe_fix_unserialize( $data ) {
  * @since 1.10.6
  */
 function fl_maybe_fix_unserialize_callback( $match ) {
-	return ( strlen( $match[2] ) == $match[1] ) ? $match[0] : 's:' . mb_strlen( $match[2] ) . ':"' . $match[2] . '";';
+	return ( strlen( $match[2] ) == $match[1] ) ? $match[0] : 's:' . strlen( $match[2] ) . ':"' . $match[2] . '";';
 }
 
 /**
@@ -272,3 +272,25 @@ function fl_autoptimize_filter_noptimize_filter( $args ) {
 	return $args;
 }
 add_filter( 'autoptimize_filter_noptimize', 'fl_autoptimize_filter_noptimize_filter' );
+
+/**
+ * Plugin Enjoy Instagram loads its js and css on all frontend pages breaking the builder.
+ * @since 2.0.1
+ */
+add_action( 'template_redirect', 'fix_aggiungi_script_instafeed_owl', 1000 );
+function fix_aggiungi_script_instafeed_owl() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_enqueue_scripts', 'aggiungi_script_instafeed_owl' );
+	}
+}
+
+/**
+* Siteground cache captures shutdown and breaks our dynamic js loading.
+* @since 2.0.4.2
+*/
+add_action( 'plugins_loaded', 'fl_fix_sg_cache', 9 );
+function fl_fix_sg_cache() {
+	if ( isset( $_GET['fl_builder_load_settings_config'] ) ) {
+		remove_action( 'plugins_loaded', 'sg_cachepress_start' );
+	}
+}

@@ -2,7 +2,11 @@
 
 function uabb_column_render_js() {
 
-    add_filter( 'fl_builder_render_js', 'uabb_col_dependency_js', 10, 3 );
+    $module = UABB_Init::$uabb_options['fl_builder_uabb'];
+    $colgrad = isset( $module["uabb-col-gradient"] ) ? $module["uabb-col-gradient"] : true;
+    if( $colgrad ) {
+        add_filter( 'fl_builder_render_js', 'uabb_col_dependency_js', 10, 3 );
+    }
 }
 
 /**

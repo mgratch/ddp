@@ -106,11 +106,23 @@ var UABBNumber;
 				$counter_number = this.number;
 				current = 0;
 
+			var sAgent = window.navigator.userAgent;
+			var Idx = sAgent.indexOf("MSIE");
+			
+		 	if (Idx > 0 || !!navigator.userAgent.match(/Trident\/7\./) ) {
+				Number.isInteger = Number.isInteger || function(value) {
+					return typeof value === "number" &&
+					isFinite(value) &&
+					Math.floor(value) === value;
+				};
+		  	}
+
 			if( Number.isInteger( $counter_number ) ) {
 				var digits = 0;
 			} else {
 				var digits = $counter_number.toString().split(".")[1].length;
 			}
+
 			if ( ! $number.hasClass( 'uabb-number-animated') ) {
 
 	        	var $numFormat = this.numberFormat;

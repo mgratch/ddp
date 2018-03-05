@@ -99,6 +99,19 @@ final class FLPageDataPost {
 	}
 
 	/**
+	 * @since 1.0.3
+	 * @param object $settings
+	 * @return string
+	 */
+	static public function get_modified_date( $settings ) {
+
+		if ( 'human' == $settings->format ) {
+			return human_time_diff( get_the_time( 'U' ) ) . ' ago';
+		}
+		return get_the_modified_date( $settings->format );
+	}
+
+	/**
 	 * @since 1.0
 	 * @param object $settings
 	 * @return string
@@ -188,7 +201,15 @@ final class FLPageDataPost {
 
 		$terms_list = get_the_term_list( $post->ID, $settings->taxonomy, '', $settings->separator, '' );
 
-		return is_string( $terms_list ) ? $terms_list : '';
+		if ( is_string( $terms_list ) ) {
+			if ( 'no' === $settings->linked ) {
+				$terms_list = strip_tags( $terms_list );
+			}
+		} else {
+			$terms_list = '';
+		}
+
+		return $terms_list;
 	}
 
 	/**
@@ -338,7 +359,6 @@ final class FLPageDataPost {
 	static public function get_author_profile_picture( $settings ) {
 		$size   = ! is_numeric( $settings->size ) ? 512 : $settings->size;
 		$avatar = get_avatar( get_the_author_meta( 'ID' ), $size );
-
 		if ( '1' == $settings->link || 'yes' == $settings->link ) {
 			$settings->type = $settings->link_type;
 			$avatar = '<a href="' . self::get_author_url( $settings ) . '">' . $avatar . '</a>';
@@ -354,9 +374,17 @@ final class FLPageDataPost {
 	 */
 	static public function get_author_profile_picture_url( $settings ) {
 
+		$author = get_the_author_meta( 'ID' );
+
+		// if not in loop use global $post to find author ID
+		if ( ! $author ) {
+			global $post;
+			$author = $post->post_author;
+		}
 		// We get the url like this because not all custom avatar plugins filter get_avatar_url.
 		$size = ! is_numeric( $settings->size ) ? 512 : $settings->size;
-		$avatar = get_avatar( get_the_author_meta( 'ID' ), $size );
+		$avatar = get_avatar( $author, $size );
+
 		preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $avatar, $matches, PREG_SET_ORDER );
 		$url = ! empty( $matches ) && isset( $matches[0][1] ) ? $matches[0][1] : '';
 
@@ -389,22 +417,46 @@ final class FLPageDataPost {
 	static public function get_custom_field( $settings ) {
 		global $post;
 
-		if ( is_object( $post ) ) {
-			$parent_id       = $post->post_parent;
-			$current_post_id = $post->ID;
-		} elseif ( is_array( $post ) ) {
-			$parent_id       = $post['post_parent'];
-			$current_post_id = $post['ID'];
-		} else {
-			$parent_id       = 0;
-			$current_post_id = $post;
-		}
-
-
 		if ( empty( $settings->key ) ) {
 			return '';
 		}
+		$meta = get_post_meta( $post->ID, $settings->key, true );
 
-		return get_post_meta( $current_post_id, $settings->key, true );
+		// expression support
+		if ( isset( $settings->value ) && '' !== $settings->value && isset( $settings->exp ) && '' !== $settings->exp ) {
+			switch ( $settings->exp ) {
+				case 'less':
+					return ( intval( $meta ) < intval( $settings->value ) ) ? $meta : '';
+					break;
+
+				case 'lessequals':
+					return ( intval( $meta ) <= intval( $settings->value ) ) ? $meta : '';
+					break;
+
+				case 'greater':
+					return ( intval( $meta ) > intval( $settings->value ) ) ? $meta : '';
+					break;
+
+				case 'greaterequals':
+					return ( intval( $meta ) >= intval( $settings->value ) ) ? $meta : '';
+					break;
+
+				case 'equals':
+					return ( $meta === $settings->value ) ? $meta : '';
+					break;
+
+				case 'notequals':
+					return ( $meta !== $settings->value ) ? $meta : '';
+					break;
+
+				default:
+				break;
+			}
+		}
+
+		if ( isset( $settings->value ) && '' !== $settings->value ) {
+			return ( $settings->value == $meta ) ? $meta : '';
+		}
+		return $meta;
 	}
 }

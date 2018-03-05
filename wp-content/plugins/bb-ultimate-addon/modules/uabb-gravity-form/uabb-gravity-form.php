@@ -18,7 +18,8 @@ class UABBGravityFormModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-gravity-form/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-gravity-form/',
 			'editor_export'  	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_gravity_form_render_settings_field' ), 10, 3 );

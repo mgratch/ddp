@@ -66,6 +66,15 @@
 					}
 				}else{
 					modal_node.addClass('uabb-show');
+
+					var active_popup = $('.uamodal-' + node_id );
+					if ( active_popup.find( '.uabb-content' ).outerHeight() > $(window).height() ) {
+						$('html').addClass('uabb-html-modal');
+						active_popup.find('.uabb-modal').addClass('uabb-modal-scroll');
+					} else {
+						$('html').removeClass('uabb-html-modal');
+						active_popup.find('.uabb-modal').removeClass('uabb-modal-scroll');
+					}
 				}
 			}else{
 				modal_node.removeClass('uabb-show');

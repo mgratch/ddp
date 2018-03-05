@@ -18,7 +18,8 @@ class UABBContactForm7Module extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-contact-form7/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-contact-form7/',
 			'editor_export'  	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 	}
 }

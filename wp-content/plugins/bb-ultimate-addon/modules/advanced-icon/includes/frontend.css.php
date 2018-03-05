@@ -8,6 +8,7 @@
 
 .fl-node-<?php echo $id; ?> .adv-icon-horizontal .adv-icon-link {
 	margin-bottom: <?php echo $settings->spacing; ?>px;
+	display: inline-block;
 }
 
 /* Left */

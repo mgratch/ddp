@@ -1,24 +1,23 @@
 <?php
 
-if( ! class_exists( 'Toolset_User_Editors_Medium_Screen_Abstract', false ) ) {
-	require_once( TOOLSET_COMMON_PATH . '/user-editors/medium/screen/abstract.php' );
-}
-
 class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 	extends Toolset_User_Editors_Medium_Screen_Abstract {
 
 	private $original_global_post;
 
+	/**
+	 * Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor constructor.
+	 */
 	public function __construct() {
 		add_action( 'wp_ajax_set_preview_post', array( $this, 'ajax_set_preview_post' ) );
 	}
 
-	public function isActive() {
+	public function is_active() {
 		if( is_admin() || ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 		// todo we need to move here an equivalent to the editor screen action method
-		// It should do what equivalentEditorScreenIsActive does, as it will be removed
+		// It should do what equivalent_editor_screen_is_active does, as it will be removed
 		// It should get the methods now on /editor/screen/beaver/frontend-editor.php that are user editor agnostic
 		// And we move there the ones that are BB only related
 		$this->action();
@@ -29,7 +28,7 @@ class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 		
 	}
 
-	public function equivalentEditorScreenIsActive() {
+	public function equivalent_editor_screen_is_active() {
 		add_action( 'init', array( $this, 'register_as_post_type' ) );
 		add_action( 'wp', array( $this, 'load_medium_id_by_post' ), -1 );
 		
@@ -43,7 +42,7 @@ class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 			return false;
 		}
 
-		$this->manager->getMedium()->setId( $post->ID );
+		$this->manager->get_medium()->set_id( $post->ID );
 
 		// todo outsource complete preview selector to 'resources'
 		add_action( 'wp_footer', array( $this, 'render_preview_post_selector') );
@@ -86,8 +85,8 @@ class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 			'toolset_user_editors',
 			array(
 				'nonce' => wp_create_nonce( 'toolset_user_editors' ),
-				'mediumId' => $this->manager->getMedium()->getId(),
-				'mediumUrl' => admin_url( 'admin.php?page=ct-editor&ct_id=' . $this->manager->getMedium()->getId() ),
+				'mediumId' => $this->manager->get_medium()->get_id(),
+				'mediumUrl' => admin_url( 'admin.php?page=ct-editor&ct_id=' . $this->manager->get_medium()->get_id() ),
 			)
 		);
 		
@@ -193,15 +192,7 @@ class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 				? ' selected="selected"'
 				: '';
 
-			echo '<span class="fl-builder-bar-title js-toolset-editors-frontend-editor-extra" style="display:none;border-left:solid 1px #ccc;padding-bottom:6px;font-size:13px;">';
-			echo '<i class="icon icon-toolset-logo" style="color: #F05A29; font-size: 30px; vertical-align: middle;"></i>';
-			echo '<span>';
-			
-			echo __( 'Preview this Content Template with:', 'wpv-views' );
-
-			echo ' <select id="wpv-ct-preview-post">';
-			echo '<option value="0"' . $selected . '>'.__( 'No post', 'wpv-views' ).'</option>';
-
+			$options = '';
 			foreach( $preview_posts as $single_post ) {
 				$selected = $preview_post == $single_post['ID']
 					? ' selected="selected"'
@@ -209,14 +200,26 @@ class Toolset_User_Editors_Medium_Screen_Content_Template_Frontend_Editor
 				if ( ! empty( $selected ) ) {
 					$preview_post_offered = true;
 				}
-				echo '<option value="' . $single_post['ID'] . '"' . $selected . '>'.$single_post['post_title'].'</option>';
+				$options .= '<option value="' . $single_post['ID'] . '"' . $selected . '>'.$single_post['post_title'].'</option>';
 			}
-			echo '</select>';
-			
-			echo '</span>';
-			
-			echo '</span>';
-			
+
+			$output = 	'<span class="fl-builder-bar-title toolset-editors-frontend-editor-extra js-toolset-editors-frontend-editor-extra">' .
+							'<span class="toolset-editors-frontend-editor-extra-content js-toolset-editors-frontend-editor-extra-content">' .
+								'<span class="toolset-editors-frontend-editor-extra-content-icon-container">' .
+									'<i class="icon icon-toolset-logo"></i>' .
+								'</span>' .
+								'<span>' .
+									__( 'Preview this Content Template with:', 'wpv-views' ) .
+								'</span>' .
+								'<select id="wpv-ct-preview-post">' .
+									'<option value="0"' . $selected . '>'.__( 'No post', 'wpv-views' ).'</option>' .
+									$options .
+								'</select>' .
+							'</span>' .
+						'</span>';
+
+			echo $output;
+
 			if ( ! $preview_post_offered ) {
 				$this->store_preview_post_id( $post->ID, 0 );
 			}

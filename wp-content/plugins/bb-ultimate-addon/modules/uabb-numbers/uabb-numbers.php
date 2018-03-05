@@ -17,7 +17,8 @@ class UABBNumbersModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-numbers/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-numbers/',
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+			'icon'				=> 'chart-bar.svg',
 		));
 
 		$this->add_js( 'jquery-waypoints' );

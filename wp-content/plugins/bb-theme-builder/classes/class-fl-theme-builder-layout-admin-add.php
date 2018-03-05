@@ -78,7 +78,7 @@ final class FLThemeBuilderLayoutAdminAdd {
 
 			if ( file_exists( $file ) ) {
 
-				$data = unserialize( preg_replace_callback( '/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s', 'fl_maybe_fix_unserialize_callback', file_get_contents( $file ) ) );
+				$data = unserialize( file_get_contents( $file ) );
 
 				if ( isset( $data[ $layout ] ) ) {
 					$nodes = $data[ $layout ][0]->nodes;
@@ -103,7 +103,7 @@ final class FLThemeBuilderLayoutAdminAdd {
 	 */
 	static public function filter_config( $config ) {
 		$action = __( 'Add', 'fl-theme-builder' );
-		$string = sprintf( _x( '%s Theme Layout', '%s is an action like Add, Edit or View.', 'fl-theme-builder' ), $action );
+		$string = sprintf( _x( '%s Themer Layout', '%s is an action like Add, Edit or View.', 'fl-theme-builder' ), $action );
 
 		$config['strings']['addButton']['theme-layout'] = $string;
 
@@ -120,7 +120,7 @@ final class FLThemeBuilderLayoutAdminAdd {
 	static public function filter_type_select( $types ) {
 		$types[51] = array(
 			'key'   => 'theme-layout',
-			'label' => __( 'Theme Layout', 'fl-theme-builder' ),
+			'label' => __( 'Themer Layout', 'fl-theme-builder' ),
 		);
 
 		ksort( $types );

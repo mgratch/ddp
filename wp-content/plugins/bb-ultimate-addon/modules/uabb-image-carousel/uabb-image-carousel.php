@@ -18,7 +18,8 @@ class UABBImageCarouselModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-image-carousel/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-image-carousel/',
 			'editor_export'  	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'slides.svg',
 		));
 
         $this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array('jquery'), '', true );

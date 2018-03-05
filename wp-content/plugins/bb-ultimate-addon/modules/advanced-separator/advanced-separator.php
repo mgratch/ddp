@@ -18,7 +18,8 @@ class AdvancedSeparatorModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/advanced-separator/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/advanced-separator/',
             'editor_export' 	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'minus.svg',
 		));
 	}
 

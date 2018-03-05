@@ -18,7 +18,8 @@ class UABBCountdownModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/uabb-countdown/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'clock.svg',
 		) );
 
 	}

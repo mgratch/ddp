@@ -17,7 +17,8 @@ class UABBAdvancedAccordionModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/advanced-accordion/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/advanced-accordion/',
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'layout.svg',
 		));
 
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_accordion_render_settings_field' ), 10, 3 );

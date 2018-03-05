@@ -374,19 +374,19 @@ if( $settings->icon_position == "left" ){ ?>
 			<?php if ( $settings->list_icon_style =="simple" ) { ?>
 			background: <?php echo uabb_theme_base_color( '' );?>;
 			<?php }else { ?>
- 			background: <?php echo uabb_theme_base_color( $settings->list_icon_bg_color );?>;
- 			<?php 
- 				}
- 			} ?>
+			background: <?php echo uabb_theme_base_color( $settings->list_icon_bg_color );?>;
+			<?php 
+				}
+			} ?>
 
- 			<?php if ( $settings->list_icon_style =="circle" ) { ?>
- 			border-radius: 50%;
- 			<?php } ?>
- 			<?php if ( $settings->icon_position =="top" ) { ?>
- 			margin: auto;
- 			<?php } ?>
- 		}
- 		<?php	
+			<?php if ( $settings->list_icon_style =="circle" ) { ?>
+			border-radius: 50%;
+			<?php } ?>
+			<?php if ( $settings->icon_position =="top" ) { ?>
+			margin: auto;
+			<?php } ?>
+		}
+		<?php	
  		}
  		if( ( isset( $item->image_type ) && $item->image_type != "none" ) || ( ( isset( $item->icon ) && $item->icon != "" ) || ( isset( $item->photo_src ) && $item->photo_src != "" ) || ( isset( $item->photo_url ) && $item->photo_url != "" ) ) )
  		{
@@ -409,12 +409,13 @@ if( $settings->icon_position == "left" ){ ?>
 		if( ( isset( $item->image_type ) && $item->image_type == 'photo' ) && ( $settings->list_icon_style === "custom" || $settings->list_icon_style === "simple" ) ) :
 			$img_size = array();
 			if( $item->photo_source == 'library' && $item->photo != '' ) :
-				$img_size = ( isset( FLBuilderPhoto::get_attachment_data($item->photo)->url ) ) ? getimagesize( FLBuilderPhoto::get_attachment_data($item->photo)->url ) : '';
+				$img_size[0] = ( isset( FLBuilderPhoto::get_attachment_data($item->photo)->width ) ) ? FLBuilderPhoto::get_attachment_data($item->photo)->width : '';
+				$img_size[1] = ( isset( FLBuilderPhoto::get_attachment_data($item->photo)->height ) ) ? FLBuilderPhoto::get_attachment_data($item->photo)->height : '';
 			elseif( trim($item->photo_url) != '' ) :
 				$img_size = getimagesize( $item->photo_url );
 			endif;
 
-			if( isset($img_size[0]) && isset($img_size[1]) ) :
+			if( isset($img_size[0]) && isset($img_size[1]) && $img_size[0] != 0 ) :
 				$actual_height = ( $settings->icon_image_size * $img_size[1] ) / $img_size[0];
 				
 				if( $actual_height > $settings->icon_image_size ) :

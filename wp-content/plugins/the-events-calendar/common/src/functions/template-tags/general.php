@@ -436,14 +436,37 @@ if ( ! function_exists( 'tribe_format_currency' ) ) {
 	function tribe_format_currency( $cost, $post_id = null, $currency_symbol = null, $reverse_position = null ) {
 		$post_id = Tribe__Main::post_id_helper( $post_id );
 
-		$currency_symbol = apply_filters( 'tribe_currency_symbol', $currency_symbol, $post_id );
-
-		// if no currency symbol was passed let's get the default currency symbol
-		if ( ! $currency_symbol ) {
+		if ( empty( $currency_symbol ) ) {
 			$currency_symbol = tribe_get_option( 'defaultCurrencySymbol', '$' );
+
+			/**
+			 * Filters the currency symbol that will be used to format the price, defaults
+			 * to the one set in the options.
+			 *
+			 * This will only apply if the currency symbol was not passed as a parameter.
+			 *
+			 * @since 4.7.7
+			 *
+			 * @param string $currency_symbol
+			 * @param int $post_id
+			 */
+			$currency_symbol = apply_filters( 'tribe_currency_symbol', $currency_symbol, $post_id );
 		}
 
-		$reverse_position = apply_filters( 'tribe_reverse_currency_position', $reverse_position, $post_id );
+		if ( null === $reverse_position ) {
+			/**
+			 * Filters whether the currency symbol that will be used to format the price should be
+			 * prefixed (`false`) or appended (`true`) to the price value.
+			 *
+			 * This will only apply if the currency symbol reverse position not passed as a parameter.
+			 *
+			 * @since 4.7.7
+			 *
+			 * @param bool $reverse_position
+			 * @param int  $post_id
+			 */
+			$reverse_position = apply_filters( 'tribe_reverse_currency_position', (bool) $reverse_position, $post_id );
+		}
 
 		// if no currency position was passed and we're not looking at a particular event,
 		// let's get the default currency position
@@ -454,7 +477,6 @@ if ( ! function_exists( 'tribe_format_currency' ) ) {
 		$cost = $reverse_position ? $cost . $currency_symbol : $currency_symbol . $cost;
 
 		return $cost;
-
 	}
 }//end if
 
@@ -493,6 +515,36 @@ function tribe_notice( $slug, $callback, $arguments = array(), $active_callback 
 }
 
 /**
+ * Shortcut for Tribe__Admin__Notices::register_transient(), create a transient Admin Notice easily.
+ *
+ * A transient admin notice is a "fire-and-forget" admin notice that will display once registered and
+ * until dismissed (if dismissible) without need, on the side of the source code, to register it on each request.
+ *
+ * @param  string $slug      Slug to save the notice
+ * @param  string $html      The notice output HTML code
+ * @param  array  $arguments Arguments to Setup a notice
+ * @param int     $expire    After how much time (in seconds) the notice will stop showing.
+ *
+ * @return stdClass Which notice was registered
+ */
+function tribe_transient_notice( $slug, $html, $arguments = array(), $expire = null ) {
+	$expire = null !== $expire ? (int) $expire : WEEK_IN_SECONDS;
+
+	return Tribe__Admin__Notices::instance()->register_transient( $slug, $html, $arguments, $expire );
+}
+
+/**
+ * Removes a transient notice based on its slug.
+ *
+ * @since 4.7.7
+ *
+ * @param string $slug
+ */
+function tribe_transient_notice_remove( $slug ) {
+	Tribe__Admin__Notices::instance()->remove_transient( $slug );
+}
+
+/**
  * A quick internal way of sending errors using WP_Error
  *
  * @param  string|array $indexes Which Error we are looking for
@@ -520,6 +572,8 @@ function tribe_register_error( $indexes, $message ) {
 /**
  * Shortcut for Tribe__Assets::register(), include a single asset
  *
+ * @since 4.3
+ *
  * @param  object   $origin     The main Object for the plugin you are enqueueing the script/style for
  * @param  string   $slug       Slug to save the asset
  * @param  string   $file       Which file will be loaded, either CSS or JS
@@ -530,7 +584,33 @@ function tribe_register_error( $indexes, $message ) {
  * @return array             Which Assets was registered
  */
 function tribe_asset( $origin, $slug, $file, $deps = array(), $action = null, $arguments = array() ) {
-	return Tribe__Assets::instance()->register( $origin, $slug, $file, $deps, $action, $arguments );
+	return tribe( 'assets' )->register( $origin, $slug, $file, $deps, $action, $arguments );
+}
+
+/**
+ * Shortcut for Tribe__Assets::enqueue(), include assets
+ *
+ * @since  4.7
+ *
+ * @param  string|array  $slug  Slug to enqueue
+ *
+ * @return string
+ */
+function tribe_asset_enqueue( $slug ) {
+	return tribe( 'assets' )->enqueue( $slug );
+}
+
+/**
+ * Shortcut for Tribe__Assets::enqueue_group() include assets by groups
+ *
+ * @since  4.7
+ *
+ * @param  string|array  $group  Which group(s) should be enqueued
+ *
+ * @return string
+ */
+function tribe_asset_enqueue_group( $group ) {
+	return tribe( 'assets' )->enqueue_group( $group );
 }
 
 /**
@@ -572,4 +652,41 @@ function tribe_assets( $origin, $assets, $action = null, $arguments = array() ) 
 	}
 
 	return $registered;
+}
+
+if ( ! function_exists( 'tribe_doing_frontend' ) ) {
+	/**
+	 * Registers truthy or falsy callbacks on the filters used to detect if
+	 * any frontend operation is being done for logged in users or not.
+	 *
+	 * @since 4.7.4
+	 *
+	 * @param bool $doing_frontend Whether what is being done happens in the
+	 *                             context of the frontend or not.
+	 */
+	function tribe_doing_frontend( $doing_frontend ) {
+		$callback = $doing_frontend ? '__return_true' : '__return_false';
+
+		add_filter( 'tribe_doing_frontend', $callback );
+	}
+}
+
+if ( ! function_exists( 'tribe_is_frontend' ) ) {
+	/**
+	 * Whether we are currently performing a frontend operation or not.
+	 *
+	 * @since 4.6.2
+	 *
+	 * @return bool
+	 */
+	function tribe_is_frontend() {
+		/**
+		 * Whether we are currently performing a frontend operation or not.
+		 *
+		 * @since 4.6.2
+		 *
+		 * @param bool $is_frontend
+		 */
+		return (bool) apply_filters( 'tribe_doing_frontend', false );
+	}
 }

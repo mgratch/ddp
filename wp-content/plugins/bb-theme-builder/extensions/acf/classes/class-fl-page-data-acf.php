@@ -30,13 +30,20 @@ final class FLPageDataACF {
 		if ( empty( $object ) || ! isset( $object['type'] ) ) {
 			return $content;
 		}
-
 		switch ( $object['type'] ) {
 			case 'text':
+				$content = self::general_compare( $settings, $object );
+				break;
 			case 'textarea':
 			case 'number':
+				$content = self::general_compare( $settings, $object );
+				break;
 			case 'email':
+				$content = self::general_compare( $settings, $object );
+				break;
 			case 'url':
+				$content = self::general_compare( $settings, $object );
+				break;
 			case 'password':
 			case 'wysiwyg':
 			case 'oembed':
@@ -71,9 +78,20 @@ final class FLPageDataACF {
 				if ( isset( $object['date_format'] ) && ! isset( $object['return_format'] ) ) {
 					$format  = self::js_date_format_to_php( $object['display_format'] );
 					$date    = DateTime::createFromFormat( 'Ymd',  $object['value'] );
-					$content = $date->format( $format );
+
+					// Only pass to format() if vaid date, DateTime returns false if not valid.
+					if ( $date ) {
+						$content = $date->format( $format );
+					} else {
+						$content = '';
+					}
 				} else {
-					$content = isset( $object['value'] ) ? $object['value'] : '';
+					if ( isset( $settings->format ) && '' !== $settings->format && isset( $object['value'] ) ) {
+						$date = str_replace( '/', '-', $object['value'] );
+						$content = date( $settings->format, strtotime( $date ) );
+					} else {
+						$content = isset( $object['value'] ) ? $object['value'] : '';
+					}
 				}
 				break;
 			case 'google_map':
@@ -92,11 +110,56 @@ final class FLPageDataACF {
 			case 'file':
 				$content = self::get_file_url_from_object( $object );
 				break;
+			case 'true_false':
+				$content = ( $object['value'] ) ? '1' : '0';
+				break;
 			default:
 				$content = '';
 		}// End switch().
-
 		return is_string( $content ) ? $content : '';
+	}
+
+	static public function general_compare( $settings, $object ) {
+
+		if ( ! isset( $settings->exp ) ) {
+			return isset( $object['value'] ) ? $object['value'] : '';
+		}
+
+		$meta = isset( $object['value'] ) ? untrailingslashit( $object['value'] ) : '';
+
+		$expression = $settings->exp;
+
+		$compare    = untrailingslashit( $settings->value );
+
+		switch ( $expression ) {
+			case 'less':
+				return ( intval( $meta ) < intval( $compare ) ) ? $meta : '';
+				break;
+
+			case 'lessequals':
+				return ( intval( $meta ) <= intval( $compare ) ) ? $meta : '';
+				break;
+
+			case 'greater':
+				return ( intval( $meta ) > intval( $compare ) ) ? $meta : '';
+				break;
+
+			case 'greaterequals':
+				return ( intval( $meta ) >= intval( $compare ) ) ? $meta : '';
+				break;
+
+			case 'equals':
+				return ( $meta === $compare ) ? $meta : '';
+				break;
+
+			case 'notequals':
+				return ( $meta !== $compare ) ? $meta : '';
+				break;
+
+			default:
+			break;
+		}
+		return $meta;
 	}
 
 	/**

@@ -73,13 +73,18 @@
 	margin-bottom: <?php echo $settings->desc_margin_bottom; ?>px;
 }
 
-/* Heading Typography */
-.fl-node-<?php echo $id; ?> <?php /* echo $settings->tag; */?>.uabb-heading,
-.fl-node-<?php echo $id; ?> <?php /* echo $settings->tag; */?>.uabb-heading * {
+/* Heading Color */
+.fl-node-<?php echo $id; ?> .fl-module-content.fl-node-content .uabb-heading,
+.fl-node-<?php echo $id; ?> .fl-module-content.fl-node-content .uabb-heading .uabb-heading-text,
+.fl-node-<?php echo $id; ?> .fl-module-content.fl-node-content .uabb-heading * {
 	
 	<?php if(!empty($settings->color)) : ?>
 		color: <?php echo $settings->color; ?>;
 	<?php endif; ?>
+}
+
+.fl-node-<?php echo $id; ?> <?php /* echo $settings->tag; */?>.uabb-heading,
+.fl-node-<?php echo $id; ?> <?php /* echo $settings->tag; */?>.uabb-heading * {
 	
 	<?php if( !empty($settings->font) && $settings->font['family'] != 'Default' ) : ?>
 		<?php UABB_Helper::uabb_font_css( $settings->font ); ?>
@@ -96,11 +101,14 @@
 	<?php endif; ?>
 }
 
+/* Heading's Description Color */
+.fl-node-<?php echo $id; ?> .fl-module-content.fl-node-content .uabb-module-content .uabb-text-editor {
+	color: <?php echo uabb_theme_text_color( $settings->desc_color ); ?>;
+}
+
 /* Heading's Description Typography */
 .fl-node-<?php echo $id; ?> .uabb-text-editor {
 	
-	color: <?php echo uabb_theme_text_color( $settings->desc_color ); ?>;
-
 	<?php if( !empty($settings->desc_font_family) && $settings->desc_font_family['family'] != 'Default' ) : ?>
 		<?php UABB_Helper::uabb_font_css( $settings->desc_font_family ); ?>
 	<?php endif; ?>

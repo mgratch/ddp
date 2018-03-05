@@ -31,6 +31,7 @@ class UABBPhotoModule extends FLBuilderModule {
 			'partial_refresh'	=> true,
 			'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
+			'icon'				=> 'format-image.svg',
 		));
 	}
 

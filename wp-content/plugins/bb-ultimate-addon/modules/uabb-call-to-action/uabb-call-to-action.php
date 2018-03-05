@@ -19,7 +19,8 @@ class UABBCtaModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/uabb-call-to-action/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'megaphone.svg',
 		));
 	}
 

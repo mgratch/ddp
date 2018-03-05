@@ -48,12 +48,20 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 				$branding_modules = sprintf( __( '%s', 'uabb' ), $branding_name );
 			}
 
+			if( isset( $branding['uabb-global-module-listing'] ) && $branding['uabb-global-module-listing'] ) {
+
+				$branding_modules = '';
+				if ( version_compare( '2.0', FL_BUILDER_VERSION, '>' ) ) {
+					$branding_modules = 'Advanced Modules';
+				}
+			}
+
 			define( 'UABB_PREFIX', $branding_name );
 			define( 'UABB_CAT', $branding_modules );
 		}
 		
 		static public function module_cat( $cat ) {
-		    return class_exists( 'FLBuilderUIContentPanel' ) ? $cat : UABB_CAT;
+			return class_exists( 'FLBuilderUIContentPanel' ) ? $cat : UABB_CAT;
 		}
 
 		static public function get_builder_uabb()
@@ -269,7 +277,8 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 				'uabb-row-separator'		=> 'Row Separator',
 				'uabb-row-gradient'			=> 'Row Gradient Background',
 				'uabb-col-gradient'			=> 'Column Gradient Background',
-				);
+				'uabb-col-shadow'			=> 'Column Shadow',
+			);
 			return $extenstions_array;
 		}
 
@@ -341,7 +350,8 @@ if( !class_exists( "BB_Ultimate_Addon_Helper" ) ) {
 								isset( $template_data['status'] ) && $template_data['status'] == true &&
 								isset( $template_data['dat_url_local'] ) && !empty( $template_data['dat_url_local'] )
 							) {
-								$exist_templates[$type] = ( count( $exist_templates[$type] ) + 1 );
+								
+								$exist_templates[$type] = ( count( ( is_array($exist_templates[$type]) || is_object($exist_templates[$type]) ) ? $exist_templates[$type] : array() ) + 1 );
 							}
 						}
 					}

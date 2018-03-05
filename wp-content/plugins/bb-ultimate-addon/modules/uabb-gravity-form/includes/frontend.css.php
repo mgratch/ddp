@@ -67,7 +67,6 @@
 .fl-node-<?php echo $id; ?> .uabb-gf-style .gform_wrapper form .gform_body input:not([type='radio']):not([type='checkbox']):not([type='submit']):not([type='button']):not([type='image']):not([type='file']),
 .fl-node-<?php echo $id; ?> .gform_wrapper textarea,
 .fl-node-<?php echo $id; ?> .gform_wrapper .gfield .ginput_container select {
-	width: 100%;
 	<?php if ( $settings->input_padding != ''  ) { ?>
 		<?php echo $settings->input_padding; ?>;
 	<?php } ?>

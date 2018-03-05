@@ -89,7 +89,7 @@ class UABB_UI_Panels {
 	}
 	function tools_menu_button($views) {
 
-		if ( apply_filters( 'uabb_global_support', true ) && !class_exists( 'FLCustomizer' ) && !function_exists( 'generate_customize_register' ) ) {
+		if ( apply_filters( 'uabb_global_support_form', true ) ) {
 			$views['main']['items'][66] = array(
 				'label' => sprintf(
 							esc_attr__( '%s - Global Settings', 'uabb' ),

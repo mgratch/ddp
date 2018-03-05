@@ -136,8 +136,10 @@
 	</div>
 
 	<div class="uabb-submit-btn">
-		<button type="submit" class="uabb-contact-form-submit">
-		<?php if( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) { echo ( $settings->btn_icon != '' && $settings->btn_icon_position == 'before' ) ? '<i class="' . $settings->btn_icon . '"></i>' : ''; } ?><span><?php echo $settings->btn_text; ?></span><?php if( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) { echo ( $settings->btn_icon != '' && $settings->btn_icon_position == 'after' ) ? '<i class="' . $settings->btn_icon . '"></i>' : ''; } ?></button>
+		<div class="uabb-contact-form-button" data-wait-text="<?php echo $settings->btn_processing_text; ?>">
+			<button type="submit" class="uabb-contact-form-submit">
+			<?php if( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) { echo ( $settings->btn_icon != '' && $settings->btn_icon_position == 'before' ) ? '<i class="' . $settings->btn_icon . '"></i>' : ''; } ?><span><?php echo $settings->btn_text; ?></span><?php if( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) { echo ( $settings->btn_icon != '' && $settings->btn_icon_position == 'after' ) ? '<i class="' . $settings->btn_icon . '"></i>' : ''; } ?></button>
+		</div>
 	</div>
 	<?php if ($settings->success_action == 'redirect') : ?>
 		<input type="text" value="<?php echo $settings->success_url; ?>" style="display: none;" class="uabb-success-url">  

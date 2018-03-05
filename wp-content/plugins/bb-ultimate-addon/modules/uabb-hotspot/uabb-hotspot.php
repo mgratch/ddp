@@ -35,16 +35,16 @@ class UABBHotspot extends FLBuilderModule {
         <div class="uabb-hspot-sonar">
             <svg class="uabb-sonar" viewBox="-25 -25 50 50">
   
-                <g transform="scale(0)">
+                <g>
                     <circle cx="0" cy="0" r="8px" fill="none" stroke="<?php echo $color; ?>" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
                 </g>
-                <g transform="scale(0)">
+                <g>
                     <circle cx="0" cy="0" r="8px" fill="none" stroke="<?php echo $color; ?>" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
                 </g>
-                <g transform="scale(0)">
+                <g>
                     <circle cx="0" cy="0" r="8px" fill="none" stroke="<?php echo $color; ?>" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
                 </g>
-                <g transform="scale(0)">
+                <g>
                     <circle cx="0" cy="0" r="8px" fill="none" stroke="<?php echo $color; ?>" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
                 </g>
             </svg>

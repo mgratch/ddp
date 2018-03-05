@@ -84,7 +84,7 @@
                     setTimeout( function() {
                         var input = $("#fl-field-layout_sort_order").find("input[name=layout_sort_order]").val(),
                         blog_image_position = form.find('select[name=blog_image_position]').val();
-                        //console.log(input);
+
                         if( blog_image_position == 'top' ) {
                             if( input.substring(0, 3) == 'img' || input.slice(-3) == 'img' ) {
                                 form.find('#fl-field-overall_padding').show();
@@ -319,15 +319,16 @@
                     } else {
                         form.find('#fl-builder-settings-section-pagination_setting').hide();
                         form.find('#fl-builder-settings-section-pagination_style').hide();
+                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
                         if( filter_type == 'drop-down' ) {
                             form.find('#fl-builder-settings-section-masonary_select_style').show();
-                            form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
                             form.find('#fl-builder-settings-section-masonary_style').hide();
+                            form.find('#fl-field-taxonomy_filter_select_color').show();
                         }
                         else {
                             form.find('#fl-builder-settings-section-masonary_style').show();
                             form.find('#fl-builder-settings-section-masonary_select_style').hide();
-                            form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
+                            form.find('#fl-field-taxonomy_filter_select_color').hide();
                         }
                     }
                 } else {
@@ -597,20 +598,21 @@
 
 
                 if ( form.find('.fl-loop-builder-'+post_type+'-masonary_filter').children().length > 0 ) {
-                    //console.log('.fl-loop-builder-'+post_type+'-masonary_filter');
+
                     form.find('#fl-builder-settings-section-masonary_filter').show();
                     form.find('.fl-loop-builder-masonary_filter').hide();
                     form.find('.fl-loop-builder-'+post_type+'-masonary_filter').show();
                     if( filter_type == 'drop-down' ) {
                         form.find('#fl-builder-settings-section-masonary_select_style').show();
-                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
                         form.find('#fl-builder-settings-section-masonary_style').hide();
+                        form.find('#fl-field-taxonomy_filter_select_color').show();
                     }
                     else {
                         form.find('#fl-builder-settings-section-masonary_select_style').hide();
-                        form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').hide();
                         form.find('#fl-builder-settings-section-masonary_style').show();
+                        form.find('#fl-field-taxonomy_filter_select_color').hide();
                     }
+                    form.find('#fl-builder-settings-section-taxonomy_filter_select_field_typography').show();
                     //form.find('#fl-builder-settings-section-pagination_setting').hide();
                     //form.find('#fl-builder-settings-section-pagination_style').hide();
                 } else {

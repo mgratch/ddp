@@ -29,15 +29,24 @@ class BlogPostsModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/blog-posts/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'              => 'schedule.svg',
         ));
         $this->add_css('font-awesome');
         add_filter( 'wp_footer', array( $this, 'enqueue_scripts' ) );
-        add_filter( 'redirect_canonical', array( $this, 'uabb_disable_redirect_canonical' ) );
         add_filter( 'fl_builder_loop_query_args', array( $this, 'uabb_loop_query_args' ), 1 );
         // pagination.
-        add_action( 'init', array( $this, 'uabb_init_rewrite_rules') );
-        add_filter( 'redirect_canonical',  array( $this, 'uabb_override_canonical' ), 1, 2 );
+        // add_action( 'init', array( $this, 'uabb_init_rewrite_rules') );
+        // add_filter( 'redirect_canonical',  array( $this, 'uabb_override_canonical' ), 1, 2 );
+    }
+
+    /**
+     * @since 1.10.7
+     */
+    public function update( $settings ) {
+        global $wp_rewrite;
+        $wp_rewrite->flush_rules( false );
+        return $settings;
     }
 
     /**
@@ -75,16 +84,6 @@ class BlogPostsModule extends FLBuilderModule {
         $this->add_js( 'isotope', $this->url . 'js/jquery-masonary.js', array('jquery'), '', true );
         $this->add_js( 'carousel', $this->url . 'js/jquery-carousel.js', array('jquery'), '', true);
         $this->add_js( 'jquery-infinitescroll' );
-    }
-
-    /**
-     * @method uabb_disable_redirect_canonical
-     * @public
-     */
-
-    public function uabb_disable_redirect_canonical( $redirect_url ) {
-        if ( is_singular('post') ) $redirect_url = false;
-        return $redirect_url;
     }
     
     /**
@@ -664,12 +663,7 @@ class BlogPostsModule extends FLBuilderModule {
         if( $show_title == 'yes' ) {
         ?>
             <<?php echo $this->settings->title_tag_selection; ?> class="uabb-post-heading uabb-blog-post-section">
-                <?php
-
-                $title = '<a href='. apply_filters( "uabb_blog_posts_link", get_permalink( $obj->ID ), $obj->ID, $this->settings ) .' title=' . the_title_attribute('echo=0') . ' tabindex="0" class="">'. get_the_title() .'</a>';
-
-                echo apply_filters( 'uabb_advanced_post_title_link', $title, get_the_title(), get_permalink( $obj->ID ), $obj->ID, $this->settings );
-                ?>
+                 <a href="<?php echo apply_filters( 'uabb_blog_posts_link', get_permalink( $obj->ID ), $obj->ID ); ?>" title="<?php the_title_attribute(); ?>" tabindex="0" class=""><?php the_title(); ?></a>
             </<?php echo $this->settings->title_tag_selection; ?>>
         <?php
         }
@@ -2859,7 +2853,7 @@ FLBuilder::register_module('BlogPostsModule', array(
                 )
             ),
             'taxonomy_filter_select_field_typography'    =>  array(
-                'title' => __( 'Drop-down Taxonomy Filter', 'uabb' ),
+                'title' => __( 'Taxonomy Filter', 'uabb' ),
                 'fields'    => array(
                     'taxonomy_filter_select_font_family'       => array(
                         'type'          => 'font',
@@ -2870,7 +2864,7 @@ FLBuilder::register_module('BlogPostsModule', array(
                         ),
                         'preview'   => array(
                             'type'      => 'font',
-                            'selector'  => 'select.uabb-masonary-filters'
+                            'selector'  => 'select.uabb-masonary-filters, ul.uabb-masonary-filters'
                         ),
                     ),
                     'taxonomy_filter_select_font_size'     => array(
@@ -2883,7 +2877,7 @@ FLBuilder::register_module('BlogPostsModule', array(
                         ),
                         'preview'   => array(
                             'type'      => 'css',
-                            'selector'  => 'select.uabb-masonary-filters',
+                            'selector'  => 'select.uabb-masonary-filters, ul.uabb-masonary-filters',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
@@ -2895,7 +2889,7 @@ FLBuilder::register_module('BlogPostsModule', array(
                         'show_reset' => true,
                         'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => 'select.uabb-masonary-filters',
+                            'selector'      => 'select.uabb-masonary-filters, ul.uabb-masonary-filters li',
                             'property'      => 'color',
                         )
                     ),

@@ -235,6 +235,19 @@ if( $settings->is_carousel == 'masonary' ) {
 	border: <?php echo $settings->selfilter_border_size . 'px ' . $border_style . ' ' . uabb_theme_base_color( $settings->selfilter_color_border ) ?>;
 }
 
+.fl-node-<?php echo $id; ?> ul.uabb-masonary-filters {
+
+	<?php if( $settings->taxonomy_filter_select_font_family['family'] != 'Default' ) {
+		UABB_Helper::uabb_font_css( $settings->taxonomy_filter_select_font_family );
+	} ?>
+	<?php echo ( $settings->taxonomy_filter_select_font_size['desktop'] != '' ) ? 'font-size: ' . $settings->taxonomy_filter_select_font_size['desktop'] . 'px;' : ''; ?>
+
+}
+
+.fl-node-<?php echo $id; ?> ul.uabb-masonary-filters li {
+	<?php echo ( uabb_theme_text_color( $settings->taxonomy_filter_select_color ) != '' ) ? 'color: ' . uabb_theme_text_color( $settings->taxonomy_filter_select_color ) . ';' : ''; ?>
+}
+
 .fl-node-<?php echo $id; ?> .uabb-masonary-filters-wrapper {
 	text-align: <?php echo $settings->selfilter_overall_alignment; ?>;
 }
@@ -791,7 +804,8 @@ if( $global_settings->responsive_enabled ) { // Global Setting If started
 		<?php
 		}
 		?>
-		.fl-node-<?php echo $id; ?> select.uabb-masonary-filters {
+		.fl-node-<?php echo $id; ?> select.uabb-masonary-filters,
+    	.fl-node-<?php echo $id; ?> ul.uabb-masonary-filters {
 			<?php echo ( $settings->taxonomy_filter_select_font_size['medium'] != '' ) ? 'font-size: ' . $settings->taxonomy_filter_select_font_size['medium'] . 'px;' : ''; ?>
 		}
     }
@@ -963,7 +977,8 @@ if( $global_settings->responsive_enabled ) { // Global Setting If started
 		}
 		?>
     	
-    	.fl-node-<?php echo $id; ?> select.uabb-masonary-filters {
+    	.fl-node-<?php echo $id; ?> select.uabb-masonary-filters,
+    	.fl-node-<?php echo $id; ?> ul.uabb-masonary-filters {
 			<?php echo ( $settings->taxonomy_filter_select_font_size['small'] != '' ) ? 'font-size: ' . $settings->taxonomy_filter_select_font_size['small'] . 'px;' : ''; ?>
 		}
     }

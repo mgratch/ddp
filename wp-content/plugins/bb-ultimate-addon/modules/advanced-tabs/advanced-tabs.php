@@ -21,7 +21,8 @@ class AdvancedTabsModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/advanced-tabs/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'   => true
+            'partial_refresh'   => true,
+            'icon'              => 'layout.svg',
         ));
 
         add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_tab_render_settings_field' ), 10, 3 );

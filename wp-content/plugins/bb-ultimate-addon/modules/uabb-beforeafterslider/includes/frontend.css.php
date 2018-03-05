@@ -275,9 +275,12 @@ if ( ( isset( $settings->slider_font_family['family'] ) && $settings->slider_fon
 	<?php if( isset( $settings->slider_label_letter_spacing ) && $settings->slider_label_letter_spacing != '' ) : ?>
 		letter-spacing: <?php echo $settings->slider_label_letter_spacing; ?>px;
 	<?php endif; ?>
-	width:auto;
-	
-
+	width: auto;
+	<?php if( $settings->before_after_orientation == 'horizontal' ) { ?>
+		max-width: calc( 100% / 2 - 30px );
+	<?php } else if ( $settings->before_after_orientation == 'vertical' ) { ?>
+		max-width: calc( 100% - 30px );
+	<?php } ?>
 	
 }
 <?php } ?>

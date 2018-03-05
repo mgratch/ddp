@@ -17,7 +17,8 @@ class UABBInfoBoxModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/info-box/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/info-box/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+            'icon'				=> 'layout.svg',
 		));
 
 	}
@@ -163,6 +164,7 @@ class UABBInfoBoxModule extends FLBuilderModule {
                 'padding_top_bottom' => $this->settings->btn_padding_top_bottom,
                 'padding_left_right' => $this->settings->btn_padding_left_right,
                 'border_radius'      => $this->settings->btn_border_radius,
+                'custom_class'       => $this->settings->custom_class,
                 'align'              => '',
                 'mob_align'          => '',
 
@@ -1126,13 +1128,17 @@ FLBuilder::register_module('UABBInfoBoxModule', array(
                         ),
                     ),
 					'min_height'          => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 		                'label'         => __('Enter Height', 'uabb'),
 		                'description'   => 'px',
-		                'maxlength'     => '4',
-		                'size'          => '5',
-		                'placeholder'   => 'auto',
 		                'help'          => __('Apply minimum height to complete Info Box. It is useful when multiple Info Boxes are in same row.', 'uabb'),
+		                'responsive' => array(
+		                	'placeholder' => array(
+		                		'default' => 'auto',
+		                		'medium' => '',
+		                		'responsive' => '',
+		                	),
+		                ),
 					),
 					'vertical_align'         => array(
 						'type'          => 'uabb-toggle-switch',
@@ -1648,6 +1654,14 @@ FLBuilder::register_module('UABBInfoBoxModule', array(
                             'unit'		=> 'px'
                         ),
                     ),
+					'custom_class'          => array(
+						'type'          => 'text',
+						'label'         => __('Custom Class', 'uabb'),
+						'default'		=> '',
+						'preview'       => array(
+							'type'          => 'none'
+						),
+					),
                 )
             ),
 			'link'          => array(

@@ -78,11 +78,15 @@ It's being used in the theme.less for media queries when enabled in the customiz
 		padding: 6px 8px;
 		position: absolute;
 		right: 20px;
-		top: @header-padding;
+		top: ceil(@header-padding - 6);
 		width: auto;
 		&:hover,
 		&:focus {
 			background: transparent;
+		}
+		color: @mobile-nav-fg-link-color;
+		* {
+			color: @mobile-nav-fg-link-color;
 		}
 	}
 }
@@ -115,6 +119,11 @@ It's being used in the theme.less for media queries when enabled in the customiz
 		&:hover,
 		&:focus {
 			background: @mobile-nav-btn-color;
+		}
+	}
+	&.fl-page-header-fixed {
+		.fl-page-nav-wrap {
+			padding-top: 20px;
 		}
 	}
 }
@@ -167,14 +176,16 @@ It's being used in the theme.less for media queries when enabled in the customiz
 					color: @mobile-nav-fg-hover-color;
 				}
 			}
-
-			ul.sub-menu li {
-				border-color: @mobile-nav-btn-color;
-				a {
-					color: @mobile-nav-fg-link-color;
-					&:hover {
-						color: @mobile-nav-fg-hover-color;
-					}
+			> li.current-menu-item ~ li.current-menu-item > a {
+				color: @mobile-nav-fg-link-color;
+			}
+		}
+		ul.sub-menu li {
+			border-color: @mobile-nav-btn-color;
+			a {
+				color: @mobile-nav-fg-link-color;
+				&:hover {
+					color: @mobile-nav-fg-hover-color;
 				}
 			}
 		}
@@ -208,7 +219,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 				border-top: 1px solid @border-color;
 				a {
 					clear: both;
-					color: @nav-fg-link-color;
+					color: @mobile-nav-fg-link-color;
 					display: block;
 					font-weight: @nav-font-weight;
 					line-height: 20px;
@@ -216,7 +227,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 					padding: 15px 20px;
 					&:hover,
 					&:focus {
-						color: @nav-fg-hover-color;
+						color: @mobile-nav-fg-hover-color;
 						text-decoration: none;
 					}
 					&:before {
@@ -231,6 +242,36 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			&.fl-mobile-sub-menu-open {
 				ul.sub-menu {
 					position: static;
+				}
+			}
+		}
+	}
+
+	/* Nav Submenu Toggle
+	----------------------------------------------------------- */
+	.fl-submenu-toggle & {
+		.fl-page-nav ul.navbar-nav {
+			.sub-menu {
+				position: absolute;
+			}
+			li {
+				&.menu-item-has-children > a:after {
+					content: '\f107';
+					font-family: FontAwesome;
+					float: right;
+				}
+				&.fl-mobile-sub-menu-open {
+					> a:after {
+						content: '\f106';
+						font-family: FontAwesome;
+						float: right;
+					}
+					> ul.sub-menu {
+						position: static;
+					}
+				}
+				a {
+					padding: 15px;
 				}
 			}
 		}
@@ -251,7 +292,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			}
 		}
 		.fl-page-header-row .fl-page-header-logo {
-			padding-bottom: 30px;
+			padding-bottom: @header-padding;
 		}
 	}
 
@@ -259,7 +300,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 	----------------------------------------------------------- */
 	&.fl-page-nav-left {
 		.fl-page-header-row .fl-page-header-logo {
-			padding-bottom: 30px;
+			padding-bottom: @header-padding;
 		}
 		.fl-page-nav ul.navbar-nav > li:first-child a {
 			padding-left: 17px;
@@ -406,6 +447,9 @@ when not( @bg-image = none ) {
 		&.current-menu-item > a {
 			color: @fg-hover-color;
 		}
+	}
+	.navbar-nav li.current-menu-item ~ li.current-menu-item > a {
+		color: @fg-color;
 	}
 }
 

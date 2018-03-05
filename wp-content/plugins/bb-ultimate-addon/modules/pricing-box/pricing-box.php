@@ -17,7 +17,8 @@ class UABBPricingTableModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/pricing-box/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/pricing-box/',
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 		$this->add_css('font-awesome');
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_price_box_settings_field' ), 10, 3 );
@@ -61,6 +62,7 @@ class UABBPricingTableModule extends FLBuilderModule {
 			'padding_top_bottom'         => $this->settings->pricing_columns[$column]->btn_padding_top_bottom,
 			'padding_left_right'         => $this->settings->pricing_columns[$column]->btn_padding_left_right,
 			'border_radius'              => $this->settings->pricing_columns[$column]->btn_border_radius,
+            'custom_class'       		 => $this->settings->pricing_columns[$column]->btn_custom_class,
 			'align'                      => '',
 			'mob_align'                  => '',
 			'font_family'                => $this->settings->pricing_columns[$column]->button_typography_font_family,
@@ -1001,6 +1003,14 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                        'maxlength'     => '3',
 	                        'size'          => '4',
 	                        'description'   => 'px'
+	                    ),
+	                    'btn_custom_class'          => array(
+							'type'          => 'text',
+							'label'         => __('Custom Class', 'uabb'),
+							'default'		=> '',
+							'preview'       => array(
+								'type'          => 'none'
+							),
 	                    ),
 	                )
 	            ),

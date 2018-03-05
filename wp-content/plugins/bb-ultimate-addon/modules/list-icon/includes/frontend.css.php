@@ -256,8 +256,8 @@ if( $global_settings->responsive_enabled ) { // Global Setting If started
 
         .fl-node-<?php echo $id; ?> .uabb-list-icon .uabb-list-icon-text .uabb-list-icon-text-heading {
             <?php
-            echo ( $settings->typography_font_size['small'] != '' ) ? 'font-size: ' . $settings->typography_font_size['medium'] . 'px;' : '';
-            echo ( $settings->typography_line_height['small'] != '' ) ? 'line-height: ' . $settings->typography_line_height['medium'] . 'px;' : '';
+            echo ( $settings->typography_font_size['small'] != '' ) ? 'font-size: ' . $settings->typography_font_size['small'] . 'px;' : '';
+            echo ( $settings->typography_line_height['small'] != '' ) ? 'line-height: ' . $settings->typography_line_height['small'] . 'px;' : '';
             ?>
         }
         .fl-node-<?php echo $id; ?> .uabb-list-icon-wrap  {

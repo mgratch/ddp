@@ -112,21 +112,24 @@
 				
 			if ( data.error ) {
 				
-				if ( data.error ) {
-					this.form.find( '> .uabb-form-error-message' ).text( data.error );
-				}
-				
+				this.form.find( '> .uabb-form-error-message' ).text( data.error );
 				this.form.find( '> .uabb-form-error-message' ).show();
 				this.button.removeClass( 'uabb-form-button-disabled' );
 				this.button.find( '.uabb-button-text' ).text( buttonText );
+			} else {
+				
+				this.button.removeClass( 'uabb-form-button-disabled' );
+				this.button.find( '.uabb-button-text' ).text( buttonText );				
+				
+				if ( 'message' == data.action ) {
+					this.form.find( '> *' ).hide();
+					this.form.append( '<div class="uabb-form-success-message">' + data.message + '</div>' );
+				}
+				else if ( 'redirect' == data.action ) {
+					window.location.href = data.url;
+				}
 			}
-			else if ( 'message' == data.action ) {
-				this.form.find( '> *' ).hide();
-				this.form.append( '<div class="uabb-form-success-message">' + data.message + '</div>' );
-			}
-			else if ( 'redirect' == data.action ) {
-				window.location.href = data.url;
-			}
+
 		}
 	}
 	
