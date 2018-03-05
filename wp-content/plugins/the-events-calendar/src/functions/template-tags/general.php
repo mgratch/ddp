@@ -55,6 +55,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @return string
 	 */
 	function tribe_get_event_label_singular() {
+		/**
+		 * Allows customization of the singular version of the Event Label
+		 *
+		 * @param string $label The singular version of the Event label, defaults to "Event" (uppercase)
+		 */
 		return apply_filters( 'tribe_event_label_singular', esc_html__( 'Event', 'the-events-calendar' ) );
 	}
 
@@ -66,6 +71,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @return string
 	 */
 	function tribe_get_event_label_singular_lowercase() {
+		/**
+		 * Allows customization of the singular lowercase version of the Event Label
+		 *
+		 * @param string $label The singular lowercase version of the Event label, defaults to "event" (lowercase)
+		 */
 		return apply_filters( 'tribe_event_label_singular_lowercase', esc_html__( 'event', 'the-events-calendar' ) );
 	}
 
@@ -77,6 +87,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @return string
 	 */
 	function tribe_get_event_label_plural() {
+		/**
+		 * Allows customization of the plural version of the Event Label
+		 *
+		 * @param string $label The plural version of the Event label, defaults to "Events" (uppercase)
+		 */
 		return apply_filters( 'tribe_event_label_plural', esc_html__( 'Events', 'the-events-calendar' ) );
 	}
 
@@ -88,6 +103,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @return string
 	 */
 	function tribe_get_event_label_plural_lowercase() {
+		/**
+		 * Allows customization of the plural lowercase version of the Event Label
+		 *
+		 * @param string $label The plural lowercase version of the Event label, defaults to "events" (lowercase)
+		 */
 		return apply_filters( 'tribe_event_label_plural_lowercase', esc_html__( 'events', 'the-events-calendar' ) );
 	}
 
@@ -132,6 +152,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 				do_action( 'tribe_after_get_template_part', $template, $file, $slug, $name );
 				$html = ob_get_clean();
 				echo apply_filters( 'tribe_get_template_part_content', $html, $template, $file, $slug, $name );
+				break; // We found our template, no need to continue the loop
 			}
 		}
 		do_action( 'tribe_post_get_template_part_' . $slug, $slug, $name, $data );
@@ -142,7 +163,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 *
 	 * @category Events
 	 * @param bool $view
-	 * @return boolean
+	 * @return bool
 	 */
 	function tribe_is_ajax_view_request( $view = false ) {
 		$is_ajax_view_request = false;
@@ -659,8 +680,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		$term_name    = get_query_var( Tribe__Events__Main::TAXONOMY );
 
 		if ( ! empty( $term_name ) ) {
-			$term_obj = get_term_by( 'name', $term_name, Tribe__Events__Main::TAXONOMY );
-			$term     = 0 < $term_obj->term_id ? $term_obj->term_id : false;
+			$term_obj = get_term_by( 'slug', $term_name, Tribe__Events__Main::TAXONOMY );
+		}
+
+		if ( ! empty( $term_obj ) ) {
+			$term = 0 < $term_obj->term_id ? $term_obj->term_id : false;
 		}
 
 		// wp_title was deprecated in WordPress 4.4. Fetch the document title with the new function (added in 4.4) if available
@@ -842,7 +866,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @param string $event_cat_slug
 	 * @param int    $event_id
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	function tribe_event_in_category( $event_cat_slug, $event_id = null ) {
 
@@ -1141,7 +1165,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 				$category_classes = tribe_events_event_classes( $event->ID, false );
 
 				$json['eventId']         = $event->ID;
-				$json['title']           = wp_kses_post( $event->post_title );
+				$json['title']           = wp_kses_post( apply_filters( 'the_title', $event->post_title, $event->ID ) );
 				$json['permalink']       = tribe_get_event_link( $event->ID );
 				$json['imageSrc']        = $image_src;
 				$json['dateDisplay']     = $date_display;
@@ -1644,5 +1668,74 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		$body_and_separator = $body ? $body . $separator : $body;
 
 		return $field ? $body_and_separator . $field : $body;
+	}
+
+	/**
+	 * Tests if we are on the site homepage and if it is set to display the main events page.
+	 *
+	 * As WordPress front page it might be different from is_home, if we have a front page on the reading options and
+	 * if the User is on that page, this function will return true otherwise will return false. So either if the User has
+	 * the frontpage set on the reading options and the User is visiting this page.
+	 *
+	 * Another consideration about this is it might behave as a WordPress function which means after any Ajax action is
+	 * fired the result of call this function via Ajax might not be the expected result so ideally can be used to test
+	 * if you are on the front page on first load of the page only.
+	 *
+	 * @since 4.6.9
+	 *
+	 * @return bool
+	 */
+	function tribe_is_events_front_page() {
+		global $wp_query;
+
+		$events_as_front_page = tribe_get_option( 'front_page_event_archive', false );
+		// If the reading option has an events page as front page and we are on that page is on the home of events.
+		return (
+			$wp_query->is_main_query()
+			&& $events_as_front_page
+			&& $wp_query->tribe_is_event
+			&& true === get_query_var( 'tribe_events_front_page' )
+		);
+	}
+
+	/**
+	 * Test if we are on the home of events either if is set to frontpage or the default /events page.
+	 *
+	 * Utility function to test if we are on the home of events, it makes a test in cases when the page is set to be on
+	 * the frontpage of the site and if the User is on that page is on the homepage or if the User is on the events page
+	 * where the eventDisplay is set to default.
+	 *
+	 * Also consider this might not work as expected inside of Ajax Calls as this one is fired on initial loading of the
+	 * page so be aware of unexpected results via Ajax calls.
+	 *
+	 * @since 4.6.9
+	 *
+	 * @return bool
+	 */
+	function tribe_is_events_home() {
+		global $wp_query;
+
+		if ( tribe_is_events_front_page() ) {
+			return true;
+		}
+
+		$events_as_front_page = tribe_get_option( 'front_page_event_archive', false );
+		// If the readme option does not has an event page as front page and if id the 'default' view on the main query
+		// as is going to set to 'default' when is loading the root of events/ rewrite rule also makes sure is not on
+		// a taxonomy or a tag.
+		if (
+			! $events_as_front_page
+			&& $wp_query->is_main_query()
+			&& $wp_query->tribe_is_event // Make sure following conditionals operate only on events
+			&& ( isset( $wp_query->query['eventDisplay'] ) && 'default' === $wp_query->query['eventDisplay'] )
+			&& is_post_type_archive()
+			&& ! is_tax()
+			&& ! is_tag()
+		) {
+			return true;
+		}
+
+		// No condition was true so is not on home of events.
+		return false;
 	}
 }
