@@ -266,3 +266,8 @@
 .uabb-input-group-wrap .uabb-input-group .uabb-error textarea:-ms-input-placeholder {  
 	color: #DD4420 !important;
 }
+
+.uabb-send-error,
+.uabb-success-none {
+	display: block;
+}

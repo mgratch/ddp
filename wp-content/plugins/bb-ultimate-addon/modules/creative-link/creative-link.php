@@ -216,12 +216,6 @@ FLBuilder::register_module('CreativeLink', array(
                         'size'          => '8',
                         'description'   => 'px',
                         'help'          => __( 'This option controls the left-right spacing of each link.', 'uabb' ),
-                        'preview'         => array(
-                            'type'          => 'css',
-                            'selector'      => '.uabb-cl-wrap .uabb-cl-ul li',
-                            'property'      => 'margin-right',
-                            'unit'          => 'px'
-                        )
                     ),
                     'bottom_spacing'    => array(
                         'type'          => 'text',

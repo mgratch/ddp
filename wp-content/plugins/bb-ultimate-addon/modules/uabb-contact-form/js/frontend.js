@@ -37,7 +37,10 @@
 		this.email_required = settings.email_required;
 		this.subject_required = settings.subject_required;
 		this.phone_required = settings.phone_required;
-		this.msg_required = settings.msg_required;
+		this.msg_required = settings.msg_required;		
+		this.button_text = settings.button_text;
+		this.form 		= $( this.nodeClass + ' .uabb-contact-form' );
+		this.button		= this.form.find( '.uabb-contact-form-submit' );
 
 		this._init();
 	};
@@ -219,6 +222,7 @@
 			
 				// disable send button
 				submit.addClass('uabb-disabled');
+				submit.html( '<span>'+this.button.closest( '.uabb-contact-form-button' ).data( 'wait-text' )+'</span>' );
 				
 				// post the form data
 				$.post(ajaxurl, {
@@ -250,11 +254,14 @@
 
 		_submitComplete: function( response ) {
 			var urlField 	= $( this.nodeClass + ' .uabb-success-url' ),
+				submit	  	= $(this.nodeClass + ' .uabb-contact-form-submit'),
 				noMessage 	= $( this.nodeClass + ' .uabb-success-none' );
+
+			submit.html( '<span>'+this.button_text+'</span>' );
 			
 			// On success show the success message
-			if (response === '1') {
-				
+			if(response === '1' || response == 1 || response == '1') {
+
 				$( this.nodeClass + ' .uabb-send-error' ).fadeOut();
 				
 				if ( urlField.length > 0 ) {

@@ -134,7 +134,7 @@ class Toolset_Script {
 class Toolset_Assets_Manager {
 
 
-	protected static $instance;
+	private static $instance;
 
 
 	protected $styles = array();
@@ -172,8 +172,11 @@ class Toolset_Assets_Manager {
 
 	const SCRIPT_ICL_EDITOR = 'icl_editor-script';
 	const SCRIPT_ICL_MEDIA_MANAGER = 'icl_media-manager-js';
+	
+	const SCRIPT_TOOLSET_MEDIA_MANAGER = 'toolset-media-manager-js';
 
 	const SCRIPT_KNOCKOUT = 'knockout';
+	const SCRIPT_KNOCKOUT_MAPPING = 'knockout-mapping';
 	const SCRIPT_JSCROLLPANE = 'toolset-jscrollpane';
 	const SCRIPT_JSTORAGE = 'jstorage';
 	const SCRIPT_MOUSEWHEEL = 'toolset-mousewheel';
@@ -192,15 +195,23 @@ class Toolset_Assets_Manager {
 	const SCRIPT_CHOSEN = 'toolset-chosen';
 	const SCRIPT_CHOSEN_WRAPPER = 'toolset-chosen-wrapper';
 
+	// parsley lib for field validation
+	const SCRIPT_PARSLEY = 'toolset-parsley';
+
+
 	/**
 	 * For compatibility with ACF Plugin that's not using the right handle for this module (wp-event-manager)
 	 * we are using ACF handle to prevent unwanted overrides of window.wp.hooks namespace (******!)
 	 */
 	const SCRIPT_WP_EVENT_MANAGER = 'acf-input';
+	
+	const SCRIPT_TOOLSET_SHORTCODE = 'toolset-shortcode';
 
 	// Styles
 	//
 	//
+
+	const STYLE_PARSLEY = 'toolset-parsley-style';
 
 	const STYLE_CODEMIRROR = 'toolset-meta-html-codemirror-css';
 	const STYLE_CODEMIRROR_CSS_HINT = 'toolset-meta-html-codemirror-css-hint-css';
@@ -278,8 +289,10 @@ class Toolset_Assets_Manager {
 		add_action( 'toolset_localize_script', array( $this, 'localize_script' ), 10, 3 );
 	}
 
+
 	/**
 	 * @return Toolset_Assets_Manager
+	 * @deprecated Use get_instance instead().
 	 */
 	final public static function getInstance() {
 		static $instances = array();
@@ -297,8 +310,22 @@ class Toolset_Assets_Manager {
 				return false;
 			}
 		}
-
 	}
+
+
+	/**
+	 * Note: This *can not* be directly used in subclasses.
+	 *
+	 * @return Toolset_Assets_Manager
+	 */
+	public static function get_instance() {
+		if( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
 
 
 	public function init() {
@@ -378,6 +405,13 @@ class Toolset_Assets_Manager {
 			$this->assets_url . '/visual-editor/res/js/codemirror/addon/hint/show-hint.css',
 			array(),
 			"5.5.0"
+		);
+
+		$this->register_style(
+			self::STYLE_PARSLEY,
+			$this->assets_url . '/res/lib/parsley/parsley.css',
+			array(),
+			'2.8.0'
 		);
 
 		$this->register_style(
@@ -540,6 +574,14 @@ class Toolset_Assets_Manager {
 		);
 
 		$this->register_script(
+			self::SCRIPT_PARSLEY,
+			$this->assets_url . '/res/lib/parsley/parsley.js',
+			array('jquery'),
+			'2.8.0',
+			true
+		);
+
+		$this->register_script(
 			self::SCRIPT_CHOSEN,
 			$this->assets_url . "/res/lib/chosen/chosen.jquery.js",
 			array( 'jquery' ),
@@ -569,6 +611,13 @@ class Toolset_Assets_Manager {
 			$this->assets_url . '/res/lib/knockout/' . $this->choose_script_version( 'knockout-3.4.0.js', 'knockout-3.4.0.debug.js' ),
 			array(),
 			'3.4.0'
+		);
+
+		$this->register_script(
+			self::SCRIPT_KNOCKOUT_MAPPING,
+			$this->assets_url . '/res/lib/knockout/knockout.mapping.js',
+			array( self::SCRIPT_KNOCKOUT ),
+			'1.0.0'
 		);
 
 		$this->register_script(
@@ -689,6 +738,13 @@ class Toolset_Assets_Manager {
 			array( self::SCRIPT_ICL_EDITOR ),
 			TOOLSET_COMMON_VERSION
 		);
+		
+		$this->register_script(
+			self::SCRIPT_TOOLSET_MEDIA_MANAGER,
+			$this->assets_url . "/res/js/toolset-media-manager.js",
+			array( self::SCRIPT_ICL_EDITOR, self::SCRIPT_TOOLSET_EVENT_MANAGER ),
+			TOOLSET_COMMON_VERSION
+		);
 
 		$this->register_script(
 			self::SCRIPT_JSCROLLPANE,
@@ -779,6 +835,50 @@ class Toolset_Assets_Manager {
 				'toolset_theme_loads_own_bs' => __( 'This theme loads its own version of Bootstrap. You should select this option to avoid loading Bootstrap twice and causing display problems on the site\'s front-end', 'wpv-views' )
 			)
 		);
+		
+		$this->register_script(
+			self::SCRIPT_TOOLSET_SHORTCODE,
+			$this->assets_url . "/res/js/toolset-shortcode.js",
+			array( 
+				'jquery', 'jquery-ui-dialog', 'jquery-ui-tabs', 'suggest', 'shortcode', 'underscore', 'wp-util', 
+				self::SCRIPT_SELECT2, self::SCRIPT_ICL_EDITOR, self::SCRIPT_UTILS, self::SCRIPT_TOOLSET_EVENT_MANAGER ),
+			TOOLSET_COMMON_VERSION,
+			true
+		);
+		
+		global $pagenow;
+		$toolset_shortcode_i18n = array(
+			'action' => array(
+				'insert'  => __( 'Insert shortcode', 'wpv-views' ),
+				'create'  => __( 'Create shortcode', 'wpv-views' ),
+				'update'  => __( 'Update shortcode', 'wpv-views' ),
+				'close'   => __( 'Close', 'wpv-views' ),
+				'cancel'  => __( 'Cancel', 'wpv-views' ),
+				'back'    => __( 'Back', 'wpv-views' ),
+				'save'    => __( 'Save settings', 'wpv-views' ),
+				'loading' => __( 'Loading...', 'wpv-views' ),
+			),
+			'title' => array(
+				'generated' => __( 'Generated shortcode', 'wpv-views' ),
+			),
+			'validation' => array(
+				'mandatory'  => __( 'This option is mandatory ', 'wpv-views' ),
+				'number'     => __( 'Please enter a valid number', 'wpv-views' ),
+				'numberlist' => __( 'Please enter a valid comma separated number list', 'wpv-views' ),
+				'url'        => __( 'Please enter a valid URL', 'wpv-views' ),
+				
+			),
+			'ajaxurl' => admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' )  ),
+			'pagenow' => $pagenow
+		);
+		
+		$toolset_shortcode_i18n = apply_filters( 'toolset_filter_shortcode_script_i18n', $toolset_shortcode_i18n );
+		
+		$this->localize_script(
+			self::SCRIPT_TOOLSET_SHORTCODE,
+			'toolset_shortcode_i18n',
+			$toolset_shortcode_i18n
+		);
 
 		return apply_filters( 'toolset_add_registered_script', $this->scripts );
 	}
@@ -845,6 +945,15 @@ class Toolset_Assets_Manager {
 				unset( $this->styles[ $handles ] );
 			}
 		}
+	}
+
+
+	public function add_script( Toolset_Script $script ) {
+		if( isset( $this->scripts[ $script->handle ] ) ) {
+			return;
+		}
+
+		$this->scripts[ $script->handle ] = $script;
 	}
 
 

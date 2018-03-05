@@ -407,16 +407,22 @@ final class UABBBuilderAdminSettings {
 				$uabb['uabb-enable-template-cloud'] = true;	
 			}
 
+			/* Enable / Disable Template Cloud */
+			$uabb['uabb-global-module-listing'] = false;
+			if( isset( $_POST['uabb-global-module-listing'] ) ) {
+				$uabb['uabb-global-module-listing'] = true;
+			}
+
 			/* Enable / Disable KB */
 			$uabb['uabb-enable-knowledge-base'] = true;
 			if( ! isset( $_POST['uabb-enable-knowledge-base'] ) ) {
-				$uabb['uabb-enable-knowledge-base'] = false;	
+				$uabb['uabb-enable-knowledge-base'] = false;
 			}
 
 			/* Enable / Disable Template Cloud */
 			$uabb['uabb-enable-contact-support'] = true;
 			if( ! isset( $_POST['uabb-enable-contact-support'] ) ) {
-				$uabb['uabb-enable-contact-support'] = false;	
+				$uabb['uabb-enable-contact-support'] = false;
 			}
 
 			if( isset( $_POST['uabb-hide-branding'] ) ) {

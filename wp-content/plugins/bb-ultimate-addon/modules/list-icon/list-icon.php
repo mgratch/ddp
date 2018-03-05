@@ -18,7 +18,8 @@ class UABBIconListModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/list-icon/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/list-icon/',
 			'editor_export' 	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'star-filled.svg',
 		));
 	}
 
@@ -27,7 +28,7 @@ class UABBIconListModule extends FLBuilderModule {
 	 */
 	public function render_image() {
 		/* Render Html */
- 
+
 		/* Render HTML "$settings" Array */
 
 		$imageicon_array = array(

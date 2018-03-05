@@ -17,7 +17,8 @@ class UABBAdvancedTestimonialsModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           => BB_ULTIMATE_ADDON_DIR . 'modules/adv-testimonials/',
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/adv-testimonials/',
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'format-quote.svg'
 		));
 
 		$this->add_css('jquery-bxslider');
@@ -113,7 +114,7 @@ FLBuilder::register_module('UABBAdvancedTestimonialsModule', array(
                         'label' => __('Testimonial Rating', 'uabb'),
                         /*'type' => 'uabb-rating',*/
                         'type' => 'select',
-                        'default' => '1',
+                        'default' => '5',
                         'options'       => array(
                             '1'             => __('1', 'uabb'),
                             '2'             => __('2', 'uabb'),
@@ -1022,6 +1023,7 @@ FLBuilder::register_settings_form('uabb_testimonials_form', array(
 	                        'label'         => __('Author Name', 'uabb'),
 	                        'default'       => 'John Doe',
 	                        'description'   => '',
+                            'connections'           => array( 'string', 'html' )
 	                    ),
                         'slider_rating' => array(
                             'label' => __('Testimonial Rating', 'uabb'),
@@ -1042,6 +1044,7 @@ FLBuilder::register_settings_form('uabb_testimonials_form', array(
                             'label'         => __('Designation', 'uabb'),
                             'default'       => 'Designation',
                             'description'   => '',
+                            'connections'           => array( 'string', 'html' )
                         ),
 	                    
 	                ),
@@ -1053,6 +1056,7 @@ FLBuilder::register_settings_form('uabb_testimonials_form', array(
                             'type'          => 'editor',
                             'label'         => '',
                             'default'       => __('If you are looking for some awesome, knowledgeable people to work with, these are the guys I highly recommend. Their friendliness and result-driven approach is what I love about them.','uabb'),
+                            'connections'           => array( 'string', 'html' )
                         ),
 					),
 				),

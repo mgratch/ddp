@@ -20,7 +20,8 @@ class UABBCreativeMenu extends FLBuilderModule {
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-advanced-menu/',
             'editor_export' 	=> true, // Defaults to true and can be omitted.
             'enabled'       	=> true, // Defaults to true and can be omitted.
-            'partial_refresh'   => true
+            'partial_refresh'   => true,
+            'icon'              => 'hamburger-menu.svg',
         ));
         $this->add_css('font-awesome');
 	}
@@ -678,6 +679,21 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                             'type'      => 'css',
                             'selector'  => '.uabb-creative-menu-mobile-toggle',
                             'property'  => 'color'
+                        )
+                    ),
+                    'creative_menu_navigation_alignment'    => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Navigation Alignment', 'uabb'),
+                        'default'       => 'center',
+                        'options'       => array(
+                            'left'          => __('Left', 'uabb'),
+                            'center'        => __( 'Center', 'uabb' ),
+                            'right'         => __('Right', 'uabb'),
+                        ),
+                        'preview'    => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-creative-menu-mobile-toggle-container, .uabb-creative-menu-mobile-toggle-container > .uabb-creative-menu-mobile-toggle.text',
+                            'property'  => 'text-align'
                         )
                     ),
                 )

@@ -11,7 +11,44 @@ final class FLThemeBuilderWhiteLabel {
 	 * @return void
 	 */
 	static public function init() {
-		add_filter( 'all_plugins', __CLASS__ . '::plugins_page' );
+		add_filter( 'all_plugins',         __CLASS__ . '::plugins_page' );
+		add_filter( 'gettext',             __CLASS__ . '::plugin_gettext' );
+		add_filter( 'fl_plugin_info_data', __CLASS__ . '::fl_plugin_info', 10, 2 );
+	}
+
+	/**
+	 * White labels the plugin update lightbox.
+	 *
+	 * @since 1.10.3.1
+	 * @return string
+	 */
+	static public function fl_plugin_info( $info, $response ) {
+		if ( false !== strpos( $info->name, 'Beaver Themer' ) ) {
+			$brand = FLBuilderModel::get_branding();
+			if ( __( 'Page Builder', 'fl-theme-builder' ) !== $brand ) {
+				$info->name = $brand . ' - Themer Add-On';
+			}
+		}
+		return $info;
+	}
+
+	/**
+	 * White labels the Themer plugin using the gettext filter
+	 * to cover areas that we can't access like the Customizer.
+	 *
+	 * @since 1.0.3.1
+	 * @return string
+	 */
+	static public function plugin_gettext( $text ) {
+		global $pagenow;
+		if ( is_admin() && false !== strpos( $text, 'Beaver Themer' ) ) {
+			$brand    = FLBuilderModel::get_branding();
+			$default  = __( 'Page Builder', 'fl-theme-builder' );
+			if ( $default != $brand ) {
+				$text = $brand . ' - Themer Add-On';
+			}
+		}
+		return $text;
 	}
 
 	/**

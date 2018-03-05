@@ -291,32 +291,41 @@ final class FL_Debug {
 		}
 
 		$args = array(
-			'name' => 'Licence',
+			'name' => 'License',
 			'data' => self::divider(),
 		);
-		self::register( 'licence', $args );
+		self::register( 'license', $args );
 
-		$subscription = FLUpdater::get_subscription_info();
-		$args = array(
-			'name' => 'Beaver Builder Licence',
-			'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
-		);
-		self::register( 'bb_sub', $args );
-
-		if ( isset( $subscription->error ) ) {
+		if ( true === FL_BUILDER_LITE ) {
 			$args = array(
-				'name' => 'Licence Error',
-				'data' => $subscription->error,
+				'name' => 'Beaver Builder License',
+				'data' => 'Lite version detected',
 			);
-			self::register( 'bb_sub_err', $args );
-		}
+			self::register( 'bb_sub_lite', $args );
 
-		if ( isset( $subscription->domain ) ) {
+		} else {
+			$subscription = FLUpdater::get_subscription_info();
 			$args = array(
-				'name' => 'Domain Active',
-				'data' => ( '1' == $subscription->domain->active ) ? 'Yes' : 'No',
+				'name' => 'Beaver Builder License',
+				'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
 			);
-			self::register( 'bb_sub_domain', $args );
+			self::register( 'bb_sub', $args );
+
+			if ( isset( $subscription->error ) ) {
+				$args = array(
+					'name' => 'License Error',
+					'data' => $subscription->error,
+				);
+				self::register( 'bb_sub_err', $args );
+			}
+
+			if ( isset( $subscription->domain ) ) {
+				$args = array(
+					'name' => 'Domain Active',
+					'data' => ( '1' == $subscription->domain->active ) ? 'Yes' : 'No',
+				);
+				self::register( 'bb_sub_domain', $args );
+			}
 		}
 
 		$args = array(

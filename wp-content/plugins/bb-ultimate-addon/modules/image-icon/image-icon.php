@@ -28,7 +28,8 @@ class ImageIconModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/image-icon/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/image-icon/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+			'icon'				=> 'format-image.svg',
 		));
 
 		$this->add_css( 'font-awesome' );

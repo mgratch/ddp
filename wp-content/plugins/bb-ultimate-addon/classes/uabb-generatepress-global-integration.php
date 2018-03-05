@@ -30,10 +30,12 @@ if ( !class_exists( 'UABB_GeneratepressGlobalIntegration' ) ) {
 
 			/* Get BB Theme Customizer Options */
 			
-			$mods = wp_parse_args( 
-				get_option( 'generate_settings', array() ), 
-				generate_get_color_defaults() 
-			);
+			if( function_exists( 'generate_get_color_defaults' ) ) {
+				$mods = wp_parse_args( 
+					get_option( 'generate_settings', array() ), 
+						generate_get_color_defaults() 
+				);
+			}
 
 			/* Primary Color */
 			$var['theme_color']			= ( isset( $mods['link_color'] ) ) ? $mods['link_color'] : '';

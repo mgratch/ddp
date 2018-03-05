@@ -18,7 +18,8 @@ class UABBAdvancedIconModule extends FLBuilderModule {
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/advanced-icon/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/advanced-icon/',
 			'editor_export' 	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'star-filled.svg',
 		));
 	}
 }

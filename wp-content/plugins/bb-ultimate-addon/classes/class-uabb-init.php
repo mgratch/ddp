@@ -35,6 +35,9 @@ class UABB_Init {
 			// Enqueue scripts
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ), 100 );
 
+			add_action( 'wp_head', array( $this, 'uabb_render_scripts' ) );
+
+
 		} else {
 
 			// disable UABB activation ntices in admin panel
@@ -61,6 +64,7 @@ class UABB_Init {
 
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-attachment.php';
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-blog-posts.php';
+		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-wpml.php';
 
 		// Advanced Menu Walker
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-menu-walker.php';
@@ -99,10 +103,12 @@ class UABB_Init {
 	}
 
 	function uabb_global_settings_form_defaults( $defaults, $form_type ) {
+		
 
-		if ( ( class_exists( 'FLCustomizer' ) || function_exists( 'generate_customize_register' ) ) && 'uabb-global' == $form_type ) {
+		if ( ( !apply_filters( 'uabb_global_support', true ) || class_exists( 'FLCustomizer' ) || function_exists( 'generate_customize_register' ) ) && 'uabb-global' == $form_type ) {
+	
+			$defaults->enable_global = 'no';
 
-        	$defaults->enable_global = 'no';
 	    }
 
 	    return $defaults; // Must be returned!
@@ -110,10 +116,12 @@ class UABB_Init {
 
 	function init() {
 		
-		if ( apply_filters( 'uabb_global_support', true ) && class_exists( 'FLBuilderAJAX' ) ) {
+		
+		if ( apply_filters( 'uabb_global_support_form', true ) && class_exists( 'FLBuilderAJAX' ) ) {
 			require_once BB_ULTIMATE_ADDON_DIR . 'classes/uabb-global-settings.php';
 			require_once BB_ULTIMATE_ADDON_DIR . 'classes/uabb-global-integration.php';
 		}
+		
 
 		add_filter( 'bsf_allow_beta_updates_uabb', array( $this, 'uabb_beta_updates_check' ) );
 		add_filter( 'bsf_license_not_activate_message_uabb', array( $this, 'license_not_active_message' ), 10, 3 );
@@ -195,7 +203,7 @@ class UABB_Init {
 				}
 			}
 
-			if ( apply_filters( 'uabb_global_support', true ) ) {
+			if ( apply_filters( 'uabb_global_support_form', true ) ) {
 				
 				wp_localize_script( 'uabb-builder-js', 'uabb_global', array( 'show_global_button' => true ) );
 				
@@ -277,6 +285,66 @@ class UABB_Init {
 			}
 		}
   	}
+
+	/**
+	 * Custom inline scripts.
+	 *
+	 * @since 1.6.8
+	 * @return void
+	 */
+	public function uabb_render_scripts()
+	{
+		$branding         = BB_Ultimate_Addon_Helper::get_builder_uabb_branding();
+		$branding_name    = 'UABB';
+		if ( is_array( $branding ) && array_key_exists( 'uabb-plugin-short-name', $branding ) && $branding['uabb-plugin-short-name'] != '' ) {
+			$branding_name = $branding['uabb-plugin-short-name'];
+		}
+
+		if( is_user_logged_in() ) {
+			?>
+			<style>
+				form[class*="fl-builder-adv-testimonials"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-advanced-accordion"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-advanced-icon"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-advanced-separator"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-advanced-tabs"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-blog-posts"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-creative-link"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-dual-button"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-dual-color-heading"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-fancy-text"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-flip-box"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-google-map"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-ihover"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-image-icon"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-image-separator"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-info-banner"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-info-box"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-info-circle"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-info-list"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-info-table"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-interactive-banner-1"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-interactive-banner-2"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-list-icon"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-mailchimp-subscribe-form"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-modal-popup"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-photo-gallery"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-pricing-box"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-progress-bar"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-ribbon"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-slide-box"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-spacer-gap"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-team"] .fl-lightbox-header h1:before,
+				form[class*="fl-builder-uabb-"] .fl-lightbox-header h1:before {
+					content: "<?php echo $branding_name; ?> ";
+					position: relative;
+					display: inline-block;
+					margin-right: 5px;
+				}
+			</style>
+		<?php
+		}
+	}
 }
 
 /**

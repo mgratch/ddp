@@ -79,6 +79,10 @@
 .uabb-blog-posts-col-2 { width: 50%; }
 .uabb-blog-posts-col-1 { width: 100%; }
 
+.safari .uabb-blog-posts-col-3 {
+    width: 33.3%;
+}
+
 .uabb-read-more-text a {
     /*text-transform: uppercase;*/
     text-decoration: none;

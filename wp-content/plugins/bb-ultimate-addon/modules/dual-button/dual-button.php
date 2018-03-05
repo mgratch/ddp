@@ -12,6 +12,7 @@ class UABBDualButtonModule extends FLBuilderModule {
             'dir'             => BB_ULTIMATE_ADDON_DIR . 'modules/dual-button/',
             'url'             => BB_ULTIMATE_ADDON_URL . 'modules/dual-button/',
             'partial_refresh' => true,
+            'icon'              => 'button.svg',
         ));
     }
 
@@ -379,6 +380,14 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         'default'       => '#',
                         'connections'   => array( 'url' )
                     ),
+                    'button_one_class'          => array(
+                        'type'          => 'text',
+                        'label'         => __('Class', 'uabb'),
+                        'default'       => '',
+                        'preview'       => array(
+                            'type'          => 'none'
+                        ),
+                    ),
                     'button_one_link_target'   => array(
                         'type'          => 'select',
                         'label'         => __('Link Target', 'uabb'),
@@ -492,7 +501,7 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         'connections'   => array( 'string', 'html' ),
                         'preview'       => array(
                             'type'          => 'text',
-                            'selector'      => '.uabb-btn-one-text',
+                            'selector'      => '.uabb-btn-two-text',
                         )
                     ),
 
@@ -501,6 +510,14 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         'label'         => __('Button Link', 'uabb'),
                         'default'       => '#',
                         'connections'   => array( 'url' )
+                    ),
+                    'button_two_class'          => array(
+                        'type'          => 'text',
+                        'label'         => __('Class', 'uabb'),
+                        'default'       => '',
+                        'preview'       => array(
+                            'type'          => 'none'
+                        ),
                     ),
                     'button_two_link_target'   => array(
                         'type'          => 'select',

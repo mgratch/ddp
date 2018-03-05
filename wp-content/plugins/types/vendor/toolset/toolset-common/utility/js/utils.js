@@ -1220,15 +1220,20 @@ WPV_Toolset.Utils._strip_tags_and_preserve_text = function (text) {
  * When user tries to leave the page, check if confirmation is needed, and if so, displays a confirmation message and
  * runs custom action.
  *
+ * WARNING: http://stackoverflow.com/a/37782307
+ *
  * @param {function} checkIfConfirmationNeededCallback Should return true if confirmation should be shown (e.g. unsaved data).
- * @param {function} onBeforeUnloadCallback Will be called before showing the confirmation.
+ * @param {function|null} onBeforeUnloadCallback Will be called before showing the confirmation.
  * @param {string} confirmationMessage Confirmation message that should be shown by the browser.
+ * @since unknown
  */
 WPV_Toolset.Utils.setConfirmUnload = function (checkIfConfirmationNeededCallback, onBeforeUnloadCallback, confirmationMessage) {
     window.onbeforeunload = function (e) {
         if (checkIfConfirmationNeededCallback()) {
 
-            onBeforeUnloadCallback();
+            if(_.isFunction(onBeforeUnloadCallback)) {
+                onBeforeUnloadCallback();
+            }
 
             // For IE and Firefox prior to version 4
             if (e) {
@@ -1284,7 +1289,7 @@ WPV_Toolset.Utils.versionCompare = function (left, right) {
  * Get a query argument value from a URL.
  *
  * @param {string} name Argument name.
- * @param {string} url Source URL. Optional. If missing, current page URL will be used.
+ * @param {string} [url] Source URL. Optional. If missing, current page URL will be used.
  * @returns {string|null}
  * @since 2.1
  * @link http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
@@ -1369,7 +1374,7 @@ WPV_Toolset.Utils.Spinner = {
         return jQuery('<span class="spinner"></span>');
     },
     show: function (spinner, show) {
-        if (typeof(show) == 'undefined') {
+        if (typeof(show) === 'undefined') {
             show = true;
         }
 
@@ -1432,7 +1437,7 @@ WPV_Toolset.Utils.Ajax = {
      */
     call: function (data, successCallback, failCallback) {
 
-        if (typeof(failCallback) == 'undefined') {
+        if (typeof(failCallback) === 'undefined') {
             failCallback = successCallback;
         }
 
@@ -1475,6 +1480,12 @@ WPV_Toolset.Utils._template = function (template, data, settings) {
 };
 
 // override dialog whenever toolset is active and take possession
+/**
+ * @todo This should not be here:
+ * dialogs with specific classnames should get it directly.
+ * We should not be pre-setting all jQuery UI dialogs dialogClass setting,
+ * we are not good players here.
+ */
 if (jQuery && jQuery.ui && jQuery.ui.dialog) {
     jQuery.extend(jQuery.ui.dialog.prototype.options, {
         dialogClass: 'toolset-ui-dialog'

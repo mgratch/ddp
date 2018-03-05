@@ -280,10 +280,6 @@ if($settings->cta_type == 'button') {
     	  			  align-items: <?php echo $vertical_align; ?>;
 			}
 
-			.internet-explorer .fl-node-<?php echo $id; ?> .uabb-ultb3-box {
-				height: <?php echo $settings->responsive_min_height; ?>px;
-			}
-
 			<?php } ?>
 
 	    }

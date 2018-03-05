@@ -1,13 +1,27 @@
 <?php
 
+$notice = '';
+$style1 = 'line-height: 1.45em; color: #a94442;';
+$theme = wp_get_theme();
+$theme_name = ( $theme->name ? $theme->name : $theme->parent_theme );
+$branding_name    = __( 'Ultimate Addons for Beaver Builder', 'uabb' );
+
+if ( UABB_PREFIX != '' && UABB_PREFIX != 'UABB' ) {
+	$branding_name = UABB_PREFIX;
+}
+
+if ( 'Astra' == $theme->name || 'Astra' == $theme->parent_theme || 'Beaver Builder Theme' == $theme->name || 'Beaver Builder Theme' == $theme->parent_theme || 'GeneratePress' == $theme->name || 'GeneratePress' == $theme->parent_theme ) {
+	$notice = sprintf( 
+		__( '<span style="%s"> %s offers extra compatibility with Astra, GeneratePress and Beaver Builder theme and it can automatically adapt colors and other settings from the theme customizer. <br> If you would like Ultimate Addons to automatically take settings from the theme, select No. But if you would rather like to make your own global settings, select Yes. </span>' , 'uabb' ),
+        $style1, $branding_name, $theme_name );
+}
+
 FLBuilder::register_settings_form('uabb-global', array(
-	'title' => sprintf(
-						esc_attr__( '%s - Global Settings', 'uabb' ),
-						UABB_PREFIX
-					),
+	'title' => __( ' - Global Settings', 'uabb' ),
 	'tabs' => array(
 		'general'  => array(
 			'title'         => __('Style', 'uabb'),
+			'description'   => $notice,
 			'sections'      => array(
 				'enable_disable'	=> array(
 					'title'		=> __( 'Global Styling', 'uabb'),

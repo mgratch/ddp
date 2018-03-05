@@ -5,7 +5,7 @@ $settings->second_heading_color = UABB_Helper::uabb_colorpicker( $settings, 'sec
 ?>
 /* First heading styling */
 <?php if ( $settings->first_heading_color != "" || $settings->add_spacing_option == "yes" ) { ?>
-.fl-node-<?php echo $id; ?> .uabb-dual-color-heading .uabb-first-heading-text {
+.fl-node-<?php echo $id; ?> .fl-module-content .uabb-module-content.uabb-dual-color-heading .uabb-first-heading-text {
 	<?php if ( !empty( $settings->first_heading_color ) ) { ?>
 	color: <?php echo $settings->first_heading_color; ?>;
 	<?php } ?>
@@ -36,7 +36,7 @@ $settings->second_heading_color = UABB_Helper::uabb_colorpicker( $settings, 'sec
 
 /* Second heading styling */
 <?php //if ( $settings->second_heading_color != "" ) { ?>
-	.fl-node-<?php echo $id; ?> .uabb-dual-color-heading .uabb-second-heading-text {
+	.fl-node-<?php echo $id; ?> .fl-module-content .uabb-module-content.uabb-dual-color-heading .uabb-second-heading-text {
 		<?php //if ( !empty( $settings->second_heading_color ) ) { ?>
 	    color: <?php echo uabb_theme_base_color( $settings->second_heading_color ); ?>;
 	    <?php //} ?>

@@ -24,11 +24,34 @@ ToolsetCommon.UserEditor.BeaverBuilderFrontendEditor = function( $ ) {
 	self.setExitUrl		= function() {
 		FLBuilder._exitUrl = toolset_user_editors.mediumUrl;
 	};
+
+    /**
+     * As of Beaver Builder 2.0 in order to exit the builder page and return to the Content Template edit page
+     * we need to force set the "shouldRefreshOnPublish" setting to true.
+     */
+	self.setForceRefreshOnPublish = function() {
+	    if ( !FLBuilderConfig.shouldRefreshOnPublish ) {
+            FLBuilderConfig.shouldRefreshOnPublish = true;
+        }
+    }
+
+    self.forceResetAndExit = function() {
+	    self.setExitUrl();
+	    self.setForceRefreshOnPublish();
+    }
+
+    self.doneButtonClicked = function() {
+        self.forceResetAndExit();
+        FLBuilder.triggerHook('triggerDone');
+    }
 	
 	$( window ).load( self.setExitUrl );
 	$( document ).on( 'click', '.fl-builder-save-actions .fl-builder-publish-button', self.setExitUrl );
 	$( document ).on( 'click', '.fl-builder-save-actions .fl-builder-discard-button', self.setExitUrl );
 	$( document ).on( 'click', '.fl-builder-save-actions .fl-builder-cancel-button', self.setExitUrl );
+
+    $( document ).on( 'click', '.fl-builder-done-button.fl-builder-button', self.doneButtonClicked );
+    $( document ).on( 'click', '.fl-builder-button.fl-builder-button-primary[data-action="publish"]', self.forceResetAndExit );
 	
 	self.previewPostSelector.on( 'change', function() {
         $.ajax( {
@@ -46,11 +69,18 @@ ToolsetCommon.UserEditor.BeaverBuilderFrontendEditor = function( $ ) {
             }
         } );
     } );
+
+	self.preventExraContainerPreventClickPropagation = function() {
+        $( 'body' ).on( 'click', '.js-toolset-editors-frontend-editor-extra .js-toolset-editors-frontend-editor-extra-content', function( e ) {
+            e.stopPropagation();
+        });
+    };
 	
 	self.init = function() {
-		self.extraContainer.insertBefore( '.fl-builder-bar-actions' );
+        self.extraContainer.insertBefore( '.fl-builder-bar-actions' );
 		self.extraContainer.show();
 		FLBuilder._updateLayout();
+		self.preventExraContainerPreventClickPropagation();
     };
 	
 	self.init();

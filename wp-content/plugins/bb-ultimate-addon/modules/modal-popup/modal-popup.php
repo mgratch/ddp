@@ -18,6 +18,7 @@ class ModalPopupModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/modal-popup/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/modal-popup/',
+            'icon'              => 'button.svg',
 		));
 
 		$this->add_css( 'font-awesome' );
@@ -136,13 +137,32 @@ class ModalPopupModule extends FLBuilderModule {
 		$url 	= $this->settings->video_url;
 		$vid_id = '';
 		$html = '';
+        $related_videos = '';
 
-		if ( $this->settings->content_type == 'youtube' ) {
-			if( preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $url, $matches) ){
-				$vid_id = $matches[1];
-			}
+        if ( $this->settings->content_type == 'youtube' ) {
+            if( preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $url, $matches) ){
+                $vid_id = $matches[1];
+            }
 
-			$html = '<iframe id="uabb-'.$this->node.'" class="uabb-modal-iframe" src="https://www.youtube.com/embed/'.$vid_id.'?version=3&enablejsapi=1" frameborder="0" allowfullscreen></iframe>';
+            if( $this->settings->youtube_related_videos == 'yes' ) {
+                $related_videos = '&rel=0';
+            } else {
+                $related_videos = '';
+            }
+
+            if( $this->settings->youtube_title_controls == 'yes' ) {
+                $title_controls = '&showinfo=0';
+            } else {
+                $title_controls = '';
+            }
+
+            if( $this->settings->youtube_player_controls == 'yes' ) {
+                $player_controls = '&controls=0';
+            } else {
+                $player_controls = '';
+            }
+
+			$html = '<iframe id="uabb-'.$this->node.'" class="uabb-modal-iframe" src="https://www.youtube.com/embed/'.$vid_id.'?version=3&enablejsapi=1'.$related_videos.$title_controls.$player_controls.'" frameborder="0" allowfullscreen></iframe>';
 			return $html;
 		}elseif( $this->settings->content_type == 'vimeo' ){
 			$vid_id = preg_replace("/[^\/]+[^0-9]|(\/)/", "", rtrim($url, "/"));
@@ -300,7 +320,8 @@ FLBuilder::register_module('ModalPopupModule', array(
                                 'fields'        => array('ct_page_templates')
                             ),
 							'youtube'	 => array(
-								'sections'  => array( 'video_setting' )
+								'sections'  => array( 'video_setting' ),
+                                'fields'    => array( 'youtube_related_videos', 'youtube_title_controls', 'youtube_player_controls' )
 							),
 							'vimeo'	 => array(
 								'sections'  => array( 'video_setting' )
@@ -372,6 +393,33 @@ FLBuilder::register_module('ModalPopupModule', array(
                         'options'       => array(
                             'yes'    => __( 'Yes', 'uabb' ),
                             'no'        => __( 'No', 'uabb' ),
+                        ),
+                    ),                    
+                    'youtube_related_videos' => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __( 'Disable Related Videos', 'uabb' ),
+                        'default'       => 'no',
+                        'options'       => array(
+                            'yes'    => __( 'Yes', 'uabb' ),
+                            'no'     => __( 'No', 'uabb' ),
+                        ),
+                    ),                    
+                    'youtube_title_controls' => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __( 'Disable Video Title', 'uabb' ),
+                        'default'       => 'no',
+                        'options'       => array(
+                            'yes'    => __( 'Yes', 'uabb' ),
+                            'no'     => __( 'No', 'uabb' ),
+                        ),
+                    ),                   
+                    'youtube_player_controls' => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __( 'Disable Player Controls', 'uabb' ),
+                        'default'       => 'no',
+                        'options'       => array(
+                            'yes'    => __( 'Yes', 'uabb' ),
+                            'no'     => __( 'No', 'uabb' ),
                         ),
                     ),
 				)
@@ -1101,7 +1149,7 @@ FLBuilder::register_module('ModalPopupModule', array(
                         'default'       => '0',
                         'options'       => array(
                           	'1'      => __('Yes','uabb'),
-                            '0'     => __('No','uabb'),
+                            '0'      => __('No','uabb'),
                         ),
                     ),
 					'overlay_click'     => array(

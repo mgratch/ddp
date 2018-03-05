@@ -25,7 +25,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			$lite_active    = is_plugin_active( $lite_dirname . '/fl-builder.php' );
 			$plugin_dirname = basename( dirname( dirname( __FILE__ ) ) );
 
-			if ( class_exists( 'FLBuilder' ) || ( $plugin_dirname != $lite_dirname && $lite_active ) ) {
+			if ( $lite_active && $plugin_dirname != $lite_dirname ) {
+				deactivate_plugins( array( $lite_dirname . '/fl-builder.php' ), false, is_network_admin() );
+				return;
+			} elseif ( class_exists( 'FLBuilder' ) ) {
 				add_action( 'admin_notices',           __CLASS__ . '::double_install_admin_notice' );
 				add_action( 'network_admin_notices',   __CLASS__ . '::double_install_admin_notice' );
 				return;
@@ -43,7 +46,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '1.10.9.1' );
+			define( 'FL_BUILDER_VERSION', '2.0.5.1' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -82,12 +85,17 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-model.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-module.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-photo.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-revisions.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-services.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-shortcodes.php';
-			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-update.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-timezones.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ui-content-panel.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ui-settings-forms.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-update.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-user-access.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-user-settings.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-utils.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-wpml.php';
 
 			/* WP CLI Commands */
 			if ( defined( 'WP_CLI' ) ) {

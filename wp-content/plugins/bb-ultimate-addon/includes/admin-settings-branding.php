@@ -35,6 +35,8 @@
 					
 					$uabb_enable_template_cloud = ( array_key_exists( 'uabb-enable-template-cloud' , $uabb ) && $uabb['uabb-enable-template-cloud'] == 1 ) ? ' checked' : '';
 
+					$uabb_global_module_listing = ( array_key_exists( 'uabb-global-module-listing' , $uabb ) && $uabb['uabb-global-module-listing'] == 1 ) ? ' checked' : '';
+
 					$uabb_enable_knowledge_base = ( array_key_exists( 'uabb-enable-knowledge-base' , $uabb ) && $uabb['uabb-enable-knowledge-base'] != 1 ) ? '' : 'checked';
 
 					$uabb_enable_contact_support = ( array_key_exists( 'uabb-enable-contact-support' , $uabb ) && $uabb['uabb-enable-contact-support'] != 1 ) ? '' : 'checked';
@@ -95,6 +97,14 @@
 				<p class="uabb-admin-help"><?php _e('Enable this option to activate Template Cloud functionality.', 'uabb'); ?></p>
 				<label>
 					<input type="checkbox" class="uabb-enable-template-cloud" name="uabb-enable-template-cloud" value="" <?php echo $uabb_enable_template_cloud; ?> ><?php _e( 'Enable Template Cloud Settings', 'uabb' ); ?>
+				</label>
+			</div>
+
+			<div class="uabb-form-setting">
+				<h4><?php echo _e( 'List Modules under Standard Modules', 'uabb' ); ?></h4>
+				<p class="uabb-admin-help"><?php _e('Enable this to list UABB Modules under standard modules.', 'uabb'); ?></p>
+				<label>
+					<input type="checkbox" class="uabb-global-module-listing" name="uabb-global-module-listing" value="" <?php echo $uabb_global_module_listing; ?> ><?php _e( 'Enable UABB modules listing in default Standard category', 'uabb' ); ?>
 				</label>
 			</div>
 

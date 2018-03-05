@@ -14,6 +14,7 @@ class UABBDualColorModule extends FLBuilderModule {
             'editor_export'   => true, // Defaults to true and can be omitted.
             'enabled'         => true, // Defaults to true and can be omitted.
             'partial_refresh' => true, // Defaults to false and can be omitted.
+            'icon'            => 'text.svg',
         ));
     }
 }
@@ -98,7 +99,7 @@ FLBuilder::register_module('UABBDualColorModule', array(
                         'show_reset' => true,
                         'preview'         => array(
                             'type'            => 'css',
-                            'selector'        => '.uabb-first-heading-text',
+                            'selector'        => '.fl-module-content .uabb-module-content.uabb-dual-color-heading .uabb-first-heading-text',
                             'property'        => 'color'
                         ),
                         'help'          => __( 'Select color for first part of heading.', 'uabb' )
@@ -110,7 +111,7 @@ FLBuilder::register_module('UABBDualColorModule', array(
                         'show_reset' => true,
                         'preview'         => array(
                             'type'            => 'css',
-                            'selector'        => '.uabb-second-heading-text',
+                            'selector'        => '.fl-module-content .uabb-module-content.uabb-dual-color-heading .uabb-second-heading-text',
                             'property'        => 'color'
                         ),
                         'help'          => __( 'Select color for second part of heading.', 'uabb' )

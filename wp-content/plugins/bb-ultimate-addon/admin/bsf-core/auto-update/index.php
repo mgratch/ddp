@@ -461,6 +461,11 @@ $is_product_theme = false;
 								continue;
 							}
 
+							$remove_frm_registration = apply_filters( 'bsf_remove_'. $id .'_from_registration_listing', false, $id );
+							if ( $remove_frm_registration ) {
+								continue;
+							}
+
 							$step = ( isset( $plugin_data['step'] ) && $plugin_data['step'] != '' ) ? $plugin_data['step'] : 'step-product-registration';
 
 							$common_data = ' data-product-id="' . $id . '" ';
@@ -500,7 +505,7 @@ $is_product_theme = false;
 								<td>
 									<?php if($status !== 'registered') : ?>
                                             		<input type="button" class="button button-primary bsf-submit-button" value="Register" data-row-id="<?php echo $row_id ?>" <?php echo $common_data; ?>/>
-                                            		<a href="<?php echo $purchase_url; ?>" target="_blank" rel="noopener" class="bsf-purchase-link" data-row-id="<?php echo $row_id ?>" />Buy License</a> <span class="spinner bsf-spinner"></span>
+                                            		<a href="<?php echo $purchase_url; ?>" target="_blank" class="bsf-purchase-link" data-row-id="<?php echo $row_id ?>" />Buy License</a> <span class="spinner bsf-spinner"></span>
                                                	<?php else : ?>
                                                 	<input type="button" class="button bsf-submit-button-deregister" value="De-register" data-row-id="<?php echo $row_id ?>" <?php echo $common_data; ?>/> <span class="spinner bsf-spinner"></span>
                                                 <?php endif; ?>
@@ -595,7 +600,7 @@ $is_product_theme = false;
 								<td>
 									<?php if($status !== 'registered') : ?>
                                             		<input type="button" class="button button-primary bsf-submit-button" value="Register" data-row-id="<?php echo $row_id ?>" <?php echo $common_data; ?>/>
-                                            		<a href="<?php echo $purchase_url; ?>" target="_blank" rel="noopener" class="bsf-purchase-link" data-row-id="<?php echo $row_id ?>" />Buy License</a> <span class="spinner bsf-spinner"></span>
+                                            		<a href="<?php echo $purchase_url; ?>" target="_blank" class="bsf-purchase-link" data-row-id="<?php echo $row_id ?>" />Buy License</a> <span class="spinner bsf-spinner"></span>
                                                	<?php else : ?>
                                                 	<input type="button" class="button bsf-submit-button-deregister" value="De-register" data-row-id="<?php echo $row_id ?>" <?php echo $common_data; ?>/> <span class="spinner bsf-spinner"></span>
                                                 <?php endif; ?>
@@ -609,7 +614,7 @@ $is_product_theme = false;
 					</tbody>
 				</table>
 				<div class="bsf-listing-cta">
-					<a href="https://support.brainstormforce.com/license-registration-faqs/" target="_blank" rel="noopener">Questions?
+					<a href="https://support.brainstormforce.com/license-registration-faqs/" target="_blank">Questions?
 						Having Issues?</a>
 				</div>
 			</div>
@@ -625,7 +630,7 @@ $is_product_theme = false;
 							<span class="bsf-span"><?php echo __( 'Enable Developer access', 'bsf' ) ?>
 								,<br/><?php echo __( 'Read more about developer access ', 'bsf' ); ?><a
 									href="<?php echo get_api_site() . 'license-registration-faqs/#developer-access' ?>"
-									target="_blank" rel="noopener"><?php echo __( 'here', 'bsf' ) ?></a></span>
+									target="_blank"><?php echo __( 'here', 'bsf' ) ?></a></span>
 
 							<form action="" class="bsf-cp-dev-access" method="post">
 								<?php
@@ -677,7 +682,7 @@ $is_product_theme = false;
 								class="bsf-span"><?php echo __( 'Having any trouble using our products? Head to our support center to get your issues resolved.', 'bsf' ); ?></span>
 							<a class="button-primary bsf-cp-support-btn"
 							   href="<?php echo $request_support; ?>"
-							   target="_blank" rel="noopener"><?php echo __( 'Request Support', 'bsf' ) ?></a>
+							   target="_blank"><?php echo __( 'Request Support', 'bsf' ) ?></a>
 						</div>
 					</div>
 				</div>

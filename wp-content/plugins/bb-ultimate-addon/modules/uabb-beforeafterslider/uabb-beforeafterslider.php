@@ -19,7 +19,8 @@ class UABBBeforeaftersliderModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/uabb-beforeafterslider/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'slides.svg',
 		));
         $this->add_css('baslider-foundation', $this->url . 'css/foundation.css');
         $this->add_css('baslider-twentytwenty', $this->url . 'css/twentytwenty.css');

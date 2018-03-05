@@ -19,7 +19,8 @@ class UABBButtonModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/uabb-button/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh' => true
+            'partial_refresh' => true,
+			'icon'				=> 'button.svg',
 		));
 	}
 
@@ -245,6 +246,24 @@ FLBuilder::register_module('UABBButtonModule', array(
 			'icon'    => array(
 				'title'         => __('Icons', 'uabb'),
 				'fields'        => array(
+					'icon_type'    => array(
+						'type'          => 'select',
+						'label'         => __('Image Type', 'uabb'),
+						'default'       => 'icon',
+						'options'       => array(
+						    'none'          => __('None', 'uabb' ),
+						    'icon'          => __('Icon', 'uabb'),
+						    'photo'         => __('Photo', 'uabb'),
+						),
+						'toggle'        => array(
+						    'icon'          => array(
+						        'fields'   => array( 'icon', 'icon_position' ),
+						    ),
+						    'photo'         => array(
+						        'fields'   => array( 'photo', 'img_width' ),
+						    )
+						),
+					),
 					'icon'          => array(
 						'type'          => 'icon',
 						'label'         => __('Icon', 'uabb'),

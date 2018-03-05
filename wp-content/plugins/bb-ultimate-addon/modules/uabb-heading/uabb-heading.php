@@ -13,11 +13,12 @@ class UABBHeadingModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __('Heading', 'uabb'),
 			'description'   	=> __('Display a title/page heading.', 'uabb'),
-			'category'      => BB_Ultimate_Addon_Helper::module_cat( BB_Ultimate_Addon_Helper::$content_modules ),
-            'group'         => UABB_CAT,
+			'category'          => BB_Ultimate_Addon_Helper::module_cat( BB_Ultimate_Addon_Helper::$content_modules ),
+            'group'             => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-heading/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-heading/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+			'icon'				=> 'text.svg',
 		));
 	
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_heading_render_settings_field' ), 10, 3 );
@@ -464,7 +465,7 @@ FLBuilder::register_module('UABBHeadingModule', array(
 						'preview'		=> array(
 							'type' => 'css',
 							'property' => 'color',
-							'selector' => '.uabb-heading  .uabb-heading-text'
+							'selector' => '.fl-module-content.fl-node-content .uabb-heading  .uabb-heading-text'
 						)
 					),
 					'heading_margin_top'       => array(
@@ -548,7 +549,7 @@ FLBuilder::register_module('UABBHeadingModule', array(
 						'preview'		=> array(
 							'type' => 'css',
 							'property' => 'color',
-							'selector' => '.uabb-subheading, .uabb-subheading *'
+							'selector' => '.fl-module-content.fl-node-content .uabb-subheading, .fl-module-content.fl-node-content .uabb-subheading *'
 						)
 					),
 					'desc_margin_top'       => array(

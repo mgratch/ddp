@@ -150,7 +150,6 @@ if( !class_exists('UABB_Cloud_Templates') ) {
 					( is_array( $type_templates ) && count( $type_templates ) > 0 ) &&
 					( is_array( $downloaded_templates[$type] ) && count( $downloaded_templates[$type] ) > 0 )
 				) {
-
 					/**
 					 * Handle unexpected JSON response
 					 */
@@ -211,7 +210,7 @@ if( !class_exists('UABB_Cloud_Templates') ) {
 				 * 	Then, keep cloud.
 				 */
 				} else if(
-						( is_array( $type_templates ) && count( $type_templates ) > 0 ) &&
+						( is_array( $type_templates ) && count( ( is_array($type_templates) || is_object($type_templates) ) ? $type_templates : array() ) > 0 ) &&
 						( count( $downloaded_templates[$type] ) == 0 )
 					) {
 

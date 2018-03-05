@@ -17,7 +17,9 @@ class UABBFancyTextModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/fancy-text/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/fancy-text/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+			'icon'				=> 'text.svg',
+
 		));
 
 		$this->add_js('jquery-waypoints');

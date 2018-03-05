@@ -61,6 +61,13 @@
 	color: <?php echo $settings->error_msg_color; ?>;
 }
 
+.fl-node-<?php echo $id; ?> .uabb-success-none, 
+.fl-node-<?php echo $id; ?> .uabb-success-msg,
+.fl-node-<?php echo $id; ?> .uabb-send-error {
+	text-align: <?php echo $settings->error_msg_alignment; ?>;
+}
+
+
 .fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-input-group-wrap .uabb-error textarea, 
 .fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-input-group-wrap .uabb-error input[type=text], 
 .fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-input-group-wrap .uabb-error input[type=tel], 
@@ -244,7 +251,7 @@ if ( $settings->btn_align != 'full' ) { ?>
 }
 <?php } ?>
 
-.fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-contact-form-submit {
+.fl-builder-content .fl-node-<?php echo $id; ?> .uabb-module-content.uabb-contact-form .uabb-contact-form-submit {
 	border-radius: <?php echo  ( $settings->btn_radius != '' ) ? $settings->btn_radius : '4'; ?>px;
 	
 	<?php if ( $settings->btn_style == 'flat' ) { ?>
@@ -285,7 +292,7 @@ if ( $settings->btn_align != 'full' ) { ?>
 }
 
 
-.fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-contact-form-submit:hover {
+.fl-builder-content .fl-node-<?php echo $id; ?> .uabb-module-content.uabb-contact-form .uabb-contact-form-submit:hover {
 	<?php if ( $settings->btn_style == 'flat' ) { ?>
 		<?php if( $settings->btn_text_hover_color != '' ) { ?>
 		color: <?php echo $settings->btn_text_hover_color; ?>;
@@ -333,7 +340,7 @@ if ( $settings->btn_align != 'full' ) { ?>
 }
 
 
-.fl-node-<?php echo $id; ?> .uabb-contact-form .uabb-contact-form-submit:active {
+.fl-builder-content .fl-node-<?php echo $id; ?> .uabb-module-content.uabb-contact-form .uabb-contact-form-submit:active {
 	<?php if ( $settings->btn_style == '3d' ) { ?>
 		top: 6px;
 		box-shadow: 0 0px <?php echo uabb_theme_base_color( $shadow_color ); ?>;

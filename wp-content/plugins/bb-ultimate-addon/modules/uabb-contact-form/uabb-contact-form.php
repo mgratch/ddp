@@ -18,7 +18,8 @@ class UABBContactFormModule extends FLBuilderModule {
 			'dir'				=> BB_ULTIMATE_ADDON_DIR . 'modules/uabb-contact-form/',
 			'url'				=> BB_ULTIMATE_ADDON_URL . 'modules/uabb-contact-form/',
 			'editor_export'		=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 
 		add_action('wp_ajax_uabb_builder_email', array($this, 'send_mail'));
@@ -75,7 +76,8 @@ class UABBContactFormModule extends FLBuilderModule {
 		$node_id			= isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
 		$template_id    	= isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
 		$template_node_id   = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
-
+		$admin_email 		= get_option( 'admin_email' );
+		$site_name 			= get_option( 'blogname' );
 		
 		$mailto = get_option('admin_email');
 
@@ -117,8 +119,10 @@ class UABBContactFormModule extends FLBuilderModule {
 		add_filter('wp_mail_from', 'UABBContactFormModule::mail_from');
 		add_filter('wp_mail_from_name', 'UABBContactFormModule::from_name');
 		
+		/* If the From: address doesn't match the domain you're sending the email from. The mail server you're sending the email to likely rejected the email when it saw that you were trying to spoof the sender address. */
 		$headers =	array(
-			'From:' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
+			// 'From:' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
+			'From: ' . $site_name . ' <' . $admin_email . '>',
 			'Reply-To:' . $uabb_contact_from_name . ' <' . $uabb_contact_from_email . '>',
 			'Content-Type: text/html; charset=UTF-8',
 		);
@@ -634,7 +638,7 @@ FLBuilder::register_module('UABBContactFormModule', array(
 				)
 			),
 			'input-fields'       => array(
-				'title'         => __('Input Size and Aignment', 'uabb'),
+				'title'         => __('Input Size and Alignment', 'uabb'),
 				'fields'        => array(
 					'input_text_align'   => array(
 						'type'          => 'select',
@@ -866,6 +870,17 @@ FLBuilder::register_module('UABBContactFormModule', array(
 						'show_reset' => true,
 						'preview'	=> 'none'
 					),
+                    'error_msg_alignment'    => array(
+                        'type'          => 'uabb-toggle-switch',
+                        'label'         => __('Message Alignment', 'uabb'),
+                        'default'       => 'left',
+                        'options'       => array(
+                            'left'          => __('Left', 'uabb'),
+                            'center'        => __( 'Center', 'uabb' ),
+                            'right'         => __('Right', 'uabb'),
+                        ),
+						'preview'	=> 'none'
+                    ),					
 				)
 			),
 		)
@@ -898,6 +913,14 @@ FLBuilder::register_module('UABBContactFormModule', array(
 							'before'        => __('Before Text', 'uabb'),
 							'after'         => __('After Text', 'uabb')
 						)
+					),
+					'btn_processing_text'	=> array(
+						'type'          => 'text',
+						'label'         => __('Processing Text', 'uabb'),
+						'default'       => 'Please Wait...',
+                        'preview'       => array(
+                            'type'          => 'none'
+                        )
 					),
 				)
 			),
