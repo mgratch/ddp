@@ -61,6 +61,18 @@ class MonsterInsights_Tracking {
 			}
 		}
 
+		$usesauth = 'No';
+		$local    = MonsterInsights()->auth->is_authed();
+		$network  = MonsterInsights()->auth->is_network_authed();
+
+		if ( $local && $network ) {
+			$usesauth = 'Both';
+		} else if ( $local ) {
+			$usesauth = 'Local';
+		} else if ( $network ) {
+			$usesauth = 'Network';
+		}
+
 		$data['php_version']   = phpversion();
 		$data['mi_version']    = MONSTERINSIGHTS_VERSION;
 		$data['wp_version']    = get_bloginfo( 'version' );
@@ -70,7 +82,6 @@ class MonsterInsights_Tracking {
 		$data['url']           = home_url();
 		$data['themename']     = $theme_data->Name;
 		$data['themeversion']  = $theme_data->Version;
-		$data['email']         = get_bloginfo( 'admin_email' );
 		$data['key']           = monsterinsights_get_license_key();
 		$data['sas']           = monsterinsights_get_shareasale_id();
 		$data['settings']      = monsterinsights_get_options();
@@ -79,8 +90,12 @@ class MonsterInsights_Tracking {
 		$data['autoupdate']    = $update_mode;
 		$data['pro']           = (int) monsterinsights_is_pro_version();
 		$data['sites']         = $count_b;
-		$data['usagetracking'] = get_option( 'monsterinsights_usage_tracking_config', $tracking );
+		$data['usagetracking'] = get_option( 'monsterinsights_usage_tracking_config', false );
 		$data['usercount']     = function_exists( 'get_user_count' ) ? get_user_count() : 'Not Set';
+		$data['usesauth']      = $usesauth;
+		$data['timezoneoffset']= date('P');
+
+
 
 		// Retrieve current plugin information
 		if( ! function_exists( 'get_plugins' ) ) {

@@ -16,6 +16,7 @@ class UABBDualColorModule extends FLBuilderModule {
             'partial_refresh' => true, // Defaults to false and can be omitted.
             'icon'            => 'text.svg',
         ));
+
     }
 }
 
@@ -177,34 +178,69 @@ FLBuilder::register_module('UABBDualColorModule', array(
                             'selector'        => '.uabb-dual-color-heading *'
                         )
                     ),
-                    'dual_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'dual_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-dual-color-heading *',
                             'property'        => 'font-size',
                             'unit'           => 'px'
-                        )
-                    ),
-                    'dual_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'dual_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-dual-color-heading *',
                             'property'        => 'line-height',
-                            'unit'           => 'px'
+                            'unit'           => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'dual_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-dual-color-heading *',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'dual_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-dual-color-heading *',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

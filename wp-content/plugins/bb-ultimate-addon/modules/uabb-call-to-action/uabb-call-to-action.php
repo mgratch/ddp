@@ -22,7 +22,7 @@ class UABBCtaModule extends FLBuilderModule {
             'partial_refresh'  => true,
             'icon'             => 'megaphone.svg',
 		));
-	}
+    }
 
 	/**
 	 * @method get_classname
@@ -81,9 +81,17 @@ class UABBCtaModule extends FLBuilderModule {
             'mob_align'          => '',
 
             /* Typography */
-            'font_size'         => $this->settings->btn_font_size,
-            'line_height'       => $this->settings->btn_line_height,
-            'font_family'       => $this->settings->btn_font_family,
+            'font_size'         				=> ( isset( $this->settings->btn_font_size ) ) ? $this->settings->btn_font_size : '',
+            'line_height'       				=> ( isset( $this->settings->btn_line_height ) ) ? $this->settings->btn_line_height : '',
+            'font_size_unit'                    => $this->settings->btn_font_size_unit,
+            'line_height_unit'                  => $this->settings->btn_line_height_unit,
+            'font_size_unit_medium'             => $this->settings->btn_font_size_unit_medium,
+            'line_height_unit_medium'           => $this->settings->btn_line_height_unit_medium,
+            'font_size_unit_responsive'         => $this->settings->btn_font_size_unit_responsive,
+            'line_height_unit_responsive'       => $this->settings->btn_line_height_unit_responsive,
+            'font_family'                       => $this->settings->btn_font_family,
+            'transform'                         => $this->settings->btn_transform,
+            'letter_spacing'                    => $this->settings->btn_letter_spacing,
 		);
 
 		FLBuilder::render_module_html('uabb-button', $btn_settings);
@@ -253,7 +261,7 @@ FLBuilder::register_module('UABBCtaModule', array(
 		                )
 		            ),
                     'btn_link_nofollow'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Link nofollow', 'uabb'),
                         'description'   => '',
                         'default'       => '0',
@@ -412,7 +420,7 @@ FLBuilder::register_module('UABBCtaModule', array(
                         'size'        => '5',
                     ),
                     'hover_attribute' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Apply Hover Color To', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -557,13 +565,16 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'selector'        => '.uabb-cta-title'
                         )
                     ),
-                    'title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
@@ -572,19 +583,22 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'unit'            => 'px'
                         )
                     ),
-                    'title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'title_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-cta-title',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
+                            'unit'            => 'em'
                         )
                     ),
                     'title_color'        => array( 
@@ -596,6 +610,35 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'type'            => 'css',
                             'selector'        => '.uabb-cta-title',
                             'property'        => 'color',
+                        )
+                    ),
+                    'title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cta-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cta-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -615,13 +658,16 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'selector'        => '.uabb-cta-text-content p'
                         )
                     ),
-                    'subhead_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'subhead_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'        => 'css',
@@ -630,19 +676,22 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'unit'        =>  'px'
                         )
                     ),
-                    'subhead_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'subhead_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'        => 'css',
                             'selector'    => '.uabb-cta-text-content p',
                             'property'    => 'line-height',
-                            'unit'        => 'px'
+                            'unit'        => 'em'
                         )
                     ),
                     'subhead_color'        => array( 
@@ -654,6 +703,35 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'type'        => 'css',
                             'selector'    => '.uabb-cta-text-content p',
                             'property'    => 'color',
+                        )
+                    ),
+                    'subhead_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-text-editor',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'subhead_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-text-editor',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -673,13 +751,16 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'selector'        => '.uabb-creative-button-wrap a, .uabb-creative-button-wrap a:visited'
                         )
                     ),
-                    'btn_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'          => 'css',
@@ -688,19 +769,51 @@ FLBuilder::register_module('UABBCtaModule', array(
                             'unit'          => 'px',
                         )
                     ),
-                    'btn_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'	=> 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'          => 'css',
                             'selector'      => '.uabb-creative-button-wrap a, .uabb-creative-button-wrap a:visited',
                             'property'      =>  'line-height',
-                            'unit'          => 'px',
+                            'unit'          => 'em',
+                        )
+                    ),
+                    'btn_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-button-wrap a, .uabb-creative-button-wrap a:visited',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'btn_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-button-wrap a, .uabb-creative-button-wrap a:visited',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

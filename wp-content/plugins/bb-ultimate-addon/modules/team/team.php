@@ -17,11 +17,32 @@ class UABBTeamModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/team/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/team/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+            'icon'              => 'team.svg'
 		));
 	}
-	
 
+	/**
+     * @method get_icons
+     */
+    public function get_icon( $icon = '' ) {
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/team/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/team/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
+    }
+	
 	/**
 	 * @method render_image
 	 */
@@ -275,17 +296,23 @@ FLBuilder::register_module('UABBTeamModule', array(
 						),
 						'class'			=> 'uabb-image-icon-style',
 					),
-					'img_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'img_spacing_dimension'		=> array(
+						'type'          => 'dimension',
 			            'label'         => __( 'Image Section Padding', 'uabb' ),
-			            'mode'			=> 'padding',
-			            'default'       => 'padding: 0px;', // Optional
+			            'description'   => 'px',
 			            'preview'         => array(
                             'type'          => 'css',
                             'selector'      => '.uabb-team-image',
                             'property'      => 'padding',
                             'unit'			=> 'px'
-                        )
+                        ),
+                         'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
 					),
 					'img_bg_color'    => array( 
 						'type'       => 'color',
@@ -388,17 +415,23 @@ FLBuilder::register_module('UABBTeamModule', array(
 			'text_style' => array(
 				'title'         => __('Content Style', 'uabb'),
 				'fields'        => array(
-					'text_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'text_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding: 15px;', // Optional
+                        'description'   => 'px',
                         'preview'       => array(
 							'type'          => 'css',
 							'selector'      => '.uabb-team-content',
 							'property'		=> 'padding',
 							'unit'			=> 'px',
-						)
+						),
+						 'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '15',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
 					),
 					'text_bg_color'    => array( 
 						'type'       => 'color',
@@ -455,7 +488,7 @@ FLBuilder::register_module('UABBTeamModule', array(
 				'title'         => __('Custom Link', 'uabb'), // Section Title
 				'fields'        => array( // Section Fields
 					'enable_custom_link' =>	array(
-		                'type'          => 'uabb-toggle-switch',
+		                'type'          => 'select',
 		                'label'         => __( 'Enable Custom Link', 'uabb' ),
 		                'default'       => 'no',
 		                'options'       => array(
@@ -625,7 +658,7 @@ FLBuilder::register_module('UABBTeamModule', array(
 				'title'         => '',
 				'fields'        => array(
 					'enable_social_icons' =>	array(
-		                'type'          => 'uabb-toggle-switch',
+		                'type'          => 'select',
 		                'label'         => __( 'Enable Social Icons', 'uabb' ),
 		                'default'       => 'yes',
 		                'options'       => array(
@@ -775,7 +808,7 @@ FLBuilder::register_module('UABBTeamModule', array(
                             
                     /* Style Options */
                     'icon_color_preset'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Icon Color Presets', 'uabb' ),
                         'default'       => 'preset1',
                         'options'       => array(
@@ -897,35 +930,41 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-name-text'
                     	),
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-name-text, .uabb-team-name-text a',
                             'property'	=> 'font-size',
                             'unit'		=> 'px',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-name-text',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px',
+                            'unit'		=> 'em',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'color'        => array( 
                         'type'       => 'color',
@@ -937,6 +976,35 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-name-text, .uabb-team-name-text a',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-name-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-name-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'name_margin_top' => array(
 						'type'              => 'text',
@@ -983,35 +1051,41 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-desgn-text'
                     	),
                     ),
-                    'desg_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'desg_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-desgn-text',
                             'property'	=> 'font-size',
                             'unit'		=> 'px',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'desg_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'desg_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-desgn-text',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px',
+                            'unit'		=> 'em',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'desg_color'        => array( 
                         'type'       => 'color',
@@ -1023,6 +1097,35 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-desgn-text',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'desg_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-desgn-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'desg_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-desgn-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'desg_margin_top' => array(
 						'type'              => 'text',
@@ -1069,35 +1172,41 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-desc-text'
                     	),
                     ),
-                    'desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-desc-text',
                             'property'	=> 'font-size',
                             'unit'		=> 'px'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-team-desc-text',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'desc_color'        => array( 
                         'type'       => 'color',
@@ -1109,6 +1218,35 @@ FLBuilder::register_module('UABBTeamModule', array(
                             'selector'	=> '.uabb-team-desc-text',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-desc-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-team-desc-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'desc_margin_top' => array(
 						'type'              => 'text',
@@ -1192,7 +1330,7 @@ FLBuilder::register_settings_form('uabb_social_icon_form', array(
 					'fields'        => array( // Section Fields
 						'social_message' => array(
 							'type'     => 'uabb-msgbox',
-							'msg-type' => 'info',
+							'msg_type' => 'info',
 							'content'  => 'Below Background / Border color properties will work only when Icon background style is not simple.',
 						),
 					)

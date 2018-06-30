@@ -53,6 +53,7 @@ class UABB_Init {
 	function includes() {
 
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-update.php';
+		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-backward.php';
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-helper.php';
  		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-cloud-templates.php';
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-admin-settings.php';
@@ -157,7 +158,7 @@ class UABB_Init {
 
 	public function uabb_customizer_save()
 	{
-		if( UABB_Init::$uabb_options['uabb_global_settings']['enable_global'] == 'no' ) {
+		if( isset( UABB_Init::$uabb_options['uabb_global_settings']['enable_global'] ) && UABB_Init::$uabb_options['uabb_global_settings']['enable_global'] == 'no' ) {
 			if ( class_exists( 'FLCustomizer' ) ) {
 				new UABB_BBThemeGlobalIntegration();
 			}
@@ -269,18 +270,28 @@ class UABB_Init {
 			$theme_path		= $theme_dir . $module_path;
 			$addon_path		= $addon_dir . $module_path;
 
+			$admin_backend = apply_filters( 'enable_uabb_modules_backend', false, 10, 1 );
+
+			$enable_backend = '';
+
+			if( true === $admin_backend ) {
+				$enable_backend = true;
+			} else if ( false === $admin_backend ) {
+				$enable_backend = !is_admin();
+			}
+
 			// Check for the module class in a child theme.
-			if( $is_child_theme && file_exists($child_path) ) {
+			if( $is_child_theme && file_exists($child_path) && $enable_backend ) {
 				require_once $child_path;
 			}
 
 			// Check for the module class in a parent theme.
-			else if( file_exists($theme_path) ) {
+			else if( file_exists($theme_path) && $enable_backend ) {
 				require_once $theme_path;
 			}
 
 			// Check for the module class in the builder directory.
-			else if( file_exists($addon_path) ) {
+			else if( file_exists($addon_path) && $enable_backend ) {
 				require_once $addon_path;
 			}
 		}

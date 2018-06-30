@@ -20,7 +20,7 @@ class UABBContactForm7Module extends FLBuilderModule {
 			'editor_export'  	=> false,
 			'partial_refresh'	=> true,
 			'icon'				=> 'editor-table.svg',
-		));
+		));		
 	}
 }
 
@@ -167,11 +167,17 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 						'maxlength'   => '3',
 						'size'        => '5',
 					),
-					'form_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'form_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Form Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding:20px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '20',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
 					'form_radius'	=> array(
 						'type'          => 'text',
@@ -217,7 +223,7 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 				'title'         => __('Input Style', 'uabb'),
 				'fields'        => array(
 					'input_background_type'    => array( 
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
                         'label'         => __( 'Input Background Color', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -295,25 +301,34 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'unit'			=> 'px'
                         )
 					),
-					'input_padding'	=> array(
-						'type'          => 'uabb-spacing',
+					'input_padding_dimension'	=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Input Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding:10px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '10',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
 				)
 			),
 			'input-border-style' => array(
 				'title' => __('Input Border Style', 'uabb'),
 				'fields' => array(
-					'input_border_width'    => array(
-		                'type'          => 'uabb-spacing',
+					'input_border_width_dimension'    => array(
+		                'type'          => 'dimension',
 		                'label'         => __('Border Width', 'uabb'),
-		                'placeholder'	=> '1',
-		                'maxlength'     => '2',
-		                'mode'			=> 'padding',
-		                'size'          => '6',
-		                'default'		=> 'padding:1px;',
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '1',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 		            ),
 					'input_border_radius' => array(
 		                'type'          => 'text',
@@ -354,7 +369,7 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 				'title' => __('Radio and Checkbox Style', 'uabb'),
 				'fields' => array(
 					'radio_check_custom_option' => array(
-                    	'type'          => 'uabb-toggle-switch',
+                    	'type'          => 'select',
                         'label'         => __( 'Use Custom Style', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -576,7 +591,7 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                         )
 					),
 					'hover_attribute' => array(
-                    	'type'          => 'uabb-toggle-switch',
+                    	'type'          => 'select',
                         'label'         => __( 'Apply Hover Color To', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -602,34 +617,40 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => 'input[type=submit]'
                         ),
                     ),
-                    'btn_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'input[type=submit]',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'btn_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'input[type=submit]',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
                     ),
                     'btn_text_transform' => array(
@@ -639,8 +660,8 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 							'options'       => array(
 								'none'	=> __( 'None', 'uabb' ),
 								'capitalize'	=> __( 'Capitalize', 'uabb' ),
-								'uppercase'	=> __( 'Uppercase', 'uabb' ),
-								'lowercase'	=> __( 'Lowercase', 'uabb' ),
+								'uppercase'	=> __( 'UPPERCASE', 'uabb' ),
+								'lowercase'	=> __( 'lowercase', 'uabb' ),
 								'inherit'	=> __( 'Inherit', 'uabb' ),
 							),
 							'preview'         => array(
@@ -649,6 +670,19 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 	                            'property'      => 'text-transform',
 	                        )
 					),
+                    'btn_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-style input[type=submit]',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
             'btn-structure'  => array(
@@ -774,7 +808,24 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 						'description'   => 'px',
 						'placeholder'	=> '12',
 					),
-					
+                    'input_msg_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                    ),
+                    'input_msg_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                    ),
 				)
 			),
 			'validation-msg-section'       => array(
@@ -864,12 +915,36 @@ FLBuilder::register_module('UABBContactForm7Module', array(
 		                'size'          => '4',
 		                'description'   => 'px'
 		            ),
-					'validation_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'validation_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Message Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding: 10px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '10',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
+                    'validate_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                    ),
+                    'validate_letter_spacing' => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                    ),
 				)
 			),
 		)
@@ -908,35 +983,41 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-form-title'
                         ),
                     ),
-                    'form_title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'form_title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-cf7-form-title',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'form_title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'form_title_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-cf7-form-title',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'form_title_color'        => array( 
                         'type'       => 'color',
@@ -948,6 +1029,35 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-form-title',
                             'property'  => 'color',
                         ),
+                    ),
+                    'form_title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-form-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'form_title_letter_spacing'  => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-form-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'form_title_bottom_margin'   => array(
 						'type'          => 'text',
@@ -981,35 +1091,41 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-form-desc'
                         ),
                     ),
-                    'form_desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'form_desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-cf7-form-desc',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'form_desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'form_desc_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-cf7-form-desc',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'form_desc_color'        => array( 
                         'type'       => 'color',
@@ -1021,6 +1137,35 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-form-desc',
                             'property'  => 'color',
                         ),
+                    ),
+                    'form_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-form-desc',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'form_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-form-desc',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'form_desc_bottom_margin'   => array(
 						'type'          => 'text',
@@ -1054,35 +1199,41 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => 'label'
                         ),
                     ),
-                    'label_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'label_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'label',
                          	'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'label_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'label_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'label',
                          	'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'label_color'        => array( 
                         'type'       => 'color',
@@ -1094,6 +1245,35 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => 'label',
                          	'property'  => 'color',
                         ),
+                    ),
+                    'label_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => 'label',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'label_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'label',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -1112,14 +1292,17 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => 'input[type=tel], input[type=email], input[type=text], input, textarea'
                         ),
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'input[type=tel], input[type=email], input[type=text], input, textarea',
@@ -1127,19 +1310,22 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'unit'      => 'px'
                         ),
                     ),
-                    'line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => 'input[type=tel], input[type=email], input[type=text], input, textarea',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
                     ),
                     'color'        => array( 
@@ -1152,6 +1338,35 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => 'input[type=tel], input[type=email], input[type=text], input, textarea',
                             'property'  => 'color',
                         ),
+                    ),
+                    'transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+	                        'options'       => array(
+	                            'none'           =>  'Default',
+	                            'uppercase'         =>  'UPPERCASE',
+	                            'lowercase'         =>  'lowercase',
+	                            'capitalize'        =>  'Capitalize',
+	                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => 'input[type=tel], input[type=email], input[type=text], input, textarea',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'input[type=tel], input[type=email], input[type=text], input, textarea',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'input_top_margin'   => array(
 						'type'          => 'text',
@@ -1200,14 +1415,17 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-style .wpcf7-checkbox input[type="checkbox"] + span, .uabb-cf7-style .wpcf7-radio input[type="radio"] + span',
                         ),  
                     ),
-                    'radio_checkbox_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'radio_checkbox_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '15',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-cf7-style .wpcf7-checkbox input[type="checkbox"] + span, .uabb-cf7-style .wpcf7-radio input[type="radio"] + span',
@@ -1224,6 +1442,35 @@ FLBuilder::register_module('UABBContactForm7Module', array(
                             'selector'  => '.uabb-cf7-style .wpcf7-checkbox input[type="checkbox"] + span, .uabb-cf7-style .wpcf7-radio input[type="radio"] + span',
                             'property'  => 'color',
                         ),
+                    ),
+                    'radio_checkbox_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-style .wpcf7-checkbox input[type="checkbox"] + span, .uabb-cf7-style .wpcf7-radio input[type="radio"] + span',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'radio_checkbox_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-cf7-style .wpcf7-checkbox input[type="checkbox"] + span, .uabb-cf7-style .wpcf7-radio input[type="radio"] + span',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

@@ -52,7 +52,7 @@ class UABB_Extend_RowColumn {
 	}
 
 	function uabb_responsive_div_html( $content ) {
-		echo '<div id="uabb-js-breakpoint" class="uabb-js-breakpoint" style="display: none;"></div>';
+		echo '<div class="uabb-js-breakpoint" style="display: none;"></div>';
 	}
 
 	/**
@@ -261,7 +261,7 @@ class UABB_Extend_RowColumn {
 								'placeholder' => '100'
 							),
 							'uabb_row_separator_z_index'  => array(
-				                'type'        => 'uabb-toggle-switch',
+				                'type'        => 'select',
 				                'label'       => __('Bring to Front', 'uabb'),
 				                'default'     => 'yes',
 				                'options'     => array(
@@ -415,7 +415,7 @@ class UABB_Extend_RowColumn {
 								'placeholder' => '100'
 							),
 							'bot_separator_z_index'  => array(
-				                'type'        => 'uabb-toggle-switch',
+				                'type'        => 'select',
 				                'label'       => __('Bring to Front', 'uabb'),
 				                'default'     => 'yes',
 				                'options'     => array(
@@ -478,16 +478,16 @@ class UABB_Extend_RowColumn {
 												'fields'        => array()
 											),
 											'solid'         => array(
-												'fields'        => array('hide_border_mobile')
+												'fields'        => array( 'border_color', 'border_opacity', 'border', 'hide_border_mobile' )
 											),
 											'dashed'        => array(
-												'fields'        => array('hide_border_mobile')
+												'fields'        => array( 'border_color', 'border_opacity', 'border', 'hide_border_mobile' )
 											),
 											'dotted'        => array(
-												'fields'        => array('hide_border_mobile')
+												'fields'        => array( 'border_color', 'border_opacity', 'border', 'hide_border_mobile' )
 											),
 											'double'        => array(
-												'fields'        => array('hide_border_mobile')
+												'fields'        => array( 'border_color', 'border_opacity', 'border', 'hide_border_mobile' )
 											)
 										),
 										'preview'         => array(

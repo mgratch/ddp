@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Frontend
  */
 
@@ -40,12 +42,6 @@ class WPSEO_Breadcrumbs {
 	private $post;
 
 	/**
-	 * @var    array    WPSEO options array from get_all()
-	 */
-	private $options;
-
-
-	/**
 	 * @var string    HTML wrapper element for a single breadcrumb element
 	 */
 	private $element = 'span';
@@ -59,7 +55,6 @@ class WPSEO_Breadcrumbs {
 	 * @var string    HTML wrapper element for the Yoast SEO breadcrumbs output
 	 */
 	private $wrapper = 'span';
-
 
 	/**
 	 * @var    array    Array of crumbs
@@ -92,7 +87,6 @@ class WPSEO_Breadcrumbs {
 	 * Create the breadcrumb.
 	 */
 	protected function __construct() {
-		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
 		$this->page_for_posts = get_option( 'page_for_posts' );
@@ -117,14 +111,12 @@ class WPSEO_Breadcrumbs {
 	 * @return string Returns the breadcrumbs as a string.
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
-		if ( ! ( self::$instance instanceof self ) ) {
-			self::$instance = new self();
-		}
 		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
 
-		$output = $before . self::$instance->output . $after;
+		$instance = self::get_instance();
+		$output = $before . $instance->output . $after;
 
 		if ( $display === true ) {
 			echo $output;
@@ -142,6 +134,28 @@ class WPSEO_Breadcrumbs {
 	 */
 	public function __toString() {
 		return self::$before . $this->output . self::$after;
+	}
+
+	/**
+	 * Retrieves an instance of the class.
+	 *
+	 * @return WPSEO_Breadcrumbs The instance.
+	 */
+	public static function get_instance() {
+		if ( ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Returns the collected links for the breadcrumbs.
+	 *
+	 * @return array The collected links.
+	 */
+	public function get_links() {
+		return $this->links;
 	}
 
 	/**
@@ -186,7 +200,7 @@ class WPSEO_Breadcrumbs {
 	 * @api string $breadcrumbs_sep Breadcrumbs separator.
 	 */
 	private function filter_separator() {
-		$separator       = apply_filters( 'wpseo_breadcrumb_separator', $this->options['breadcrumbs-sep'] );
+		$separator       = apply_filters( 'wpseo_breadcrumb_separator', WPSEO_Options::get( 'breadcrumbs-sep' ) );
 		$this->separator = ' ' . $separator . ' ';
 	}
 
@@ -327,7 +341,7 @@ class WPSEO_Breadcrumbs {
 
 		// Ignore coding standards for empty if statement.
 		// @codingStandardsIgnoreStart
-		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
+		if ( $this->is_front_page() ) {
 			// Do nothing.
 			// @codingStandardsIgnoreEnd
 		}
@@ -340,7 +354,7 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
 				$this->maybe_add_taxonomy_crumbs_for_post();
 			}
-			else {
+			if ( isset( $this->post->post_parent ) && $this->post->post_parent !== 0 ) {
 				$this->add_post_ancestor_crumbs();
 			}
 
@@ -348,52 +362,56 @@ class WPSEO_Breadcrumbs {
 				$this->add_single_post_crumb( $this->post->ID );
 			}
 		}
-		else {
-			if ( is_post_type_archive() ) {
-				$post_type = $wp_query->get( 'post_type' );
+		elseif ( is_post_type_archive() ) {
+			$post_type = $wp_query->get( 'post_type' );
 
+			if ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) {
+				$id = wc_get_page_id( 'shop' );
+				$this->add_single_post_crumb( $id );
+			}
+			else {
 				if ( $post_type && is_string( $post_type ) ) {
 					$this->add_ptarchive_crumb( $post_type );
 				}
 			}
-			elseif ( is_tax() || is_tag() || is_category() ) {
-				$this->add_crumbs_for_taxonomy();
+		}
+		elseif ( is_tax() || is_tag() || is_category() ) {
+			$this->add_crumbs_for_taxonomy();
+		}
+		elseif ( is_date() ) {
+			if ( is_day() ) {
+				$this->add_linked_month_year_crumb();
+				$this->add_date_crumb();
 			}
-			elseif ( is_date() ) {
-				if ( is_day() ) {
-					$this->add_linked_month_year_crumb();
-					$this->add_date_crumb();
-				}
-				elseif ( is_month() ) {
-					$this->add_month_crumb();
-				}
-				elseif ( is_year() ) {
-					$this->add_year_crumb();
-				}
+			elseif ( is_month() ) {
+				$this->add_month_crumb();
 			}
-			elseif ( is_author() ) {
-				$user         = $wp_query->get_queried_object();
-				$display_name = get_the_author_meta( 'display_name', $user->ID );
-				$this->add_predefined_crumb(
-					$this->options['breadcrumbs-archiveprefix'] . ' ' . $display_name,
-					null,
-					true
-				);
+			elseif ( is_year() ) {
+				$this->add_year_crumb();
 			}
-			elseif ( is_search() ) {
-				$this->add_predefined_crumb(
-					$this->options['breadcrumbs-searchprefix'] . ' "' . esc_html( get_search_query() ) . '"',
-					null,
-					true
-				);
-			}
-			elseif ( is_404() ) {
-				$this->add_predefined_crumb(
-					$this->options['breadcrumbs-404crumb'],
-					null,
-					true
-				);
-			}
+		}
+		elseif ( is_author() ) {
+			$user         = $wp_query->get_queried_object();
+			$display_name = get_the_author_meta( 'display_name', $user->ID );
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name,
+				null,
+				true
+			);
+		}
+		elseif ( is_search() ) {
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
+				null,
+				true
+			);
+		}
+		elseif ( is_404() ) {
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-404crumb' ),
+				null,
+				true
+			);
 		}
 
 		/**
@@ -406,6 +424,22 @@ class WPSEO_Breadcrumbs {
 		$this->crumb_count = count( $this->crumbs );
 	}
 
+	/**
+	 * Determine whether we are on the front page of the site.
+	 *
+	 * @return bool
+	 */
+	private function is_front_page() {
+		if ( $this->show_on_front === 'page' && is_front_page() ) {
+			return true;
+		}
+
+		if ( $this->show_on_front === 'posts' && is_home() ) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Add a single id based crumb to the crumbs property.
@@ -459,9 +493,9 @@ class WPSEO_Breadcrumbs {
 	 * Add Homepage crumb to the crumbs property.
 	 */
 	private function maybe_add_home_crumb() {
-		if ( $this->options['breadcrumbs-home'] !== '' ) {
+		if ( WPSEO_Options::get( 'breadcrumbs-home' ) !== '' ) {
 			$this->add_predefined_crumb(
-				$this->options['breadcrumbs-home'],
+				WPSEO_Options::get( 'breadcrumbs-home' ),
 				WPSEO_Utils::home_url(),
 				true
 			);
@@ -480,7 +514,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function maybe_add_blog_crumb() {
 		if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
-			if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
+			if ( $this->page_for_posts && WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) === true ) {
 				$this->add_blog_crumb();
 			}
 		}
@@ -503,8 +537,8 @@ class WPSEO_Breadcrumbs {
 	 * Add taxonomy crumbs to the crumbs property for a single post.
 	 */
 	private function maybe_add_taxonomy_crumbs_for_post() {
-		if ( isset( $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] ) && (string) $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] !== '0' ) {
-			$main_tax = $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ];
+		if ( WPSEO_Options::get( 'post_types-' . $this->post->post_type . '-maintax' ) && (string) WPSEO_Options::get( 'post_types-' . $this->post->post_type . '-maintax' ) !== '0' ) {
+			$main_tax = WPSEO_Options::get( 'post_types-' . $this->post->post_type . '-maintax' );
 			if ( isset( $this->post->ID ) ) {
 				$terms = get_the_terms( $this->post, $main_tax );
 
@@ -563,15 +597,14 @@ class WPSEO_Breadcrumbs {
 	 * @param object $term Term data object.
 	 */
 	private function maybe_add_preferred_term_parent_crumb( $term ) {
-		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && (string) $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] !== '0' ) {
-			if ( 'post' === $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && $this->show_on_front === 'page' ) {
+		if ( WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) && (string) WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) !== '0' ) {
+			if ( 'post' === WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) && $this->show_on_front === 'page' ) {
 				if ( $this->page_for_posts ) {
 					$this->add_blog_crumb();
 				}
+				return;
 			}
-			else {
-				$this->add_ptarchive_crumb( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] );
-			}
+			$this->add_ptarchive_crumb( WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) );
 		}
 	}
 
@@ -603,7 +636,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function add_month_crumb() {
 		$this->add_predefined_crumb(
-			$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( single_month_title( ' ', false ) ),
+			WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . esc_html( single_month_title( ' ', false ) ),
 			null,
 			true
 		);
@@ -614,7 +647,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function add_year_crumb() {
 		$this->add_predefined_crumb(
-			$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( get_query_var( 'year' ) ),
+			WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . esc_html( get_query_var( 'year' ) ),
 			null,
 			true
 		);
@@ -635,7 +668,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		$this->add_predefined_crumb(
-			$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( $date ),
+			WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . esc_html( $date ),
 			null,
 			true
 		);
@@ -675,7 +708,7 @@ class WPSEO_Breadcrumbs {
 			 */
 			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $this->crumbs );
 
-			$this->links[] = $this->crumb_to_link( $link_info, $index );
+			$this->links[ $index ] = $link_info;
 		}
 	}
 
@@ -740,9 +773,9 @@ class WPSEO_Breadcrumbs {
 		$link          = array();
 		$archive_title = '';
 
-		if ( isset( $this->options[ 'bctitle-ptarchive-' . $pt ] ) && $this->options[ 'bctitle-ptarchive-' . $pt ] !== '' ) {
+		if ( WPSEO_Options::get( 'bctitle-ptarchive-' . $pt, '' ) !== '' ) {
 
-			$archive_title = $this->options[ 'bctitle-ptarchive-' . $pt ];
+			$archive_title = WPSEO_Options::get( 'bctitle-ptarchive-' . $pt );
 		}
 		else {
 			$post_type_obj = get_post_type_object( $pt );
@@ -793,24 +826,18 @@ class WPSEO_Breadcrumbs {
 				$link['text'] = esc_html( $link['text'] );
 			}
 
-			$inner_elm = 'span';
-			if ( $this->options['breadcrumbs-boldlast'] === true && $i === ( $this->crumb_count - 1 ) ) {
-				$inner_elm = 'strong';
-			}
-
-			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) )
-				&& ( $i < ( $this->crumb_count - 1 ) )
+			if ( ( $i < ( $this->crumb_count - 1 ) && ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) )
 			) {
-				if ( $i === 0 ) {
-					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
-				}
-				else {
-					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
-				}
+				$link_output .= '<' . $this->element . '>';
 				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
-				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
+				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" ' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
+				$inner_elm = 'span';
+				if ( $i === ( $this->crumb_count - 1 ) && WPSEO_Options::get( 'breadcrumbs-boldlast' ) === true ) {
+					$inner_elm = 'strong';
+				}
+
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
@@ -831,14 +858,19 @@ class WPSEO_Breadcrumbs {
 		return apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
 	}
 
-
 	/**
 	 * Create a complete breadcrumb string from an array of breadcrumb element strings.
 	 */
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
-			// Remove any effectively empty links.
-			$links = array_map( 'trim', $this->links );
+			// Converts info to an effective link.
+			$links = $this->links;
+			foreach ( $links as $key => $link ) {
+				$links[ $key ] = $this->crumb_to_link( $link, $key );
+			}
+
+			// Removes any effectively empty links.
+			$links = array_map( 'trim', $links );
 			$links = array_filter( $links );
 
 			$this->output = implode( $this->separator, $links );
@@ -850,7 +882,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
+			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
 
 			/**
 			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
@@ -859,8 +891,8 @@ class WPSEO_Breadcrumbs {
 			 */
 			$output = apply_filters( 'wpseo_breadcrumb_output', $output );
 
-			if ( $this->options['breadcrumbs-prefix'] !== '' ) {
-				$output = "\t" . $this->options['breadcrumbs-prefix'] . "\n" . $output;
+			if ( WPSEO_Options::get( 'breadcrumbs-prefix' ) !== '' ) {
+				$output = "\t" . WPSEO_Options::get( 'breadcrumbs-prefix' ) . "\n" . $output;
 			}
 
 			$this->output = $output;
@@ -895,33 +927,4 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
-	/********************** DEPRECATED METHODS **********************/
-
-	// @codeCoverageIgnoreStart
-	/**
-	 * Wrapper function for the breadcrumb so it can be output for the supported themes.
-	 *
-	 * @deprecated 1.5.0
-	 */
-	public function breadcrumb_output() {
-		_deprecated_function( __METHOD__, '1.5.0', 'yoast_breadcrumb' );
-		self::breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
-	}
-
-	/**
-	 * Take the links array and return a full breadcrumb string.
-	 *
-	 * @deprecated 1.5.2.3
-	 *
-	 * @param string $links   Unused.
-	 * @param string $wrapper Unused.
-	 * @param string $element Unused.
-	 *
-	 * @return void
-	 */
-	public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
-	}
-	// @codeCoverageIgnoreEnd
 }

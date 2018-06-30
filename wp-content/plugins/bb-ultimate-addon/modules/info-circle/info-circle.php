@@ -18,11 +18,33 @@ class UABBInfoCircleModule extends FLBuilderModule {
             'group'         => UABB_CAT,
 			'dir'           	=> BB_ULTIMATE_ADDON_DIR . 'modules/info-circle/',
             'url'           	=> BB_ULTIMATE_ADDON_URL . 'modules/info-circle/',
-            'partial_refresh'	=> true
+            'partial_refresh'	=> true,
+            'icon'              => 'info-circle.svg'
 		));
-
 		$this->add_css( 'uabb-animate', BB_ULTIMATE_ADDON_URL . 'assets/css/uabb-animate.css' );
 	}
+	
+	/**
+     * @method get_icons
+     */
+    public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/info-circle/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/info-circle/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
+    }
 
 	/* Render Icon/Photo */
 	function render_icon_image( $item, $active = '' ) {
@@ -104,9 +126,17 @@ class UABBInfoCircleModule extends FLBuilderModule {
 				'mob_align'          => 'center',
 
 				/* Typography */
-				'font_size'         => $item->btn_font_size,
-				'line_height'       => $item->btn_line_height,
-				'font_family'       => $item->btn_font_family,
+				'font_size'                     => ( isset( $item->btn_font_size ) ) ? $item->btn_font_size : '',
+				'line_height'                   => ( isset( $item->btn_line_height ) ) ? $item->btn_line_height : '',
+				'font_size_unit'         		=> $item->btn_font_size_unit,
+				'line_height_unit'       		=> $item->btn_line_height_unit,
+				'font_size_unit_medium'         => $item->btn_font_size_unit_medium,
+				'line_height_unit_medium'       => $item->btn_line_height_unit_medium,
+				'font_size_unit_responsive'     => $item->btn_font_size_unit_responsive,
+				'line_height_unit_responsive'   => $item->btn_line_height_unit_responsive,
+				'font_family'       			=> $item->btn_font_family,
+				'transform'                     => $item->btn_transform,
+				'letter-spacing'                => $item->btn_letter_spacing,
 			);
 
 			FLBuilder::render_module_html( 'uabb-button', $btn_settings );
@@ -132,12 +162,6 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 			'info_circle_general' => array(
 				'title'		=> '',
 				'fields'	=> array(
-					/*'info_circle_info' => array(
-						'type'     => 'uabb-msgbox',
-						'label'    => '',
-						'msg-type' => 'info',
-						'content'  => $notice,
-					),*/
 					'add_circle_item' => array(
 						'type'			=> 'form',
 						'label'			=> __( 'Info Circle Item', 'uabb' ),
@@ -156,7 +180,7 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 				'title'		=> __( 'General', 'uabb' ),
 				'fields'	=> array(
 					'autoplay'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __( 'Autoplay', 'uabb' ),
 						'default'       => 'yes',
 						'options'       => array(
@@ -178,7 +202,7 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 						'description'	=> 'sec(s)',
 					),
 					'content_width'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __( 'Content Area Width', 'uabb' ),
 						'default'       => 'custom',
 						'options'       => array(
@@ -202,7 +226,7 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 						'help'	=> __( 'Enter the width of your content area. This is proportionate with overall Info Circle area.', 'uabb' ),
 					),
 					'info_trigger_type'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __( 'Action to Display Content', 'uabb' ),
 						'default'       => 'hover',
 						'options'       => array(
@@ -212,7 +236,7 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 						'help'	=> __( 'Select the action to display info circle\'s individual item\'s content inside the content area.', 'uabb' ),
 					),
 					'responsive_nature'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __( 'Responsive Fallback Structure', 'uabb' ),
 						'default'       => 'true',
 						'options'       => array(
@@ -448,12 +472,18 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
 			'information_area'	=> array(
 				'title'         => __( 'Information Area', 'uabb' ),
 				'fields'        => array(
-					'info_area_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'info_area_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Content Padding', 'uabb' ),
-                        'mode'			=> 'padding',
                         'help'			=> __( 'To give padding to Information Area use this setting', 'uabb' ),
-                        'default'       => 'padding: 25px;' // Optional
+                        'description'  => 'px',
+                         'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '25',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),   
 					),
 					'info_area_icon'     => array(
 						'type'          => 'select',
@@ -825,14 +855,17 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'selector'	=> '.uabb-info-circle-title'
                     	),
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'	=> 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-info-circle-title',
@@ -840,19 +873,22 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'unit'		=> 'px'
                     	),
                     ),
-                    'line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'	=> 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     	'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-info-circle-title',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
                     ),
                     'color'        => array( 
@@ -865,6 +901,35 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'selector'	=> '.uabb-info-circle-title',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-circle-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-circle-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'title_margin_top' => array(
 						'type'              => 'text',
@@ -911,14 +976,17 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'selector'	=> '.uabb-info-circle-desc'
                     	),
                     ),
-                    'desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'	=> 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-info-circle-desc',
@@ -926,19 +994,22 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'unit'		=> 'px'
                     	),
                     ),
-                    'desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'	=> 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-info-circle-desc',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
                     ),
                     'desc_color'        => array( 
@@ -951,6 +1022,35 @@ FLBuilder::register_module('UABBInfoCircleModule', array(
                             'selector'	=> '.uabb-info-circle-desc',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-circle-desc',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-circle-desc',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'desc_margin_top' => array(
 						'type'              => 'text',
@@ -1245,7 +1345,7 @@ FLBuilder::register_settings_form('info_circle_items_form', array(
 							'show_alpha' => true,
 						),
 						'icon_gradient'     => array(
-							'type'          => 'uabb-toggle-switch',
+							'type'          => 'select',
 							'label'         => __( 'Gradient', 'uabb' ),
 							'default'       => '0',
 							'options'       => array(
@@ -1499,7 +1599,7 @@ FLBuilder::register_settings_form('info_circle_items_form', array(
 	                        'size'        => '5',
 	                    ),
 	                    'hover_attribute' => array(
-	                        'type'          => 'uabb-toggle-switch',
+	                        'type'          => 'select',
 	                        'label'         => __( 'Apply Hover Color To', 'uabb' ),
 	                        'default'       => 'bg',
 	                        'options'       => array(
@@ -1591,23 +1691,47 @@ FLBuilder::register_settings_form('info_circle_items_form', array(
 	                            'weight'        => 'Default'
 	                        ),
 	                    ),
-	                    'btn_font_size'     => array(
-	                        'type'          => 'uabb-simplify',
+	                    'btn_font_size_unit'     => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Font Size', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
+                        	'description'	=> 'px',
+							'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
+	                    ),
+	                    'btn_line_height_unit'    => array(
+	                        'type'          => 'unit',
+	                        'label'         => __( 'Line Height', 'uabb' ),
+                        	'description'	=> 'em',	                        
+	                        'responsive' => array(
+	                        	'placeholder' => array(
+	                        		'default' => '',
+	                        		'medium' => '',
+	                        		'responsive' => '',
+	                        	),
 	                        ),
 	                    ),
-	                    'btn_line_height'    => array(
-	                        'type'          => 'uabb-simplify',
-	                        'label'         => __( 'Line Height', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
+	                    'btn_transform'     => array(
+	                        'type'          => 'select',
+	                        'label'         => __( 'Transform', 'uabb' ),
+	                        'default'       => 'none',
+	                        'options'       => array(
+	                            'none'           =>  'Default',
+	                            'uppercase'         =>  'UPPERCASE',
+	                            'lowercase'         =>  'lowercase',
+	                            'capitalize'        =>  'Capitalize'                 
 	                        ),
+	                    ),
+	                    'btn_letter_spacing'       => array(
+	                        'type'          => 'text',
+	                        'label'         => __('Letter Spacing', 'uabb'),
+	                        'placeholder'   => '0',
+	                        'size'          => '5',
+	                        'description'   => 'px',
 	                    ),
 	                    'btn_color'        => array( 
 	                        'type'       => 'color',

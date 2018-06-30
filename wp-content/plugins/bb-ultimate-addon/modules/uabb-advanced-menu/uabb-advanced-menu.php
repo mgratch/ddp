@@ -23,9 +23,10 @@ class UABBCreativeMenu extends FLBuilderModule {
             'partial_refresh'   => true,
             'icon'              => 'hamburger-menu.svg',
         ));
+        
         $this->add_css('font-awesome');
-	}
-
+    }
+    
 	public static function render_menus() {
 		$nav_menus =  get_terms( 'nav_menu', array( 'hide_empty' => true ) );
 		$fields = array(
@@ -179,7 +180,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                 'fields'        => array( // Section Fields
 					'wp_menu' => UABBCreativeMenu::render_menus(),
 					'creative_menu_layout' => array(
-					    'type'          => 'uabb-toggle-switch',
+					    'type'          => 'select',
 					    'label'         => __( 'Layout', 'uabb' ),
 					    'default'       => 'horizontal',
 					    'options'       => array(
@@ -201,7 +202,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					    )
 					),
 					'creative_submenu_hover_toggle' => array(
-					    'type'          => 'uabb-toggle-switch',
+					    'type'          => 'select',
 					    'label'         => __( 'Submenu Icon', 'uabb' ),
 					    'default'       => 'none',
 					    'options'       => array(
@@ -211,7 +212,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					    )
 					),
 					'creative_submenu_click_toggle' => array(
-					    'type'          => 'uabb-toggle-switch',
+					    'type'          => 'select',
 					    'label'         => __( 'Submenu Icon click', 'uabb' ),
 					    'default'       => 'arrows',
 					    'options'       => array(
@@ -220,7 +221,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					    )
 					),
 					'creative_menu_collapse'   => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Collapse Inactive', 'uabb'),
 						'default'       => '1',
 						'options'       => array(
@@ -243,7 +244,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                 'title'         => __('Style', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'creative_menu_alignment'    => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Menu Alignment', 'uabb'),
                         'default'       => 'center',
                         'options'       => array(
@@ -252,23 +253,41 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                             'right'        	=> __('Right', 'uabb'),
                         ),
                     ),
-                    'creative_menu_link_margin' 	=> array(
-                        'type'          => 'uabb-spacing',
+                    'creative_menu_link_margin_dimension' 	=> array(
+                        'type'          => 'dimension',
                         'label'         => __( 'Link Margin', 'uabb' ),
-                        'mode'			=> 'margin',
-                        'default'       => 'margin:5px;', // Optional 
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-creative-menu .menu > li',
                             'property'        => 'margin',
                             'unit'            => 'px'
-                        )                    
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '5',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),                     
                     ),
-                    'creative_menu_link_spacing'    => array(
-                        'type'          => 'uabb-spacing',
+                    'creative_menu_link_spacing_dimension'    => array(
+                        'type'          => 'dimension',
                         'label'         => __( 'Link Padding', 'uabb' ),
-                        'mode'          => 'padding',
-                        'default'       => 'padding:10px;', // Optional
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'            => 'css',
+                            'selector'        => '.uabb-creative-menu .menu > li',
+                            'property'        => 'margin',
+                            'unit'            => 'px'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '10',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
                     ),
                 )
             ),
@@ -314,7 +333,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                     'creative_menu_border_style' => array(
                         'type'          => 'select',
                         'label'         => __('Border Style', 'uabb'),
-                        'default'       => 'solid',
+                        'default'       => 'none',
                         'options'       => array(
                             'none'         => __('None', 'uabb'),
                             'solid'        => __('Solid', 'uabb'),
@@ -329,32 +348,42 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 						),
                         'toggle'        => array(
                             'solid'        => array(
-                                'fields'        => array( 'creative_menu_border_width', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
+                                'fields'        => array( 'creative_menu_border_width_dimension', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
                             ),
                             'dashed'        => array(
-                                'fields'        => array( 'creative_menu_border_width', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
+                                'fields'        => array( 'creative_menu_border_width_dimension', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
                             ),
                             'double'        => array(
-                                'fields'        => array( 'creative_menu_border_width', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
+                                'fields'        => array( 'creative_menu_border_width_dimension', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
                             ),
                             'dotted'        => array(
-                                'fields'        => array( 'creative_menu_border_width', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
+                                'fields'        => array( 'creative_menu_border_width_dimension', 'creative_menu_border_color', 'creative_menu_border_hover_color' )
                             )
                         )
                     ),
-                    'creative_menu_border_width'    => array(
-		                'type'          => 'uabb-spacing',
+                    'creative_menu_border_width_dimension'    => array(
+		                'type'          => 'dimension',
 		                'label'         => __('Border Width', 'uabb'),
-		                'maxlength'     => '2',
-		                'mode'			=> 'padding',
-                        'default'       => 'padding:0px',
-		                'size'          => '6',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                            'default' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 		            ),
                     'creative_menu_border_color' => array(
                         'type'       => 'color',
                         'label'      => __('Border Color', 'uabb'),
                         'default'    => '',
                         'show_reset' => true,
+                        'show_alpha' => true,
 						'preview'         => array(
 							'type'            => 'css',
 							'selector'        => '.uabb-creative-menu .menu > li > a, .uabb-creative-menu .menu > li > .uabb-has-submenu-container > a',
@@ -366,6 +395,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         'label'      => __('Border Hover Color', 'uabb'),
                         'default'    => '',
                         'show_reset' => true,
+                        'show_alpha' => true,
 						'preview'         => array(
 							'type'            => 'css',
 							'selector'        => '.uabb-creative-menu .menu > li > a:hover, .uabb-creative-menu .menu > li > .uabb-has-submenu-container > a:hover, .uabb-creative-menu .menu > li > a:focus, .uabb-creative-menu .menu > li > .uabb-has-submenu-container > a:focus',
@@ -382,17 +412,23 @@ FLBuilder::register_module('UABBCreativeMenu', array(
         	'creative_menu_submenu_style'	=> array(
 				'title'		=> __( 'Style', 'uabb' ),
 				'fields'	=> array(
-					'creative_submenu_link_padding' 	=> array(
-                    	'type' 			=> 'uabb-spacing',
+					'creative_submenu_link_padding_dimension' 	=> array(
+                    	'type' 			=> 'dimension',
                     	'label' 		=> __('Padding', 'uabb'),
-                        'mode'   		=> 'padding',
-                        'default'       => 'padding:15px;',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-creative-menu .sub-menu > li > a, .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a',
                             'property'        => 'padding',
                             'unit'            => 'px'
-                        )
+                        ),
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '15',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
 					'submenu_width'   => array(
 						'type'          => 'text',
@@ -450,7 +486,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 				'title'		=> __( 'Shadow Settings', 'uabb' ),
 				'fields'	=> array(
                     'creative_submenu_drop_shadow'	=> array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 					    'label'         => __( 'Drop Shadow', 'uabb' ),
 					    'default'       => 'yes',
 					    'options'       => array(
@@ -512,7 +548,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                 'title'         => __('Border Settings', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'creative_submenu_border_settings_option'  => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Show Border', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -521,12 +557,12 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         ),
                         'toggle'        => array(
                             'yes'        => array(
-                                'fields'        => array( 'creative_submenu_border_style', 'creative_submenu_border_width', 'creative_submenu_border_color' )
+                                'fields'        => array( 'creative_submenu_border_style', 'creative_submenu_border_width_dimension', 'creative_submenu_border_color' )
                             )
                         )
                     ),
                     'creative_submenu_border_style' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Border Style', 'uabb'),
                         'default'       => 'solid',
                         'options'       => array(
@@ -541,11 +577,10 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 							'property'        => 'border-style',
 						)
                     ),
-                    'creative_submenu_border_width'    => array(
-		                'type'          => 'uabb-spacing',
+                    'creative_submenu_border_width_dimension'    => array(
+		                'type'          => 'dimension',
 		                'label'         => __('Border Width', 'uabb'),
-		                'default'		=> 'padding:1px',
-		                'mode'			=> 'padding',
+                        'default'       => '1',
 		                'size'          => '6',		                
 						'preview'         => array(
 							'type'            => 'css',
@@ -553,6 +588,14 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 							'property'        => 'border-width',
 							'unit'			=> 'px',
 						),
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '1',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 		            ),
                     'creative_submenu_border_color' => array(
                         'type'       => 'color',
@@ -572,7 +615,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 				'title'		=> __( 'Separator Settings', 'uabb' ),
 				'fields'	=> array(
                     'creative_submenu_separator_settings_option'  => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Show Separator', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -586,7 +629,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         )
                     ),
 					'creative_submenu_separator_style' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Separator Style', 'uabb'),
                         'default'       => 'solid',
                         'options'       => array(
@@ -682,7 +725,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         )
                     ),
                     'creative_menu_navigation_alignment'    => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Navigation Alignment', 'uabb'),
                         'default'       => 'center',
                         'options'       => array(
@@ -712,7 +755,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					    ),
 						'toggle'	=> array(
 							'off-canvas'	=> array(
-								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_offcanvas_direction', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_responsive_overlay_padding', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color', 'creative_menu_responsive_overlay_color', 'creative_menu_off_canvas_shadow', 'creative_menu_responsive_toggle' ),
+								'fields'	=> array( 'creative_menu_responsive_link_color', 'creative_menu_responsive_link_hover_color', 'creative_menu_responsive_link_border_color', 'creative_menu_offcanvas_direction', 'creative_menu_animation_speed', 'creative_menu_responsive_overlay_bg_color', 'creative_menu_responsive_overlay_padding_dimension', 'creative_menu_close_icon_size', 'creative_menu_close_icon_color', 'creative_menu_responsive_overlay_color', 'creative_menu_off_canvas_shadow', 'creative_menu_responsive_toggle' ),
                                 'sections'   => array( 'creative_menu_responsive_close_style' )
 							),
 							'full-screen'	=> array(
@@ -829,14 +872,20 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         'show_reset' => true,
                         'show_alpha' => true,
                     ),
-                    'creative_menu_responsive_overlay_padding'  => array(
-                        'type'          => 'uabb-spacing',
+                    'creative_menu_responsive_overlay_padding_dimension'  => array(
+                        'type'          => 'dimension',
                         'label'         => __('Off Canvas Padding', 'uabb'),
-                        'mode'          => 'padding',
-                        'default'       => 'padding:10px',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '10',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'creative_menu_off_canvas_shadow'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Off Canvas Shadow', 'uabb'),
                         'default'       => 'no',
                         'options'       => array(
@@ -857,7 +906,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         'show_alpha' => true,
                     ),
                     'creative_menu_responsive_alignment'    => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Overall Alignment', 'uabb'),
                         'default'       => 'center',
                         'options'       => array(
@@ -867,7 +916,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         ),
                     ),
                     'creative_menu_responsive_toggle' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Submenu Icon', 'uabb' ),
                         'default'       => 'default',
                         'options'       => array(
@@ -950,7 +999,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         )
                     ),
 					'creative_menu_link_font_size'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
 						'label'         => __('Font Size', 'uabb'),
 						'default'       => 'default',
 						'options'       => array(
@@ -982,7 +1031,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 						),
 					),
                     'creative_menu_link_line_height'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
 						'label'         => __('Line Height', 'uabb'),
 						'default'       => 'default',
 						'options'       => array(
@@ -1014,18 +1063,31 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					'creative_menu_link_text_transform'    => array(
                         'type'                      => 'select',
                         'label'                     => __('Text Transform', 'uabb'),
-                        'default'                   => 'none',
-                        'options'                   => array(
-                            'none'                  => __('Default', 'uabb'),
-                            'uppercase'                => __('UPPERCASE', 'uabb'),
-                            'lowercase'                => __('lowercase', 'uabb'),
-                          	'capitalize'               => __('Capitalize', 'uabb'),  
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
                         ),
 						'preview'           => array(
 							'type'			=> 'css',
 							'selector'      => '.uabb-creative-menu .menu > li > a, .uabb-creative-menu .menu > li > .uabb-has-submenu-container > a, .uabb-creative-menu-mobile-toggle-label',
 							'property'      => 'text-transform',
 						),
+                    ),
+                    'creative_menu_link_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-menu .menu > li > a, .uabb-creative-menu .menu > li > .uabb-has-submenu-container > a, .uabb-creative-menu-mobile-toggle-label',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -1045,7 +1107,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
                         )
                     ),
 					'creative_submenu_link_font_size'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
 						'label'         => __('Font Size', 'uabb'),
 						'default'       => 'default',
 						'options'       => array(
@@ -1077,7 +1139,7 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 						),
 					),
                     'creative_submenu_link_line_height'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
 						'label'         => __('Line Height', 'uabb'),
 						'default'       => 'default',
 						'options'       => array(
@@ -1109,18 +1171,31 @@ FLBuilder::register_module('UABBCreativeMenu', array(
 					'creative_submenu_link_text_transform'    => array(
                         'type'                      => 'select',
                         'label'                     => __('Text Transform', 'uabb'),
-                        'default'                   => 'none',
-                        'options'                   => array(
-                            'none'                  => __('Default', 'uabb'),
-                            'uppercase'                => __('UPPERCASE', 'uabb'),
-                            'lowercase'                => __('lowercase', 'uabb'),
-                          	'capitalize'               => __('Capitalize', 'uabb'),  
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
                         ),
 						'preview'           => array(
 							'type'			=> 'css',
 							'selector'      => '.uabb-creative-menu .sub-menu a',
 							'property'      => 'text-transform',
 						),
+                    ),
+                    'creative_submenu_link_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-menu .sub-menu a',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

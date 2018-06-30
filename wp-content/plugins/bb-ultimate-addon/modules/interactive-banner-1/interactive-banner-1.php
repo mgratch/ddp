@@ -26,11 +26,34 @@ class InteractiveBanner1Module extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/interactive-banner-1/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'ib-1.svg'
         ));
         $this->add_css('font-awesome');
     }
-    
+
+    /**
+    * @method get_icons
+    */
+    public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/interactive-banner-1/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/interactive-banner-1/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
+    }
+
     /**
      * @method get_data
      */
@@ -209,7 +232,7 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                         'connections'   => array( 'photo' )
                     ),
                     'banner_height_options'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Banner Height', 'uabb' ),
                         'default'       => 'default',
                         'help'          => __('Control your banner height, by default - it depends on selected image size.','uabb'),
@@ -247,7 +270,7 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                         )
                     ),
                     'vertical_align'         => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Vertical Center', 'uabb'),
                         'default'       => 'yes',
                         'options'       => array(
@@ -409,35 +432,41 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                             'selector'        => '.uabb-ib1-title'
                         )
                     ),
-                    'title_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'title_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ib1-title',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
-                    ),
-                    'title_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'title_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ib1-title',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
-                        )
+                            'unit'            => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'title_typography_color'        => array( 
                         'type'       => 'color',
@@ -469,6 +498,35 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                         'maxlength'   => '3',
                         'size'        => '5',
                     ),
+                    'title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ib1-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ib1-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
             'desc_typography' => array(
@@ -486,35 +544,41 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                             'selector'        => '.uabb-ib1-description'
                         )
                     ),
-                    'desc_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ib1-description',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
-                    ),
-                    'desc_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'desc_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ib1-description',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
-                        )
+                            'unit'            => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'desc_typography_color'        => array( 
                         'type'       => 'color',
@@ -526,6 +590,35 @@ FLBuilder::register_module('InteractiveBanner1Module', array(
                         ),
                         'default'    => '',
                         'show_reset' => true,
+                    ),
+                    'desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ib1-description',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ib1-description',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

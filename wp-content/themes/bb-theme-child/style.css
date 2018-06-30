@@ -1300,3 +1300,7 @@ ul.fl-menu-horizontal li.mega-menu > ul.sub-menu.menu__flyout li.menu__item {
         height: 90vmax !important;
     }
 }
+
+.fl-builder-content[data-shrink="1"] img {
+    transition: none;
+}

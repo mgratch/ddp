@@ -29,6 +29,7 @@ class UABBPhotoGalleryModule extends FLBuilderModule {
 		$this->add_js('jquery-masonry');
 	}
 
+
 	/**
 	 * @method update
 	 * @param $settings {object}
@@ -416,7 +417,7 @@ FLBuilder::register_module('UABBPhotoGalleryModule', array(
 						'size'        => '5',
 					),
 					'icon' => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Overlay Icon', 'uabb'),
 						'default'       => '0',
 						'options'       => array(
@@ -490,35 +491,41 @@ FLBuilder::register_module('UABBPhotoGalleryModule', array(
                             'selector'        => '.uabb-photo-gallery-caption'
                         )
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-photo-gallery-caption',
                             'property'		=> 'font-size',
                             'unit'			=> 'px',
-                        )
-                    ),
-                    'line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-photo-gallery-caption',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px',
-                        )
+                            'unit'			=> 'em',
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'color'        => array( 
                         'type'       => 'color',
@@ -550,6 +557,35 @@ FLBuilder::register_module('UABBPhotoGalleryModule', array(
 						'maxlength'   => '3',
 						'size'        => '5',
 					),
+                    'transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-photo-gallery-caption',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-photo-gallery-caption',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
 		)

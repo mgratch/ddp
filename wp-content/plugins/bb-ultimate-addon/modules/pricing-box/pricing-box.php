@@ -23,7 +23,7 @@ class UABBPricingTableModule extends FLBuilderModule {
 		$this->add_css('font-awesome');
 		add_filter( 'fl_builder_render_settings_field', array( $this , 'uabb_price_box_settings_field' ), 10, 3 );
 	}
-
+	
 	function uabb_price_box_settings_field( $field, $name, $settings ) {
 		if( isset( $settings->legend_column->legend_feature_color ) ) {
 			if( $settings->legend_column->legend_feature_color != '' && $settings->legend_column->legend_color == '' ) {
@@ -66,8 +66,14 @@ class UABBPricingTableModule extends FLBuilderModule {
 			'align'                      => '',
 			'mob_align'                  => '',
 			'font_family'                => $this->settings->pricing_columns[$column]->button_typography_font_family,
-			'font_size'                  => $this->settings->pricing_columns[$column]->button_typography_font_size,
-			'line_height'                => $this->settings->pricing_columns[$column]->button_typography_line_height,
+			'font_size'              	  => ( isset( $this->settings->pricing_columns[$column]->button_typography_font_size ) ) ? $this->settings->pricing_columns[$column]->button_typography_font_size : '',
+			'line_height'            	  => ( isset( $this->settings->pricing_columns[$column]->button_typography_line_height ) ) ? $this->settings->pricing_columns[$column]->button_typography_line_height : '',
+			'font_size_unit'              => $this->settings->pricing_columns[$column]->button_typography_font_size_unit,
+			'line_height_unit'            => $this->settings->pricing_columns[$column]->button_typography_line_height_unit,
+			'font_size_unit_medium'       => $this->settings->pricing_columns[$column]->button_typography_font_size_unit_medium,
+            'line_height_unit_medium'     => $this->settings->pricing_columns[$column]->button_typography_line_height_unit_medium,
+            'font_size_unit_responsive'   => $this->settings->pricing_columns[$column]->button_typography_font_size_unit_responsive,
+            'line_height_unit_responsive' => $this->settings->pricing_columns[$column]->button_typography_line_height_unit_responsive,
 		);
 
 		FLBuilder::render_module_html('uabb-button', $btn_settings);
@@ -85,7 +91,7 @@ FLBuilder::register_module('UABBPricingTableModule', array(
 				'title'         => '',
 				'fields'        => array(
 					'add_legend'	=> array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Add Legend Box', 'uabb'),
 						'default'       => 'no',
 						'options'       => array(
@@ -142,7 +148,7 @@ FLBuilder::register_module('UABBPricingTableModule', array(
 						'size'        => '5',
 					),
 					'show_spacing'   => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Add Spacing', 'uabb'),
 						'default'       => 'no',
 						'help'			=> __( 'Add space between price box', 'uabb' ),
@@ -283,7 +289,7 @@ FLBuilder::register_module('UABBPricingTableModule', array(
 						'description'   => 'px',
 					),
 					'responsive_size' => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Responsive Breakpoint', 'uabb'),
 						'default'       => 'yes',
 						'help'          => __( 'Enter the resolution at which you want Price Boxes to appear in stack layout.', 'uabb'),
@@ -373,34 +379,69 @@ FLBuilder::register_module('UABBPricingTableModule', array(
                             'selector'        => '.uabb-pricing-table-title'
                         )
                     ),
-                    'title_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'title_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-title',
                             'property'		=>	'font-size',
                             'unit'			=> 'px',
-                        )
-                    ),
-                    'title_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'title_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-title',
                             'property'		=>	'line-height',
-                            'unit'			=> 'px',
+                            'unit'			=> 'em',
+                        ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-column .uabb-pricing-table-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -436,34 +477,53 @@ FLBuilder::register_module('UABBPricingTableModule', array(
                             'selector'        => '.uabb-pricing-table-price'
                         )
                     ),
-                    'price_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'price_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-price',
                             'property'		=> 'font-size',
                             'unit'			=> 'px',
-                        )
-                    ),
-                    'price_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'price_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                          'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-price',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px',
+                            'unit'			=> 'em',
+                        ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						), 
+                    ),
+                    'price_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-price',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -483,34 +543,69 @@ FLBuilder::register_module('UABBPricingTableModule', array(
                             'selector'        => '.uabb-pricing-table-duration'
                         )
                     ),
-                    'duration_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'duration_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                        	'desktop' 		=> '12',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-duration',
                             'property'		=> 'font-size',
                             'unit'			=> 'px',
-                        )
-                    ),
-                    'duration_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'duration_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                        	'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-duration',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px',
+                            'unit'			=> 'em',
+                        ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'duration_typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-duration',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'duration_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-duration',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -530,34 +625,69 @@ FLBuilder::register_module('UABBPricingTableModule', array(
                             'selector'        => '.uabb-pricing-table-features li'
                         )
                     ),
-                    'feature_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'feature_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-features li',
                             'property'		=> 'font-size',
                             'unit'			=> 'px',
-                        )
-                    ),
-                    'feature_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'feature_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-pricing-table-features li',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px',
+                            'unit'			=> 'em',
+                        ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'feature_content_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-features li',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'feature_content_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-pricing-table-features li',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -576,7 +706,7 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 					'title'         => '',
 					'fields'        => array(
 						'set_featured'	=> array(
-							'type'          => 'uabb-toggle-switch',
+							'type'          => 'select',
 							'label'         => __('Set as Featured', 'uabb'),
 							'default'       => 'no',
 							'help'			=> __( 'Enable to display this column as featured. Featured column will have additional label making it more visible.', 'uabb' ),
@@ -731,7 +861,7 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 					'title' => '',
 					'fields'	=> array(
 						'show_button'   => array(
-							'type'          => 'uabb-toggle-switch',
+							'type'          => 'select',
 							'label'         => __('Show Button', 'uabb'),
 							'default'       => 'yes',
 							'options'       => array(
@@ -780,7 +910,7 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                        )
 	                    ),
 	                    'btn_link_nofollow'   => array(
-	                    	'type'          => 'uabb-toggle-switch',
+	                    	'type'          => 'select',
 	                    	'label'         => __('Link nofollow', 'uabb'),
 	                    	'description'   => '',
 	                    	'default'       => '0',
@@ -930,7 +1060,7 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                        'size'        => '5',
 	                    ),
 	                    'hover_attribute' => array(
-	                        'type'          => 'uabb-toggle-switch',
+	                        'type'          => 'select',
 	                        'label'         => __( 'Apply Hover Color To', 'uabb' ),
 	                        'default'       => 'bg',
 	                        'options'       => array(
@@ -1029,23 +1159,47 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                            'selector'        => '.uabb-button'
 	                        )
 	                    ),
-	                    'button_typography_font_size'     => array(
-	                        'type'          => 'uabb-simplify',
+	                    'button_typography_font_size_unit'     => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Font Size', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'px',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
 	                    ),
-	                    'button_typography_line_height'    => array(
-	                        'type'          => 'uabb-simplify',
+	                    'button_typography_line_height_unit'    => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Line Height', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'em',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
+	                    ),
+	                    'button_transform'     => array(
+	                        'type'          => 'select',
+	                        'label'         => __( 'Transform', 'uabb' ),
+							'default'       => 'none',
+		                        'options'       => array(
+		                            'none'           =>  'Default',
+		                            'uppercase'         =>  'UPPERCASE',
+		                            'lowercase'         =>  'lowercase',
+		                            'capitalize'        =>  'Capitalize'                 
+		                        ),
+                    	),
+	                    'button_letter_spacing'       => array(
+	                        'type'          => 'text',
+	                        'label'         => __('Letter Spacing', 'uabb'),
+	                        'placeholder'   => '0',
+	                        'size'          => '5',
+	                        'description'   => 'px',
 	                    ),
 	                )
 				)
@@ -1081,23 +1235,29 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 	                            'weight'        => 'Default'
 	                        ),
 	                    ),
-	                    'featured_font_size'     => array(
-	                        'type'          => 'uabb-simplify',
+	                    'featured_font_size_unit'     => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Font Size', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'px',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
 	                    ),
-	                    'featured_line_height'    => array(
-	                        'type'          => 'uabb-simplify',
+	                    'featured_line_height_unit'    => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Line Height', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'em',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+						),
 	                    ),
 	                    'featured_color'        => array( 
 	                        'type'       => 'color',
@@ -1119,6 +1279,24 @@ FLBuilder::register_settings_form('pricing_table_column_form', array(
 							'maxlength'   => '3',
 							'size'        => '5',
 						),
+						'featured_transform'     => array(
+	                        'type'          => 'select',
+	                        'label'         => __( 'Transform', 'uabb' ),
+				'			default'       => 'none',
+		                        'options'       => array(
+		                            'none'           =>  'Default',
+		                            'uppercase'         =>  'UPPERCASE',
+		                            'lowercase'         =>  'lowercase',
+		                            'capitalize'        =>  'Capitalize'                 
+		                        ),
+	                    ),
+	                    'featured_letter_spacing'       => array(
+	                        'type'          => 'text',
+	                        'label'         => __('Letter Spacing', 'uabb'),
+	                        'placeholder'   => '0',
+	                        'size'          => '5',
+	                        'description'   => 'px',
+	                    ),
 	                )
 	            ),
 			)
@@ -1209,29 +1387,53 @@ FLBuilder::register_settings_form('legend_column_form', array(
 	                            'weight'        => 'Default'
 	                        ),
 	                    ),
-	                    'legend_font_size'     => array(
-	                        'type'          => 'uabb-simplify',
+	                    'legend_font_size_unit'     => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Font Size', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'px',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
 	                    ),
-	                    'legend_line_height'    => array(
-	                        'type'          => 'uabb-simplify',
+	                    'legend_line_height_unit'    => array(
+	                        'type'          => 'unit',
 	                        'label'         => __( 'Line Height', 'uabb' ),
-	                        'default'       => array(
-	                            'desktop'       => '',
-	                            'medium'        => '',
-	                            'small'         => '',
-	                        ),
+	                        'description'   => 'em',
+	                        'responsive' => array(
+								'placeholder' => array(
+									'default' => '',
+									'medium' => '',
+									'responsive' => '',
+								),
+							),
 	                    ),
 	                    'legend_color'        => array( 
 	                        'type'       => 'color',
 	                        'label'      => __('Color', 'uabb'),
 	                        'default'    => '',
 	                        'show_reset' => true,
+	                    ),
+	                    'legend_transform'     => array(
+	                        'type'          => 'select',
+	                        'label'         => __( 'Transform', 'uabb' ),
+							'default'       => 'none',
+		                        'options'       => array(
+		                            'none'           =>  'Default',
+		                            'uppercase'         =>  'UPPERCASE',
+		                            'lowercase'         =>  'lowercase',
+		                            'capitalize'        =>  'Capitalize'                 
+		                        ),
+	                    ),
+	                    'legend_letter_spacing'       => array(
+	                        'type'          => 'text',
+	                        'label'         => __('Letter Spacing', 'uabb'),
+	                        'placeholder'   => '0',
+	                        'size'          => '5',
+	                        'description'   => 'px',
 	                    ),
 	                )
             	)

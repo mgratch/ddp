@@ -23,6 +23,7 @@ class UABBNumbersModule extends FLBuilderModule {
 
 		$this->add_js( 'jquery-waypoints' );
 		$this->add_css( 'font-awesome' );
+
 	}
 
 	/**
@@ -62,7 +63,7 @@ class UABBNumbersModule extends FLBuilderModule {
 	public function render_before_number_text(){
 		$html = '';
 		if( !empty( $this->settings->before_number_text ) ) {
-			$html .= '<span class="uabb-number-before-text">' . esc_html( $this->settings->before_number_text ) . '</span>';
+			$html .= '<span class="uabb-number-before-text">' . $this->settings->before_number_text . '</span>';
 		}
 		echo $html;
 	}
@@ -70,7 +71,7 @@ class UABBNumbersModule extends FLBuilderModule {
 	public function render_before_counter_text(){
 		$html = '';
 		if( $this->settings->before_counter_text != '' ) {
-			$html .= '<span class="uabb-counter-before-text">' . esc_html( $this->settings->before_counter_text ) . '</span>';
+			$html .= '<span class="uabb-counter-before-text">' . $this->settings->before_counter_text . '</span>';
 		}
 		return $html;
 	}
@@ -78,7 +79,7 @@ class UABBNumbersModule extends FLBuilderModule {
 	public function render_after_number_text(){
 		$html = '';
 		if( !empty( $this->settings->after_number_text ) ) {
-			$html .= '<span class="uabb-number-after-text">' . esc_html( $this->settings->after_number_text ) . '</span>';
+			$html .= '<span class="uabb-number-after-text">' . $this->settings->after_number_text . '</span>';
 		}
 		echo $html;
 	}
@@ -86,7 +87,7 @@ class UABBNumbersModule extends FLBuilderModule {
 	public function render_after_counter_text(){
 		$html = '';
 		if( $this->settings->after_counter_text != '' ) {
-			$html .= '<span class="uabb-counter-after-text">' . esc_html( $this->settings->after_counter_text ) . '</span>';
+			$html .= '<span class="uabb-counter-after-text">' . $this->settings->after_counter_text . '</span>';
 		}
 		return $html;
 	}
@@ -976,7 +977,7 @@ FLBuilder::register_module('UABBNumbersModule', array(
                             
                     /* Style Options */
                     'icon_color_preset'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Icon Color Presets', 'uabb' ),
                         'default'       => 'preset1',
                         'options'       => array(
@@ -1154,35 +1155,41 @@ FLBuilder::register_module('UABBNumbersModule', array(
                             'selector'	=> '.uabb-number-string'
                     	),
                     ),
-                    'num_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'num_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                            'type'		=> 'css',
                            'selector'	=> '.uabb-number-string',
                            'property'	=> 'font-size',
                            'unit'		=> 'px',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'num_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'num_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                            'type'		=> 'css',
                            'selector'	=> '.uabb-number-string',
                            'property'	=> 'line-height',
-                           'unit'		=> 'px',
+                           'unit'		=> 'em',
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'num_color'        => array( 
                         'type'       => 'color',
@@ -1194,6 +1201,19 @@ FLBuilder::register_module('UABBNumbersModule', array(
                            'selector'	=> '.uabb-number-string',
                            'property'	=> 'color',
                     	),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-number-string',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -1212,35 +1232,41 @@ FLBuilder::register_module('UABBNumbersModule', array(
                             'selector'	=> '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text'
                     	),
                     ),
-                    'ba_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'ba_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text',
                             'property'	=> 'font-size',
                             'unit'		=> 'px'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'ba_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'ba_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'ba_color'        => array( 
                         'type'       => 'color',
@@ -1252,6 +1278,35 @@ FLBuilder::register_module('UABBNumbersModule', array(
                             'selector'	=> '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text',
                             'property'	=> 'color',
                     	),
+                    ),
+                    'ba_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'ba_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-number-before-text, .uabb-number-after-text, .uabb-counter-before-text, .uabb-counter-after-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

@@ -21,9 +21,33 @@ class ProgressBarModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/progress-bar/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'  => true
+            'partial_refresh'  => true,
+            'icon'             => 'progress-bar.svg'
         ));
+
         $this->add_js('jquery-waypoints');
+    }
+    
+    /**
+     * @method get_icons
+     */
+    public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/progress-bar/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/progress-bar/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
     }
 
     public function render_horizontal_content( $obj, $style = '', $position = '', $i ) {
@@ -240,7 +264,7 @@ FLBuilder::register_module('ProgressBarModule', array(
                         'description'   => 'px',
                     ),
                     'stripped'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Striped Selector', 'uabb' ),
                         'default'       => 'yes',
                         'help'          => __( 'Enable to display stripes on progress, this option will only work if Progress type is color.', 'uabb' ),
@@ -267,7 +291,7 @@ FLBuilder::register_module('ProgressBarModule', array(
                         ),
                     ),
                     'text_position'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Text Position', 'uabb' ),
                         'default'       => 'above',
                         'options'       => array(
@@ -405,7 +429,7 @@ FLBuilder::register_module('ProgressBarModule', array(
                         'description'   => 'px',
                     ),
                     'vertical_responsive'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Responsive Size', 'uabb' ),
                         'default'       => 'no',
                         'help'          => __( 'Add responsive size for medium devices', 'uabb'),
@@ -454,7 +478,7 @@ FLBuilder::register_module('ProgressBarModule', array(
                         'help'          => __( 'This is the thickness of stroke.', 'uabb'),
                     ),
                     'circular_responsive'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Responsive Size', 'uabb' ),
                         'default'       => 'no',
                         'help'          => __( 'Add responsive size for medium devices', 'uabb'),
@@ -608,35 +632,41 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'selector'        => '.uabb-progress-title'
                         )
                     ),
-                    'text_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'text_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-title',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
-                    ),
-                    'text_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'text_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-title',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
-                        )
+                            'unit'            => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'text_color'        => array( 
                         'type'       => 'color',
@@ -647,6 +677,35 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-title',
                             'property'        => 'color',
+                        )
+                    ),
+                    'text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-progress-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-progress-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -666,35 +725,41 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'selector'        => '.uabb-ba-text'
                         )
                     ),
-                    'before_after_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'before_after_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ba-text',
                             'property'        => 'font-size',
                             'unit'              => 'px'
-                        )
-                    ),
-                    'before_after_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'before_after_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ba-text',
                             'property'        => 'line-height',
-                            'unit'              => 'px'
-                        )
+                            'unit'              => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'before_after_color'        => array( 
                         'type'       => 'color',
@@ -705,6 +770,35 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ba-text',
                             'property'        => 'color',
+                        )
+                    ),
+                    'before_after_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ba-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'before_after_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ba-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -724,35 +818,41 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'selector'        => '.uabb-progress-value, .uabb-percent-counter'
                         )
                     ),
-                    'number_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'number_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-value, .uabb-percent-counter',
                             'property'         => 'font-size',
                             'unit'             => 'px'
-                        )
-                    ),
-                    'number_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'number_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-value, .uabb-percent-counter',
                             'property'         => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'number_color'        => array( 
                         'type'       => 'color',
@@ -763,6 +863,19 @@ FLBuilder::register_module('ProgressBarModule', array(
                             'type'            => 'css',
                             'selector'        => '.uabb-progress-value, .uabb-percent-counter',
                             'property'         => 'color',
+                        )
+                    ),
+                    'number_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-progress-value, .uabb-percent-counter',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

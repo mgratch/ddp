@@ -354,6 +354,7 @@
 		{
 			var nav 		= $('.fl-page-nav .navbar-nav'),
 				targetId 	= typeof e !== 'undefined' ? $(e.target).prop('hash') : window.location.hash,
+				targetId    = targetId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" ),
 				currentLink = targetId.length ? nav.find('a[href*=\\'+ targetId +']:not([href=\\#])') : null;
 
 			if ( currentLink != null && $('body').find(targetId).length > 0 ) {
@@ -1044,9 +1045,22 @@
 		{
 			var body = $('body');
 
-			if(!body.hasClass('fl-builder') && !body.hasClass('woocommerce')) {
+			// Only works on NON bb pages/posts
+			if( !body.hasClass('fl-builder') && !body.hasClass('woocommerce')) {
 
 				$('.fl-content a').filter(function() {
+					return /\.(png|jpg|jpeg|gif)(\?.*)?$/i.test(this.href);
+				}).magnificPopup({
+					closeBtnInside: false,
+					type: 'image',
+					gallery: {
+						enabled: true
+					}
+				});
+			}
+
+			if( ( body.hasClass('fl-builder') || body.hasClass( 'fl-theme-builder-singular' ) ) && !body.hasClass('woocommerce') ) {
+				$('.fl-rich-text a, .fl-module-fl-post-content a').filter(function() {
 					return /\.(png|jpg|jpeg|gif)(\?.*)?$/i.test(this.href);
 				}).magnificPopup({
 					closeBtnInside: false,

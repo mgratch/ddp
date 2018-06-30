@@ -22,8 +22,33 @@ class iHoverModule extends FLBuilderModule {
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
             'partial_refresh'   => true,
+            'icon'             => 'ihover.svg'
         ));
+
     }
+    
+    /**
+     * @method get_icons
+     */
+    public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/ihover/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/ihover/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
+    }
+
 
     /**
      * @method render_image
@@ -90,12 +115,17 @@ FLBuilder::register_module('iHoverModule', array(
                         'description'   => 'px',
                         'help'          => __('Spacing between two iHovers','uabb'),
                     ),
-                    'content_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'content_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Content Padding', 'uabb' ),
                         'help'         => __('To manage the inner padding use this setting.', 'uabb'),
-                        'default'   => '',    //optional
-                        'mode'      => 'padding',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                 )
             ),
@@ -113,7 +143,7 @@ FLBuilder::register_module('iHoverModule', array(
                         ),
                     ),
                     'height_width_options'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Thumbnail Height & Width', 'uabb'),
                         'default'       => 'default',
                         'help'          => __( 'By selecting Custom, you can decide the height and width of iHover Box, by Default 250px height and width is applied', 'uabb'),
@@ -153,7 +183,7 @@ FLBuilder::register_module('iHoverModule', array(
                         )
                     ),
                     'responsive_size'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Responsive Size', 'uabb'),
                         'default'       => 'no',
                         'help'          => __( 'Add responsive size for medium devices', 'uabb'),
@@ -215,33 +245,68 @@ FLBuilder::register_module('iHoverModule', array(
                             'selector'        => '.uabb-ih-heading'
                         )
                     ),
-                    'title_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'title_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ih-heading',
                             'property'        => 'font-size',
                             'unit'          => 'px'
-                        )
-                    ),
-                    'title_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'title_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ih-heading',
                             'property'        => 'line-height',
+                            'unit'          => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'title_typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ih-heading',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'title_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ih-heading',
+                            'property'      => 'letter-spacing',
                             'unit'          => 'px'
                         )
                     ),
@@ -262,34 +327,69 @@ FLBuilder::register_module('iHoverModule', array(
                             'selector'        => '.uabb-ih-description'
                         )
                     ),
-                    'desc_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'desc_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ih-description',
                             'property'         => 'font-size',
                             'unit'              => 'px' 
-                        )
-                    ),
-                    'desc_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'desc_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ih-description',
                             'property'         => 'line-height',
-                            'unit'              => 'px' 
+                            'unit'              => 'em' 
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'desc_typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ih-description',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'desc_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ih-description',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

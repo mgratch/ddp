@@ -328,35 +328,41 @@ FLBuilder::register_module('UABBFancyTextModule', array(
                             'selector'	=> '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix'
                     	),
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix',
                             'property'	=> 'font-size',
                             'unit'		=> 'px'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'color'        => array( 
                         'type'       => 'color',
@@ -368,6 +374,35 @@ FLBuilder::register_module('UABBFancyTextModule', array(
                             'selector'	=> '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix',
                             'property'	=> 'color'
                     	),
+                    ),
+                    'transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-fancy-text-prefix, .uabb-fancy-text-suffix',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -386,35 +421,41 @@ FLBuilder::register_module('UABBFancyTextModule', array(
                             'selector'	=> '.uabb-fancy-text-main'
                     	),
                     ),
-                    'fancy_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'fancy_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-fancy-text-main',
                             'property'	=> 'font-size',
                             'unit'		=> 'px'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'fancy_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'fancy_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> '.uabb-fancy-text-main',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    	'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'fancy_color'        => array( 
                         'type'       => 'color',
@@ -426,6 +467,35 @@ FLBuilder::register_module('UABBFancyTextModule', array(
                             'selector'	=> '.uabb-fancy-text-main',
                             'property'	=> 'color'
                     	),
+                    ),
+                    'fancy_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-fancy-text-main',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'fancy_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-fancy-text-main',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

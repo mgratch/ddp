@@ -412,7 +412,7 @@ FLBuilder::register_module('AdvancedSeparatorModule', array(
 		                    
 		            /* Style Options */
 		            'icon_color_preset'     => array(
-		                'type'          => 'uabb-toggle-switch',
+		                'type'          => 'select',
 		                'label'         => __( 'Icon Color Presets', 'uabb' ),
 		                'default'       => 'preset1',
 		                'options'       => array(
@@ -605,35 +605,41 @@ FLBuilder::register_module('AdvancedSeparatorModule', array(
                             'selector'        => '.uabb-divider-text'
                         )
 		            ),
-		            'text_font_size'     => array(
-		                'type'          => 'uabb-simplify',
+		            'text_font_size_unit'     => array(
+		                'type'          => 'unit',
 		                'label'         => __( 'Font Size', 'uabb' ),
-		                'default'       => array(
-		                    'desktop'       => '',
-		                    'medium'        => '',
-		                    'small'         => '',
-		                ),
+		                'description'	=> 'px',
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'       => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-divider-text',
                             'property'	=> 'font-size',
                             'unit'		=> 'px',
-                        )
+                        ),
 		            ),
-		            'text_line_height'    => array(
-		                'type'          => 'uabb-simplify',
+		            'text_line_height_unit'    => array(
+		                'type'          => 'unit',
 		                'label'         => __( 'Line Height', 'uabb' ),
-		                'default'       => array(
-		                    'desktop'       => '',
-		                    'medium'        => '',
-		                    'small'         => '',
-		                ),
+		                'description'	=> 'em',
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
 		                'preview'       => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-divider-text',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px',
-                        )
+                            'unit'		=> 'em',
+                        ),
 		            ),
 		            'text_color'        => array(
 						'type'       => 'color',
@@ -646,6 +652,35 @@ FLBuilder::register_module('AdvancedSeparatorModule', array(
                             'property'	=> 'color',
                         )
 					),
+                    'text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-divider-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-divider-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
 		        )
 		    ),
 		)

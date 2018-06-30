@@ -96,6 +96,7 @@ final class FLTheme {
 		register_nav_menus( self::get_nav_locations() );
 
 		// Include customizer settings.
+		require_once FL_THEME_DIR . '/includes/customizer-functions.php';
 		require_once FL_THEME_DIR . '/includes/customizer-panel-general.php';
 		require_once FL_THEME_DIR . '/includes/customizer-panel-header.php';
 		require_once FL_THEME_DIR . '/includes/customizer-panel-content.php';
@@ -147,6 +148,7 @@ final class FLTheme {
 		} else {
 			$min = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 		}
+		wp_register_script( 'jquery-imagesloaded',   FL_THEME_URL . '/js/jquery.imagesloaded.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
 
 		// Fonts
 		wp_enqueue_style( 'font-awesome', FL_THEME_URL . '/css/font-awesome.min.css', array(), FL_THEME_VERSION );
@@ -584,6 +586,30 @@ final class FLTheme {
 	}
 
 	/**
+	 * Renders the fixed header logo if one exists.
+	 * Otherwise, falls back to the standard logo.
+	 *
+	 * @since 1.6.5
+	 * @return void
+	 */
+	static public function fixed_header_logo() {
+		$logo_type      = self::get_setting( 'fl-logo-type' );
+		$sticky_logo    = self::get_setting( 'fl-sticky-header-logo' );
+		$sticky_retina  = self::get_setting( 'fl-sticky-header-logo-retina' );
+		$header_fixed   = self::get_setting( 'fl-fixed-header' );
+
+		if ( $sticky_logo && 'fadein' == $header_fixed && 'image' == $logo_type ) {
+			$logo_text = get_bloginfo( 'name' );
+			echo '<img class="fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $sticky_logo . '"';
+			echo ' data-retina="' . $sticky_retina . '"';
+			echo ' alt="' . esc_attr( $logo_text ) . '" />';
+			echo '<meta itemprop="name" content="' . esc_attr( $logo_text ) . '" />';
+		} else {
+			self::logo();
+		}
+	}
+
+	/**
 	 * Renders the markup for the main header.
 	 *
 	 * @since 1.0
@@ -665,8 +691,6 @@ final class FLTheme {
 		$logo_type      = self::get_setting( 'fl-logo-type' );
 		$logo_image     = self::get_setting( 'fl-logo-image' );
 		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
-		$sticky_logo    = self::get_setting( 'fl-sticky-header-logo' );
-		$header_fixed   = self::get_setting( 'fl-fixed-header' );
 
 		if ( function_exists( 'apply_filters_deprecated' ) ) {
 			$logo_text    = apply_filters_deprecated( 'fl-logo-text', array( self::get_setting( 'fl-logo-text' ) ), '1.6.3', 'fl_logo_text' );
@@ -674,19 +698,11 @@ final class FLTheme {
 			$logo_text    = apply_filters( 'fl-logo-text', self::get_setting( 'fl-logo-text' ) ); // @codingStandardsIgnoreLine
 		}
 
-		if ( ! $sticky_logo ) {
-			$sticky_logo = $logo_image;
-		}
-
 		if ( 'image' == $logo_type ) {
 			$logo_text = get_bloginfo( 'name' );
 			echo '<img class="fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $logo_image . '"';
 			echo ' data-retina="' . $logo_retina . '"';
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
-			if ( 'fadein' == $header_fixed ) {
-				echo '<img class="sticky-logo fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $sticky_logo . '"';
-				echo ' alt="' . esc_attr( $logo_text ) . '" />';
-			}
 			echo '<meta itemprop="name" content="' . esc_attr( $logo_text ) . '" />';
 		} else {
 			echo '<div class="fl-logo-text" itemprop="name">' . do_shortcode( $logo_text ) . '</div>';
@@ -1327,5 +1343,26 @@ final class FLTheme {
 	static public function woocommerce_columns() {
 		$columns = self::get_setting( 'fl-woo-columns' );
 		return $columns; // Products per row
+	}
+
+	/**
+	 * Filter comment form fields.
+	 * @since 1.6.6
+	 */
+	static public function comment_form_default_fields( $fields ) {
+
+		$commenter = wp_get_current_commenter();
+		$req       = get_option( 'require_name_email' );
+
+		$fields['author'] = '<label for="author">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
+									<input type="text" name="author" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" tabindex="1"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
+
+		$fields['email']  = '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
+									<input type="text" name="email" class="form-control" value="' . esc_attr( $commenter['comment_author_email'] ) . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
+
+		$fields['url']    = '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
+									<input type="text" name="url" class="form-control" value="' . esc_attr( $commenter['comment_author_url'] ) . '" tabindex="3" /><br />';
+
+		return $fields;
 	}
 }

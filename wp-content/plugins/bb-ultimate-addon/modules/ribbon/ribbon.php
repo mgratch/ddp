@@ -10,8 +10,7 @@ class RibbonModule extends FLBuilderModule {
      *
      * @method __construct
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct(array(
             'name'          => __('Ribbon', 'uabb'),
             'description'   => __('Ribbon', 'uabb'),
@@ -21,13 +20,32 @@ class RibbonModule extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/ribbon/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh'   => true
-        ));
+            'partial_refresh'   => true,
+            'icon'              => 'ribbon.svg'
+        ));       
     }
+    
+    /**
+     * @method get_icons
+     */
+    public function get_icon( $icon = '' ) {
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/ribbon/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/ribbon/icon/' . $icon;
+        }
 
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
+    }
 }
-
-
 
 /**
  * Register the module and its form settings.
@@ -117,7 +135,7 @@ FLBuilder::register_module('RibbonModule', array(
                         )
                     ),
                     'stitching'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Stitching', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -127,7 +145,7 @@ FLBuilder::register_module('RibbonModule', array(
                         'help' => __( 'To give Stitch effect on Ribbon', 'uabb' )
                     ),
                     'shadow'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Ribbon Shadow', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -235,13 +253,16 @@ FLBuilder::register_module('RibbonModule', array(
                             'selector'        => '.uabb-ribbon-text'
                         )
                     ),
-                    'text_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'text_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
@@ -250,19 +271,22 @@ FLBuilder::register_module('RibbonModule', array(
                             'unit'            => 'px'
                         )
                     ),
-                    'text_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'text_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-ribbon-text',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
+                            'unit'            => 'em'
                         )
                     ),
                     'text_color'        => array( 
@@ -281,6 +305,35 @@ FLBuilder::register_module('RibbonModule', array(
                         'label'         => __('Text Shadow Color', 'uabb'),
                         'default'    => '',
                         'show_reset' => true,
+                    ),
+                    'text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ribbon-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-ribbon-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

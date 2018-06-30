@@ -24,6 +24,7 @@ class SlideBoxModule extends FLBuilderModule {
             'partial_refresh' => true,
             'icon'              => 'slides.svg',
         ));
+
         $this->add_css('font-awesome');
     }
 
@@ -386,7 +387,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         )
                     ),
                     'front_align_items' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Icon Vertical Alignment', 'uabb'),
                         'default'       => 'top',
                         'options'       => array(
@@ -395,7 +396,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         ),
                     ),
                     'front_icon_border' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Border between Icon and Text', 'uabb'),
                         'default'       => '',
                         'options'       => array(
@@ -446,7 +447,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         'size'        => '5',
                     ),
                     'mobile_view' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Mobile Structure', 'uabb'),
                         'default'       => '',
                         'options'       => array(
@@ -455,7 +456,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         )
                     ),
                     'stacking_order' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Stacking Order', 'uabb'),
                         'default'       => 'default',
                         'options'       => array(
@@ -607,12 +608,17 @@ FLBuilder::register_module('SlideBoxModule', array(
             'front_styles'       => array( // Section
                 'title'         => __('Slide Box Front Style', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
-                    'front_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'front_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Content Padding', 'uabb' ),
-                        'mode'      => 'padding',
-                        'default'   => 'padding: 25px;',
                         'help'     => __( 'To apply padding to Slide Box Front use this setting', 'uabb' ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '25',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
                     ),
                     'front_background_color'    => array( 
                         'type'       => 'color',
@@ -641,7 +647,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         'show_reset' => true,
                         'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-slide-box-wrap .open-slidedown .uabb-slide-front',
+                            'selector'      => '.uabb-slide-box-wrap .open-slidedown .uabb-slide-front:hover,.uabb-slide-box-wrap .open-slidedown .uabb-slide-front',
                             'property'      => 'background',
                         )
                     ),
@@ -659,12 +665,17 @@ FLBuilder::register_module('SlideBoxModule', array(
             'back_styles'       => array( // Section
                 'title'         => __('Slide Box Back Style', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
-                    'back_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'back_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Content Padding', 'uabb' ),
-                        'mode'      => 'padding',
-                        'default'   => 'padding: 25px;',
                         'help'     => __( 'To apply padding to Slide Box Back use this setting', 'uabb' ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '25',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
                     ),
                     'back_alignment'   => array(
                         'type'          => 'select',
@@ -830,7 +841,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                 'title'         => __('Slide Box Min Height', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'set_min_height'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Minimum Height', 'uabb'),
                         'default'       => 'default',
                         'options'       => array(
@@ -866,7 +877,7 @@ FLBuilder::register_module('SlideBoxModule', array(
                         )
                     ),
                     'slide_vertical_align'         => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Overall Vertical Alignment', 'uabb'),
                         'default'       => 'center',
                         'help'          => __('If enabled, the Content would align vertically center', 'uabb'),
@@ -918,35 +929,41 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'        => '.uabb-slide-face-text-title'
                         )
                     ),
-                    'front_title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'front_title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-face-text-title',
                             'property'         => 'font-size',
                             'unit'             => 'px'
-                        )
-                    ),
-                    'front_title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'front_title_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-face-text-title',
                             'property'         => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'front_title_color'        => array( 
                         'type'       => 'color',
@@ -967,7 +984,36 @@ FLBuilder::register_module('SlideBoxModule', array(
                         'preview'         => array(
                             'type'            => 'none',
                         )
-                    ),                    
+                    ), 
+                    'front_title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-face-text-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'front_title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-face-text-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),                   
                     'front_title_margin_top'     => array(
                         'type'          => 'text',
                         'label'         => __('Margin Top', 'uabb'),
@@ -1010,35 +1056,41 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'        => '.uabb-slide-box-section-content'
                         )
                     ),
-                    'front_desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'front_desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-box-section-content',
                             'property'         => 'font-size',
                             'unit'          => 'px'
-                        )
-                    ),
-                    'front_desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'front_desc_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-box-section-content',
                             'property'         => 'line-height',
-                            'unit'          => 'px'
-                        )
+                            'unit'          => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'front_desc_color'        => array( 
                         'type'       => 'color',
@@ -1067,6 +1119,35 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'        => '.uabb-slide-box-section-content',
                             'property'         => 'margin-top',
                             'unit'             => 'px'
+                        )
+                    ),
+                    'front_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-box-section-content',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'front_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-box-section-content',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                     'front_desc_margin_bottom'     => array(
@@ -1114,35 +1195,41 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'        => '.uabb-slide-back-text-title'
                         )
                     ),
-                    'back_title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'back_title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-back-text-title',
                             'property'        => 'font-size',
                             'unit'             => 'px'
-                        )
-                    ),
-                    'back_title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'back_title_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-back-text-title',
                             'property'        => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'back_title_color'        => array( 
                         'type'       => 'color',
@@ -1153,6 +1240,35 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'type' => 'css',
                             'property' => 'color',
                             'selector' => '.uabb-slide-back-text-title'
+                        )
+                    ),
+                    'back_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-back-text-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'back_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-back-text-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                     'back_title_margin_top'     => array(
@@ -1196,35 +1312,41 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'        => '.uabb-slide-down-box-section-content'
                         )
                     ),
-                    'back_desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'back_desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-down-box-section-content',
                             'property'         => 'font-size',
                             'unit'             => 'px'
-                        )
-                    ),
-                    'back_desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'back_desc_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-slide-down-box-section-content',
                             'property'         => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'back_desc_color'        => array( 
                         'type'       => 'color',
@@ -1235,6 +1357,35 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'type' => 'css',
                             'property' => 'color',
                             'selector' => '.uabb-slide-down-box-section-content'
+                        )
+                    ),
+                    'back_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-down-box-section-content',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'back_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-slide-down-box-section-content',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                     'back_desc_margin_top'     => array(
@@ -1279,34 +1430,40 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'  => '.uabb-callout-cta-link'
                         ),
                     ),
-                    'link_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'link_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-callout-cta-link',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
-                    ),
-                    'link_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
+                    ),
+                    'link_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-callout-cta-link',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                     ),
                     'link_color'        => array( 
@@ -1319,6 +1476,35 @@ FLBuilder::register_module('SlideBoxModule', array(
                             'selector'  => '.uabb-callout-cta-link',
                             'property'  => 'color',
                         ),
+                    ),
+                    'link_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-callout-cta-link',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'link_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-callout-cta-link',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

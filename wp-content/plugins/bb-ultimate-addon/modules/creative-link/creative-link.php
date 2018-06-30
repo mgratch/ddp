@@ -21,8 +21,28 @@ class CreativeLink extends FLBuilderModule {
             'url'           => BB_ULTIMATE_ADDON_URL . 'modules/creative-link/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
-            'partial_refresh' => true
+            'partial_refresh' => true,
+            'icon'              => 'creative-link.svg',
         ));
+    }
+
+    public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/creative-link/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/creative-link/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
     }
 
     public function render_text( $title ) {
@@ -233,7 +253,7 @@ FLBuilder::register_module('CreativeLink', array(
                     ),
 
                     'mobile_structure' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Mobile Structure', 'uabb'),
                         'default'       => 'stacked',
                         'options'       => array(
@@ -371,34 +391,69 @@ FLBuilder::register_module('CreativeLink', array(
                             'selector'        => '.uabb-creative-link a, .uabb-creative-link a span'
                         )
                     ),
-                    'link_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'link_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-creative-link a, .uabb-creative-link a span',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
+                        ),
                     ),
-                    'link_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'link_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-creative-link a, .uabb-creative-link a span',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
+                            'unit'            => 'em'
+                        ),
+                    ),
+                    'link_typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-link a, .uabb-creative-link a span',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'link_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-creative-link a, .uabb-creative-link a span',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

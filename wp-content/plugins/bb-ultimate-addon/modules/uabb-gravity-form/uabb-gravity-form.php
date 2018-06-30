@@ -32,7 +32,6 @@ class UABBGravityFormModule extends FLBuilderModule {
 		}
         return $field;
 	}
-	
 }
 
 require_once BB_ULTIMATE_ADDON_DIR . 'modules/uabb-gravity-form/includes/gf-function.php';
@@ -98,7 +97,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         ),
 					),
 					'form_ajax_option'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
                         'label'         => __( 'Ajax Based Form Submission', 'uabb' ),
                         'default'       => 'true',
                         'options'       => array(
@@ -107,7 +106,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         ),
 					),
 					'mul_form_option'     => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
                         'label'         => __( 'Using Multiple Gravity Form On This Page', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -236,11 +235,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'maxlength'   => '3',
 						'size'        => '5',
 					),
-					'form_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'form_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Form Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding:20px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '20',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
 					'form_radius'	=> array(
 						'type'          => 'text',
@@ -279,7 +284,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 				'title'         => __('Input Style', 'uabb'),
 				'fields'        => array(
 					'input_background_type'    => array( 
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
                         'label'         => __( 'Input Background Color', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -301,7 +306,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'show_reset' => true,
 						'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select',
+                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select, .chosen-container.chosen-container-single',
                             'property'      => 'background',
                         )
 					),
@@ -324,11 +329,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 							'right'    => __('Right', 'uabb'),
 						)
 					),					
-					'input_padding'	=> array(
-						'type'          => 'uabb-spacing',
+					'input_padding_dimension'	=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Input Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding:15px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '15',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
                     'input_field_height'    => array(
                         'type'          => 'text',
@@ -339,7 +350,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         'size'			=> '6',
                         'preview'   => array(
                             'type'      => 'css',
-                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select',
+                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                             'property'  	=> 'height',
                             'unit'          => 'px',
                         ),
@@ -359,7 +370,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         )
 					),
 					'input_placeholder_display' 	=> array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Show Placeholder', 'uabb'),
                         'default'       => 'block',
                         'options'		=> array(
@@ -388,13 +399,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 			'input-border-style' => array(
 				'title' => __('Input Border Style', 'uabb'),
 				'fields' => array(
-					'input_border_width'    => array(
-		                'type'          => 'uabb-spacing',
+					'input_border_width_dimension'    => array(
+		                'type'          => 'dimension',
 		                'label'         => __('Border Width', 'uabb'),
-		                'placeholder'	=> '1',
-		                'maxlength'     => '2',
-		                'mode'			=> 'padding',
-		                'size'          => '6',
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '1',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 		            ),
 				    'input_border_radius' => array(
 		                'type'          => 'text',
@@ -404,7 +419,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 		                'description'   => 'px',
 		                'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select',
+                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                             'property'      => 'border-radius',
                             'unit'			=> 'px'
                         )
@@ -416,7 +431,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'show_reset' => true,
 						'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select',
+                            'selector'      => '.uabb-gf-style input[type=text], .uabb-gf-style textarea,  .uabb-gf-style select, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                             'property'      => 'border-color',
                         )
 					),                    
@@ -435,7 +450,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 				'title' => __('Radio and Checkbox Style', 'uabb'),
 				'fields' => array(
 					'radio_check_custom_option' => array(
-                    	'type'          => 'uabb-toggle-switch',
+                    	'type'          => 'select',
                         'label'         => __( 'Use Custom Style', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -651,7 +666,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         )
 					),
 					'hover_attribute' => array(
-                    	'type'          => 'uabb-toggle-switch',
+                    	'type'          => 'select',
                         'label'         => __( 'Apply Hover Color To', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -784,14 +799,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.uabb-gf-style .gform_wrapper .gform_footer input[type=submit], .uabb-gf-style .gform_page .gform_page_footer input[type=button], .uabb-gf-style .gform_page .gform_page_footer input[type=submit]'
                         ),
                     ),
-                    'btn_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-style .gform_wrapper .gform_footer input[type=submit], .uabb-gf-style .gform_page .gform_page_footer input[type=button], .uabb-gf-style .gform_page .gform_page_footer input[type=submit]',
@@ -799,38 +817,53 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'unit'		=> 'px'
                         ),
                     ),
-                    'btn_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     	'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-style .gform_wrapper .gform_footer input[type=submit], .uabb-gf-style .gform_page .gform_page_footer input[type=button], .uabb-gf-style .gform_page .gform_page_footer input[type=submit]',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                         ),
                     ),
                     'btn_text_transform' => array(
 							'type'          => 'select',
 							'label'         => __( 'Text Transform', 'uabb' ),
-							'default'       => 'none',
-							'options'       => array(
-								'none'	=> __( 'None', 'uabb' ),
-								'capitalize'	=> __( 'Capitalize', 'uabb' ),
-								'uppercase'	=> __( 'Uppercase', 'uabb' ),
-								'lowercase'	=> __( 'Lowercase', 'uabb' ),
-								'inherit'	=> __( 'Inherit', 'uabb' ),
-							),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
 							'preview'   => array(
 	                            'type'      => 'css',
 	                            'selector'  => '.uabb-gf-style .gform_wrapper .gform_footer input[type=submit], .uabb-gf-style .gform_page .gform_page_footer input[type=button], .uabb-gf-style .gform_page .gform_page_footer input[type=submit]',
 	                            'property'	=> 'text-transform',
 	                        ),
 					),
+                    'btn_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-style .gform_wrapper .gform_footer input[type=submit], .uabb-gf-style .gform_page .gform_page_footer input[type=button], .uabb-gf-style .gform_page .gform_page_footer input[type=submit]',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
 		)
@@ -857,7 +890,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'placeholder'	=> '12',
 					),
 					'input_error_display' 	=> array(
-                        'type'          	=> 'uabb-toggle-switch',
+                        'type'          	=> 'select',
                         'label'        		=> __('Advance Settings', 'uabb'),
                         'default'       	=> 'no',
                         'options'			=> array(
@@ -897,6 +930,30 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'description'   => 'px',
 						'placeholder'	=> '1',
 					),
+					'input_error_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                    ),
+                    'input_error_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                    ),
 				)
 			),
 			'validation-msg-section'       => array(
@@ -918,11 +975,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'description'   => 'px',
 						'placeholder'	=> '15',
 					),
-					'validation_spacing'		=> array(
-						'type'          => 'uabb-spacing',
+					'validation_spacing_dimension'		=> array(
+						'type'          => 'dimension',
                         'label'         => __( 'Message Padding', 'uabb' ),
-                        'mode'			=> 'padding',
-                        'default'       => 'padding: 10px;' // Optional
+                        'description' =>'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '10',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
 					),
 					'validation_bg_color' => array( 
 						'type'       => 'color',
@@ -991,6 +1054,30 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 		                'size'          => '4',
 		                'description'   => 'px'
 		            ),
+		            'validate_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                    ),
+                    'validate_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                    ),
 				)
 			),
 			'input-success-section'       => array(
@@ -1011,7 +1098,30 @@ FLBuilder::register_module('UABBGravityFormModule', array(
 						'description'   => 'px',
 						'placeholder'	=> '15',
 					),
-					
+		            'input_success_msg_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                    ),
+                    'input_success_msg_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                    ),
 				)
 			),
 		)
@@ -1023,7 +1133,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                 'title' => __('Form Title', 'uabb' ),
                 'fields'    => array(
                 	'typo_show_title' 	=> array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Show Title', 'uabb'),
                         'default'       => 'block',
                         'options'		=> array(
@@ -1064,14 +1174,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.uabb-gf-form-title'
                         ),
                     ),
-                    'form_title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'form_title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-form-title',
@@ -1079,19 +1192,22 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'unit'		=> 'px'
                         ),
                     ),
-                    'form_title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'form_title_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-form-title',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                         ),
                     ),
                     'form_title_color'        => array( 
@@ -1104,6 +1220,41 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.uabb-gf-form-title',
                             'property'	=> 'color',
                         ),
+                    ),
+                    'form_title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-form-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'form_title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-form-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'form_title_bottom_margin'   => array(
 						'type'          => 'text',
@@ -1126,7 +1277,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                 'title' => __('Form Description', 'uabb' ),
                 'fields'    => array(
                 	'typo_show_desc' 	=> array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Show Description', 'uabb'),
                         'default'       => 'block',
                         'options'		=> array(
@@ -1151,14 +1302,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.uabb-gf-form-desc'
                         ),
                     ),
-                    'form_desc_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'form_desc_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-form-desc',
@@ -1166,19 +1320,22 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'unit'		=> 'px'
                         ),
                     ),
-                    'form_desc_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'form_desc_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-form-desc',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                         ),
                     ),
                     'form_desc_color'        => array( 
@@ -1191,6 +1348,41 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.uabb-gf-form-desc',
                             'property'	=> 'color',
                         ),
+                    ),
+                    'form_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-form-desc',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'form_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-form-desc',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'form_desc_bottom_margin'   => array(
 						'type'          => 'text',
@@ -1213,7 +1405,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                 'title' => __('Form Label', 'uabb' ),
                 'fields'    => array(
                 	'typo_show_label' 	=> array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Show Label', 'uabb'),
                         'default'       => 'block',
                         'options'		=> array(
@@ -1238,14 +1430,17 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.gform_wrapper .gfield .gfield_label, .gform_wrapper .gfield .gfield_description, .gform_wrapper .gfield .ginput_container span label',
                         ),
                     ),
-                    'label_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'label_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'show_reset'    => true,
                         'preview'       => array(
                             'type'      => 'css',
@@ -1254,20 +1449,23 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'unit'      => 'px'
                         )
                     ),
-                    'label_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'label_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'show_reset'    => true,
                         'preview'       => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-style form .gform_body .gfield_label',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         )
                     ),
                     'label_color'        => array( 
@@ -1279,6 +1477,41 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'type'      => 'css',
                             'selector'  => '.uabb-gf-style form .gform_body .gfield_label',
                             'property'  => 'color',
+                        )
+                    ),
+                    'label_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-style form .gform_body .gfield_label',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'label_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-gf-style form .gform_body .gfield_label',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
@@ -1295,20 +1528,23 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         ),
                         'preview'   => array(
                             'type'      => 'font',
-                            'selector'  => '.gform_wrapper .gfield input, .gform_wrapper .gfield input::placeholder, .gform_wrapper .gfield select, .gform_wrapper .gfield textarea',
+                            'selector'  => '.gform_wrapper .gfield input, .gform_wrapper .gfield input::placeholder, .gform_wrapper .gfield select, .gform_wrapper .gfield textarea, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                         ),	
                     ),
-                    'font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'       => array(
                             'type'      => 'css',
-                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select, .gform_wrapper .gfield textarea',
+                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select, .gform_wrapper .gfield textarea, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
@@ -1320,7 +1556,7 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                         'show_reset' => true,
                         'preview'   => array(
                             'type'      => 'css',
-                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select, .gform_wrapper .gfield textarea',
+                            'selector'  => '.gform_wrapper .gfield input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="file"]), .gform_wrapper .gfield select, .gform_wrapper .gfield textarea, .gform_wrapper .ginput_container_select .chosen-container-single .chosen-single',
                             'property'  => 'color',
                         ),
                     ),
@@ -1362,6 +1598,41 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'unit'			=> 'px',
                         ),
                     ),
+                    'input_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.gform_wrapper .gfield .gfield_description',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'input_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.gform_wrapper .gfield .gfield_description',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                     'input_top_margin'   => array(
 						'type'          => 'text',
 						'label'         => __('Input Top Margin', 'uabb'),
@@ -1397,14 +1668,16 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.gform_wrapper .gfield .gfield_radio li label, .gform_wrapper .gfield .gfield_checkbox li label',
                         ),
                     ),
-                    'radio_checkbox_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'radio_checkbox_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '15',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.gform_wrapper .gfield .gfield_radio li label, .gform_wrapper .gfield .gfield_checkbox li label',
@@ -1422,6 +1695,41 @@ FLBuilder::register_module('UABBGravityFormModule', array(
                             'selector'  => '.gform_wrapper .gfield .gfield_radio li label, .gform_wrapper .gfield .gfield_checkbox li label',
                             'property'  => 'color',
                         ),
+                    ),
+                    'radio_checkbox_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.gform_wrapper .gfield .gfield_radio li label, .gform_wrapper .gfield .gfield_checkbox li label',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'radio_checkbox_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.gform_wrapper .gfield .gfield_radio li label, .gform_wrapper .gfield .gfield_checkbox li label',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),

@@ -136,7 +136,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         'type'         => 'form',
                         'label'        => __('Address', 'uabb'),
                         'form'         => 'uabb_google_map_addresses',
-                        // 'preview_text' => 'map_name',
+                        'preview_text' => 'map_name',
                         'multiple'     => true
                     ),
                 )
@@ -175,7 +175,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         ),
                     ),
                     'map_fit_marker'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Auto Zoom', 'uabb' ),
                         'default'       => 'no',
                         'options'       => array(
@@ -217,7 +217,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         ),
                     ),
 					'map_expand'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Disable map zoom on mouse wheel scroll', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -239,7 +239,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                 'title'         => __('Advanced Controls', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'street_view'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Street view control', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -248,7 +248,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         )
                     ),
                     'map_type_control'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Map type control', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -257,7 +257,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         )
                     ),
                     'zoom'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Zoom control', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -284,7 +284,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         )
                     ),
                     'dragging'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Disable dragging on Mobile', 'uabb' ),
                         'default'       => 'false',
                         'options'       => array(
@@ -307,7 +307,7 @@ FLBuilder::register_module('GoogleMapModule', array(
                         'label'     => '',
                         'rows'      => 25,
                         'media_buttons' => false,
-                        'description'   => __('<br/><br/><a target="_blank" rel="noopener" href="http://googlemaps.github.io/js-samples/styledmaps/wizard/index.html">Click here</a> to get the style JSON code for styling your map.','uabb'),
+                        'description'   => __('<br/><br/><a target="_blank" rel="noopener" href="https://www.latlong.net/convert-address-to-lat-long.html">Click here</a> to get the style JSON code for styling your map.','uabb'),
                         'connections'   => array( 'string', 'html' )
                     ),
                 )
@@ -336,14 +336,14 @@ FLBuilder::register_settings_form('uabb_google_map_addresses', array(
                             'type'          => 'text',
                             'label'         => __('Latitude', 'uabb'),
                             'placeholder'   => '40.76142',
-                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
+                            'description'   => __('</br></br><a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
                             'connections'       => array( 'custom_field' ),
                         ),
                         'map_longitude'     => array(
                             'type'          => 'text',
                             'label'         => __('Longitude', 'uabb'),
                             'placeholder'   => '-73.97712',
-                            'description'   => __('</br></br><a href="http://universimmedia.pagesperso-orange.fr/geo/loc.htm" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
+                            'description'   => __('</br></br><a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank" rel="noopener">Here is a tool</a> where you can find Latitude & Longitude of your location','uabb'),
                             'connections'       => array( 'custom_field' ),
                         ),
                     )
@@ -357,7 +357,7 @@ FLBuilder::register_settings_form('uabb_google_map_addresses', array(
                     'title'         => '',
                     'fields'        => array(
                         'marker_point'     => array(
-                            'type'          => 'uabb-toggle-switch',
+                            'type'          => 'select',
                             'label'         => __( 'Marker Point Icon', 'uabb' ),
                             'default'       => 'default',
                             'options'       => array(
@@ -386,7 +386,7 @@ FLBuilder::register_settings_form('uabb_google_map_addresses', array(
                     'title'         => '', // Section Title
                     'fields'        => array( // Section Fields
                         'enable_info'     => array(
-                            'type'          => 'uabb-toggle-switch',
+                            'type'          => 'select',
                             'label'         => __( 'Show Info Text', 'uabb' ),
                             'default'       => 'yes',
                             'options'       => array(
@@ -407,7 +407,7 @@ FLBuilder::register_settings_form('uabb_google_map_addresses', array(
                             'connections'   => array( 'string', 'html' )
                         ),
                         'open_marker'     => array(
-                            'type'          => 'uabb-toggle-switch',
+                            'type'          => 'select',
                             'label'         => __( 'Disable Info Window On Load', 'uabb' ),
                             'default'       => 'no',
                             'options'       => array(

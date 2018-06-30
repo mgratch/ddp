@@ -117,7 +117,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 					'mailchimp_warning_msg' => array(
 						'type'     => 'uabb-msgbox',
 						'label'    => '',
-						'msg-type' => 'warning',
+						'msg_type' => 'warning',
 						'content'  => $notice,
 					),
 				),
@@ -157,7 +157,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 				'title'         => __( 'Form Fields', 'uabb' ),
 				'fields'        => array(
 					'show_fname' => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Show First Name', 'uabb'),
 						'default'       => 'yes',
 						'options'       => array(
@@ -176,7 +176,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						'placeholder' => __('Your Name', 'uabb'),
 					),
 					'show_lname' => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __('Show Last Name', 'uabb'),
 						'default'       => 'no',
 						'options'       => array(
@@ -215,6 +215,43 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'type'          => 'text',
                             'selector'      => '.uabb-sf-bottom-text',
                         )
+					),
+				)
+			),
+			'terms_section'       => array(
+				'title'         => __('Terms and Conditions Field', 'uabb'),
+				'fields'        => array(
+					'terms_checkbox' => array(
+						'type'		  => 'select',
+						'label'		  => __( 'Terms and Conditions Checkbox', 'uabb' ),
+						'default'		  => 'hide',
+						'options'		  => array(
+							'show'	   => __( 'Show', 'uabb' ),
+							'hide'	   => __( 'Hide', 'uabb' ),
+						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'terms_checkbox_text', 'terms_text' ),
+								'sections'		=> array( 'checkbox_typography', 'terms_typography', 'terms-checkbox-style' )
+							),
+						),
+					),
+					'terms_checkbox_text'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Checkbox Text', 'uabb' ),
+						'default'	=> __( 'I Accept the Terms and Conditions', 'uabb' ),
+					),
+					'terms_text' => array(
+						'type'		  => 'editor',
+						'label'		  => 'Terms and Conditions',
+						'default'	  => __( 'Please go through the following terms and conditions carefully.', 'uabb' ),
+						'media_buttons' => false,
+						'rows'          => 8,
+						'preview'       => array(
+							'type'          => 'text',
+							'selector'      => '.uabb-terms-text',
+						),
+						'connections'   => array( 'string' ),
 					),
 				)
 			),
@@ -292,11 +329,18 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 							'center'		=> __( 'Center', 'uabb' ),
 						)
 					),
-					'padding' => array(
-                        'type'      => 'uabb-spacing',
-                        'label'     => __( 'Padding', 'uabb' ),
-                        'mode'      => 'padding',                        
-						'help'          => __( 'Apply padding to your element from all sides.', 'uabb'),
+					'padding_dimension' => array(
+                        'type'         => 'dimension',
+                        'label'        => __( 'Padding', 'uabb' ), 
+                        'description'  => 'px',                       
+						'help'         => __( 'Apply padding to your element from all sides.', 'uabb'),
+						'responsive'   => array(
+                            'placeholder' => array(
+                                'default'    => '',
+                                'medium'     => '',
+                                'responsive' => '',
+                            ),
+                        ), 
                     ),
                     'background_color' => array( 
 						'type'       => 'color',
@@ -318,7 +362,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						'size'        => '5',
 					),
                     'layout'        => array(
-						'type'          => 'uabb-toggle-switch',
+						'type'          => 'select',
 						'label'         => __( 'Layout', 'uabb' ),
 						'default'       => 'stacked',
 						'help'          => __( 'The appearance of the Subscribe Form', 'uabb'),
@@ -410,7 +454,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						'show_reset' => true,
 						'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-form-field input',
+                            'selector'      => '.uabb-form-field input, .uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
                             'property'      => 'background',
                         )
 					),
@@ -431,7 +475,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						'description'       => 'px',
 						'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-form-field input',
+                            'selector'      => '.uabb-form-field input, .uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
                             'property'      => 'border-width',
                             'unit'			=> 'px'
                         )
@@ -443,7 +487,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						'show_reset' => true,
 						'preview'         => array(
                             'type'          => 'css',
-                            'selector'      => '.uabb-form-field input',
+                            'selector'      => '.uabb-form-field input, .uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
                             'property'      => 'border-color',
                         )
 					),
@@ -498,6 +542,88 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 					            ),    
 					        )
 					    )
+					),
+				)
+			),
+			'terms-checkbox-style' => array(
+				'title' => __('Terms Checkbox Style', 'uabb'),
+				'fields' => array(
+                    'checkbox_size'    => array(
+		                'type'          => 'text',
+		                'label'         => __('Size', 'uabb'),
+		                'default'		=> '24',
+		                'placeholder'	=> '24',
+		                'size'          => '10',
+		                'preview'       => array(
+						    'type'          => 'css',
+						    'rules'           => array(
+						        array(
+						            'selector'     => '.uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
+						            'property'     => 'width',
+						            'unit'		=> 'px'
+						        ),
+						        array(
+						            'selector'     => '.uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
+						            'property'     => 'height',
+						            'unit'		=> 'px'
+						        ),    
+						    )
+						),
+		            ),
+                    'checkbox_bgcolor'    => array( 
+						'type'       	=> 'color',
+						'label'      	=> __('Background Color', 'uabb'),
+						'show_reset' 	=> true,
+						'show_alpha'    => true,
+						'preview'	=> array(
+                            'type'		=> 'css',
+                            'selector'	=> '.uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
+                            'property'	=> 'background',
+                    	),
+					), 
+					'checkbox_selected_color'    => array( 
+						'type'       	=> 'color',
+						'label'      	=> __('Checked Color', 'uabb'),
+						'show_reset' 	=> true,
+						'preview'	=> array(
+                        	'type'		=> 'refresh',
+                        ),
+					), 
+					'checkbox_border_width'    => array(
+		                'type'          => 'text',
+		                'label'         => __('Border Width', 'uabb'),
+		                'placeholder'	=> '1',
+		                'size'          => '6',
+		                'preview'	=> array(
+                            'type'		=> 'css',
+                            'selector'	=> '.uabb-subscribe-form .uabb-input-group .uabb-terms-label input[type="checkbox"] + span:before',
+                            'property'	=> 'border-width',
+                            'unit'		=> 'px'
+                    	),
+		            ),
+                    'checkbox_border_color'    => array( 
+						'type'       	=> 'color',
+						'label'      	=> __('Border Color', 'uabb'),
+						'show_reset' 	=> true,
+						'preview'	=> array(
+                            'type'		=> 'css',
+                            'selector'	=> '.uabb-subscribe-form .uabb-input-group .uabb-terms-label input[type="checkbox"] + span:before',
+                            'property'	=> 'border-color',
+                    	),
+					),
+					'checkbox_border_radius'    => array( 
+						'type'       	=> 'text',
+						'label'      	=> __('Checkbox Round Corners', 'uabb'),
+						//'default'		=> '0',
+		                'placeholder'	=> '0',
+		                'description'	=> 'px',
+		                'size'          => '10',
+		                'preview'	=> array(
+                            'type'		=> 'css',
+                            'selector'	=> '.uabb-subscribe-form .uabb-input-group input[type="checkbox"] + span:before',
+                            'property'	=> 'border-radius',
+                            'unit'		=> 'px'
+                    	),
 					),
 				)
 			),
@@ -684,7 +810,7 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                         'size'        => '5',
                     ),
                     'hover_attribute' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Apply Hover Color To', 'uabb' ),
                         'default'       => 'bg',
                         'options'       => array(
@@ -844,14 +970,17 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'selector'        => '.uabb-sf-heading'
                         )
                     ),
-                    'heading_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'heading_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-sf-heading',
@@ -859,19 +988,51 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'unit'			=> 'px'
                         )
                     ),
-                    'heading_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'heading_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                        	'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-sf-heading',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px'
+                            'unit'			=> 'em'
+                        )
+                    ),
+                    'heading_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-heading',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'heading_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-heading',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                     'heading_color'        => array(
@@ -931,14 +1092,17 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						    'selector'        => '.uabb-sf-subheading'
 						)
                     ),
-                    'subheading_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'subheading_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'         => array(
 						    'type'            => 'css',
 						    'selector'        => '.uabb-sf-subheading',
@@ -946,19 +1110,22 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						    'unit'			=> 'px'
 						)
                     ),
-                    'subheading_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'subheading_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'         => array(
 						    'type'            => 'css',
 						    'selector'        => '.uabb-sf-subheading',
 						    'property'		=> 'line-height',
-						    'unit'			=> 'px'
+						    'unit'			=> 'em'
 						)
                     ),
                     'subheading_color'        => array( 
@@ -971,6 +1138,35 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
 						    'selector'        => '.uabb-sf-subheading',
 						    'property'		=> 'color',
 						)
+                    ),
+                    'subheading_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-subheading',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'subheading_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-subheading',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'subheading_margin_bottom' => array(
 						'type'              => 'text',
@@ -1002,14 +1198,17 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'selector'        => '.uabb-sf-bottom-text'
                         )
                     ),
-                    'text_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'text_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-sf-bottom-text',
@@ -1017,19 +1216,22 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'unit'			=> 'px'
                         )
                     ),
-                    'text_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'text_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive'  => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'         => array(
                     	   'type'            => 'css',
                             'selector'        => '.uabb-sf-bottom-text',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px'
+                            'unit'			=> 'em'
                         )
                     ),
                     'text_color'        => array( 
@@ -1041,6 +1243,35 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                     	    'type'            => 'css',
                             'selector'        => '.uabb-sf-bottom-text',
                             'property'		=> 'color',
+                        )
+                    ),
+                    'text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-bottom-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-sf-bottom-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                     'text_margin_top' => array(
@@ -1073,14 +1304,17 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'selector'	=> 'input[type="text"], input[type="text"] ~ label'
                     	),
                     ),
-                    'input_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'input_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> 'input[type="text"], input[type="text"] ~ label',
@@ -1088,20 +1322,52 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'unit'		=> 'px'
                     	),
                     ),
-                    'input_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'input_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                        'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> 'input[type="text"], input[type="text"] ~ label',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    ),
+                    'input_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => 'input[type="text"], input[type="text"] ~ label',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'input_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'input[type="text"], input[type="text"] ~ label',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -1120,14 +1386,17 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'selector'	=> 'a.uabb-button'
                     	),
                     ),
-                    'btn_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> 'a.uabb-button',
@@ -1135,20 +1404,52 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'unit'		=> 'px'
                     	),
                     ),
-                    'btn_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'btn_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                         'preview'	=> array(
                             'type'		=> 'css',
                             'selector'	=> 'a.uabb-button',
                             'property'	=> 'line-height',
-                            'unit'		=> 'px'
+                            'unit'		=> 'em'
                     	),
+                    ),
+                    'btn_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => 'a.uabb-button',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'btn_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => 'a.uabb-button',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'btn_margin_top' => array(
 						'type'              => 'text',
@@ -1162,6 +1463,194 @@ FLBuilder::register_module( 'UABBSubscribeFormModule', array(
                             'unit'		=> 'px'
                     	),
 					),
+                )
+            ),
+            'checkbox_typography'    =>  array(
+				'title' => __('Checkbox Text', 'uabb' ),
+                'fields'    => array(
+                    'checkbox_font_family'       => array(
+                        'type'          => 'font',
+                        'label'         => __('Font Family', 'uabb'),
+                        'default'       => array(
+                            'family'        => 'Default',
+                            'weight'        => 'Default'
+                        ),
+                        'preview'   => array(
+                            'type'      => 'font',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-label'
+                        ),
+                    ),
+                    'checkbox_font_size'     => array(
+                        'type'          => 'unit',
+		                'label'         => __( 'Font Size', 'uabb' ),
+		                'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default'    => '',
+								'medium'     => '',
+								'responsive' => '',
+							),
+						),
+                    	'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-label',
+                            'property'  => 'font-size',
+                            'unit'      => 'px'
+                        ),
+                    ),
+                    'checkbox_line_height'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+   		                'description'   => 'em',
+                        'responsive' => array(
+							'placeholder' => array(
+								'default'    => '',
+								'medium'     => '',
+								'responsive' => '',
+							),
+						),
+                    	'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-label',
+                            'property'  => 'line-height',
+                            'unit'      => 'em'
+                        ),
+                    ),
+                    'checkbox_color'        => array( 
+                        'type'       => 'color',
+                        'label'      => __('Color', 'uabb'),
+                        'default'    => '',
+                        'show_reset' => true,
+                        'show_alpha' => true,
+                        'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-label',
+                            'property'  => 'color',
+                        ),
+                    ),
+                    'checkbox_text_transform' => array( 
+                        'type'          => 'select',
+                        'label'         => __('Text Transform', 'uabb'),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'       => __( 'Default', 'uabb' ),
+                            'uppercase'		=> __( 'Uppercase', 'uabb' ),
+							'lowercase'		=> __( 'Lowercase', 'uabb' ),
+							'capitalize'	=> __( 'Capitalize', 'uabb' ),
+                        ),
+                        'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.uabb-subscribe-form .uabb-terms-label',
+							'property'     => 'text-transform',
+						),
+                    ),
+                    'checkbox_text_letter_spacing'     => array(
+                       'type'          => 'text',
+                       'label'         => __('Letter Spacing', 'uabb'),
+                       'placeholder'   => '0',
+                       'size'          => '5',
+                       'description'   => 'px',
+                       'preview'         => array(
+                           'type'          => 'css',
+                           'selector'      => '.uabb-subscribe-form .uabb-terms-label',
+                           'property'      => 'letter-spacing',
+                           'unit'          => 'px'
+                       )
+                   ),
+                )
+            ),
+            'terms_typography'    =>  array(
+				'title' => __('Terms and Conditions Text', 'uabb' ),
+                'fields'    => array(
+                    'terms_font_family'       => array(
+                        'type'          => 'font',
+                        'label'         => __('Font Family', 'uabb'),
+                        'default'       => array(
+                            'family'        => 'Default',
+                            'weight'        => 'Default'
+                        ),
+                        'preview'   => array(
+                            'type'      => 'font',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-text'
+                        ),
+                    ),
+                    'terms_font_size'     => array(
+                        'type'          => 'unit',
+		                'label'         => __( 'Font Size', 'uabb' ),
+		                'description'   => 'px',
+						'responsive' => array(
+							'placeholder' => array(
+								'default'    => '',
+								'medium'     => '',
+								'responsive' => '',
+							),
+						),
+                    	'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-text',
+                            'property'  => 'font-size',
+                            'unit'      => 'px'
+                        ),
+                    ),
+                    'terms_line_height'    => array(
+                        'type'          => 'unit',
+		                'label'         => __( 'Line Height', 'uabb' ),
+		                'description'   => 'em',
+						'responsive' => array(
+							'placeholder' => array(
+								'default'    => '',
+								'medium'     => '',
+								'responsive' => '',
+							),
+						),
+                    	'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-text',
+                            'property'  => 'line-height',
+                            'unit'      => 'em'
+                        ),
+                    ),
+                    'terms_color'        => array( 
+                        'type'       => 'color',
+                        'label'      => __('Color', 'uabb'),
+                        'default'    => '',
+                        'show_reset' => true,
+   						'show_alpha' => true,
+                        'preview'   => array(
+                            'type'      => 'css',
+                            'selector'  => '.uabb-subscribe-form .uabb-terms-text',
+                            'property'  => 'color',
+                        ),
+                    ),
+                    'terms_text_transform'        => array( 
+                        'type'          => 'select',
+                        'label'         => __('Text Transform', 'uabb'),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'       => __( 'Default', 'uabb' ),
+                            'uppercase'		=> __( 'Uppercase', 'uabb' ),
+							'lowercase'		=> __( 'Lowercase', 'uabb' ),
+							'capitalize'	=> __( 'Capitalize', 'uabb' ),
+                        ),
+                        'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.uabb-subscribe-form .uabb-terms-text',
+							'property'     => 'text-transform',
+						),
+                    ),
+                    'terms_text_letter_spacing' => array(
+                       'type'          => 'text',
+                       'label'         => __('Letter Spacing', 'uabb'),
+                       'placeholder'   => '0',
+                       'size'          => '5',
+                       'description'   => 'px',
+                       'preview'         => array(
+                           'type'          => 'css',
+                           'selector'      => '.uabb-subscribe-form .uabb-terms-text',
+                           'property'      => 'letter-spacing',
+                           'unit'          => 'px'
+                       )
+                   ),
                 )
             ),
 		)

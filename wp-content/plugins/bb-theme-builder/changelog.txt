@@ -1,3 +1,47 @@
+<h4>1.1.2 - 05/21/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+    <li>ACF Flexible Content support added! See <code>https://kb.wpbeaverbuilder.com/article/653-use-acf-flexible-content-field-themer</code> for Flexible Content field docs.</li>
+    <li>ACF Repeater support added! See <code>https://kb.wpbeaverbuilder.com/article/461-use-acf-repeater-fields-themer</code> for repeater field docs.</li>
+    <li>Added post:id and post:slug Themer connections.</li>
+    <li>Added Paypal support to the Event Calendar Tickets Module.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Prevent field connection logic from running in wp-admin, fixes issues like undefined post_type error with Yoast SEO.</li>
+	<li>Fixed issue where parts set to all users would not display for admins in the builder.</li>
+	<li>Fixed post embeds not working when a post has a themer layout.</li>
+	<li>Modified the logic for ACF relationship query so it displays a message when no results found.</li>
+	<li>Fixed undefined index post_type PHP warning in Woocommerce Module.</li>
+	<li>Make sure to pass all query args when creating a new template in wp-admin so other plugins like WPML still work.</li>
+</ul>
+
+<h4>1.1.1.1 - 05/09/2018</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Reworked white labeling to support BB 2.1 branding changes.</li>
+	<li>Use Font Awesome 5 icons in builder UI.</li>
+</ul>
+
+<h4>1.1.1 - 03/20/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for using ACF relationship fields as the query source in all post modules.</li>
+ 	<li>Added the ability for Themer modules to be overridden in a theme or child theme.</li>
+	<li>Added support for displaying Themer parts in more Storefront hook locations.</li>
+	<li>Added the ability to change the format of Event Calendar start and end dates.</li>
+	<li>Added the ability to enqueue Themer CSS/JS assets inline using the <code>fl_builder_render_assets_inline</code> filter.</li>
+	<li>Added the ability to change the time to expiration for Themer CSS/JS assets using the <code>fl_theme_builder_assets_expire</code> filter.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+ 	<li>Fixed images in header layouts not transitioning when it shrinks on scroll.</li>
+	<li>Fixed other plugins with Beaver Themer in the title getting white labeled incorrectly.</li>
+	<li>Fixed duplicate database queries running more than once on the same page load.</li>
+	<li>Fixed CSS issues with the display of WooCommerce product grids in the Storefront theme.</li>
+</ul>
+
 <h4>1.1.0.3 - 02/27/2018</h4>
 <strong>Hot Fix</strong>
 <ul>

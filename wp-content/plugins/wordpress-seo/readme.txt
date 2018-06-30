@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.4
-Stable tag: 6.3.1
+Tested up to: 4.9.6
+Stable tag: 7.7.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -15,7 +15,7 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 ### Yoast SEO: the #1 WordPress SEO plugin
 
-Need an SEO plugin that helps you reach for the stars? Yoast SEO is the original WordPress SEO plugin since 2008. It is the favorite tool of millions of users, ranging from the bakery around the corner to some of the most popular sites on the planet. With Yoast SEO, you get a solid toolset that helps you aim for that number one spot in the search results. Yoast: SEO for everyone.
+Need some help with your search engine optimization? Need an SEO plugin that helps you reach for the stars? Yoast SEO is the original WordPress SEO plugin since 2008. It is the favorite tool of millions of users, ranging from the bakery around the corner to some of the most popular sites on the planet. With Yoast SEO, you get a solid toolset that helps you aim for that number one spot in the search results. Yoast: SEO for everyone.
 
 Yoast SEO does everything in its power to please both visitors and search engine spiders. How? Below you’ll find a small sampling of the powers of Yoast SEO:
 
@@ -62,7 +62,7 @@ Bug reports for Yoast SEO are [welcomed on GitHub](https://github.com/Yoast/word
 
 ### Further Reading
 
-For more info, check out the following articles:
+For more info on search engine optimization, check out the following:
 
 * The [Yoast SEO Plugin](https://yoa.st/1v8) official homepage.
 * The [Yoast SEO Knowledgebase](https://yoa.st/1va).
@@ -98,71 +98,98 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
-4. Example of the SEO analysis functionality.
-5. Example of the readability analysis functionality.
-6. The advanced section of the Yoast SEO meta box.
+2. Example of the SEO analysis functionality.
+3. Example of the readability analysis functionality.
+4. Overview of site-wide SEO problems and possible improvements.
+5. Control over which features you want to use.
+6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
 
-= 6.3.1 =
-Release Date: February 20th, 2018
+= 7.7.2 =
+Release Date: June 29th, 2018
 
 Bugfixes:
+* Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
+* Fixes styling in the snippet preview when using a right-to-left language.
+* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
+* Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
 
-* Fixes a bug where a non-existing JavaScript `chunk` file was loaded, causing a console error. This only affected users using a locale different than `en`.
-
-= 6.3.0 =
-Release Date: February 13th, 2018
+= 7.7.1 =
+Release Date: June 27th, 2018
 
 Bugfixes:
-
-* Reverts the shortlink in the HTML comment back to the hard link it was before.
-* Fixes a bug where the Local SEO for WooCommerce extension was not shown on the licenses page.
-* Fixes a bug where the `current_user_can()` function was not called with the post ID as argument.
-* Fixes a bug where the auto-generated meta descriptions were not using the new 320 characters limitation.
-* Fixes a bug where specific external links were not filtered from the post_type sitemap.
-* Fixes a bug where trashed posts were displayed in the bulk editor overview.
-* Fixes a bug where old meta values were not deleted during import.
-* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
-* Clears the sitemap cache when the Site URL is changed.
-
-Enhancements:
-
-* Adds an importer for the SEO Ultimate plugin SEO data.
-* Adds an importer for the SEOpressor plugin SEO data.
-* Adds links to explanatory articles on the features tab.
-* Adds additional explanation for entries on the features tab.
-* Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
-* Improves Content Analysis and Publish box copy for better translations.
-* Applies design changes to the Help Center support tab for Premium.
+* Fixes a bug where disabling the `post_format` archive would result in it actually being enabled and vice versa.
+* Fixes an issue where all replacement variables were being displayed instead of the recommended ones.
 
 Other:
+* Restores `currentyear` as a snippet variable.
 
-* Removes "meta keywords" from the plugin as this has had no search result value for at least 7 years.
-* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
-* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
-* Security hardening.
-
-= 6.2.0 =
-Release Date: January 23rd, 2018
+= 7.7.0 =
+Release Date: June 26th, 2018
 
 Enhancements:
-
-* Allows more strings to be translated.
-* Adds the passive voice assessment for French.
-* Adds the passive voice assessment for Spanish.
-* Simplifies the feedback message for the assessment that checks whether subheadings contain the keyword.
+* Implements the snippet preview in React. This brings an improved user experience regarding the snippet variables, making it easier to use and discover them.
+* Implements the improved snippet variables on the search appearance settings pages.
+* Adds an inserter to the title and metadescription fields to make it easier to insert a snippet variable.
+* Improves the mobile snippet preview to match the Google mobile search results more closely.
+* Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
+* Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
+* Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
+* Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
+* Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
+* Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
+* Adds a notification when a post is removed.
+* Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
+* Updates the 'snippet variables tab' of the Help Center to have the new names.
+* Adds recommended snippet variables for templates depending on the context.
 
 Bugfixes:
+* Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
+* Fixes a bug where restricting SEO setting access to network admins only on a multisite, would still allow regular admins to have access to SEO settings.
+* Fixes a bug where dismissing notifications on a single site in a multisite environment, would result in the notification being dismissed on all sites.
+* Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
+* Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
+* Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
+* Fixes a bug where the term title snippet variable would be replaced by 'undefined' instead of an empty string on posts and pages.
+* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used in a template.
+* Fixes a bug where the configured separator wasn't used in the title template fallback that's being used when no title template has been set.
 
-* Security hardening through stricter code checks.
-* Reduces the number of times the content analysis is refreshed on page load.
-* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
-* Fixes a bug where Premium users would be shown ads when following a certain path through the SEO menu.
-* Fixes a bug where the method of setting the title and meta description templates for the WooCommerce shop page would not work anymore.
+Deprecated:
+* Deprecates the following snippet variables: %%userid%%, %%currenttime%%, %%currentdate%%, %%currentday%%, %%currentmonth%%, %%currentyear%%.
+
+Other:
+* Changes the timing on which the capability filter is run to better time when notifications should be initialized.
+* Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
+
+= 7.6.1 =
+Release Date: June 7th, 2018
+
+Bugfixes:
+* Fixes a bug where a JavaScript error was thrown on the post-edit page when certain plugins are active.
+* Fixes a bug where stylesheet definitions would impact form fields of metaboxes on the post-edit pages. The definitions have been contained in a Yoast-selector.
+
+= 7.6.0 =
+Release Date: June 5th, 2018
+
+Enhancements:
+* Adds Flesch Reading Ease for Russian.
+* Adds Catalan transition words.
+* Adds a tab to the Help Center on posts, pages, terms and custom post types which explains which template variables can be used in the Snippet Preview.
+
+Bugfixes:
+* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
+* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
+* Fixes a bug where numbers-only keywords caused the analysis to fail.
+* Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
+* Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
+
+Other:
+* Changes the maximum meta description length from 320 to 156 characters.
+* Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
+* Restores the warning for using unsupported replacement variables on the search appearance settings page.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to the separate changelog.txt file.
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

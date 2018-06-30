@@ -21,6 +21,7 @@ class UABBIconListModule extends FLBuilderModule {
 			'partial_refresh'	=> true,
 			'icon'				=> 'star-filled.svg',
 		));
+
 	}
 
 	/**
@@ -567,35 +568,41 @@ FLBuilder::register_module('UABBIconListModule', array(
                             'selector'        => '.uabb-list-icon-text-heading'
                         )
                     ),
-                    'typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'			=> 'css',
-                            'selector'		=> '.uabb-list-icon-text-heading',
+                            'selector'		=> '.uabb-list-icon .uabb-list-icon-text .uabb-list-icon-text-heading',
                             'property'		=> 'font-size',
                             'unit'			=> 'px'
-                        )
-                    ),
-                    'typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
+                    ),
+                    'typography_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'			=> 'css',
-                            'selector'		=> '.uabb-list-icon-text-heading',
+                            'selector'		=> '.uabb-list-icon .uabb-list-icon-text .uabb-list-icon-text-heading',
                             'property'		=> 'line-height',
-                            'unit'			=> 'px'
-                        )
+                            'unit'			=> 'em'
+                        ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'typography_color'        => array( 
                         'type'       => 'color',
@@ -608,13 +615,42 @@ FLBuilder::register_module('UABBIconListModule', array(
 							'property' => 'color'
 						)
                     ),
+                    'typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-list-icon .uabb-list-icon-text .uabb-list-icon-text-heading',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-list-icon .uabb-list-icon-text .uabb-list-icon-text-heading',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
 			'structure'     => array( // Section
 				'title'         => __('Structure', 'uabb'), // Section Title
 				'fields'        => array( // Section Fields
 					'icon_struc_align'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Icons Structure', 'uabb' ),
                         'default'       => 'vertical',
                         'options'       => array(

@@ -21,7 +21,6 @@ class UABBCountdownModule extends FLBuilderModule {
             'partial_refresh'  => true,
             'icon'             => 'clock.svg',
 		) );
-
 	}
 
     public function enqueue_scripts() {
@@ -247,23 +246,30 @@ FLBuilder::register_module('UABBCountdownModule', array(
                             'selector'        => '.uabb-info-list-title'
                         )
                     ),
-                    'message_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'message_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                     ),
-                    'message_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'message_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
+
                     ),
                     'message_color'        => array( 
                         'type'       => 'color',
@@ -275,6 +281,35 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                         'default'    => '',
                         'show_reset' => true,
+                    ),
+                    'message_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-list-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'message_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-info-list-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -496,7 +531,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                 'title'         => __('Timer Strings','uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'year_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Years', 'uabb'),
                         'description'   => '',
                         'default'       => 'Y',
@@ -506,7 +541,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'year_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -531,7 +566,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
 
                     // Months
                     'month_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Months', 'uabb'),
                         'description'   => '',
                         'default'       => 'O',
@@ -541,7 +576,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'month_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -565,7 +600,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
 
                     // Days
                     'day_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Days', 'uabb'),
                         'description'   => '',
                         'default'       => 'D',
@@ -575,7 +610,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'day_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -599,7 +634,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
 
                     // Hours
                     'hour_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Hours', 'uabb'),
                         'description'   => '',
                         'default'       => 'H',
@@ -609,7 +644,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'hour_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -633,7 +668,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
 
                     // Minutes
                     'minute_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Minutes', 'uabb'),
                         'description'   => '',
                         'default'       => 'M',
@@ -643,7 +678,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'minute_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -667,7 +702,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
 
                     // Seconds
                     'second_string'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Seconds', 'uabb'),
                         'description'   => '',
                         'default'       => 'S',
@@ -677,7 +712,7 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                     ),
                     'second_custom_label'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Custom Label', 'uabb'),
                         'description'   => '',
                         'default'       => 'no',
@@ -736,35 +771,41 @@ FLBuilder::register_module('UABBCountdownModule', array(
                             'selector'        => '.uabb-count-down-digit'
                         )
                     ),
-                    'digit_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'digit_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-count-down-digit',
                             'property'        => 'font-size',
                             'unit'             => 'px'
-                        )
-                    ),
-                    'digit_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'digit_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-count-down-digit',
                             'property'        => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'digit_color'        => array( 
                         'type'       => 'color',
@@ -776,6 +817,19 @@ FLBuilder::register_module('UABBCountdownModule', array(
                         ),
                         'default'    => '',
                         'show_reset' => true,
+                    ),
+                    'digit_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-count-down-digit',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                 )
             ),
@@ -810,35 +864,41 @@ FLBuilder::register_module('UABBCountdownModule', array(
                             'selector'        => '.uabb-count-down-unit',
                         )
                     ),
-                    'unit_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'unit_font_size_new'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-count-down-unit',
                             'property'         => 'font-size',
                             'unit'              => 'px'
-                        )
-                    ),
-                    'unit_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    'unit_line_height_new'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-count-down-unit',
                             'property'         => 'line-height',
-                            'unit'              => 'px'
-                        )
+                            'unit'              => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'unit_color'        => array( 
                         'type'       => 'color',
@@ -849,6 +909,35 @@ FLBuilder::register_module('UABBCountdownModule', array(
                             'type'            => 'css',
                             'selector'        => '.uabb-count-down-unit',
                             'property'        => 'color'
+                        )
+                    ),
+                     'unit_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-count-down-unit',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'unit_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-count-down-unit',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

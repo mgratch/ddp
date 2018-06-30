@@ -21,8 +21,32 @@ class FlipBoxModule extends FLBuilderModule {
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
             'partial_refresh' => true,
+            'icon'            => 'flip-box.svg'
         ));
         $this->add_css('font-awesome');
+
+    }
+
+    /**
+     * @method get_icons
+     */
+     public function get_icon( $icon = '' ) {
+
+        // check if $icon is referencing an included icon.
+        if ( '' != $icon && file_exists( BB_ULTIMATE_ADDON_DIR . 'modules/flip-box/icon/' . $icon ) ) {
+            $path = BB_ULTIMATE_ADDON_DIR . 'modules/flip-box/icon/' . $icon;
+        }
+
+        if ( file_exists( $path ) ) {
+            $remove_icon = apply_filters( 'uabb_remove_svg_icon', false, 10, 1 );
+            if( true === $remove_icon ) {
+                return;
+            } else {
+                return file_get_contents( $path );
+            }
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -170,7 +194,7 @@ FLBuilder::register_settings_form('flip_box_icon_form_field', array(
                                 
                         /* Style Options */
                         'icon_color_preset'     => array(
-                            'type'          => 'uabb-toggle-switch',
+                            'type'          => 'select',
                             'label'         => __( 'Icon Color Presets', 'uabb' ),
                             'default'       => 'preset1',
                             'options'       => array(
@@ -608,7 +632,7 @@ FLBuilder::register_module('FlipBoxModule', array(
                 'title'         => __('Button', 'uabb'), // Section Title
                 'fields'        => array( // Section Fields
                     'show_button'    => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Show button', 'uabb'),
                         'default'       => 'no',
                         'options'       => array(
@@ -692,7 +716,7 @@ FLBuilder::register_module('FlipBoxModule', array(
                         'help'          => __( 'Apply height to complete Flipbox for small devices. It will inherit medium height if empty.', 'uabb' ),
                     ),
                     'responsive_compatibility' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Responsive Compatibility', 'uabb' ),
                         'default'       => 'no',
                         'help'          => __( 'If enabled your Flip Box would automatically manage its height for small devices.', 'uabb' ),
@@ -702,7 +726,7 @@ FLBuilder::register_module('FlipBoxModule', array(
                         ),
                     ),
                     'display_vertically_center' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Overall Vertical Alignment', 'uabb'),
                         'default'       => 'vertical-middle',
                         'help'          => __( 'If enabled, the Content would align vertically center.', 'uabb' ),
@@ -711,15 +735,18 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'no'      => __('No', 'uabb'),
                         )
                     ),
-                    'inner_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'inner_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Padding', 'uabb' ),
+                        'description'  => 'px',
                         'help'         => __('Manage the outside spacing of content area of flipbox.', 'uabb'),
-                        //'default'   => 'padding: 15px;',    //optional
-                        'mode'      => 'padding',
-                        'placeholder'   => array(
-                            'all' => '15'
-                        )
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '15',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                 )
             ),
@@ -759,35 +786,41 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-face-text-title'
                         ),
                     ),
-                    'front_title_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'front_title_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-face-text-title',
                             'property'      => 'font-size',
                             'unit'          => 'px',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'front_title_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'front_title_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-face-text-title',
                             'property'      => 'line-height',
-                            'unit'          => 'px',
+                            'unit'          => 'em',
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'front_title_typography_color'        => array( 
                         'type'       => 'color',
@@ -799,6 +832,35 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-face-text-title',
                             'property'      => 'color',
                         ),
+                    ),
+                    'front_title_typography_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-face-text-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'front_title_typography_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-face-text-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'front_title_typography_margin_top'    => array(
                         'type'          => 'text',
@@ -843,35 +905,41 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-flip-box-section-content'
                         ),
                     ),
-                    'front_desc_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'front_desc_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-flip-box-section-content',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'front_desc_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'front_desc_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-flip-box-section-content',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'front_desc_typography_color'        => array( 
                         'type'       => 'color',
@@ -883,6 +951,35 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-flip-box-section-content',
                             'property'  => 'color',
                         ),
+                    ),
+                    'front_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-flip-box-section-content',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'front_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-flip-box-section-content',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'front_desc_typography_margin_top'    => array(
                         'type'          => 'text',
@@ -943,35 +1040,41 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-back-text-title'
                         ),
                     ),
-                    'back_title_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'back_title_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-back-text-title',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'back_title_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'back_title_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-back-text-title',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'back_title_typography_color'        => array( 
                         'type'       => 'color',
@@ -983,6 +1086,35 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-back-text-title',
                             'property'  => 'color',
                         ),
+                    ),
+                    'back_title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-back-text-title',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'back_title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-back-text-title',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'back_title_typography_margin_top'    => array(
                         'type'          => 'text',
@@ -1027,35 +1159,41 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-back-flip-box-section-content'
                         ),
                     ),
-                    'back_desc_typography_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'back_desc_typography_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-back-flip-box-section-content',
                             'property'  => 'font-size',
                             'unit'      => 'px'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
-                    'back_desc_typography_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'back_desc_typography_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'em',
                         'preview'   => array(
                             'type'      => 'css',
                             'selector'  => '.uabb-back-flip-box-section-content',
                             'property'  => 'line-height',
-                            'unit'      => 'px'
+                            'unit'      => 'em'
                         ),
+                        'responsive' => array(
+							'placeholder' => array(
+								'default' => '',
+								'medium' => '',
+								'responsive' => '',
+							),
+						),
                     ),
                     'back_desc_typography_color'        => array( 
                         'type'       => 'color',
@@ -1067,6 +1205,35 @@ FLBuilder::register_module('FlipBoxModule', array(
                             'selector'  => '.uabb-back-flip-box-section-content',
                             'property'  => 'color',
                         ),
+                    ),
+                    'back_desc_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-back-flip-box-section-content',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'back_desc_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-back-flip-box-section-content',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
                     ),
                     'back_desc_typography_margin_top'    => array(
                         'type'          => 'text',

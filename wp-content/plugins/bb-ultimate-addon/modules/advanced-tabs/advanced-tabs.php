@@ -139,7 +139,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                                     'title_color',
                                     'title_hover_color',
                                     'title_active_color',
-                                    'tab_padding'
+                                    'tab_padding_dimension'
                                 ),
                             ),
                             'bar' => array(
@@ -153,7 +153,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                                     'title_active_color',
                                     'title_active_background_color',
                                     'title_active_background_color_opc',
-                                    'tab_padding'
+                                    'tab_padding_dimension'
                                 ),
                                 'sections' => array( 'label_border' )
                             ),
@@ -173,7 +173,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                                     'title_background_color_opc',
                                     'title_active_color',
                                     /*'line_position',*/
-                                    'tab_padding'
+                                    'tab_padding_dimension'
                                 ),
                                 'sections' => array( 'underline_settings' )
                             ),
@@ -185,16 +185,22 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                                     'title_background_color',
                                     'title_active_background_color',
                                     'title_active_background_color_opc',
-                                    'tab_padding'
+                                    'tab_padding_dimension'
                                 )
                             ),
                         )
                     ),
-                    'tab_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'tab_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Tab Padding', 'uabb' ),
-                        'mode'      => 'padding',
-                        'default'   => 'padding: 15px;',
+                        'description' => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '15',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'responsive'        => array(
                         'type'          => 'select',
@@ -288,7 +294,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                 'title'         => __('Tab Style','uabb'),
                 'fields'        => array(
                     'tab_style'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Style', 'uabb' ),
                         'default'       => 'full',
                         'help'          => __( 'Use Full if you want the Tabs to occupy complete width of container and Inline for auto width', 'uabb'),
@@ -410,7 +416,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                 'title' => __( 'Highlight Border Style', 'uabb' ),
                 'fields' => array(
                     'line_position' => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Line Position', 'uabb' ),
                         'default'       => 'top',
                         'options'       => array(
@@ -439,7 +445,7 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                 'title' => __( 'Tab Spacing', 'uabb' ),
                 'fields' => array(
                     'tab_spacing'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Tab Spacing', 'uabb'),
                         'default'       => 'yes',
                         'help'          => __( 'To manage the space between tabs use this setting', 'uabb'),
@@ -470,11 +476,17 @@ FLBuilder::register_module('AdvancedTabsModule', array(
             'content_style'       => array(
                 'title'         => __('Content Style', 'uabb'),
                 'fields'        => array(
-                    'content_padding' => array(
-                        'type'      => 'uabb-spacing',
+                    'content_padding_dimension' => array(
+                        'type'      => 'dimension',
                         'label'     => __( 'Padding', 'uabb' ),
-                        'default'   => 'padding: 25px;',
-                        'mode'      => 'padding',
+                        'description' => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '25',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     'content_alignment' => array(
                         'type'          => 'select',
@@ -637,36 +649,71 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                             'selector'        => '.uabb-tabs ul li a *'
                         )
                     ),
-                    'title_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'title_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-tabs ul li a *',
                             'property'        => 'font-size',
                             'unit'             => 'px'
-                        )
+                        ),
                     ),
-                    'title_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'title_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-tabs ul li a *',
                             'property'        => 'line-height',
-                            'unit'             => 'px'
-                        )
+                            'unit'             => 'em'
+                        ),
                     ),
+                    'title_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-tabs ul li a *',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'title_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-tabs ul li a *',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ), 
                 )
             ),
             'content_typography' => array(
@@ -684,34 +731,69 @@ FLBuilder::register_module('AdvancedTabsModule', array(
                             'selector'        => '.uabb-content-wrap .uabb-content, .uabb-content-wrap .uabb-content-current, .uabb-content-wrap .uabb-content p, .uabb-content-wrap .uabb-content-current p'
                         )
                     ),
-                    'content_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    'content_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'px',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-content-wrap .uabb-content, .uabb-content-wrap .uabb-content-current, .uabb-content-wrap .uabb-content p, .uabb-content-wrap .uabb-content-current p',
                             'property' => 'font-size',
                             'unit'     => 'px'
-                        )
+                        ),
                     ),
-                    'content_line_height'    => array(
-                        'type'          => 'uabb-simplify',
+                    'content_line_height_unit'    => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
+                        'description'   => 'em',
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
                         ),
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-content-wrap .uabb-content, .uabb-content-wrap .uabb-content-current, .uabb-content-wrap .uabb-content p, .uabb-content-wrap .uabb-content-current p',
                             'property' => 'line-height',
-                            'unit'     => 'px'
+                            'unit'     => 'em'
+                        ),
+                    ),
+                    'content_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-content-wrap .uabb-content, .uabb-content-wrap .uabb-content-current, .uabb-content-wrap .uabb-content p, .uabb-content-wrap .uabb-content-current p',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    'content_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-content-wrap .uabb-content, .uabb-content-wrap .uabb-content-current, .uabb-content-wrap .uabb-content p, .uabb-content-wrap .uabb-content-current p',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )

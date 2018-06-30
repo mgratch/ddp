@@ -216,6 +216,7 @@ jQuery(document).ready(function( $ ) {
 
 
 				    if ( this.overlay_click == 1 ) {
+
 						this.overlay.on( 'click', function( ev ) {
 							current_this.modal_popup.removeClass( 'uabb-show' );
 							current_this._stopVideo();
@@ -304,6 +305,8 @@ jQuery(document).ready(function( $ ) {
 				//console.log( $(window).height() );
 				
 				//console.log( $this );
+
+				jQuery(".uabb-modal-title-wrap").siblings(".uabb-modal-close").css("top", "0");
 
 				var modal = $( '#modal-' + this.node );
 
@@ -461,13 +464,30 @@ jQuery(document).ready(function( $ ) {
 
 				if ( $( '#modal-' + this.node ).hasClass('uabb-center-modal') ) {
 		        	$( '#modal-' + this.node ).removeClass('uabb-center-modal');
-				}
-				var top_pos  = (($(window).height() - $( '#modal-' + this.node ).outerHeight()) / 2);
 
-				if ( popup_wrap.find( '.uabb-content' ).outerHeight() > $(window).height() ) {
-   		            $(node).find( modal_popup ).css( 'top', '0' );
+				}
+
+				if( $( '#modal-' + this.node + '.uabb-show' ).outerHeight() != null ) {
+
+					var top_pos  = (($(window).height() - $( '#modal-' + this.node + '.uabb-show' ).outerHeight()) / 2);
+					
+					if ( popup_wrap.find( '.uabb-content' ).outerHeight() > $(window).height() ) {
+	   		            $(node).find( modal_popup ).css( 'top', '0' );
+						$(node).find( modal_popup ).css( 'transform', 'none' );
+					} else {
+						$(node).find( modal_popup ).css( 'top', + top_pos +'px' );
+						$(node).find( modal_popup ).css( 'transform', 'none' );
+					}
+					
 				} else {
-					$(node).find( modal_popup ).css( 'top', + top_pos +'px' );
+					
+					if ( popup_wrap.find( '.uabb-content' ).outerHeight() > $(window).height() ) {
+	   		            $(node).find( modal_popup ).css( 'top', '0' );
+						$(node).find( modal_popup ).css( 'transform', 'none' );
+					} else {
+						$(node).find( modal_popup ).css( 'top', '50%' );
+						$(node).find( modal_popup ).css( 'transform', 'translateY(-50%)' );
+					}
 				}
 
 			},

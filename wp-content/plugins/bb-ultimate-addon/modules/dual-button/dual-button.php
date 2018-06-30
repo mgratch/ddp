@@ -14,6 +14,7 @@ class UABBDualButtonModule extends FLBuilderModule {
             'partial_refresh' => true,
             'icon'              => 'button.svg',
         ));
+
     }
 
     function render_own_imgicon( $image_icon_arr ) {
@@ -156,7 +157,7 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         )
                     ),
                     'join_buttons'   => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __('Join Button', 'uabb'),
                         'default'       => 'yes',
                         'options'       => array(
@@ -235,7 +236,7 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         'description'   => 'px'
                     ),
                     'responive_dual_button'     => array(
-                        'type'          => 'uabb-toggle-switch',
+                        'type'          => 'select',
                         'label'         => __( 'Enable Responsive Mode', 'uabb' ),
                         'default'       => 'yes',
                         'options'       => array(
@@ -812,35 +813,41 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                             'selector'        => '.uabb-btn-one-text'
                         )
                     ),
-                    '_btn_one_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    '_btn_one_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-btn.uabb-btn-one',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
-                    ),
-                    '_btn_one_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    '_btn_one_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-btn.uabb-btn-one',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
-                        )
+                            'unit'            => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     '_btn_one_text_color' => array( 
                         'type'       => 'color',
@@ -862,6 +869,35 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                             'type'            => 'none',
                         )
                     ),
+                    '_btn_one_text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-btn.uabb-btn-one',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    '_btn_one_text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-btn.uabb-btn-one',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
             'typography_btn_two'    =>  array(
@@ -879,35 +915,41 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                             'selector'        => '.uabb-btn-two-text'
                         )
                     ),
-                    '_btn_two_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    '_btn_two_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
+                        'description'   => 'px',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-btn.uabb-btn-two',
                             'property'        => 'font-size',
                             'unit'            => 'px'
-                        )
-                    ),
-                    '_btn_two_line_height'    => array(
-                        'type'          => 'uabb-simplify',
-                        'label'         => __( 'Line Height', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
                         ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
+                    ),
+                    '_btn_two_line_height_unit'    => array(
+                        'type'          => 'unit',
+                        'label'         => __( 'Line Height', 'uabb' ),
+                        'description'   => 'em',
                         'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-btn.uabb-btn-two',
                             'property'        => 'line-height',
-                            'unit'            => 'px'
-                        )
+                            'unit'            => 'em'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ),
                     ),
                     '_btn_two_text_color' => array( 
                         'type'       => 'color',
@@ -926,6 +968,35 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                         'default'    => '',
                         'show_reset' => true,
                     ),
+                    '_btn_two_text_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-btn.uabb-btn-two',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    '_btn_two_text_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-btn.uabb-btn-two',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
+                        )
+                    ),
                 )
             ),
             'divider_text'    =>  array(
@@ -943,20 +1014,52 @@ FLBuilder::register_module('UABBDualButtonModule', array(
                             'selector'        => '.uabb-middle-text'
                         )
                     ),
-                    '_divider_font_size'     => array(
-                        'type'          => 'uabb-simplify',
+                    '_divider_font_size_unit'     => array(
+                        'type'          => 'unit',
                         'label'         => __( 'Font Size', 'uabb' ),
-                        'default'       => array(
-                            'desktop'       => '',
-                            'medium'        => '',
-                            'small'         => '',
-                        ),
                         'help'  => __( 'Divider width and height will adjust according to font size', 'uabb' ),
+                        'description'      => 'px',
                          'preview'         => array(
                             'type'            => 'css',
                             'selector'        => '.uabb-middle-text',
                             'property'        => 'font-size',
                             'unit'            => 'px'
+                        ),
+                        'responsive' => array(
+                            'placeholder' => array(
+                                'default' => '',
+                                'medium' => '',
+                                'responsive' => '',
+                            ),
+                        ), 
+                    ),
+                    '_divider_transform'     => array(
+                        'type'          => 'select',
+                        'label'         => __( 'Transform', 'uabb' ),
+                        'default'       => 'none',
+                        'options'       => array(
+                            'none'           =>  'Default',
+                            'uppercase'         =>  'UPPERCASE',
+                            'lowercase'         =>  'lowercase',
+                            'capitalize'        =>  'Capitalize'                 
+                        ),
+                        'preview'       => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-middle-text',
+                            'property'      => 'text-transform'
+                        ),
+                    ),
+                    '_divider_letter_spacing'       => array(
+                        'type'          => 'text',
+                        'label'         => __('Letter Spacing', 'uabb'),
+                        'placeholder'   => '0',
+                        'size'          => '5',
+                        'description'   => 'px',
+                        'preview'         => array(
+                            'type'          => 'css',
+                            'selector'      => '.uabb-middle-text',
+                            'property'      => 'letter-spacing',
+                            'unit'          => 'px'
                         )
                     ),
                 )
